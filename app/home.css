@@ -1,0 +1,736 @@
+/* ============================================================
+   トップページ専用スタイル
+   デザイン案 v2 (neunon-toppage-design.html) を基準にしている。
+   ============================================================ */
+
+/* ---------- utilities ---------- */
+
+.sr-only-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.nc-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 22px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-navy);
+}
+.nc-more i {
+  display: block;
+  width: 16px;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.4s var(--ease-brand);
+  font-style: normal;
+}
+.nc-more:hover i {
+  width: 28px;
+}
+.nc-more.is-light {
+  color: var(--color-navy-soft);
+}
+
+.nc-acts {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ---------- hero ---------- */
+
+.nc-hero {
+  padding: 126px 0 104px;
+  border-bottom: 1px solid var(--color-g100);
+}
+.nc-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  color: var(--color-navy);
+  padding-bottom: 18px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--color-g200);
+  display: inline-block;
+}
+.nc-hero h1 {
+  font-weight: 600;
+  font-size: clamp(30px, 4.7vw, 55px);
+  line-height: 1.42;
+  letter-spacing: -0.015em;
+  max-width: 18em;
+}
+.nc-thin {
+  color: var(--color-g500);
+  font-weight: 500;
+}
+.nc-lead {
+  margin-top: 34px;
+  max-width: 38em;
+  color: var(--color-ink-sub);
+  font-size: 15.5px;
+}
+.nc-hero .nc-acts {
+  margin-top: 44px;
+}
+
+/* ---------- 01 problem ---------- */
+
+.nc-probs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--color-g200);
+  border: 1px solid var(--color-g200);
+}
+.nc-prob {
+  background: var(--color-white);
+  padding: 38px 30px;
+  transition: background 0.45s var(--ease-brand);
+}
+.nc-prob:hover {
+  background: var(--color-navy-wash);
+}
+.nc-prob-k {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--color-navy);
+  display: block;
+  margin-bottom: 16px;
+}
+.nc-prob h3 {
+  font-weight: 600;
+  font-size: 16.5px;
+  margin-bottom: 12px;
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+}
+.nc-prob p {
+  font-size: 13.5px;
+  color: var(--color-ink-sub);
+  line-height: 1.95;
+}
+
+/* ---------- 02 structure ---------- */
+
+.nc-struct {
+  border-top: 1px solid var(--color-g300);
+}
+.nc-layer {
+  display: grid;
+  grid-template-columns: 186px 1fr;
+  border-bottom: 1px solid var(--color-g200);
+  position: relative;
+}
+.nc-layer::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background: var(--color-navy);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.6s var(--ease-brand);
+}
+.nc-layer.in::before {
+  transform: scaleY(1);
+}
+.nc-layer[data-d='1']::before {
+  transition-delay: 0.1s;
+}
+.nc-layer[data-d='2']::before {
+  transition-delay: 0.2s;
+}
+.nc-layer-b {
+  padding: 32px 24px 32px 22px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-g700);
+  border-right: 1px solid var(--color-g200);
+}
+.nc-layer-c {
+  padding: 32px 0 32px 34px;
+}
+.nc-layer h3 {
+  font-weight: 600;
+  font-size: 18.5px;
+  margin-bottom: 8px;
+  letter-spacing: -0.008em;
+}
+.nc-layer p {
+  font-size: 13.5px;
+  color: var(--color-ink-sub);
+}
+.nc-chips {
+  display: flex;
+  gap: 7px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.nc-chip {
+  border: 1px solid var(--color-g300);
+  padding: 5px 13px;
+  font-size: 11px;
+  color: var(--color-g700);
+  border-radius: 2px;
+}
+.nc-chip.is-on {
+  border-color: var(--color-navy);
+  color: var(--color-navy);
+  font-weight: 500;
+}
+.nc-loopnote {
+  margin-top: 26px;
+  font-size: 12.5px;
+  color: var(--color-g700);
+  padding-left: 18px;
+  border-left: 2px solid var(--color-navy);
+}
+
+/* ---------- 03 services ---------- */
+
+.nc-svcs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 34px;
+}
+/* 要件定義書 15.: 事業が4つ以上に増えても崩れないようにする */
+.nc-svcs[data-count='4'] {
+  grid-template-columns: repeat(2, 1fr);
+}
+.nc-svc {
+  border-top: 2px solid var(--color-ink);
+  padding-top: 26px;
+  transition: border-color 0.4s var(--ease-brand);
+}
+.nc-svc:hover {
+  border-top-color: var(--color-navy);
+}
+.nc-svc-n {
+  font-size: 11px;
+  font-weight: 600;
+  /* 白背景の g500 は 3.11:1。小さい文字なので 9.4 を満たす g700 に変更 */
+  color: var(--color-g700);
+  letter-spacing: 0.16em;
+  transition: color 0.4s var(--ease-brand);
+}
+.nc-svc:hover .nc-svc-n {
+  color: var(--color-navy);
+}
+.nc-svc h3 {
+  font-weight: 600;
+  font-size: 19px;
+  margin: 12px 0 13px;
+  letter-spacing: -0.01em;
+}
+.nc-svc > p {
+  font-size: 13.5px;
+  color: var(--color-ink-sub);
+  min-height: 5.6em;
+}
+.nc-svc ul {
+  list-style: none;
+  margin-top: 18px;
+  border-top: 1px solid var(--color-g200);
+  padding-top: 16px;
+}
+.nc-svc li {
+  font-size: 12.5px;
+  color: var(--color-g700);
+  padding: 5px 0;
+}
+.nc-svc:hover .nc-more i {
+  width: 28px;
+}
+
+/* ---------- 04 why this price（暗転させる唯一のセクション） ---------- */
+
+.nc-why {
+  background: var(--color-ink);
+  color: var(--color-white);
+  padding: 114px 0;
+}
+.nc-why .shead h2 {
+  color: var(--color-white);
+}
+.nc-why .shead p {
+  color: var(--color-g300);
+}
+.nc-why .snum {
+  color: var(--color-navy-soft);
+}
+.nc-flowrow {
+  margin-bottom: 46px;
+}
+.nc-flowlabel {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--color-g300);
+  letter-spacing: 0.12em;
+  margin-bottom: 14px;
+}
+.nc-flow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+.nc-cell {
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 500;
+  background: var(--color-g900);
+  color: var(--color-g200);
+  border-top: 2px solid var(--color-g700);
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.55s var(--ease-brand),
+    transform 0.55s var(--ease-brand),
+    background 0.5s var(--ease-brand);
+}
+.nc-flow.in .nc-cell {
+  opacity: 1;
+  transform: none;
+}
+.nc-flow.in .nc-cell:nth-child(1) {
+  transition-delay: 0.05s;
+}
+.nc-flow.in .nc-cell:nth-child(2) {
+  transition-delay: 0.15s;
+}
+.nc-flow.in .nc-cell:nth-child(3) {
+  transition-delay: 0.25s;
+}
+.nc-flow.in .nc-cell:nth-child(4) {
+  transition-delay: 0.35s;
+}
+.nc-cell.is-hi {
+  background: var(--color-white);
+  color: var(--color-ink);
+  border-top-color: var(--color-white);
+  font-weight: 600;
+}
+.nc-cell.is-stu {
+  background: var(--color-navy-mid);
+  color: #fff;
+  border-top-color: var(--color-navy-soft);
+}
+.nc-cell small {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  margin-top: 6px;
+  opacity: 0.85;
+}
+.nc-flowcap {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  font-size: 11.5px;
+  color: var(--color-g500);
+  gap: 20px;
+}
+.nc-whynote {
+  margin-top: 8px;
+  padding-top: 36px;
+  border-top: 1px solid var(--color-g700);
+  font-size: 14px;
+  color: var(--color-g200);
+  max-width: 47em;
+  line-height: 2.05;
+}
+.nc-whynote b {
+  color: var(--color-white);
+  font-weight: 600;
+}
+.nc-ptable {
+  margin-top: 54px;
+  border-top: 1px solid var(--color-g700);
+  padding-top: 30px;
+}
+.nc-ptable-head {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--color-navy-soft);
+  margin-bottom: 14px;
+}
+.nc-prow {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--color-g900);
+  font-size: 13.5px;
+  transition:
+    padding-left 0.4s var(--ease-brand),
+    border-color 0.4s var(--ease-brand);
+}
+.nc-prow:hover {
+  padding-left: 10px;
+  border-bottom-color: var(--color-navy-mid);
+}
+.nc-prow dt {
+  color: var(--color-g200);
+}
+.nc-prow dd {
+  font-weight: 600;
+  color: var(--color-white);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.nc-pnote {
+  margin-top: 20px;
+  font-size: 11.5px;
+  color: var(--color-g500);
+}
+.nc-pacts {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+.nc-pacts .nc-more {
+  margin-top: 0;
+}
+
+/* ---------- 05 track record ---------- */
+
+.nc-recs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--color-g200);
+  border: 1px solid var(--color-g200);
+}
+.nc-rec {
+  background: var(--color-white);
+  padding: 38px 30px;
+}
+.nc-rec-t {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--color-navy);
+  margin-bottom: 18px;
+}
+.nc-rec-num {
+  font-size: 46px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+.nc-rec-num em {
+  font-style: normal;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-g700);
+  margin-left: 7px;
+  letter-spacing: 0;
+}
+.nc-rec p:not(.nc-rec-num) {
+  font-size: 12.5px;
+  color: var(--color-ink-sub);
+  margin-top: 16px;
+  line-height: 1.9;
+}
+.nc-inds {
+  margin-top: 44px;
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+.nc-ind {
+  border: 1px solid var(--color-g300);
+  padding: 7px 16px;
+  font-size: 12px;
+  color: var(--color-g700);
+  border-radius: 2px;
+  transition:
+    border-color 0.35s var(--ease-brand),
+    color 0.35s var(--ease-brand);
+}
+.nc-ind:hover {
+  border-color: var(--color-navy);
+  color: var(--color-navy);
+}
+.nc-recs-act .nc-more {
+  margin-top: 34px;
+}
+
+/* ---------- 06 process ---------- */
+
+.nc-steps {
+  list-style: none;
+  border-top: 1px solid var(--color-g300);
+}
+.nc-step {
+  display: grid;
+  grid-template-columns: 132px 1fr 210px;
+  gap: 24px;
+  align-items: baseline;
+  padding: 30px 0 30px 22px;
+  border-bottom: 1px solid var(--color-g200);
+  position: relative;
+}
+.nc-step::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background: var(--color-navy);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.6s var(--ease-brand);
+}
+.nc-step.in::before {
+  transform: scaleY(1);
+}
+.nc-step-n {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-g700);
+}
+.nc-step h3 {
+  font-weight: 600;
+  font-size: 17px;
+  margin-bottom: 8px;
+  letter-spacing: -0.008em;
+}
+.nc-step p {
+  font-size: 13.5px;
+  color: var(--color-ink-sub);
+}
+.nc-step-s {
+  font-size: 12px;
+  color: var(--color-g700);
+  text-align: right;
+}
+
+/* ---------- 07 careers ---------- */
+
+.nc-stu-sec {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.nc-stu-copy h2 {
+  font-weight: 600;
+  font-size: clamp(24px, 3vw, 35px);
+  line-height: 1.55;
+  letter-spacing: -0.015em;
+}
+.nc-sub {
+  color: var(--color-g500);
+  font-weight: 500;
+}
+.nc-stu-copy p {
+  margin-top: 26px;
+  color: var(--color-ink-sub);
+  font-size: 14.5px;
+}
+.nc-stu-acts {
+  margin-top: 36px;
+}
+.nc-glabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--color-navy);
+  margin-bottom: 8px;
+}
+.nc-gakuchika {
+  border-left: 2px solid var(--color-navy);
+  padding-left: 24px;
+  list-style: none;
+}
+.nc-gakuchika li {
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 0;
+  line-height: 1.7;
+  letter-spacing: -0.008em;
+}
+
+/* ---------- 08 news ---------- */
+
+.nc-news-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+.nc-news-head .nc-more {
+  margin-top: 0;
+  flex-shrink: 0;
+}
+.nc-news {
+  list-style: none;
+  border-top: 1px solid var(--color-g300);
+}
+.nc-news li {
+  border-bottom: 1px solid var(--color-g200);
+}
+.nc-news a {
+  display: grid;
+  grid-template-columns: 106px 92px 1fr;
+  gap: 18px;
+  align-items: baseline;
+  padding: 22px 0;
+  transition:
+    padding-left 0.4s var(--ease-brand),
+    color 0.3s var(--ease-brand);
+}
+.nc-news a:hover {
+  padding-left: 10px;
+  color: var(--color-navy);
+}
+.nc-news time {
+  font-size: 12.5px;
+  color: var(--color-g700);
+  letter-spacing: 0.04em;
+}
+.nc-news-cat {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--color-navy);
+  border: 1px solid var(--color-g300);
+  border-radius: 2px;
+  padding: 3px 0;
+  text-align: center;
+}
+.nc-news-title {
+  font-size: 14.5px;
+  font-weight: 500;
+}
+.nc-news-warn {
+  margin-top: 24px;
+  padding: 12px 16px;
+  border-left: 2px solid var(--color-navy);
+  background: var(--color-navy-wash);
+  font-size: 12px;
+  color: var(--color-ink-sub);
+}
+
+/* ---------- cta ---------- */
+
+.nc-cta {
+  border-top: 1px solid var(--color-g200);
+  padding: 100px 0;
+  text-align: center;
+}
+.nc-cta h2 {
+  font-weight: 600;
+  font-size: clamp(22px, 2.6vw, 31px);
+  line-height: 1.55;
+  letter-spacing: -0.015em;
+}
+.nc-cta p {
+  margin: 20px auto 38px;
+  color: var(--color-ink-sub);
+  max-width: 33em;
+  font-size: 14px;
+}
+.nc-cta-acts {
+  justify-content: center;
+}
+
+/* ============================================================
+   responsive (要件定義書 9.4: 375px 幅で崩れないこと)
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .nc-hero {
+    padding: 78px 0 62px;
+  }
+  .nc-probs,
+  .nc-svcs,
+  .nc-svcs[data-count='4'],
+  .nc-recs,
+  .nc-stu-sec {
+    grid-template-columns: 1fr;
+  }
+  .nc-svcs,
+  .nc-stu-sec {
+    gap: 44px;
+  }
+  .nc-svc > p {
+    min-height: 0;
+  }
+  .nc-flow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .nc-flowcap {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .nc-why {
+    padding: 76px 0;
+  }
+  .nc-layer {
+    grid-template-columns: 1fr;
+  }
+  .nc-layer-b {
+    border-right: none;
+    border-bottom: 1px solid var(--color-g100);
+    padding: 20px 0 12px 22px;
+  }
+  .nc-layer-c {
+    padding: 16px 0 28px 22px;
+  }
+  .nc-step {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .nc-step-s {
+    text-align: left;
+  }
+  .nc-news-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .nc-news a {
+    grid-template-columns: 96px 1fr;
+    row-gap: 6px;
+  }
+  .nc-news-title {
+    grid-column: 1 / -1;
+  }
+  .nc-cta {
+    padding: 76px 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .nc-flow {
+    grid-template-columns: 1fr;
+  }
+  .nc-prow {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .nc-prow dd {
+    color: var(--color-navy-soft);
+  }
+}

@@ -2,19 +2,88 @@
 
 株式会社Neunon Consulting の新コーポレートサイト制作プロジェクト。既存の Wix サイトを廃止し、事業内容の転換（コンサルティング単体 → 学生ネットワークを基盤とした実務支援）を反映した新サイトを構築する。
 
-## このリポジトリの中身
+## 資料
 
 | ファイル | 内容 |
 |---|---|
-| `neunon-site-requirements.md` | 要件定義書。Claude Code 等の実装者に渡すための仕様書 |
-| `neunon-toppage-design.html` | トップページのデザイン案（確定済みブランドトークンを反映） |
-| `neunon-logo.png` | 会社ロゴ（ブランド資産） |
+| `neunon-site-requirements.md` | 要件定義書。実装はこの内容に従う |
+| `neunon-toppage-design.html` | トップページのデザイン案 v2。**デザインの基準はこちら** |
+| `neunon-logo.png` | 会社ロゴ（ブランド資産）。`public/` にも配置済み |
 
-## 実装するときは
+## 実装状況
 
-1. `neunon-toppage-design.html` をブラウザで開いてデザインの方向性を確認する
-2. `neunon-site-requirements.md` を読み、Claude Code に「この要件定義書に従ってサイトを実装して」と伝える
-3. 要件定義書内の `【要確認】` 箇所は実装前に発注者へ確認する
+要件定義書 13. の推奨順序に対する進捗。
+
+- [x] 1. プロジェクト初期化、デザイントークン定義
+- [x] 2. 共通レイアウト（ヘッダー／フッター／目次コンポーネント）
+- [x] 3. トップページ ← **発注者レビュー待ち。ここで一度停止**
+- [ ] 4. 会社概要・事業詳細
+- [ ] 5. 実績・人材パネル
+- [ ] 6. 採用サイト・求人票
+- [ ] 7. フォーム
+- [ ] 8. SEO・アクセシビリティ・パフォーマンス調整
+- [ ] 9. デプロイ
+
+## セットアップ
+
+```bash
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # out/ に静的書き出し
+npm run typecheck
+```
+
+環境変数は `.env.example` をコピーして `.env.local` を作る。`.env` はコミットしない。
+
+## 技術構成
+
+要件定義書 10.1 の推奨構成に従う。
+
+- Next.js 16（App Router）+ TypeScript
+- Tailwind CSS v4（`@theme` でブランドトークンを定義）
+- `output: 'export'` による静的書き出し
+- コンテンツは `content/` 配下の JSON
+
+## ディレクトリ
+
+```
+app/
+  layout.tsx          ルートレイアウト。metadata と Organization 構造化データ
+  page.tsx            トップページ（セクションの並びは要件定義書 6.1）
+  globals.css         ブランドトークン・共通スタイル
+  home.css            トップページ専用スタイル
+  sitemap.ts          sitemap.xml 自動生成
+  robots.ts           robots.txt 自動生成
+components/
+  layout/             Header / Footer / Logo / ScrollReveal
+  toc/                目次コンポーネント（要件定義書 5.3）
+  home/               トップページの各セクション
+content/
+  services/           事業データ。ファイルを増やすと /services が自動で増える（要件定義書 15.）
+  news/               お知らせ。現在はダミー記事
+lib/
+  site.ts             会社情報・ナビ定義
+  content.ts          content/ の読み込み
+```
+
+### 事業を追加するとき
+
+要件定義書 15. の要請により、事業一覧はハードコードしていない。
+`content/services/` に JSON を1枚追加すれば、トップページの事業セクションと
+`/services` の両方に反映される。
+
+## 発注者への確認事項（トップページ時点）
+
+| # | 論点 | 現状の実装 |
+|---|---|---|
+| 1 | アクセント色 | 要件定義書 9.1 は `#2F73FF`（変更不可と明記）、デザイン案 v2 はマットネイビー `#26385C`。**デザイン案 v2 を採用**している |
+| 2 | 書体 | 要件定義書 9.3 は「見出し Noto Serif JP / 本文 Noto Sans JP」、デザイン案 v2 は Apple 系システムフォント（セリフはロゴのみ）。**デザイン案 v2 を採用**している |
+| 3 | スクロール演出 | 要件定義書 9.2 は「スクロールのたびのフェードイン」を禁止、デザイン案 v2 は実装している。**デザイン案 v2 を採用**。`NEXT_PUBLIC_SCROLL_REVEAL=off` で無効化可能 |
+| 4 | 導入の流れの日数 | デザイン案 v2 に該当セクションがないため新規作成。各ステップの所要日数は暫定値 |
+| 5 | 実績件数 | パッケージ型支援「数百件」、AIプロダクト「5件」はデザイン案 v2 の値をそのまま使用（要件定義書 14. で未解決） |
+| 6 | お知らせ | 初期記事が未確定のためダミー3件。`content/news/` の JSON を差し替える |
+
+その他の未確定事項は `neunon-site-requirements.md` の「14. 未確定事項一覧」を参照。
 
 ## 注意事項
 

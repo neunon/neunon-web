@@ -1,0 +1,660 @@
+@import 'tailwindcss';
+@import './home.css';
+
+/* ============================================================
+   ブランドトークン
+   出典: 要件定義書 9.1 + neunon-toppage-design.html (v2)
+   ------------------------------------------------------------
+   ※アクセント色について
+   要件定義書 9.1 は --nc-accent: #2F73FF を「確定・変更不可」としているが、
+   後発のデザイン案 v2 (neunon-toppage-design.html) はマットネイビー #26385C
+   を採用している。発注者から「デザインの基準は design.html」と指示を
+   受けているため、ここではデザイン案 v2 を採用する。
+   要確認事項として発注者レビューに上げること。
+   ============================================================ */
+
+@theme {
+  /* base */
+  --color-ink: #111111;
+  --color-ink-sub: #4a4a4a;
+  --color-white: #ffffff;
+  --color-surface: #f5f6f6;
+
+  /* grayscale ramp */
+  --color-g900: #2e2e2e;
+  --color-g700: #626262;
+  --color-g500: #929292;
+  --color-g300: #bdbdbd;
+  --color-g200: #d8dada;
+  --color-g100: #eeeeee;
+
+  /* accent — マットネイビー（唯一の有彩色） */
+  --color-navy: #26385c;
+  --color-navy-mid: #3d5885;
+  --color-navy-soft: #8296b8;
+  --color-navy-wash: #f1f3f7;
+
+  /* type */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Hiragino Sans',
+    'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Noto Serif JP', Georgia, serif;
+
+  /* layout */
+  --spacing-wrap: 1140px;
+
+  /* easing */
+  --ease-brand: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ============================================================
+   base
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* 要件定義書 5.2: スムーススクロールは明示的に無効化する */
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-white);
+  font-size: 15px;
+  line-height: 1.9;
+  letter-spacing: 0.005em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 要件定義書 9.4: キーボード操作でフォーカスが見えること */
+:focus-visible {
+  outline: 2px solid var(--color-navy);
+  outline-offset: 3px;
+}
+
+/* 固定ヘッダーに見出しが隠れないようにする（要件定義書 5.2） */
+:target,
+[id] {
+  scroll-margin-top: 96px;
+}
+
+/* ============================================================
+   layout helpers
+   ============================================================ */
+
+.wrap {
+  max-width: var(--spacing-wrap);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+@media (max-width: 900px) {
+  .wrap {
+    padding: 0 20px;
+  }
+}
+
+/* スクリーンリーダー専用 */
+.sr-only-focusable {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+}
+.sr-only-focusable:focus {
+  left: 8px;
+  top: 8px;
+  background: var(--color-ink);
+  color: #fff;
+  padding: 10px 18px;
+  font-size: 13px;
+}
+
+/* ============================================================
+   motion
+   要件定義書 9.2/9.3 は「スクロール時のフェードイン」を禁止しているが、
+   デザイン案 v2 には実装されている。発注者確認事項。
+   NEXT_PUBLIC_SCROLL_REVEAL=off で全体を無効化できるようにしてある。
+   ============================================================ */
+
+.rise {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.8s var(--ease-brand),
+    transform 0.8s var(--ease-brand);
+}
+.rise.in {
+  opacity: 1;
+  transform: none;
+}
+.rise[data-d='1'] {
+  transition-delay: 0.08s;
+}
+.rise[data-d='2'] {
+  transition-delay: 0.16s;
+}
+.rise[data-d='3'] {
+  transition-delay: 0.24s;
+}
+.rise[data-d='4'] {
+  transition-delay: 0.32s;
+}
+
+/* 要件定義書 9.4: prefers-reduced-motion を尊重 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+  .rise,
+  .flow .cell {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .layer::before {
+    transform: scaleY(1) !important;
+  }
+}
+
+/* ============================================================
+   buttons
+   ============================================================ */
+
+.btn {
+  display: inline-block;
+  background: var(--color-ink);
+  color: #fff;
+  padding: 11px 26px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border: 1px solid var(--color-ink);
+  border-radius: 2px;
+  transition:
+    background 0.35s var(--ease-brand),
+    color 0.35s var(--ease-brand),
+    border-color 0.35s var(--ease-brand);
+}
+.btn:hover {
+  background: var(--color-navy);
+  border-color: var(--color-navy);
+  color: #fff;
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--color-ink);
+  border-color: var(--color-g300);
+}
+.btn-ghost:hover {
+  background: transparent;
+  color: var(--color-navy);
+  border-color: var(--color-navy);
+}
+.btn-light {
+  background: #fff;
+  color: var(--color-ink);
+  border-color: #fff;
+}
+.btn-light:hover {
+  background: var(--color-navy-mid);
+  border-color: var(--color-navy-mid);
+  color: #fff;
+}
+
+/* ============================================================
+   section head
+   ============================================================ */
+
+.section {
+  padding: 104px 0;
+}
+.section-alt {
+  background: var(--color-surface);
+}
+
+.shead {
+  margin-bottom: 56px;
+}
+.snum {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-navy);
+  letter-spacing: 0.16em;
+  display: block;
+  margin-bottom: 14px;
+}
+.shead h2 {
+  font-weight: 600;
+  font-size: clamp(23px, 2.7vw, 32px);
+  line-height: 1.55;
+  letter-spacing: -0.012em;
+}
+.shead p {
+  margin-top: 16px;
+  color: var(--color-ink-sub);
+  max-width: 42em;
+  font-size: 14.5px;
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding: 70px 0;
+  }
+}
+
+/* ============================================================
+   logo
+   ============================================================ */
+
+.nc-logo {
+  display: inline-block;
+  font-family: var(--font-serif);
+  font-size: 21px;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  color: var(--color-ink);
+}
+.nc-logo small {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  color: var(--color-g700);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* ============================================================
+   header
+   ============================================================ */
+
+.nc-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.nc-hbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+}
+
+.nc-nav {
+  margin-left: auto;
+  margin-right: 36px;
+}
+.nc-nav > ul {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.nc-nav li {
+  position: relative;
+}
+.nc-nav a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-ink-sub);
+  transition: color 0.3s var(--ease-brand);
+  padding: 4px 0;
+}
+.nc-nav > ul > li > a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-navy);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease-brand);
+}
+.nc-nav a:hover {
+  color: var(--color-navy);
+}
+.nc-nav > ul > li > a:hover::after,
+.nc-nav > ul > li > a[aria-current='page']::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.nc-nav a[aria-current='page'] {
+  color: var(--color-ink);
+}
+
+.nc-caret {
+  transition: transform 0.3s var(--ease-brand);
+}
+.nc-caret.is-open {
+  transform: rotate(180deg);
+}
+
+/* 事業内容のドロップダウン（要件定義書 5.4） */
+.nc-dropdown {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: -18px;
+  min-width: 230px;
+  background: var(--color-white);
+  border: 1px solid var(--color-g200);
+  border-radius: 2px;
+  box-shadow: 0 12px 28px -18px rgba(17, 17, 17, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.25s var(--ease-brand),
+    transform 0.25s var(--ease-brand),
+    visibility 0.25s;
+}
+.nc-dropdown.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.nc-dropdown ul {
+  list-style: none;
+  padding: 8px 0;
+}
+.nc-dropdown a {
+  display: flex;
+  gap: 12px;
+  padding: 10px 20px;
+  font-size: 13px;
+  color: var(--color-ink-sub);
+  transition: background 0.25s var(--ease-brand);
+}
+.nc-dropdown a:hover {
+  background: var(--color-navy-wash);
+  color: var(--color-navy);
+}
+.nc-dd-num {
+  /* 要件定義書 9.4 のコントラスト比 4.5:1 を満たすため g500(3.11:1) から変更 */
+  color: var(--color-g700);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  padding-top: 1px;
+}
+
+.nc-burger {
+  display: none;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+.nc-burger span,
+.nc-burger span::before,
+.nc-burger span::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  width: 20px;
+  height: 1.5px;
+  background: var(--color-ink);
+  transition: transform 0.3s var(--ease-brand);
+}
+.nc-burger span {
+  top: 19.25px;
+}
+.nc-burger span::before {
+  left: 0;
+  top: -6px;
+}
+.nc-burger span::after {
+  left: 0;
+  top: 6px;
+}
+.nc-burger span.is-open {
+  background: transparent;
+}
+.nc-burger span.is-open::before {
+  transform: translateY(6px) rotate(45deg);
+}
+.nc-burger span.is-open::after {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.nc-mobile {
+  display: none;
+  border-top: 1px solid var(--color-g100);
+  background: var(--color-white);
+  max-height: calc(100dvh - 70px);
+  overflow-y: auto;
+  padding: 8px 0 34px;
+}
+.nc-mobile ul {
+  list-style: none;
+}
+.nc-mobile > nav > ul > li > a {
+  display: block;
+  padding: 15px 0;
+  font-size: 15px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--color-g100);
+}
+.nc-mobile-sub {
+  padding: 6px 0 12px;
+}
+.nc-mobile-sub a {
+  display: flex;
+  gap: 12px;
+  padding: 9px 0 9px 16px;
+  font-size: 13.5px;
+  color: var(--color-ink-sub);
+}
+.nc-mobile-cta {
+  display: block;
+  margin-top: 24px;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .nc-nav,
+  .nc-contact-btn {
+    display: none;
+  }
+  .nc-burger {
+    display: block;
+    margin-left: auto;
+  }
+  .nc-mobile {
+    display: block;
+  }
+}
+
+/* ============================================================
+   table of contents (要件定義書 5.3)
+   ============================================================ */
+
+.nc-toc {
+  position: sticky;
+  top: 96px;
+  align-self: start;
+  border-left: 1px solid var(--color-g200);
+  padding-left: 22px;
+}
+.nc-toc-title {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--color-g700);
+  margin-bottom: 16px;
+}
+.nc-toc-list {
+  list-style: none;
+  counter-reset: none;
+}
+.nc-toc-list li[data-level='2'] {
+  padding-left: 16px;
+}
+.nc-toc-list a {
+  display: block;
+  padding: 7px 0;
+  font-size: 13px;
+  color: var(--color-g700);
+  line-height: 1.7;
+  transition: color 0.25s var(--ease-brand);
+}
+.nc-toc-list a:hover {
+  color: var(--color-navy);
+}
+.nc-toc-list a.is-active {
+  color: var(--color-navy);
+  font-weight: 600;
+}
+
+.nc-toc-mobile {
+  display: none;
+  border: 1px solid var(--color-g200);
+  border-radius: 2px;
+  margin-bottom: 34px;
+}
+.nc-toc-mobile > button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 15px 18px;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+.nc-toc-mobile svg path {
+  transition: transform 0.3s var(--ease-brand);
+  transform-origin: center;
+}
+.nc-toc-mobile svg path.is-open {
+  transform: rotate(180deg);
+}
+.nc-toc-mobile > div {
+  padding: 0 18px 14px;
+  border-top: 1px solid var(--color-g100);
+}
+
+@media (max-width: 900px) {
+  .nc-toc {
+    display: none;
+  }
+  .nc-toc-mobile {
+    display: block;
+  }
+}
+
+/* ============================================================
+   footer
+   ============================================================ */
+
+.nc-footer {
+  background: var(--color-surface);
+  padding: 66px 0 40px;
+  border-top: 1px solid var(--color-g200);
+}
+.nc-fgrid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+.nc-flogo {
+  margin-bottom: 22px;
+}
+.nc-fmeta {
+  font-size: 12.5px;
+  color: var(--color-ink-sub);
+  line-height: 2;
+  font-style: normal;
+}
+.nc-fnote {
+  margin-top: 18px;
+  font-size: 12.5px;
+  color: var(--color-g700);
+}
+.nc-flink {
+  color: var(--color-navy);
+  transition: opacity 0.25s var(--ease-brand);
+}
+.nc-flink:hover {
+  opacity: 0.7;
+}
+.nc-fhead {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--color-g700);
+  margin-bottom: 18px;
+}
+.nc-footer ul {
+  list-style: none;
+  font-size: 13px;
+}
+.nc-footer li {
+  padding: 5px 0;
+  color: var(--color-ink-sub);
+}
+.nc-footer li a {
+  transition: color 0.3s var(--ease-brand);
+}
+.nc-footer li a:hover {
+  color: var(--color-navy);
+}
+.nc-fbot {
+  margin-top: 52px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-g200);
+  font-size: 11px;
+  /* surface 上の g500 は 2.87:1 で 9.4 の基準を満たさないため g700 に変更 */
+  color: var(--color-g700);
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 900px) {
+  .nc-fgrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .nc-fbot {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
