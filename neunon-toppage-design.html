@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>株式会社Neunon Consulting｜デザイン案 v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* base — 確定済みスキーム */
+  --ink:#111111;
+  --ink-sub:#4A4A4A;
+  --white:#FFFFFF;
+  --surface:#F5F6F6;
+  --g900:#2E2E2E;
+  --g700:#626262;
+  --g500:#929292;
+  --g300:#BDBDBD;
+  --g200:#D8DADA;
+  --g100:#EEEEEE;
+
+  /* accent — マットネイビー */
+  --navy:#26385C;        /* 明色背景上の差し色 */
+  --navy-mid:#3D5885;    /* 暗色背景上の差し色 */
+  --navy-soft:#8296B8;   /* 補助 */
+  --navy-wash:#F1F3F7;   /* 極薄面 */
+
+  /* type — Apple 系 */
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Helvetica Neue",Arial,sans-serif;
+  --serif:"Noto Serif JP",Georgia,serif;
+  --max:1140px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:auto}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--white);
+  font-size:15px;
+  line-height:1.9;
+  letter-spacing:.005em;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--navy);outline-offset:3px}
+
+/* ============ motion ============ */
+.rise{opacity:0;transform:translateY(14px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rise.in{opacity:1;transform:none}
+.rise[data-d="1"]{transition-delay:.08s}
+.rise[data-d="2"]{transition-delay:.16s}
+.rise[data-d="3"]{transition-delay:.24s}
+.rise[data-d="4"]{transition-delay:.32s}
+
+/* ============ header ============ */
+header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,255,255,.78);
+  backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid rgba(0,0,0,.06);
+}
+.hbar{display:flex;align-items:center;justify-content:space-between;height:70px}
+.logo{font-family:var(--serif);font-size:21px;letter-spacing:.01em;line-height:1.1}
+.logo small{
+  display:block;font-family:var(--sans);font-size:9px;
+  letter-spacing:.26em;color:var(--g700);font-weight:500;margin-top:2px;
+}
+nav ul{display:flex;gap:36px;list-style:none;font-size:13px;font-weight:500;letter-spacing:.02em}
+nav a{position:relative;color:var(--ink-sub);transition:color .3s var(--ease);padding:4px 0}
+nav a::after{
+  content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;
+  background:var(--navy);transform:scaleX(0);transform-origin:right;
+  transition:transform .4s var(--ease);
+}
+nav a:hover{color:var(--navy)}
+nav a:hover::after{transform:scaleX(1);transform-origin:left}
+.btn{
+  display:inline-block;background:var(--ink);color:#fff;
+  padding:11px 26px;font-size:13px;font-weight:500;letter-spacing:.02em;
+  border:1px solid var(--ink);border-radius:2px;
+  transition:background .35s var(--ease),color .35s var(--ease),border-color .35s var(--ease);
+}
+.btn:hover{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--g300)}
+.btn-ghost:hover{background:transparent;color:var(--navy);border-color:var(--navy)}
+.btn-light{background:#fff;color:var(--ink);border-color:#fff}
+.btn-light:hover{background:var(--navy-mid);border-color:var(--navy-mid);color:#fff}
+
+/* ============ hero ============ */
+.hero{padding:126px 0 104px;border-bottom:1px solid var(--g100)}
+.hero .eyebrow{
+  font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--navy);
+  padding-bottom:18px;margin-bottom:30px;
+  border-bottom:1px solid var(--g200);display:inline-block;
+}
+.hero h1{
+  font-weight:600;
+  font-size:clamp(30px,4.7vw,55px);
+  line-height:1.42;letter-spacing:-.015em;max-width:18em;
+}
+.hero h1 .thin{color:var(--g500);font-weight:500}
+.hero p.lead{margin-top:34px;max-width:38em;color:var(--ink-sub);font-size:15.5px;font-weight:400}
+.hero .acts{display:flex;gap:12px;margin-top:44px;flex-wrap:wrap}
+
+/* ============ section ============ */
+section{padding:104px 0}
+.alt{background:var(--surface)}
+.shead{margin-bottom:56px}
+.snum{
+  font-size:11px;font-weight:600;color:var(--navy);
+  letter-spacing:.16em;display:block;margin-bottom:14px;
+}
+.shead h2{font-weight:600;font-size:clamp(23px,2.7vw,32px);line-height:1.55;letter-spacing:-.012em}
+.shead p{margin-top:16px;color:var(--ink-sub);max-width:42em;font-size:14.5px}
+
+/* ============ problem ============ */
+.probs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--g200);border:1px solid var(--g200)}
+.prob{background:var(--white);padding:38px 30px;transition:background .45s var(--ease)}
+.prob:hover{background:var(--navy-wash)}
+.prob .k{font-size:10.5px;font-weight:600;letter-spacing:.16em;color:var(--navy);display:block;margin-bottom:16px}
+.prob h3{font-weight:600;font-size:16.5px;margin-bottom:12px;line-height:1.6;letter-spacing:-.005em}
+.prob p{font-size:13.5px;color:var(--ink-sub);line-height:1.95}
+
+/* ============ structure ============ */
+.struct{border-top:1px solid var(--g300)}
+.layer{display:grid;grid-template-columns:186px 1fr;border-bottom:1px solid var(--g200);position:relative}
+.layer::before{
+  content:"";position:absolute;left:0;top:0;height:100%;width:2px;
+  background:var(--navy);transform:scaleY(0);transform-origin:top;
+  transition:transform .6s var(--ease);
+}
+.layer.in::before{transform:scaleY(1)}
+.layer[data-d="1"]::before{transition-delay:.1s}
+.layer[data-d="2"]::before{transition-delay:.2s}
+.layer .lb{
+  padding:32px 24px 32px 22px;font-size:11.5px;font-weight:600;
+  letter-spacing:.12em;color:var(--g700);border-right:1px solid var(--g200);
+}
+.layer .lc{padding:32px 0 32px 34px}
+.layer h4{font-weight:600;font-size:18.5px;margin-bottom:8px;letter-spacing:-.008em}
+.layer p{font-size:13.5px;color:var(--ink-sub)}
+.chips{display:flex;gap:7px;margin-top:16px;flex-wrap:wrap}
+.chip{border:1px solid var(--g300);padding:5px 13px;font-size:11px;color:var(--g700);border-radius:2px}
+.chip.on{border-color:var(--navy);color:var(--navy);font-weight:500}
+.loopnote{margin-top:26px;font-size:12.5px;color:var(--g700);padding-left:18px;border-left:2px solid var(--navy)}
+
+/* ============ services ============ */
+.svcs{display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
+.svc{border-top:2px solid var(--ink);padding-top:26px;transition:border-color .4s var(--ease)}
+.svc:hover{border-top-color:var(--navy)}
+.svc .n{font-size:11px;font-weight:600;color:var(--g500);letter-spacing:.16em;transition:color .4s var(--ease)}
+.svc:hover .n{color:var(--navy)}
+.svc h3{font-weight:600;font-size:19px;margin:12px 0 13px;letter-spacing:-.01em}
+.svc p{font-size:13.5px;color:var(--ink-sub);min-height:5.6em}
+.svc ul{list-style:none;margin-top:18px;border-top:1px solid var(--g200);padding-top:16px}
+.svc li{font-size:12.5px;color:var(--g700);padding:5px 0}
+.svc .more{
+  display:inline-flex;align-items:center;gap:7px;margin-top:22px;
+  font-size:13px;font-weight:500;color:var(--navy);
+}
+.svc .more i{
+  display:block;width:16px;height:1px;background:var(--navy);
+  transition:width .4s var(--ease);font-style:normal;
+}
+.svc:hover .more i{width:28px}
+
+/* ============ why : bold moment ============ */
+.why{background:var(--ink);color:var(--white);padding:114px 0}
+.why .shead h2{color:var(--white)}
+.why .shead p{color:var(--g300)}
+.why .snum{color:var(--navy-soft)}
+.flowrow{margin-bottom:46px}
+.flowlabel{font-size:11.5px;font-weight:500;color:var(--g300);letter-spacing:.12em;margin-bottom:14px}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.cell{
+  padding:24px 16px;text-align:center;font-size:13.5px;font-weight:500;
+  background:var(--g900);color:var(--g200);border-top:2px solid var(--g700);
+  opacity:0;transform:translateY(10px);
+  transition:opacity .55s var(--ease),transform .55s var(--ease),background .5s var(--ease);
+}
+.flow.in .cell{opacity:1;transform:none}
+.flow.in .cell:nth-child(1){transition-delay:.05s}
+.flow.in .cell:nth-child(2){transition-delay:.15s}
+.flow.in .cell:nth-child(3){transition-delay:.25s}
+.flow.in .cell:nth-child(4){transition-delay:.35s}
+.cell.hi{background:var(--white);color:var(--ink);border-top-color:var(--white);font-weight:600}
+.cell.stu{background:var(--navy-mid);color:#fff;border-top-color:var(--navy-soft)}
+.cell small{display:block;font-size:10px;font-weight:400;letter-spacing:.08em;margin-top:6px;opacity:.8}
+.flowcap{display:flex;justify-content:space-between;margin-top:12px;font-size:11.5px;color:var(--g500);gap:20px}
+.whynote{
+  margin-top:8px;padding-top:36px;border-top:1px solid var(--g700);
+  font-size:14px;color:var(--g200);max-width:47em;line-height:2.05;
+}
+.whynote b{color:var(--white);font-weight:600}
+.ptable{margin-top:54px;border-top:1px solid var(--g700)}
+.prow{
+  display:flex;justify-content:space-between;padding:18px 0;
+  border-bottom:1px solid var(--g900);font-size:13.5px;
+  transition:padding-left .4s var(--ease),border-color .4s var(--ease);
+}
+.prow:hover{padding-left:10px;border-bottom-color:var(--navy-mid)}
+.prow span:first-child{color:var(--g200)}
+.prow span:last-child{font-weight:600;color:var(--white);letter-spacing:-.01em}
+.pnote{margin-top:20px;font-size:11.5px;color:var(--g500)}
+
+/* ============ record ============ */
+.recs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--g200);border:1px solid var(--g200)}
+.rec{background:var(--white);padding:38px 30px}
+.rec .t{font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--navy);margin-bottom:18px}
+.rec .num{font-size:46px;font-weight:600;line-height:1;letter-spacing:-.035em}
+.rec .num em{font-style:normal;font-size:15px;font-weight:500;color:var(--g700);margin-left:7px;letter-spacing:0}
+.rec p{font-size:12.5px;color:var(--ink-sub);margin-top:16px;line-height:1.9}
+.inds{margin-top:44px;display:flex;gap:9px;flex-wrap:wrap}
+.ind{
+  border:1px solid var(--g300);padding:7px 16px;font-size:12px;color:var(--g700);border-radius:2px;
+  transition:border-color .35s var(--ease),color .35s var(--ease);
+}
+.ind:hover{border-color:var(--navy);color:var(--navy)}
+
+/* ============ students ============ */
+.stu-sec{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.stu-copy h2{font-weight:600;font-size:clamp(24px,3vw,35px);line-height:1.55;letter-spacing:-.015em}
+.stu-copy .sub{color:var(--g500);font-weight:500}
+.stu-copy p{margin-top:26px;color:var(--ink-sub);font-size:14.5px}
+.glabel{font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--navy);margin-bottom:8px}
+.gakuchika{border-left:2px solid var(--navy);padding-left:24px}
+.gakuchika li{list-style:none;font-size:16px;font-weight:500;padding:8px 0;line-height:1.7;letter-spacing:-.008em}
+
+/* ============ cta ============ */
+.cta{border-top:1px solid var(--g200);padding:100px 0;text-align:center}
+.cta h2{font-weight:600;font-size:clamp(22px,2.6vw,31px);line-height:1.55;letter-spacing:-.015em}
+.cta p{margin:20px auto 38px;color:var(--ink-sub);max-width:33em;font-size:14px}
+
+/* ============ footer ============ */
+footer{background:var(--surface);padding:66px 0 40px;border-top:1px solid var(--g200)}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px}
+.fgrid h5{font-size:10.5px;font-weight:600;letter-spacing:.16em;color:var(--g700);margin-bottom:18px}
+.fgrid ul{list-style:none;font-size:13px}
+.fgrid li{padding:5px 0;color:var(--ink-sub)}
+.fgrid li a{transition:color .3s var(--ease)}
+.fgrid li a:hover{color:var(--navy)}
+.fmeta{font-size:12.5px;color:var(--ink-sub);line-height:2}
+.fbot{margin-top:52px;padding-top:24px;border-top:1px solid var(--g200);font-size:11px;color:var(--g500);display:flex;justify-content:space-between;letter-spacing:.04em}
+
+.tag{position:fixed;right:16px;bottom:16px;z-index:99;background:var(--navy);color:#fff;font-size:10.5px;font-weight:500;padding:7px 14px;letter-spacing:.1em;border-radius:2px}
+
+@media(max-width:900px){
+  .wrap{padding:0 20px}
+  nav,.hbar .btn{display:none}
+  .probs,.svcs,.recs,.stu-sec,.fgrid{grid-template-columns:1fr}
+  .svcs,.stu-sec,.fgrid{gap:44px}
+  .flow{grid-template-columns:repeat(2,1fr)}
+  .flowcap{flex-direction:column;gap:4px}
+  .layer{grid-template-columns:1fr}
+  .layer .lb{border-right:none;border-bottom:1px solid var(--g100);padding:20px 0 12px 22px}
+  .layer .lc{padding:16px 0 28px 22px}
+  section{padding:70px 0}
+  .hero{padding:78px 0 62px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  .rise{opacity:1!important;transform:none!important}
+  .cell{opacity:1!important;transform:none!important}
+  .layer::before{transform:scaleY(1)!important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hbar">
+    <div class="logo">Neunon<small>CONSULTING</small></div>
+    <nav>
+      <ul>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Works</a></li>
+        <li><a href="#">Talent</a></li>
+        <li><a href="#">Company</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </nav>
+    <a href="#" class="btn">Contact</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow rise" data-d="0">NEUNON CONSULTING</span>
+    <h1 class="rise" data-d="1">企業の高度支援を、<br>より安く・より速く・<span class="thin">より広く届ける。</span></h1>
+    <p class="lead rise" data-d="2">
+      調査・分析・資料作成といった工数集約的な工程を、経験あるコンサルタントの監修のもとで学生チームが担う。
+      従来のコンサルティングでは見合わなかった規模の課題にも、実務水準の成果物を届けます。
+    </p>
+    <div class="acts rise" data-d="3">
+      <a href="#" class="btn">企業の方へ</a>
+      <a href="#" class="btn btn-ghost">学生の方へ</a>
+    </div>
+  </div>
+</div>
+
+<!-- 01 PROBLEM -->
+<section>
+  <div class="wrap">
+    <div class="shead rise">
+      <span class="snum">01 &nbsp;THE PROBLEM</span>
+      <h2>調べる時間が、判断する時間を圧迫している。</h2>
+      <p>企業を理解するための公開情報は十分に存在します。問題は、それを扱う工数のほうにあります。</p>
+    </div>
+    <div class="probs">
+      <div class="prob rise" data-d="1">
+        <span class="k">SEARCH</span>
+        <h3>情報が分散している</h3>
+        <p>HP、IR、ニュース、商品情報、SNS、採用情報。媒体をまたぎ、企業ごとに開示の粒度も違うため、集めるだけで工数がかかります。</p>
+      </div>
+      <div class="prob rise" data-d="2">
+        <span class="k">STRUCTURE</span>
+        <h3>横断的にまとめる必要がある</h3>
+        <p>業界・市場、業績、商品、顧客、組織、戦略。それぞれを並べ直して初めて、企業の全体像が立ち上がります。</p>
+      </div>
+      <div class="prob rise" data-d="3">
+        <span class="k">INTERPRET</span>
+        <h3>事実から示唆を出す必要がある</h3>
+        <p>集めた事実は、そのままでは判断材料になりません。特徴・競争力・成長性・課題として評価する工程が要ります。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 STRUCTURE -->
+<section class="alt">
+  <div class="wrap">
+    <div class="shead rise">
+      <span class="snum">02 &nbsp;OUR STRUCTURE</span>
+      <h2>実行は学生チーム、品質は経験者が担保する。</h2>
+      <p>役割を分けることで、品質を落とさずにコストを下げています。この構造そのものが当社の提供価値です。</p>
+    </div>
+    <div class="struct">
+      <div class="layer rise" data-d="0">
+        <div class="lb">SUPERVISION</div>
+        <div class="lc">
+          <h4>プロフェッショナルコンサルタント</h4>
+          <p>成果物の監修、論点への助言、品質管理、そして学生の育成。</p>
+          <div class="chips"><span class="chip">監修</span><span class="chip">助言</span><span class="chip">品質管理</span><span class="chip">育成</span></div>
+        </div>
+      </div>
+      <div class="layer rise" data-d="1">
+        <div class="lb">DIRECTION</div>
+        <div class="lc">
+          <h4>リード学生</h4>
+          <p>案件のディレクション、チーム編成、進捗管理、企業との窓口。</p>
+          <div class="chips"><span class="chip">管理</span><span class="chip">ディレクション</span><span class="chip">育成</span></div>
+        </div>
+      </div>
+      <div class="layer rise" data-d="2">
+        <div class="lb">EXECUTION</div>
+        <div class="lc">
+          <h4>アソシエイト学生</h4>
+          <p>調査、データ分析、資料作成の実務を遂行。リード学生の指導下で経験を積む。</p>
+          <div class="chips"><span class="chip">調査</span><span class="chip">分析</span><span class="chip">資料作成</span><span class="chip on">昇格 → リード学生</span></div>
+        </div>
+      </div>
+      <p class="loopnote rise">アソシエイト学生がリード学生へ昇格し、新しいチームを組成する。この循環によって、対応できる案件量が拡大していきます。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 SERVICES -->
+<section>
+  <div class="wrap">
+    <div class="shead rise">
+      <span class="snum">03 &nbsp;SERVICES</span>
+      <h2>3つの提供形態</h2>
+    </div>
+    <div class="svcs">
+      <div class="svc rise" data-d="1">
+        <span class="n">01</span>
+        <h3>コンサルティング</h3>
+        <p>個別の論点に対し、調査設計から示唆の提示までを案件単位で支援します。</p>
+        <ul>
+          <li>市場・競合分析</li>
+          <li>新規事業・事業戦略</li>
+          <li>データ分析</li>
+          <li>営業支援 / 業務改善</li>
+        </ul>
+        <a href="#" class="more"><i></i>詳しく見る</a>
+      </div>
+      <div class="svc rise" data-d="2">
+        <span class="n">02</span>
+        <h3>パッケージ型支援</h3>
+        <p>企業・競合・市場のクローズアップを定型化し、低単価で継続的に提供します。</p>
+        <ul>
+          <li>営業先企業クローズアップ</li>
+          <li>競合比較・競争環境マップ</li>
+          <li>競合定期レビュー</li>
+          <li>休眠・失注顧客再攻略クローズアップ</li>
+        </ul>
+        <a href="#" class="more"><i></i>詳しく見る</a>
+      </div>
+      <div class="svc rise" data-d="3">
+        <span class="n">03</span>
+        <h3>AIプロダクト</h3>
+        <p>自社業務での実運用を起点に開発。調査・分析・作成の工程を自動化します。</p>
+        <ul>
+          <li>競合企業クローズアップAI</li>
+          <li>市場クイック把握AI</li>
+          <li>IR分析AI</li>
+          <li>営業メール自動化</li>
+        </ul>
+        <a href="#" class="more"><i></i>詳しく見る</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 WHY THIS PRICE -->
+<section class="why">
+  <div class="wrap">
+    <div class="shead rise">
+      <span class="snum">04 &nbsp;WHY THIS PRICE</span>
+      <h2>なぜ、この価格で提供できるのか。</h2>
+      <p>安いから品質を落としている、ということではありません。工程ごとに担い手を変えているだけです。</p>
+    </div>
+
+    <div class="flowrow">
+      <div class="flowlabel">CONVENTIONAL &nbsp;／&nbsp; 従来のコンサルティング案件</div>
+      <div class="flow">
+        <div class="cell">調査</div>
+        <div class="cell">分析</div>
+        <div class="cell">資料作成</div>
+        <div class="cell hi">考察・示唆</div>
+      </div>
+      <div class="flowcap">
+        <span>工数集約的で再現性が高い工程にも、同じ単価がかかっている</span>
+        <span>高付加価値</span>
+      </div>
+    </div>
+
+    <div class="flowrow">
+      <div class="flowlabel">NEUNON &nbsp;／&nbsp; 当社の提供体制</div>
+      <div class="flow">
+        <div class="cell stu">調査<small>学生チーム</small></div>
+        <div class="cell stu">分析<small>学生チーム</small></div>
+        <div class="cell stu">資料作成<small>学生チーム</small></div>
+        <div class="cell hi">考察・示唆<small>経験者が監修</small></div>
+      </div>
+      <div class="flowcap">
+        <span>低コスト化した領域</span>
+        <span>品質を担保する領域</span>
+      </div>
+    </div>
+
+    <p class="whynote rise">
+      戦略コンサルティングでは、本来高い付加価値が発揮されるべき考察・示唆の工程に加え、調査・分析・資料作成といった工数集約的な業務も一体として提供されることが多く、<b>必ずしも高付加価値を必要としない工程にも相応のコストが発生しています。</b>
+      当社では、一定のスキル水準が担保された学生がこれらの工程を担い、経験のあるコンサルタントが監修することで、低コストかつ十分な品質での提供を可能にしています。
+    </p>
+
+    <div class="ptable rise">
+      <div class="prow"><span>営業先企業クローズアップ（1社）</span><span>5万円〜</span></div>
+      <div class="prow"><span>競合企業クローズアップ（1社）</span><span>5万円〜</span></div>
+      <div class="prow"><span>競合比較・競争環境マップ</span><span>30万円〜</span></div>
+      <div class="prow"><span>競合新商品・最新戦略観測</span><span>10万円〜 / 月</span></div>
+      <div class="prow"><span>競合定期レビュー</span><span>30万円〜 / 四半期</span></div>
+      <div class="prow"><span>休眠・失注顧客再攻略クローズアップ</span><span>20万円〜</span></div>
+      <p class="pnote">参考価格です。対象企業数、調査範囲、納期によって変動します。正確なお見積りはお問い合わせください。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 RECORD -->
+<section>
+  <div class="wrap">
+    <div class="shead rise">
+      <span class="snum">05 &nbsp;TRACK RECORD</span>
+      <h2>約2年間の累計</h2>
+    </div>
+    <div class="recs">
+      <div class="rec rise" data-d="1">
+        <div class="t">CONSULTING</div>
+        <div class="num">約50<em>件</em></div>
+        <p>1プロジェクトへの継続支援からスポット支援まで対応。営業データ分析、新規事業のPL・コスト試算、人事評価制度設計、収益性分析など。</p>
+      </div>
+      <div class="rec rise" data-d="2">
+        <div class="t">PACKAGE</div>
+        <div class="num">数百<em>件</em></div>
+        <p>企業・競合・市場分析等のレポートを低単価かつ大量に提供。新規営業対象企業のクローズアップ、M&amp;A候補企業の個社分析など。</p>
+      </div>
+      <div class="rec rise" data-d="3">
+        <div class="t">AI PRODUCTS</div>
+        <div class="num">5<em>件</em></div>
+        <p>自社業務での実運用を起点に、外部提供を見据えて開発・高度化を推進。営業メール自動化、企業クローズアップ生成AIなど。</p>
+      </div>
+    </div>
+    <div class="inds rise">
+      <span class="ind">人材</span><span class="ind">製造</span><span class="ind">物流</span>
+      <span class="ind">小売</span><span class="ind">メディア</span><span class="ind">インフラ</span><span class="ind">AI</span>
+    </div>
+  </div>
+</section>
+
+<!-- 06 STUDENTS -->
+<section class="alt">
+  <div class="wrap stu-sec">
+    <div class="stu-copy rise">
+      <span class="snum">06 &nbsp;CAREERS</span>
+      <h2>時間だけは、ある。<br><span class="sub">使い道が、まだない。</span></h2>
+      <p>
+        練習課題ではなく、企業がそのまま意思決定に使う成果物をつくります。
+        経験のあるコンサルタントが監修するので、知識ゼロから始められます。
+        フルリモート、時間帯は自由。学部・学科は問いません。
+      </p>
+      <div class="acts" style="margin-top:36px">
+        <a href="#" class="btn">採用情報を見る</a>
+      </div>
+    </div>
+    <div class="rise" data-d="2">
+      <div class="glabel">ガクチカ、こう言えるようになります</div>
+      <ul class="gakuchika">
+        <li>実際の企業案件を担当して、成果を出した。</li>
+        <li>自分で案件を獲得した。</li>
+        <li>新しいサービスや事業を立ち上げた。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta">
+  <div class="wrap rise">
+    <h2>まずは1社分から、試せます。</h2>
+    <p>「外注するほどではない」「社内では手が回らない」規模の調査から承ります。内容が固まっていない段階でのご相談も歓迎です。</p>
+    <a href="#" class="btn">お問い合わせ</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <div class="logo" style="margin-bottom:22px">Neunon<small>CONSULTING</small></div>
+        <div class="fmeta">
+          株式会社Neunon Consulting<br>
+          【本店】東京都江東区南砂6-7-36-306<br>
+          【事業所】東京都台東区松が谷2-22-5-1002<br>
+          TEL 070-4360-2652
+        </div>
+      </div>
+      <div>
+        <h5>SERVICES</h5>
+        <ul>
+          <li><a href="#">コンサルティング</a></li>
+          <li><a href="#">パッケージ型支援</a></li>
+          <li><a href="#">AIプロダクト</a></li>
+          <li><a href="#">支援実績</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>COMPANY</h5>
+        <ul>
+          <li><a href="#">会社概要</a></li>
+          <li><a href="#">代表メッセージ</a></li>
+          <li><a href="#">採用情報</a></li>
+          <li><a href="#">お問い合わせ</a></li>
+          <li><a href="#">プライバシーポリシー</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 Neunon Consulting, Inc.</span>
+      <span>neun-on.com</span>
+    </div>
+  </div>
+</footer>
+
+<div class="tag">DESIGN MOCKUP v2</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var targets = document.querySelectorAll('.rise, .flow, .layer');
+  if(reduce || !('IntersectionObserver' in window)){
+    targets.forEach(function(el){ el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  },{ threshold:0.12, rootMargin:'0px 0px -8% 0px' });
+  targets.forEach(function(el){ io.observe(el); });
+
+  // ヒーローは即時に出す（スクロール前に見える領域のため）
+  requestAnimationFrame(function(){
+    document.querySelectorAll('.hero .rise').forEach(function(el){ el.classList.add('in'); });
+  });
+})();
+</script>
+</body>
+</html>
