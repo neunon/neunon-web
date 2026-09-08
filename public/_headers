@@ -1,0 +1,43 @@
+# Cloudflare Pages のレスポンスヘッダ設定
+# public/ の中身は out/ にそのままコピーされ、Pages が out/_headers を読む。
+#
+# ------------------------------------------------------------------
+# CSP について
+# ------------------------------------------------------------------
+# nonce 方式は「リクエストごとに動的レンダリングする」ことが前提で、
+# 本サイトは output: 'export' の静的書き出しなので使えない。
+# そのため Next が埋め込むインラインスクリプトを通すために
+# script-src に 'unsafe-inline' が必要になる。
+# それでも外部オリジンからのスクリプト読み込み、データの送信先、
+# フォームの送信先は制限できるので設定する意味はある。
+# （type="application/ld+json" は実行されないため script-src の対象外）
+#
+# ★現在は Content-Security-Policy-Report-Only にしてある。
+#   実際に配信した状態で CSP を検証できていないため、いきなり強制すると
+#   万一の取りこぼしでサイトが表示されなくなるリスクがある。
+#   Report-Only なら違反はコンソールに出るだけで、表示は壊れない。
+#
+#   【デプロイ後にやること】
+#   全ページ種別を開いてコンソールに CSP 違反が出ないことを確認したうえで、
+#   下の行のヘッダ名を Content-Security-Policy-Report-Only から
+#   Content-Security-Policy に変更して再デプロイする。
+#   手順は docs/DEPLOY.md の 5.1 を参照。
+#
+#   将来 Google Analytics 等を入れる場合は script-src と connect-src に
+#   その配信元を追加すること。追加しないと動かない。
+# ------------------------------------------------------------------
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests
+
+# ビルドごとにファイル名へハッシュが付くので、恒久的にキャッシュしてよい
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 画像はファイル名が変わらないので、期限は短めにして再検証させる
+/*.png
+  Cache-Control: public, max-age=86400, must-revalidate

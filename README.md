@@ -22,7 +22,7 @@
 - [x] 6. 採用サイト・求人票
 - [x] 7. フォーム
 - [x] 8. SEO・アクセシビリティ・パフォーマンス調整
-- [ ] 9. デプロイ
+- [ ] 9. デプロイ ← **リポジトリ側の準備は完了。Cloudflare Pages への接続は発注者の操作待ち**（[docs/DEPLOY.md](docs/DEPLOY.md)）
 
 ## セットアップ
 
@@ -89,6 +89,12 @@ content/
   talent/             人材パネル。public / private を分けて保持（要件定義書 8.1）
   jobs/               求人票（要件定義書 8.2 のスキーマ）
   news/               お知らせ。現在はダミー記事
+public/
+  _headers            Cloudflare Pages のヘッダ設定（out/ にそのままコピーされる）
+  ogp.png             OGP画像（scripts/generate-images.mjs が生成）
+  neunon-logo.png     構造化データ用に最適化したロゴ（同上）
+docs/
+  DEPLOY.md           デプロイ手順と、公開前チェックリスト
 scripts/
   generate-images.mjs OGP画像・ファビコンの生成（ロゴ1枚から合成）
   audit.mjs           ビルド出力の静的検査
@@ -197,6 +203,24 @@ grep -rl "consentPublish" out/ | wc -l
 
 演出を足すときは、この2か所にも対象セレクタを追記すること。
 
+## デプロイ
+
+Cloudflare Pages で配信する。手順とチェックリストは [docs/DEPLOY.md](docs/DEPLOY.md)。
+
+| 項目 | 値 |
+|---|---|
+| Framework preset | None（Next.js プリセットは選ばない） |
+| Build command | `npm run build:deploy` |
+| Build output directory | `out` |
+
+`build:deploy` はビルド後に `scripts/audit.mjs` を実行する。
+監査で指摘が出るとビルドが失敗し、壊れた状態が公開されない。
+
+**公開前に、キーボードだけでサイト全体をたどってフォーカスリングの
+見え方を人の目で確認すること。** 静的解析でわかるのは「CSS のルールが
+出力に含まれているか」までで、実際に見えるかどうかは実機で人が触らないと
+判断できない。確認項目は docs/DEPLOY.md の 5.2 にある。
+
 ## 発注者への確認事項
 
 | # | 論点 | 現状の実装 |
@@ -224,6 +248,8 @@ grep -rl "consentPublish" out/ | wc -l
 | 21 | サイト利用規約 | 同上。公開前にリーガルチェックが必要 |
 | 22 | フォームの送信先 | Formspree のフォームを2つ作成し、エンドポイントを環境変数に設定する必要がある。通知先アドレスは Formspree 側で指定する（要件定義書 14. の「代表メールアドレスの新設」と合わせて決定） |
 | 23 | お知らせの本文 | 一覧・詳細ページを作るにあたり本文が必要だったため、確認済みの事実の範囲で実装側が起草した。原稿受領後に差し替えること |
+| 24 | CSP の強制 | 配信状態での検証ができていないため `Content-Security-Policy-Report-Only` にしてある。デプロイ後に違反0件を確認してから強制に切り替えること（docs/DEPLOY.md 5.1） |
+| 25 | Cloudflare Pages への接続 | アカウントとリポジトリのアクセス許可が必要なため、発注者ご自身の操作。GitHub 連携の認可は `shn51020-max/WEBSITE` のみに絞ることを推奨 |
 
 その他の未確定事項は `neunon-site-requirements.md` の「14. 未確定事項一覧」を参照。
 
