@@ -18,7 +18,6 @@ export default function JobsPage() {
   return (
     <div className="nc-recruit">
       <PageHero
-        eyebrow="POSITIONS"
         title="募集職種"
         lead="いずれもフルリモート・時間帯自由です。学部・学科は問いません。実務未経験でも構いません。"
         crumbs={[{ label: '採用情報', href: '/recruit' }, { label: '募集職種' }]}
@@ -38,7 +37,7 @@ export default function JobsPage() {
 
           <ul className="nc-jobcards">
             {jobs.map((job, index) => (
-              <li className="nc-jobcard rise" data-d={Math.min(index + 1, 4)} key={job.id}>
+              <li className="nc-jobcard" key={job.id}>
                 <span className="nc-job-cat">{job.category}</span>
                 <h2>
                   <Link href={`/recruit/jobs/${job.id}`}>{job.title}</Link>
@@ -75,7 +74,7 @@ export default function JobsPage() {
       </div>
 
       <div className="nc-cta nc-rcta">
-        <div className="wrap rise">
+        <div className="wrap">
           <h2>どれに応募すればいいか分からない場合</h2>
           <p>
             エントリーフォームの希望区分は「相談したい」で構いません。面談で状況を伺って、こちらから提案します。

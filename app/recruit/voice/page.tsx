@@ -23,7 +23,6 @@ export default function VoicePage() {
   return (
     <div className="nc-recruit">
       <PageHero
-        eyebrow="VOICE"
         title="メンバーインタビュー"
         crumbs={[{ label: '採用情報', href: '/recruit' }, { label: 'メンバーインタビュー' }]}
       />
@@ -64,7 +63,7 @@ export default function VoicePage() {
       </div>
 
       <div className="nc-cta nc-rcta">
-        <div className="wrap rise">
+        <div className="wrap">
           <h2>話を聞いてみたい場合</h2>
           <p>面談で、実際に担当している案件と働き方をお伝えします。エントリー後に日程を調整します。</p>
           <div className="nc-acts nc-cta-acts">

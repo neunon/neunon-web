@@ -26,8 +26,7 @@ export function Problem() {
   return (
     <section className="section" aria-labelledby="problem-heading">
       <div className="wrap">
-        <div className="shead rise">
-          <span className="snum">01&nbsp;&nbsp;THE PROBLEM</span>
+        <div className="shead">
           <h2 id="problem-heading">調べる時間が、判断する時間を圧迫している。</h2>
           <p>
             企業を理解するための公開情報は十分に存在します。問題は、それを扱う工数のほうにあります。
@@ -37,7 +36,7 @@ export function Problem() {
         </div>
         <div className="nc-probs">
           {problems.map((problem, index) => (
-            <div className="nc-prob rise" data-d={index + 1} key={problem.key}>
+            <div className="nc-prob" key={problem.key}>
               <span className="nc-prob-k">{problem.key}</span>
               <h3>{problem.title}</h3>
               <p>{problem.body}</p>

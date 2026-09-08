@@ -21,7 +21,6 @@ export default function NotFound() {
   return (
     <>
       <PageHero
-        eyebrow="404 NOT FOUND"
         title="ページが見つかりません"
         lead="お探しのページは移動または削除された可能性があります。以下からお探しください。"
       />

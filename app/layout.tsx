@@ -3,7 +3,6 @@ import { Noto_Serif_JP } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { ScrollReveal } from '@/components/layout/ScrollReveal';
 import { site } from '@/lib/site';
 
 /**
@@ -89,22 +88,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        {/*
-          スクロール演出は ScrollReveal（JS）が .in を付けることで発火する。
-          JavaScript が動かない環境では .rise 等が opacity: 0 のままになり
-          本文が読めなくなるため、その場合だけ演出前の指定を打ち消す。
-        */}
-        <noscript>
-          <style>{`.rise,.nc-cell{opacity:1!important;transform:none!important}
-.nc-layer::before,.nc-step::before{transform:scaleY(1)!important}`}</style>
-        </noscript>
         <a href="#main" className="sr-only-focusable">
           本文へスキップ
         </a>
         <Header />
         <main id="main">{children}</main>
         <Footer />
-        <ScrollReveal />
       </body>
     </html>
   );

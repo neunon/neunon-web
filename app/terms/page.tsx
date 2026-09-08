@@ -19,7 +19,6 @@ export default function TermsPage() {
   return (
     <>
       <PageHero
-        eyebrow="TERMS OF USE"
         title="サイト利用規約"
         lead={`${site.name}（以下「当社」）が運営する本ウェブサイトのご利用にあたっては、以下の条件をご確認ください。`}
         crumbs={[{ label: 'サイト利用規約' }]}

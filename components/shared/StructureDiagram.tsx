@@ -37,7 +37,7 @@ export function StructureDiagram({ headingLevel = 3 }: { headingLevel?: 3 | 4 })
   return (
     <div className="nc-struct">
       {layers.map((layer, index) => (
-        <div className="nc-layer rise layer" data-d={index} key={layer.role}>
+        <div className="nc-layer layer" key={layer.role}>
           <div className="nc-layer-b">{layer.role}</div>
           <div className="nc-layer-c">
             <Heading>{layer.title}</Heading>
@@ -53,7 +53,7 @@ export function StructureDiagram({ headingLevel = 3 }: { headingLevel?: 3 | 4 })
           </div>
         </div>
       ))}
-      <p className="nc-loopnote rise">
+      <p className="nc-loopnote">
         アソシエイト学生がリード学生へ昇格し、新しいチームを組成する。
         この循環によって、対応できる案件量が拡大していきます。
       </p>

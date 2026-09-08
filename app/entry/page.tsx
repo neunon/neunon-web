@@ -20,7 +20,6 @@ export default function EntryPage() {
   return (
     <div className="nc-recruit">
       <PageHero
-        eyebrow="ENTRY"
         title="エントリー"
         lead="志望動機はきれいにまとめなくて構いません。何をやりたいかが伝われば十分です。迷っている段階でのご応募も歓迎します。"
         crumbs={[{ label: '採用情報', href: '/recruit' }, { label: 'エントリー' }]}

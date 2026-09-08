@@ -20,7 +20,6 @@ export default function ContactPage() {
   return (
     <>
       <PageHero
-        eyebrow="CONTACT"
         title="お問い合わせ"
         lead="1社分の調査からお受けします。何を調べるべきかが決まっていない段階でのご相談も歓迎です。"
         crumbs={[{ label: 'お問い合わせ' }]}

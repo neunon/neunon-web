@@ -22,7 +22,6 @@ export default function WorksPage() {
   return (
     <>
       <PageHero
-        eyebrow="WORKS"
         title="支援実績"
         lead="守秘義務のため、企業名と案件の具体的な数値は記載していません。業種と、どう分析したかのみを公開しています。"
         crumbs={[{ label: '支援実績' }]}

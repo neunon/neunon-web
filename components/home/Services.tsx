@@ -14,8 +14,7 @@ export function Services() {
   return (
     <section className="section" aria-labelledby="services-heading">
       <div className="wrap">
-        <div className="shead rise">
-          <span className="snum">03&nbsp;&nbsp;SERVICES</span>
+        <div className="shead">
           <h2 id="services-heading">{services.length}つの提供形態</h2>
           <p>
             案件単位の個別支援から、定型化して低単価で継続提供するパッケージ、
@@ -25,7 +24,7 @@ export function Services() {
 
         <div className="nc-svcs" data-count={services.length}>
           {services.map((service, index) => (
-            <article className="nc-svc rise" data-d={index + 1} key={service.id}>
+            <article className="nc-svc" key={service.id}>
               <span className="nc-svc-n">{service.number}</span>
               <h3>{service.title}</h3>
               <p>{service.summary}</p>

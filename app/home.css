@@ -140,18 +140,6 @@
   height: 100%;
   width: 2px;
   background: var(--color-navy);
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 0.6s var(--ease-brand);
-}
-.nc-layer.in::before {
-  transform: scaleY(1);
-}
-.nc-layer[data-d='1']::before {
-  transition-delay: 0.1s;
-}
-.nc-layer[data-d='2']::before {
-  transition-delay: 0.2s;
 }
 .nc-layer-b {
   padding: 32px 24px 32px 22px;
@@ -295,28 +283,7 @@
   background: var(--color-g900);
   color: var(--color-g200);
   border-top: 2px solid var(--color-g700);
-  opacity: 0;
-  transform: translateY(10px);
-  transition:
-    opacity 0.55s var(--ease-brand),
-    transform 0.55s var(--ease-brand),
-    background 0.5s var(--ease-brand);
-}
-.nc-flow.in .nc-cell {
-  opacity: 1;
-  transform: none;
-}
-.nc-flow.in .nc-cell:nth-child(1) {
-  transition-delay: 0.05s;
-}
-.nc-flow.in .nc-cell:nth-child(2) {
-  transition-delay: 0.15s;
-}
-.nc-flow.in .nc-cell:nth-child(3) {
-  transition-delay: 0.25s;
-}
-.nc-flow.in .nc-cell:nth-child(4) {
-  transition-delay: 0.35s;
+  transition: background 0.5s var(--ease-brand);
 }
 .nc-cell.is-hi {
   background: var(--color-white);
@@ -497,12 +464,6 @@
   height: 100%;
   width: 2px;
   background: var(--color-navy);
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 0.6s var(--ease-brand);
-}
-.nc-step.in::before {
-  transform: scaleY(1);
 }
 .nc-step-n {
   font-size: 11.5px;

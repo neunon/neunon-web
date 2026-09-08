@@ -31,7 +31,6 @@ export default function AboutPage() {
   return (
     <>
       <PageHero
-        eyebrow="ABOUT"
         title="会社概要"
         lead="実務支援を通じて次世代ビジネス人材を育成しながら、企業の高度支援をより広く届けることを目指しています。"
         crumbs={[{ label: '会社概要' }]}

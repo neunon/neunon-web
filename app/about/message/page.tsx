@@ -23,7 +23,6 @@ export default function MessagePage() {
   return (
     <>
       <PageHero
-        eyebrow="MESSAGE"
         title="代表メッセージ"
         crumbs={[{ label: '会社概要', href: '/about' }, { label: '代表メッセージ' }]}
       />

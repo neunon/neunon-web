@@ -62,7 +62,6 @@ export default async function ServiceDetailPage({ params }: Props) {
   return (
     <>
       <PageHero
-        eyebrow={`${service.number}　SERVICE`}
         title={service.title}
         lead={service.lead}
         crumbs={[{ label: '事業内容', href: '/services' }, { label: service.title }]}
@@ -120,7 +119,7 @@ export default async function ServiceDetailPage({ params }: Props) {
               <h2 id="steps">進め方</h2>
               <ol className="nc-steps">
                 {service.steps.map((step, index) => (
-                  <li className="nc-step rise" data-d={Math.min(index + 1, 4)} key={step.no}>
+                  <li className="nc-step" key={step.no}>
                     <div className="nc-step-n">{step.no}</div>
                     <div className="nc-step-c">
                       <h3>{step.title}</h3>

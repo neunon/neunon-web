@@ -15,7 +15,6 @@ export default function EntryThanksPage() {
   return (
     <div className="nc-recruit">
       <PageHero
-        eyebrow="ENTRY"
         title="受け付けました"
         lead="エントリーありがとうございます。1週間以内に選考結果をメールで返信します。"
         crumbs={[{ label: 'エントリー', href: '/entry' }, { label: '完了' }]}
@@ -26,7 +25,7 @@ export default function EntryThanksPage() {
           <h2 className="nc-sub-head">このあとの流れ</h2>
           <ol className="nc-steps">
             {selectionSteps.map((step, index) => (
-              <li className="nc-step" data-d={Math.min(index + 1, 4)} key={step.no}>
+              <li className="nc-step" key={step.no}>
                 <div className="nc-step-n">STEP {step.no}</div>
                 <div className="nc-step-c">
                   <h3>{step.title}</h3>

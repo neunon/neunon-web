@@ -164,7 +164,7 @@ export default async function JobDetailPage({ params }: Props) {
             </h2>
             <ol className="nc-steps">
               {flow.map((step, index) => (
-                <li className="nc-step rise" data-d={Math.min(index + 1, 4)} key={step.title}>
+                <li className="nc-step" key={step.title}>
                   <div className="nc-step-n">{step.no ? `STEP ${step.no}` : `STEP 0${index + 1}`}</div>
                   <div className="nc-step-c">
                     <h3>{step.title}</h3>
@@ -183,7 +183,7 @@ export default async function JobDetailPage({ params }: Props) {
       </div>
 
       <div className="nc-cta nc-rcta">
-        <div className="wrap rise">
+        <div className="wrap">
           <h2>{job.title}に応募する</h2>
           <p>
             志望動機はきれいにまとめなくて構いません。何をやりたいかが伝われば十分です。迷っている段階での応募も歓迎します。

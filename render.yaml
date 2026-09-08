@@ -7,10 +7,11 @@
 #       Render では解釈されない。ヘッダはこのファイル（またはダッシュボード）
 #       で定義する。エラーにならず黙って無視されるため取り違えに注意。
 #
-# ワイルドカードの意味が Cloudflare とは異なる:
-#   /*      … 階層をまたがない
-#   /**/*   … ネストしたパスに一致
-#   /*.css  … ルート直下の .css のみ
+# ワイルドカードの挙動（公式ドキュメント static-site-headers の記述より）:
+#   /blog/*  … "Matches /blog/, /blog/latest-post/, and all other paths under /blog/"
+#              → 単一の * はスラッシュをまたいで配下すべてに一致する
+#   /**/*    … "all other paths with at least two slashes"
+#              → スラッシュを2つ以上含むパス
 
 services:
   - type: web
@@ -72,8 +73,11 @@ services:
 
       # --- キャッシュ ---
       # ビルドごとにファイル名へハッシュが付くので、恒久的にキャッシュしてよい。
-      # Render の /* は階層をまたがないので /**/* にする必要がある。
-      - path: /_next/static/**/*
+      # 単一の * が配下すべてに一致するので /_next/static/* で足りる。
+      # 【初回デプロイ後に要確認】実際に Cache-Control が付いているかを
+      # curl -I か DevTools で確かめること（docs/DEPLOY.md 4.3）。
+      # 付いていなければ /_next/static/**/* に変更する。
+      - path: /_next/static/*
         name: Cache-Control
         value: public, max-age=31536000, immutable
       # 画像はファイル名が変わらないので、期限は短めにして再検証させる

@@ -16,7 +16,6 @@ export default function CompanyPage() {
   return (
     <>
       <PageHero
-        eyebrow="COMPANY"
         title="会社情報"
         crumbs={[{ label: '会社概要', href: '/about' }, { label: '会社情報' }]}
       />

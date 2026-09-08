@@ -18,7 +18,6 @@ export default function NewsPage() {
   return (
     <>
       <PageHero
-        eyebrow="NEWS"
         title="お知らせ"
         crumbs={[{ label: 'お知らせ' }]}
       />
@@ -27,7 +26,7 @@ export default function NewsPage() {
         <div className="wrap">
           <ul className="nc-news">
             {news.map((item, index) => (
-              <li className="rise" data-d={Math.min(index + 1, 4)} key={item.slug}>
+              <li key={item.slug}>
                 <Link href={`/news/${item.slug}`}>
                   <time dateTime={item.date}>{item.date.replace(/-/g, '.')}</time>
                   <span className="nc-news-cat">{item.category}</span>

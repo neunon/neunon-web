@@ -40,8 +40,7 @@ export function TrackRecord() {
   return (
     <section className="section" aria-labelledby="record-heading">
       <div className="wrap">
-        <div className="shead rise">
-          <span className="snum">05&nbsp;&nbsp;TRACK RECORD</span>
+        <div className="shead">
           <h2 id="record-heading">約2年間の累計</h2>
           <p>
             守秘義務のため企業名と具体的な数値は記載していません。業種と分析アプローチのみを公開しています。
@@ -50,7 +49,7 @@ export function TrackRecord() {
 
         <div className="nc-recs">
           {records.map((record, index) => (
-            <div className="nc-rec rise" data-d={index + 1} key={record.tag}>
+            <div className="nc-rec" key={record.tag}>
               <div className="nc-rec-t">{record.tag}</div>
               <p className="nc-rec-num">
                 {record.value}
@@ -61,7 +60,7 @@ export function TrackRecord() {
           ))}
         </div>
 
-        <div className="nc-inds rise">
+        <div className="nc-inds">
           {industries.map((industry) => (
             <span className="nc-ind" key={industry}>
               {industry}
@@ -69,7 +68,7 @@ export function TrackRecord() {
           ))}
         </div>
 
-        <div className="nc-recs-act rise">
+        <div className="nc-recs-act">
           <Link href="/works" className="nc-more">
             <i aria-hidden="true" />
             支援実績を見る

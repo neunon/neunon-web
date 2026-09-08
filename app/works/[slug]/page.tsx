@@ -109,8 +109,7 @@ export default async function WorkDetailPage({ params }: Props) {
       {others.length > 0 ? (
         <section className="section section-alt" aria-labelledby="other-works">
           <div className="wrap">
-            <div className="shead rise">
-              <span className="snum">MORE&nbsp;&nbsp;WORKS</span>
+            <div className="shead">
               <h2 id="other-works">ほかの支援実績</h2>
             </div>
             <div className="nc-workgrid">
@@ -124,7 +123,7 @@ export default async function WorkDetailPage({ params }: Props) {
                 </article>
               ))}
             </div>
-            <div className="nc-recs-act rise">
+            <div className="nc-recs-act">
               <Link href="/works" className="nc-more">
                 <i aria-hidden="true" />
                 実績一覧へ戻る

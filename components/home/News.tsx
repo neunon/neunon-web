@@ -18,9 +18,8 @@ export function News() {
   return (
     <section className="section section-alt" aria-labelledby="news-heading">
       <div className="wrap">
-        <div className="nc-news-head shead rise">
+        <div className="nc-news-head shead">
           <div>
-            <span className="snum">08&nbsp;&nbsp;NEWS</span>
             <h2 id="news-heading">お知らせ</h2>
           </div>
           <Link href="/news" className="nc-more">
@@ -31,7 +30,7 @@ export function News() {
 
         <ul className="nc-news">
           {news.map((item, index) => (
-            <li className="rise" data-d={index + 1} key={item.slug}>
+            <li key={item.slug}>
               <Link href={`/news/${item.slug}`}>
                 <time dateTime={item.date}>{item.date.replace(/-/g, '.')}</time>
                 <span className="nc-news-cat">{item.category}</span>

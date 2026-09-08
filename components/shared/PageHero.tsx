@@ -32,7 +32,8 @@ export function PageHero({
   lead,
   crumbs = [],
 }: {
-  eyebrow: string;
+  /** 業種や区分など、情報を持つ場合だけ渡す。装飾目的の英字ラベルは置かない */
+  eyebrow?: string;
   title: string;
   lead?: string;
   crumbs?: Crumb[];
@@ -64,14 +65,12 @@ export function PageHero({
             </nav>
           </>
         ) : null}
-        <span className="nc-eyebrow rise" data-d="0">
-          {eyebrow}
-        </span>
-        <h1 className="nc-ptitle rise" data-d="1">
+        {eyebrow ? <span className="nc-eyebrow">{eyebrow}</span> : null}
+        <h1 className="nc-ptitle">
           {title}
         </h1>
         {lead ? (
-          <p className="nc-lead rise" data-d="2">
+          <p className="nc-lead">
             {lead}
           </p>
         ) : null}

@@ -15,8 +15,7 @@ export function Careers() {
   return (
     <section className="section" aria-labelledby="careers-heading">
       <div className="wrap nc-stu-sec">
-        <div className="nc-stu-copy rise">
-          <span className="snum">07&nbsp;&nbsp;CAREERS</span>
+        <div className="nc-stu-copy">
           <h2 id="careers-heading">
             時間だけは、ある。
             <br />
@@ -37,7 +36,7 @@ export function Careers() {
           </div>
         </div>
 
-        <div className="rise" data-d="2">
+        <div>
           <p className="nc-glabel">ガクチカ、こう言えるようになります</p>
           <ul className="nc-gakuchika">
             {gakuchika.map((item) => (

@@ -23,7 +23,6 @@ export default function ServicesPage() {
   return (
     <>
       <PageHero
-        eyebrow="SERVICES"
         title={`${services.length}つの提供形態`}
         lead="同じ分析の型を、規模と頻度に応じて使い分けます。どれを選ぶべきか決まっていない段階でのご相談も歓迎です。"
         crumbs={[{ label: '事業内容' }]}
@@ -33,7 +32,7 @@ export default function ServicesPage() {
         <div className="wrap">
           <div className="nc-svcs" data-count={services.length}>
             {services.map((service, index) => (
-              <article className="nc-svc rise" data-d={index + 1} key={service.id}>
+              <article className="nc-svc" key={service.id}>
                 <span className="nc-svc-n">{service.number}</span>
                 <h2>{service.title}</h2>
                 <p>{service.summary}</p>
@@ -58,8 +57,7 @@ export default function ServicesPage() {
 
       <section className="section section-alt" aria-labelledby="services-structure">
         <div className="wrap">
-          <div className="shead rise">
-            <span className="snum">COMMON&nbsp;&nbsp;体制</span>
+          <div className="shead">
             <h2 id="services-structure">3事業に共通する提供体制</h2>
             <p>
               いずれの事業も、工数集約的な工程を学生チームが担い、経験のあるコンサルタントが監修する体制で提供しています。

@@ -73,8 +73,28 @@ Node のバージョンは `render.yaml` の `NODE_VERSION`（24.14.0）で固�
 2. 表示される DNS レコード（A / CNAME）を、ドメインを管理しているところに設定する
 3. TLS 証明書は Render が Let's Encrypt / Google Trust Services で自動発行・更新する（HTTPS 必須の要件を満たす）
 4. `www` の有無を決め、片方からもう片方へリダイレクトする
-5. `NEXT_PUBLIC_SITE_URL` を本番URLに変更して再デプロイ
+5. **`NEXT_PUBLIC_SITE_URL` を本番URLに変更して再デプロイする**
 6. Google Search Console にサイトを登録し、`sitemap.xml` を送信する
+
+> **5番を忘れないこと。**
+> `NEXT_PUBLIC_SITE_URL` はビルド時に埋め込まれ、`sitemap.xml` の各URLと、
+> 構造化データ（`Organization` の `url`・`logo`、`JobPosting` の `url`、
+> `BreadcrumbList` の各 `item`）の絶対URLに使われる。
+>
+> 仮URL（`*.onrender.com`）のままドメインを繋いでも、サイト自体は表示される。
+> しかし sitemap と構造化データは古いURLを指し続けるため、
+> 検索エンジンには仮URLのサイトとして認識され、
+> ドメインを変えた意味がなくなる。**環境変数を変えたら必ず再デプロイすること**
+> （ビルドし直さないと値が反映されない）。
+>
+> 切り替え後は次で確認する。
+>
+> ```bash
+> curl -s https://<本番URL>/sitemap.xml | head -5
+> ```
+>
+> - [ ] sitemap.xml のURLが本番ドメインになっている
+> - [ ] トップページの構造化データ（`Organization`）の `url` が本番ドメインになっている
 
 ドメイン取得前でも `*.onrender.com` で公開・確認はできる。
 
@@ -114,6 +134,25 @@ Render が `404.html` を自動で使わない場合は、
 > **注意:** ここで `/*` → `/index.html` の SPA 用リライトを入れてはいけない。
 > 本サイトはページごとに実ファイルがある多ページ構成なので、
 > 全部トップページになってしまう。
+
+### 4.3 キャッシュヘッダが効いているか
+
+`render.yaml` では `/_next/static/*` に対して恒久キャッシュを指定している。
+公式ドキュメントの `/blog/*` の説明が
+"Matches `/blog/`, `/blog/latest-post/`, and all other paths under `/blog/`"
+となっており、単一の `*` は配下すべてに一致すると読める。
+ただしプレフィックスを付けた場合の挙動は明記がないため、実配信で確認する。
+
+```bash
+curl -I https://<公開URL>/_next/static/chunks/<ファイル名>.js | grep -i cache-control
+```
+
+ファイル名はサイトのHTMLソース、または DevTools の Network タブで確認できる。
+
+- [ ] `Cache-Control: public, max-age=31536000, immutable` が返る
+
+返らない場合は `render.yaml` の該当パスを `/_next/static/**/*` に変更して再デプロイし、
+もう一度確認する。効かないままだと毎回再検証が走り、表示が遅くなる。
 
 ---
 

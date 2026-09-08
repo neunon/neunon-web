@@ -134,43 +134,46 @@ a {
 
 /* ============================================================
    motion
-   要件定義書 9.2/9.3 は「スクロール時のフェードイン」を禁止しているが、
-   デザイン案 v2 には実装されている。発注者確認事項。
-   NEXT_PUBLIC_SCROLL_REVEAL=off で全体を無効化できるようにしてある。
    ============================================================ */
 
-.rise {
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 0.8s var(--ease-brand),
-    transform 0.8s var(--ease-brand);
-}
-.rise.in {
-  opacity: 1;
-  transform: none;
-}
-.rise[data-d='1'] {
-  transition-delay: 0.08s;
-}
-.rise[data-d='2'] {
-  transition-delay: 0.16s;
-}
-.rise[data-d='3'] {
-  transition-delay: 0.24s;
-}
-.rise[data-d='4'] {
-  transition-delay: 0.32s;
+/**
+ * 動きは「ここぞ」という2箇所だけに絞る。
+ *   - トップページのヒーロー（.nc-hero）
+ *   - 採用トップのヒーロー（.nc-rhero）
+ *
+ * 要件定義書 9.2 は「スクロールのたびに要素がフェードインしてくる演出」を
+ * 禁止している。全セクションに一律で掛けると、ページ数が増えたときに
+ * 同じ動きの繰り返しになり、かえって画一的に見える。
+ *
+ * JS で .in を付ける方式はやめ、CSS アニメーションだけで完結させた。
+ * こうすると、
+ *   - JavaScript が動かない環境でも本文が読める（要素の基準状態が可視）
+ *   - prefers-reduced-motion で animation を止めれば基準状態に落ちる
+ * の両方が自動的に成立する。
+ */
+@keyframes nc-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
 }
 
-/**
- * 演出で初期状態が opacity: 0 / transform になっている要素は
- *   .rise / .nc-cell / .nc-layer::before / .nc-step::before
- * の4つ。これらを見えている状態に戻す指定は、
- *   1. prefers-reduced-motion（下の @media）
- *   2. JavaScript が動かない場合（app/layout.tsx の <noscript>）
- * の2か所にある。演出を足すときは両方に追記すること。
- */
+.nc-hero .rise,
+.nc-rhero .rise {
+  animation: nc-rise 0.8s var(--ease-brand) both;
+}
+.nc-hero .rise[data-d='1'],
+.nc-rhero .rise[data-d='1'] {
+  animation-delay: 0.08s;
+}
+.nc-hero .rise[data-d='2'],
+.nc-rhero .rise[data-d='2'] {
+  animation-delay: 0.16s;
+}
+.nc-hero .rise[data-d='3'],
+.nc-rhero .rise[data-d='3'] {
+  animation-delay: 0.24s;
+}
 
 /* 要件定義書 9.4: prefers-reduced-motion を尊重 */
 @media (prefers-reduced-motion: reduce) {
@@ -179,15 +182,6 @@ a {
   *::after {
     transition: none !important;
     animation: none !important;
-  }
-  .rise,
-  .nc-cell {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  .nc-layer::before,
-  .nc-step::before {
-    transform: scaleY(1) !important;
   }
 }
 
@@ -249,14 +243,6 @@ a {
 
 .shead {
   margin-bottom: 56px;
-}
-.snum {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--color-navy);
-  letter-spacing: 0.16em;
-  display: block;
-  margin-bottom: 14px;
 }
 .shead h2 {
   font-weight: 600;

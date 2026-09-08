@@ -16,7 +16,7 @@ export function ContactCta({
 }) {
   return (
     <div className="nc-cta">
-      <div className="wrap rise">
+      <div className="wrap">
         <h2>{title}</h2>
         <p>{body}</p>
         <div className="nc-acts nc-cta-acts">

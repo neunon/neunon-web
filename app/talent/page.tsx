@@ -27,7 +27,6 @@ export default function TalentPage() {
   return (
     <>
       <PageHero
-        eyebrow="TALENT"
         title="人材パネル"
         lead="案件を担当する登録学生の一覧です。ご相談内容に応じて、スキルと稼働状況からチームを編成します。"
         crumbs={[{ label: '人材' }]}

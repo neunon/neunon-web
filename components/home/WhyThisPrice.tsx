@@ -20,8 +20,7 @@ export function WhyThisPrice() {
   return (
     <section className="section nc-why" aria-labelledby="price-heading">
       <div className="wrap">
-        <div className="shead rise">
-          <span className="snum">04&nbsp;&nbsp;WHY THIS PRICE</span>
+        <div className="shead">
           <h2 id="price-heading">なぜ、この価格で提供できるのか。</h2>
           <p>安いから品質を落としている、ということではありません。工程ごとに担い手を変えているだけです。</p>
         </div>
@@ -29,7 +28,7 @@ export function WhyThisPrice() {
         <PriceFlow />
 
         {pricing.length > 0 ? (
-          <div className="nc-ptable rise">
+          <div className="nc-ptable">
             <h3 className="nc-ptable-head">参考価格</h3>
             <dl>
               {pricing.map((row) => (

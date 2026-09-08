@@ -42,7 +42,6 @@ export default function FlowPage() {
   return (
     <div className="nc-recruit">
       <PageHero
-        eyebrow="SELECTION"
         title="選考フロー"
         lead="4段階です。合否を決める場であると同時に、こちらが何をしている会社かを知ってもらう場でもあります。"
         crumbs={[{ label: '採用情報', href: '/recruit' }, { label: '選考フロー' }]}
@@ -52,7 +51,7 @@ export default function FlowPage() {
         <div className="wrap nc-doc-narrow">
           <ol className="nc-steps">
             {selectionSteps.map((step, index) => (
-              <li className="nc-step rise" data-d={Math.min(index + 1, 4)} key={step.no}>
+              <li className="nc-step" key={step.no}>
                 <div className="nc-step-n">STEP {step.no}</div>
                 <div className="nc-step-c">
                   <h2>{step.title}</h2>
@@ -84,7 +83,7 @@ export default function FlowPage() {
       </div>
 
       <div className="nc-cta nc-rcta">
-        <div className="wrap rise">
+        <div className="wrap">
           <h2>まずはエントリーから。</h2>
           <p>迷っている段階でも構いません。面談で状況を伺って、こちらから提案します。</p>
           <div className="nc-acts nc-cta-acts">

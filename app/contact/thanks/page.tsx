@@ -16,7 +16,6 @@ export default function ContactThanksPage() {
   return (
     <>
       <PageHero
-        eyebrow="CONTACT"
         title="送信しました"
         lead="お問い合わせありがとうございます。内容を確認のうえ、当日〜翌営業日にメールでご連絡します。"
         crumbs={[{ label: 'お問い合わせ', href: '/contact' }, { label: '送信完了' }]}

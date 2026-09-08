@@ -37,7 +37,6 @@ export default function PrivacyPage() {
   return (
     <>
       <PageHero
-        eyebrow="PRIVACY POLICY"
         title="プライバシーポリシー"
         lead={`${site.name}（以下「当社」）は、当サイトを通じて取得する個人情報を以下のとおり取り扱います。`}
         crumbs={[{ label: 'プライバシーポリシー' }]}

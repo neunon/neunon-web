@@ -46,15 +46,14 @@ export function Process() {
   return (
     <section className="section section-alt" aria-labelledby="process-heading">
       <div className="wrap">
-        <div className="shead rise">
-          <span className="snum">06&nbsp;&nbsp;HOW IT WORKS</span>
+        <div className="shead">
           <h2 id="process-heading">お問い合わせから納品まで</h2>
           <p>1社分の調査からお受けします。まず何を調べるべきかが決まっていない段階でも構いません。</p>
         </div>
 
         <ol className="nc-steps">
           {steps.map((step, index) => (
-            <li className="nc-step rise" data-d={Math.min(index + 1, 4)} key={step.no}>
+            <li className="nc-step" key={step.no}>
               <div className="nc-step-n">{step.no}</div>
               <div className="nc-step-c">
                 <h3>{step.title}</h3>
