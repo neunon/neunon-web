@@ -22,7 +22,11 @@
 - [x] 6. 採用サイト・求人票
 - [x] 7. フォーム
 - [x] 8. SEO・アクセシビリティ・パフォーマンス調整
-- [ ] 9. デプロイ ← **リポジトリ側の準備は完了。Render への接続は発注者の操作待ち**（[docs/DEPLOY.md](docs/DEPLOY.md)）
+- [ ] 9. デプロイ ← **リポジトリ側の準備は完了。Render への接続は坂本の操作待ち**
+
+> **引き継ぎ中です。** ここから先の進め方は [docs/HANDOFF.md](docs/HANDOFF.md) を読んでください。
+> Render のアカウントを持っている側で公開作業を進めます。
+> 手順の詳細は [docs/DEPLOY.md](docs/DEPLOY.md)。
 
 ## セットアップ
 
@@ -94,6 +98,7 @@ public/
   neunon-logo.png     構造化データ用に最適化したロゴ（同上）
 render.yaml           Render Static Site の設定（ビルド・環境変数・ヘッダ）
 docs/
+  HANDOFF.md          引き継ぎメモ。まずこれを読む
   DEPLOY.md           デプロイ手順と、公開前チェックリスト
 scripts/
   generate-images.mjs OGP画像・ファビコンの生成（ロゴ1枚から合成）
@@ -261,7 +266,8 @@ Render の Static Site で配信する。手順とチェックリストは [docs
 | 22 | フォームの送信先 | Formspree のフォームを2つ作成し、エンドポイントを環境変数に設定する必要がある。通知先アドレスは Formspree 側で指定する（要件定義書 14. の「代表メールアドレスの新設」と合わせて決定） |
 | 23 | お知らせの本文 | 一覧・詳細ページを作るにあたり本文が必要だったため、確認済みの事実の範囲で実装側が起草した。原稿受領後に差し替えること |
 | 24 | CSP の強制 | 配信状態での検証ができていないため `Content-Security-Policy-Report-Only` にしてある。デプロイ後に違反0件を確認してから強制に切り替えること（docs/DEPLOY.md 5.1） |
-| 25 | Render への接続 | アカウント操作とリポジトリのアクセス許可が必要なため、発注者ご自身の操作。GitHub 連携の認可は `shn51020-max/WEBSITE` のみに絞ることを推奨 |
+| 25 | Render への接続 | 坂本の Render アカウントで行う。private リポジトリのため、**Render を操作する人の GitHub アカウントにこのリポジトリへのアクセス権が必要**（コラボレーター招待か、`neunon` organization への移管）。詳細は docs/HANDOFF.md 2章 |
+| 27 | リポジトリの置き場所 | 現在は個人アカウント `shn51020-max` の下にある。会社の資産なので `neunon` organization へ移す選択肢がある。**Render に繋ぐ前に決める方がよい**（繋いだ後に移すと再接続が必要）。docs/HANDOFF.md 2章 |
 | 26 | Render の 404 とディレクトリ配信 | 実配信でしか確定できないため未確認。初回デプロイ直後に `/about/` が表示されるか、存在しないURLで404ページが出るかを確認し、必要ならリライトルールを追加する（docs/DEPLOY.md 4章） |
 
 その他の未確定事項は `neunon-site-requirements.md` の「14. 未確定事項一覧」を参照。
