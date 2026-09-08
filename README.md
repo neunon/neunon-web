@@ -18,7 +18,7 @@
 - [x] 2. 共通レイアウト（ヘッダー／フッター／目次コンポーネント）
 - [x] 3. トップページ（発注者レビュー済み）
 - [x] 4. 会社概要・事業詳細
-- [ ] 5. 実績・人材パネル
+- [x] 5. 実績・人材パネル
 - [ ] 6. 採用サイト・求人票
 - [ ] 7. フォーム
 - [ ] 8. SEO・アクセシビリティ・パフォーマンス調整
@@ -57,20 +57,44 @@ app/
   robots.ts           robots.txt 自動生成
   about/              /about, /about/message, /about/company
   services/           /services と /services/[id]（generateStaticParams で静的生成）
+  works/              /works と /works/[slug]
+  talent/             /talent と /talent/[id]
 components/
   layout/             Header / Footer / Logo / ScrollReveal
   toc/                目次コンポーネント（要件定義書 5.3）
   shared/             PageHero / ContactCta / StructureDiagram / PriceFlow
   home/               トップページの各セクション
   about/              CompanyTable / History
+  works/              WorksGrid（業種フィルタ）
+  talent/             TalentPanel（4条件フィルタ）
 content/
   services/           事業データ。ファイルを増やすと /services が自動で増える（要件定義書 15.）
   works/              支援実績。事業詳細の「この事業での実績」で services タグにより抽出
+  talent/             人材パネル。public / private を分けて保持（要件定義書 8.1）
   news/               お知らせ。現在はダミー記事
 lib/
   site.ts             会社情報・ナビ定義
   content.ts          content/ の読み込み
+  talent.ts           人材パネルの型とラベル（クライアントからも読み込む）
+  talent.server.ts    talents.json の読み込み。private の除去はここだけで行う
 ```
+
+### 人材パネルの個人情報の扱い
+
+要件定義書 6.5 / 8.1 の「`private` はビルド時に静的出力へ含めないこと」に対応するため、
+`content/talent/talents.json` を読む場所を `lib/talent.server.ts` だけに限定している。
+読み込んだ直後に `public` のみを取り出し、`private` はこのモジュールの外へ出さない。
+呼び出し側は `PublicTalent` 型しか受け取れないので、型の上でも混入を防げる。
+あわせて `consentPublish` が false の登録者は一覧にもURLにも現れない。
+
+ビルド後は次のコマンドで出力を監査できる（いずれも 0 件であること）。
+
+```bash
+grep -rl "consentPublish" out/ | wc -l
+```
+
+`lib/talent.ts` はクライアントコンポーネントからも読み込まれるため、
+`node:fs` などサーバー専用の API を持ち込まないこと。
 
 ### 事業を追加するとき
 
@@ -92,6 +116,9 @@ lib/
 | 8 | 沿革 | 載せる出来事が未確定。確認済みの設立日のみ掲載。`components/about/History.tsx` の entries に追記する |
 | 9 | 事業詳細のFAQ・進め方・想定期間 | 要件定義書に記載がないため実装側で作成した暫定内容。`content/services/*.json` の `faq` / `steps` / `engagement` を確認いただきたい |
 | 10 | 実績の事業への割り当て | `content/works/*.json` の `services` タグは実装側の判断。事業詳細ページに出す実績の対応付けを確認いただきたい |
+| 11 | 実績の「背景」「得られた示唆」 | 要件定義書 6.4 の3段構成に必要だが原文がないため、記載済みのアプローチから実装側で起草した。事実確認をお願いしたい |
+| 12 | 人材パネルのデータ | `content/talent/talents.json` は全件ダミー。実データへの差し替え前に、本人の掲載同意（6.5）の取得が必要 |
+| 13 | 稼働状況の区分 | フィルタに必要なため `availabilityStatus`（受付中／調整中／満稼働）を要件定義書 8.1 のスキーマに追加した。区分の名称と粒度を確認いただきたい |
 
 その他の未確定事項は `neunon-site-requirements.md` の「14. 未確定事項一覧」を参照。
 

@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import './home.css';
 @import './pages.css';
+@import './collections.css';
 
 /* ============================================================
    ブランドトークン

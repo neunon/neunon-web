@@ -46,13 +46,20 @@ export type Service = {
   faq: FaqItem[];
 };
 
+/**
+ * 支援実績（要件定義書 6.4）。
+ * 12.1 により、取引先の実名と案件の具体的な数値は保持しない。
+ * 詳細ページは background/challenge → approach → insight の3段構成で見せる。
+ */
 export type Work = {
   slug: string;
   order: number;
   industry: string;
   title: string;
+  background: string;
   challenge: string;
   approach: string;
+  insight: string;
   /** この実績が関係する事業の id。事業詳細ページの実績抽出に使う */
   services: string[];
 };
@@ -100,4 +107,17 @@ export function getNews(): NewsItem[] {
 /** トップページのお知らせセクション用（最新3件・要件定義書 6.1 セクション8） */
 export function getLatestNews(count = 3): NewsItem[] {
   return getNews().slice(0, count);
+}
+
+/* ============================================================
+   実績（要件定義書 6.4）
+   ============================================================ */
+
+export function getWork(slug: string): Work | undefined {
+  return getWorks().find((work) => work.slug === slug);
+}
+
+/** 一覧のフィルタ用。業種は重複を除いて出現順に返す */
+export function getWorkIndustries(): string[] {
+  return [...new Set(getWorks().map((work) => work.industry))];
 }

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "t-001",
+    "public": {
+      "displayName": "Lead / A.S.",
+      "role": "lead",
+      "universityCategory": "国立大 / 理工系",
+      "grade": 4,
+      "skills": ["Python", "統計解析", "SQL", "市場調査"],
+      "availableWork": ["データ分析", "市場調査", "資料作成"],
+      "recordSummary": "データ分析 5件 / 市場調査 12件",
+      "availability": "週15時間程度",
+      "availabilityStatus": "受付中",
+      "certifications": [],
+      "consentPublish": true
+    },
+    "private": {
+      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+    }
+  },
+  {
+    "id": "t-002",
+    "public": {
+      "displayName": "Lead / K.M.",
+      "role": "lead",
+      "universityCategory": "私立大 / 経済系",
+      "grade": 3,
+      "skills": ["財務モデリング", "Excel", "競合調査", "スライド作成"],
+      "availableWork": ["財務モデリング", "競合調査", "資料作成"],
+      "recordSummary": "競合調査 9件 / 事業計画の試算 4件",
+      "availability": "週20時間程度",
+      "availabilityStatus": "受付中",
+      "certifications": [],
+      "consentPublish": true
+    },
+    "private": {
+      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+    }
+  },
+  {
+    "id": "t-003",
+    "public": {
+      "displayName": "Lead / R.T.",
+      "role": "lead",
+      "universityCategory": "国立大 / 社会科学系",
+      "grade": 4,
+      "skills": ["市場調査", "アンケート設計", "統計解析", "英語文献調査"],
+      "availableWork": ["市場調査", "アンケート設計", "英文リサーチ"],
+      "recordSummary": "市場調査 14件 / アンケート設計 3件",
+      "availability": "週10時間程度",
+      "availabilityStatus": "調整中",
+      "certifications": [],
+      "consentPublish": true
+    },
+    "private": {
+      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+    }
+  },
+  {
+    "id": "t-004",
+    "public": {
+      "displayName": "Associate / H.N.",
+      "role": "associate",
+      "universityCategory": "私立大 / 経営系",
+      "grade": 2,
+      "skills": ["Excel", "競合調査", "スライド作成"],
+      "availableWork": ["競合調査", "資料作成"],
+      "recordSummary": "競合調査 6件",
+      "availability": "週10時間程度",
+      "availabilityStatus": "受付中",
+      "certifications": [],
+      "consentPublish": true
+    },
+    "private": {
+      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+    }
+  },
+  {
+    "id": "t-005",
+    "public": {
+      "displayName": "Associate / Y.O.",
+      "role": "associate",
+      "universityCategory": "国立大 / 理工系",
+      "grade": 1,
+      "skills": ["Python", "SQL", "Tableau"],
+      "availableWork": ["データ分析", "資料作成"],
+      "recordSummary": "データ分析 3件",
+      "availability": "週8時間程度",
+      "availabilityStatus": "受付中",
+      "certifications": [],
+      "consentPublish": true
+    },
+    "private": {
+      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+    }
+  },
+  {
+    "id": "t-006",
+    "public": {
+      "displayName": "Associate / S.I.",
+      "role": "associate",
+      "universityCategory": "私立大 / 文系",
+      "grade": 2,
+      "skills": ["市場調査", "業界インタビュー", "スライド作成"],
+      "availableWork": ["市場調査", "資料作成", "議事録・文字起こし整理"],
+      "recordSummary": "市場調査 5件",
+      "availability": "週12時間程度",
+      "availabilityStatus": "受付中",
+      "certifications": [],
+      "consentPublish": true
+    },
+    "private": {
+      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+    }
+  },
+  {
+    "id": "t-007",
+    "public": {
+      "displayName": "Associate / M.K.",
+      "role": "associate",
+      "universityCategory": "国立大 / 社会科学系",
+      "grade": 3,
+      "skills": ["統計解析", "Excel", "アンケート設計"],
+      "availableWork": ["データ分析", "アンケート設計"],
+      "recordSummary": "データ分析 4件 / アンケート設計 2件",
+      "availability": "週15時間程度",
+      "availabilityStatus": "調整中",
+      "certifications": [],
+      "consentPublish": true
+    },
+    "private": {
+      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+    }
+  },
+  {
+    "id": "t-008",
+    "public": {
+      "displayName": "Associate / T.F.",
+      "role": "associate",
+      "universityCategory": "私立大 / 理工系",
+      "grade": 1,
+      "skills": ["Python", "Excel", "競合調査"],
+      "availableWork": ["競合調査", "データ分析"],
+      "recordSummary": "競合調査 3件",
+      "availability": "週8時間程度",
+      "availabilityStatus": "満稼働",
+      "certifications": [],
+      "consentPublish": true
+    },
+    "private": {
+      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+    }
+  },
+  {
+    "id": "t-009",
+    "public": {
+      "displayName": "Associate / N.W.",
+      "role": "associate",
+      "universityCategory": "国立大 / 経済系",
+      "grade": 2,
+      "skills": ["財務モデリング", "Excel", "英語文献調査"],
+      "availableWork": ["財務モデリング", "英文リサーチ", "資料作成"],
+      "recordSummary": "事業計画の試算 2件 / 英文リサーチ 4件",
+      "availability": "週10時間程度",
+      "availabilityStatus": "受付中",
+      "certifications": [],
+      "consentPublish": true
+    },
+    "private": {
+      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+    }
+  },
+  {
+    "id": "t-010",
+    "public": {
+      "displayName": "Associate / (掲載同意なし)",
+      "role": "associate",
+      "universityCategory": "私立大 / 文系",
+      "grade": 2,
+      "skills": ["市場調査"],
+      "availableWork": ["市場調査"],
+      "recordSummary": "市場調査 2件",
+      "availability": "週8時間程度",
+      "availabilityStatus": "受付中",
+      "certifications": [],
+      "consentPublish": false
+    },
+    "private": {
+      "note": "consentPublish が false のため、公開ビルドに出力してはいけない。動作確認用のダミー。"
+    }
+  }
+]

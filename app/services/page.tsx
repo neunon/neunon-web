@@ -69,8 +69,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* /works はステップ5で実装するため、現時点では会社概要へ誘導する */}
-      <ContactCta secondary={{ label: '会社概要を見る', href: '/about' }} />
+      <ContactCta secondary={{ label: '支援実績を見る', href: '/works' }} />
     </>
   );
 }

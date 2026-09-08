@@ -179,13 +179,18 @@ export default async function ServiceDetailPage({ params }: Props) {
                   {works.map((work) => (
                     <li key={work.slug}>
                       <span className="nc-work-ind">{work.industry}</span>
-                      <h3>{work.title}</h3>
+                      <h3>
+                        <Link href={`/works/${work.slug}`}>{work.title}</Link>
+                      </h3>
                       <p className="nc-work-ch">課題: {work.challenge}</p>
                       <p>{work.approach}</p>
                     </li>
                   ))}
                 </ul>
-                {/* /works の一覧・詳細ページはステップ5で実装する */}
+                <Link href="/works" className="nc-more">
+                  <i aria-hidden="true" />
+                  支援実績の一覧へ
+                </Link>
               </section>
             ) : null}
 
