@@ -20,7 +20,7 @@
 - [x] 4. 会社概要・事業詳細
 - [x] 5. 実績・人材パネル
 - [x] 6. 採用サイト・求人票
-- [ ] 7. フォーム
+- [x] 7. フォーム
 - [ ] 8. SEO・アクセシビリティ・パフォーマンス調整
 - [ ] 9. デプロイ
 
@@ -60,6 +60,10 @@ app/
   works/              /works と /works/[slug]
   talent/             /talent と /talent/[id]
   recruit/            /recruit, /recruit/jobs, /recruit/jobs/[id], /recruit/flow, /recruit/voice
+  news/               /news と /news/[slug]
+  contact/            /contact と /contact/thanks
+  entry/              /entry と /entry/thanks
+  privacy/, terms/    プライバシーポリシー・サイト利用規約
 components/
   layout/             Header / Footer / Logo / ScrollReveal
   toc/                目次コンポーネント（要件定義書 5.3）
@@ -68,6 +72,7 @@ components/
   about/              CompanyTable / History
   works/              WorksGrid（業種フィルタ）
   talent/             TalentPanel（4条件フィルタ）
+  forms/              FormShell（入力・検証・確認画面・送信を共通化）
 content/
   services/           事業データ。ファイルを増やすと /services が自動で増える（要件定義書 15.）
   works/              支援実績。事業詳細の「この事業での実績」で services タグにより抽出
@@ -78,6 +83,7 @@ lib/
   site.ts             会社情報・ナビ定義
   content.ts          content/ の読み込み（事業・実績・求人票・お知らせ）
   recruit.ts          採用サイトの共通コピーと選考フロー
+  forms.ts            フォームの項目定義・検証・送信先
   talent.ts           人材パネルの型とラベル（クライアントからも読み込む）
   talent.server.ts    talents.json の読み込み。private の除去はここだけで行う
 ```
@@ -91,6 +97,26 @@ lib/
 > サイトもこのスタンスに統一してください。**学歴要件をサイトに明示してはいけません。**
 
 `lib/recruit.ts` の冒頭にも同じ注意を書いてある。募集要項を編集するときは必ず確認すること。
+
+### フォームの送信先
+
+静的書き出し（`output: 'export'`）のためサーバー側でメールを送る API Route を持てない。
+送信は Formspree のエンドポイントをブラウザから直接叩く構成にしている。
+ブラウザに値を渡す必要があるため、環境変数は `NEXT_PUBLIC_` 接頭辞つき
+（要件定義書 11. の `CONTACT_FORM_ENDPOINT` に対応）。
+企業用と学生用でフォームを分ける指示（6.8）に合わせ、エンドポイントも2つ用意する。
+
+```
+NEXT_PUBLIC_CONTACT_FORM_ENDPOINT=https://formspree.io/f/xxxxxxxx
+NEXT_PUBLIC_ENTRY_FORM_ENDPOINT=https://formspree.io/f/yyyyyyyy
+```
+
+未設定の間は送信ボタンが押せない状態になり、画面に案内が出る。
+通知先メールアドレスは Formspree 側のフォーム設定で指定する。
+
+スパム対策は honeypot（Formspree の `_gotcha`）と、
+表示から送信までが極端に速い場合の拒否で対応している
+（6.8 は「reCAPTCHA v3 もしくは honeypot」を許容）。
 
 ### 求人票の契約形態・報酬が未確定の間
 
@@ -146,6 +172,10 @@ grep -rl "consentPublish" out/ | wc -l
 | 17 | 選考フローの詳細 | 4段階の名称は要件定義書 8.2 のとおり。各段階の所要時間・期間は暫定値 |
 | 18 | 求人の掲載日 | JobPosting の必須項目のため `datePosted` を追加し、暫定で 2026-09-01 としている。公開時に実際の掲載日へ更新すること |
 | 19 | メンバーインタビュー | 実施可否が未確定。12.1 により社内メンバーの個人名は本人同意なしに掲載できないため、`/recruit/voice` は準備中の表示とし noindex にしている |
+| 20 | プライバシーポリシー | **公開前に必ずリーガルチェックを受けること。** 記載は 12.2 の必須項目を満たすよう実装側で起草した。本文中の【要確認】（保管期間、解析サービス名、個人情報の問い合わせ窓口アドレス）は会社として決める必要がある |
+| 21 | サイト利用規約 | 同上。公開前にリーガルチェックが必要 |
+| 22 | フォームの送信先 | Formspree のフォームを2つ作成し、エンドポイントを環境変数に設定する必要がある。通知先アドレスは Formspree 側で指定する（要件定義書 14. の「代表メールアドレスの新設」と合わせて決定） |
+| 23 | お知らせの本文 | 一覧・詳細ページを作るにあたり本文が必要だったため、確認済みの事実の範囲で実装側が起草した。原稿受領後に差し替えること |
 
 その他の未確定事項は `neunon-site-requirements.md` の「14. 未確定事項一覧」を参照。
 

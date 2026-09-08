@@ -1,0 +1,272 @@
+/* ============================================================
+   フォーム（要件定義書 6.8）
+   ============================================================ */
+
+.nc-formwrap {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 72px;
+  align-items: start;
+}
+.nc-formside {
+  position: sticky;
+  top: 96px;
+}
+.nc-formmain {
+  max-width: 40em;
+}
+
+.nc-contactinfo {
+  margin-top: 32px;
+}
+.nc-contactinfo > div {
+  grid-template-columns: 76px 1fr;
+  gap: 16px;
+}
+.nc-contactinfo dd {
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--color-ink-sub);
+}
+
+.nc-side-head {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--color-g700);
+  margin: 36px 0 16px;
+}
+.nc-sidesteps {
+  list-style: none;
+  border-top: 1px solid var(--color-g200);
+}
+.nc-sidesteps li {
+  display: grid;
+  gap: 2px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-g200);
+}
+.nc-sidestep-t {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+.nc-sidestep-s {
+  font-size: 11.5px;
+  color: var(--color-g700);
+}
+
+/* ---------- ステップ表示 ---------- */
+
+.nc-form-step {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--color-navy);
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--color-ink);
+}
+.nc-form-steplead {
+  margin: 16px 0 40px;
+  font-size: 13px;
+  color: var(--color-g700);
+}
+.nc-form-steplead .nc-req {
+  margin: 0 4px;
+}
+
+/* ---------- 入力項目 ---------- */
+
+.nc-field {
+  margin-bottom: 32px;
+}
+.nc-field > label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin-bottom: 8px;
+}
+.nc-req,
+.nc-opt {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+.nc-req {
+  background: var(--color-navy);
+  color: var(--color-white);
+}
+.nc-opt {
+  border: 1px solid var(--color-g300);
+  color: var(--color-g700);
+}
+.nc-field-help {
+  font-size: 12px;
+  color: var(--color-g700);
+  margin-bottom: 10px;
+  line-height: 1.8;
+}
+
+.nc-field input,
+.nc-field textarea,
+.nc-field select {
+  width: 100%;
+  font: inherit;
+  font-size: 14.5px;
+  color: var(--color-ink);
+  background: var(--color-white);
+  border: 1px solid var(--color-g300);
+  border-radius: 2px;
+  padding: 12px 14px;
+  transition: border-color 0.25s var(--ease-brand);
+}
+.nc-field textarea {
+  line-height: 1.9;
+  resize: vertical;
+  min-height: 8em;
+}
+.nc-field select {
+  /* ネイティブの見た目を残しつつ高さを他の入力欄と揃える */
+  height: 46px;
+  cursor: pointer;
+}
+.nc-field input::placeholder,
+.nc-field textarea::placeholder {
+  /* g500 は 3.11:1 で 9.4 の基準を満たさないため g700 にする */
+  color: var(--color-g700);
+}
+.nc-field input:hover,
+.nc-field textarea:hover,
+.nc-field select:hover {
+  border-color: var(--color-g700);
+}
+.nc-field input:focus-visible,
+.nc-field textarea:focus-visible,
+.nc-field select:focus-visible {
+  border-color: var(--color-navy);
+}
+
+.nc-field.has-error input,
+.nc-field.has-error textarea,
+.nc-field.has-error select {
+  border-color: var(--color-ink);
+  border-left-width: 3px;
+}
+.nc-field-error {
+  margin-top: 8px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--color-ink);
+  padding-left: 14px;
+  border-left: 2px solid var(--color-ink);
+}
+
+/* honeypot: 画面にも読み上げにも出さない */
+.nc-gotcha {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ---------- 同意チェック ---------- */
+
+.nc-consent {
+  margin: 40px 0 8px;
+  padding: 22px 24px;
+  border: 1px solid var(--color-g200);
+  border-left: 2px solid var(--color-navy);
+  background: var(--color-surface);
+}
+.nc-consent > label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 13.5px;
+  line-height: 1.9;
+}
+.nc-consent input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  flex-shrink: 0;
+  accent-color: var(--color-navy);
+  cursor: pointer;
+}
+.nc-consent .nc-req {
+  margin-left: 10px;
+}
+.nc-consent-note {
+  margin-top: 10px;
+  padding-left: 30px;
+  font-size: 12px;
+  color: var(--color-g700);
+}
+
+/* ---------- 確認画面 ---------- */
+
+.nc-confirm {
+  margin-bottom: 8px;
+}
+.nc-confirm dd {
+  white-space: pre-wrap;
+}
+.nc-confirm-empty {
+  color: var(--color-g700);
+  font-size: 13px;
+}
+
+/* ---------- アクション・状態 ---------- */
+
+.nc-form-acts {
+  margin-top: 36px;
+}
+.nc-form-acts .btn:disabled {
+  background: var(--color-g100);
+  border-color: var(--color-g300);
+  color: var(--color-g700);
+  cursor: not-allowed;
+}
+.nc-form-acts .btn:disabled:hover {
+  background: var(--color-g100);
+  border-color: var(--color-g300);
+  color: var(--color-g700);
+}
+
+.nc-form-error {
+  margin-top: 24px;
+  padding: 14px 18px;
+  border-left: 2px solid var(--color-ink);
+  background: var(--color-g100);
+  font-size: 13px;
+  color: var(--color-ink);
+}
+.nc-form-pending {
+  margin-top: 28px;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 900px) {
+  .nc-formwrap {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+  .nc-formside {
+    position: static;
+  }
+  .nc-formmain {
+    max-width: none;
+  }
+  .nc-consent {
+    padding: 18px 18px;
+  }
+}

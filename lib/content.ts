@@ -70,6 +70,8 @@ export type NewsItem = {
   category: string;
   title: string;
   excerpt: string;
+  /** 本文。段落ごとに配列で持つ */
+  body: string[];
   /** 発注者からの原稿待ちのダミー記事（要件定義書 14. 未解決） */
   placeholder?: boolean;
 };
@@ -158,4 +160,8 @@ export function getJobs(): Job[] {
 
 export function getJob(id: string): Job | undefined {
   return getJobs().find((job) => job.id === id);
+}
+
+export function getNewsItem(slug: string): NewsItem | undefined {
+  return getNews().find((item) => item.slug === slug);
 }
