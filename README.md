@@ -22,7 +22,7 @@
 - [x] 6. 採用サイト・求人票
 - [x] 7. フォーム
 - [x] 8. SEO・アクセシビリティ・パフォーマンス調整
-- [ ] 9. デプロイ ← **リポジトリ側の準備は完了。Cloudflare Pages への接続は発注者の操作待ち**（[docs/DEPLOY.md](docs/DEPLOY.md)）
+- [ ] 9. デプロイ ← **リポジトリ側の準備は完了。Render への接続は発注者の操作待ち**（[docs/DEPLOY.md](docs/DEPLOY.md)）
 
 ## セットアップ
 
@@ -90,9 +90,9 @@ content/
   jobs/               求人票（要件定義書 8.2 のスキーマ）
   news/               お知らせ。現在はダミー記事
 public/
-  _headers            Cloudflare Pages のヘッダ設定（out/ にそのままコピーされる）
   ogp.png             OGP画像（scripts/generate-images.mjs が生成）
   neunon-logo.png     構造化データ用に最適化したロゴ（同上）
+render.yaml           Render Static Site の設定（ビルド・環境変数・ヘッダ）
 docs/
   DEPLOY.md           デプロイ手順と、公開前チェックリスト
 scripts/
@@ -205,16 +205,22 @@ grep -rl "consentPublish" out/ | wc -l
 
 ## デプロイ
 
-Cloudflare Pages で配信する。手順とチェックリストは [docs/DEPLOY.md](docs/DEPLOY.md)。
+Render の Static Site で配信する。手順とチェックリストは [docs/DEPLOY.md](docs/DEPLOY.md)。
+設定は `render.yaml` に置いてあるので、Render では **New → Blueprint** から作成できる。
 
 | 項目 | 値 |
 |---|---|
-| Framework preset | None（Next.js プリセットは選ばない） |
+| Service type | Static Site |
 | Build command | `npm run build:deploy` |
-| Build output directory | `out` |
+| Publish directory | `out` |
 
 `build:deploy` はビルド後に `scripts/audit.mjs` を実行する。
 監査で指摘が出るとビルドが失敗し、壊れた状態が公開されない。
+
+レスポンスヘッダ（セキュリティ・キャッシュ）は `render.yaml` の `headers` で定義している。
+**Cloudflare Pages や Netlify で使う `public/_headers` 形式は Render では解釈されない。**
+他のホスティングへ移す場合は書き直しが必要で、置き忘れてもエラーにならず
+ヘッダが黙って付かなくなるので注意すること。
 
 **公開前に、キーボードだけでサイト全体をたどってフォーカスリングの
 見え方を人の目で確認すること。** 静的解析でわかるのは「CSS のルールが
@@ -249,7 +255,8 @@ Cloudflare Pages で配信する。手順とチェックリストは [docs/DEPLO
 | 22 | フォームの送信先 | Formspree のフォームを2つ作成し、エンドポイントを環境変数に設定する必要がある。通知先アドレスは Formspree 側で指定する（要件定義書 14. の「代表メールアドレスの新設」と合わせて決定） |
 | 23 | お知らせの本文 | 一覧・詳細ページを作るにあたり本文が必要だったため、確認済みの事実の範囲で実装側が起草した。原稿受領後に差し替えること |
 | 24 | CSP の強制 | 配信状態での検証ができていないため `Content-Security-Policy-Report-Only` にしてある。デプロイ後に違反0件を確認してから強制に切り替えること（docs/DEPLOY.md 5.1） |
-| 25 | Cloudflare Pages への接続 | アカウントとリポジトリのアクセス許可が必要なため、発注者ご自身の操作。GitHub 連携の認可は `shn51020-max/WEBSITE` のみに絞ることを推奨 |
+| 25 | Render への接続 | アカウント操作とリポジトリのアクセス許可が必要なため、発注者ご自身の操作。GitHub 連携の認可は `shn51020-max/WEBSITE` のみに絞ることを推奨 |
+| 26 | Render の 404 とディレクトリ配信 | 実配信でしか確定できないため未確認。初回デプロイ直後に `/about/` が表示されるか、存在しないURLで404ページが出るかを確認し、必要ならリライトルールを追加する（docs/DEPLOY.md 4章） |
 
 その他の未確定事項は `neunon-site-requirements.md` の「14. 未確定事項一覧」を参照。
 

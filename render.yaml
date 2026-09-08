@@ -1,0 +1,82 @@
+# Render Blueprint（要件定義書 13. ステップ9）
+#
+# 静的書き出し（output: 'export'）した out/ を Render Static Site で配信する。
+# Static Site は無料 Web Service のようなスリープが発生しない。
+#
+# 注意: Cloudflare Pages や Netlify で使う public/_headers 形式は
+#       Render では解釈されない。ヘッダはこのファイル（またはダッシュボード）
+#       で定義する。エラーにならず黙って無視されるため取り違えに注意。
+#
+# ワイルドカードの意味が Cloudflare とは異なる:
+#   /*      … 階層をまたがない
+#   /**/*   … ネストしたパスに一致
+#   /*.css  … ルート直下の .css のみ
+
+services:
+  - type: web
+    runtime: static
+    name: neunon-web
+    # ビルド後に scripts/audit.mjs が走る。監査で指摘が出るとビルドが失敗し、
+    # 壊れた状態が公開されない。build ではなく build:deploy を使うこと。
+    buildCommand: npm run build:deploy
+    staticPublishPath: ./out
+
+    envVars:
+      # .node-version と同じ値にすること
+      - key: NODE_VERSION
+        value: 24.14.0
+      # 以下は値をリポジトリに置かず、Render のダッシュボードで入力する
+      # （sync: false は「Blueprint では値を同期しない」の意味）
+      - key: NEXT_PUBLIC_SITE_URL
+        sync: false
+      - key: NEXT_PUBLIC_CONTACT_FORM_ENDPOINT
+        sync: false
+      - key: NEXT_PUBLIC_ENTRY_FORM_ENDPOINT
+        sync: false
+
+    headers:
+      # --- セキュリティ ---
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: Permissions-Policy
+        value: camera=(), microphone=(), geolocation=(), interest-cohort=()
+
+      # --- CSP ---
+      # nonce 方式は「リクエストごとに動的レンダリングする」ことが前提で、
+      # 静的書き出しでは使えない。そのため Next が埋め込むインライン
+      # スクリプトを通すために script-src に 'unsafe-inline' が要る。
+      # それでも外部オリジンからのスクリプト読み込み、データの送信先、
+      # フォームの送信先、フレーム埋め込みは制限できる。
+      # （type="application/ld+json" は実行されないため script-src の対象外）
+      #
+      # ★いまは Report-Only にしてある。配信した状態での検証ができておらず、
+      #   いきなり強制すると万一の取りこぼしでサイトが表示されなくなるため。
+      #   Report-Only なら違反はコンソールに出るだけで表示は壊れない。
+      #   デプロイ後に違反0件を確認したら、下の name を
+      #   Content-Security-Policy に変更して再デプロイする。
+      #   手順は docs/DEPLOY.md の 5.1 を参照。
+      #
+      #   将来 Google Analytics 等を入れる場合は script-src と connect-src に
+      #   その配信元を追加すること。追加しないと動かない。
+      - path: /*
+        name: Content-Security-Policy-Report-Only
+        value: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+
+      # --- キャッシュ ---
+      # ビルドごとにファイル名へハッシュが付くので、恒久的にキャッシュしてよい。
+      # Render の /* は階層をまたがないので /**/* にする必要がある。
+      - path: /_next/static/**/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      # 画像はファイル名が変わらないので、期限は短めにして再検証させる
+      - path: /*.png
+        name: Cache-Control
+        value: public, max-age=86400, must-revalidate
