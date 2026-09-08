@@ -1,0 +1,372 @@
+/* ============================================================
+   採用サイト（要件定義書 6.6）
+
+   「読者は学生。トーンをコーポレート側と変えること。」
+   ポスター案の特徴である短文・断定・余白の多さを、
+   同じブランドトークンのまま
+   ・文字を一段大きく
+   ・行間と余白を広く
+   ・1行の文字数をさらに短く
+   することで表現する。配色は変えない。
+   ============================================================ */
+
+.nc-recruit {
+  font-size: 15.5px;
+}
+.nc-recruit .section {
+  padding: 120px 0;
+}
+.nc-recruit .shead {
+  margin-bottom: 64px;
+}
+.nc-recruit .shead h2 {
+  font-size: clamp(25px, 3vw, 36px);
+}
+.nc-recruit .shead p {
+  font-size: 15.5px;
+  max-width: 34em;
+}
+.nc-recruit .nc-doc-narrow section + section {
+  margin-top: 80px;
+}
+
+/* ---------- ヒーロー ---------- */
+
+.nc-rhero {
+  padding: 150px 0 120px;
+  border-bottom: 1px solid var(--color-g100);
+}
+.nc-rhero h1 {
+  font-weight: 600;
+  font-size: clamp(38px, 6.4vw, 78px);
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+}
+.nc-rsub {
+  margin-top: 40px;
+  font-size: clamp(17px, 2vw, 22px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.nc-rlead {
+  margin-top: 30px;
+  max-width: 32em;
+  font-size: 15px;
+  color: var(--color-ink-sub);
+  line-height: 2.1;
+}
+.nc-rhero .nc-acts {
+  margin-top: 52px;
+}
+
+/* ---------- ガクチカ ---------- */
+
+.nc-rgakuchika {
+  margin-bottom: 64px;
+}
+.nc-rgakuchika li {
+  font-size: 19px;
+  padding: 12px 0;
+}
+
+/* ---------- カード（できること・求める人物像） ---------- */
+
+.nc-rcards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--color-g200);
+  border: 1px solid var(--color-g200);
+}
+.nc-rcards-4 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.nc-rcard {
+  background: var(--color-white);
+  padding: 36px 32px 40px;
+  transition: background 0.45s var(--ease-brand);
+}
+.nc-rcard:hover {
+  background: var(--color-navy-wash);
+}
+.section-alt .nc-rcard {
+  background: var(--color-white);
+}
+.nc-rcard h3 {
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-g200);
+}
+.nc-rcard p {
+  font-size: 14px;
+  color: var(--color-ink-sub);
+  line-height: 2.05;
+}
+
+.nc-rconditions {
+  margin-top: 56px;
+}
+.nc-rnote {
+  margin-top: 40px;
+  padding-left: 20px;
+  border-left: 2px solid var(--color-navy);
+  font-size: 14px;
+  color: var(--color-ink-sub);
+  max-width: 40em;
+  line-height: 2.05;
+}
+
+/* ---------- 実際の案件例 ---------- */
+
+.nc-rcases {
+  list-style: none;
+  border-top: 1px solid var(--color-g300);
+  margin-top: 44px;
+}
+.nc-rcases li {
+  position: relative;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--color-g200);
+  transition: padding-left 0.4s var(--ease-brand);
+}
+.nc-rcases li:hover {
+  padding-left: 10px;
+}
+.nc-rcases h3 {
+  font-weight: 600;
+  font-size: 17.5px;
+  line-height: 1.65;
+  letter-spacing: -0.008em;
+  margin: 12px 0 10px;
+}
+.nc-rcases h3 a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.nc-rcases p {
+  font-size: 13.5px;
+  color: var(--color-ink-sub);
+  max-width: 46em;
+}
+
+/* ---------- キャリアパス ---------- */
+
+.nc-path {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--color-g200);
+  border: 1px solid var(--color-g200);
+}
+.nc-path li {
+  background: var(--color-white);
+  padding: 34px 30px 38px;
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid var(--color-ink);
+  transition: border-top-color 0.4s var(--ease-brand);
+}
+.nc-path li:hover {
+  border-top-color: var(--color-navy);
+}
+.nc-path-n {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--color-g700);
+}
+.nc-path h3 {
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: -0.01em;
+  margin: 12px 0 12px;
+}
+.nc-path p {
+  font-size: 13.5px;
+  color: var(--color-ink-sub);
+  line-height: 2;
+  margin-bottom: 20px;
+}
+.nc-path .nc-tag {
+  align-self: flex-start;
+  margin-top: auto;
+  border-color: var(--color-navy);
+  color: var(--color-navy);
+}
+
+/* ---------- 募集職種 ---------- */
+
+.nc-joblist {
+  list-style: none;
+  border-top: 1px solid var(--color-g300);
+}
+.nc-joblist li {
+  border-bottom: 1px solid var(--color-g200);
+}
+.nc-joblist a {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  row-gap: 6px;
+  padding: 28px 0;
+  transition:
+    padding-left 0.4s var(--ease-brand),
+    color 0.3s var(--ease-brand);
+}
+.nc-joblist a:hover {
+  padding-left: 10px;
+  color: var(--color-navy);
+}
+.nc-job-cat {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--color-navy);
+  padding-top: 6px;
+}
+.nc-job-title {
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: -0.01em;
+}
+.nc-job-lead {
+  grid-column: 2;
+  font-size: 13.5px;
+  color: var(--color-ink-sub);
+}
+
+.nc-jobcards {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--color-g200);
+  border: 1px solid var(--color-g200);
+}
+.nc-jobcard {
+  position: relative;
+  background: var(--color-white);
+  padding: 32px 28px 36px;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.4s var(--ease-brand);
+}
+.nc-jobcard:hover {
+  background: var(--color-navy-wash);
+}
+.nc-jobcard h2 {
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -0.012em;
+  margin: 12px 0 10px;
+}
+.nc-jobcard h2 a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.nc-jobcard .nc-job-lead {
+  grid-column: auto;
+  display: block;
+  margin-bottom: 22px;
+}
+.nc-jobmeta {
+  border-top: 1px solid var(--color-g200);
+}
+.nc-jobmeta > div {
+  padding: 11px 0;
+  border-bottom: 1px solid var(--color-g100);
+}
+.nc-jobmeta > div:last-child {
+  border-bottom: none;
+}
+.nc-jobmeta dt {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-g700);
+  margin-bottom: 4px;
+}
+.nc-jobmeta dd {
+  font-size: 12.5px;
+  color: var(--color-ink-sub);
+  line-height: 1.85;
+}
+.nc-jobcard .nc-more {
+  margin-top: auto;
+  padding-top: 22px;
+}
+.nc-jobcard:hover .nc-more i {
+  width: 28px;
+}
+
+/* 未確定の項目（要件定義書 14.） */
+.nc-tbd {
+  font-style: normal;
+  color: var(--color-g700);
+  border: 1px dashed var(--color-g300);
+  border-radius: 2px;
+  padding: 1px 8px;
+  font-size: 11.5px;
+}
+
+/* ---------- CTA ---------- */
+
+.nc-rcta {
+  padding: 120px 0;
+}
+.nc-rcta h2 {
+  font-size: clamp(24px, 3vw, 34px);
+}
+.nc-rcta p {
+  max-width: 30em;
+  font-size: 14.5px;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 900px) {
+  .nc-recruit .section {
+    padding: 76px 0;
+  }
+  .nc-recruit .shead {
+    margin-bottom: 40px;
+  }
+  .nc-rhero {
+    padding: 88px 0 68px;
+  }
+  .nc-rsub {
+    margin-top: 28px;
+  }
+  .nc-rhero .nc-acts {
+    margin-top: 38px;
+  }
+  .nc-rcards,
+  .nc-rcards-4,
+  .nc-path,
+  .nc-jobcards {
+    grid-template-columns: 1fr;
+  }
+  .nc-joblist a {
+    grid-template-columns: 1fr;
+  }
+  .nc-job-cat {
+    padding-top: 0;
+  }
+  .nc-job-lead {
+    grid-column: 1;
+  }
+  .nc-rgakuchika li {
+    font-size: 17px;
+  }
+  .nc-rcta {
+    padding: 76px 0;
+  }
+  .nc-recruit .nc-doc-narrow section + section {
+    margin-top: 52px;
+  }
+}

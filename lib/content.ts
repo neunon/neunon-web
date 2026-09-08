@@ -121,3 +121,41 @@ export function getWork(slug: string): Work | undefined {
 export function getWorkIndustries(): string[] {
   return [...new Set(getWorks().map((work) => work.industry))];
 }
+
+/* ============================================================
+   求人票（要件定義書 6.7 / 8.2）
+   ============================================================ */
+
+export type Job = {
+  id: string;
+  order: number;
+  title: string;
+  category: string;
+  lead: string;
+  description: string;
+  tasks: string[];
+  /** 【要確認】要件定義書 14. 未解決。空文字なら「準備中」と表示する */
+  contractType: string;
+  /** 【要確認】要件定義書 14. 未解決。空文字なら「準備中」と表示する */
+  compensation: string;
+  location: string;
+  workload: string;
+  period: string;
+  requirements: string[];
+  selectionFlow: string[];
+  /** JobPosting の必須プロパティ。公開時に実際の掲載日へ更新すること */
+  datePosted: string;
+  /** 空文字なら随時募集として扱う */
+  deadline: string;
+  isOpen: boolean;
+};
+
+export function getJobs(): Job[] {
+  return readJsonDir<Job>('jobs')
+    .filter((job) => job.isOpen)
+    .sort((a, b) => a.order - b.order);
+}
+
+export function getJob(id: string): Job | undefined {
+  return getJobs().find((job) => job.id === id);
+}

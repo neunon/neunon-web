@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { getServices, getWorks } from '@/lib/content';
+import { getJobs, getServices, getWorks } from '@/lib/content';
 import { site } from '@/lib/site';
 
 /**
@@ -8,8 +8,9 @@ import { site } from '@/lib/site';
  * 実装フェーズ 6 以降でページを追加したら、ここにも追記すること。
  *
  * 意図的に含めないもの:
- * - /about/message  原稿が未確定で noindex にしている
- * - /talent/[id]    個人単位のページ。noindex にしている（要件定義書 12.1）
+ * - /about/message   原稿が未確定で noindex にしている
+ * - /talent/[id]     個人単位のページ。noindex にしている（要件定義書 12.1）
+ * - /recruit/voice   内容が未確定で noindex にしている
  */
 export const dynamic = 'force-static';
 
@@ -21,6 +22,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/services', priority: 0.9, changeFrequency: 'monthly' },
     { path: '/works', priority: 0.8, changeFrequency: 'monthly' },
     { path: '/talent', priority: 0.7, changeFrequency: 'monthly' },
+    { path: '/recruit', priority: 0.9, changeFrequency: 'monthly' },
+    { path: '/recruit/jobs', priority: 0.8, changeFrequency: 'monthly' },
+    { path: '/recruit/flow', priority: 0.6, changeFrequency: 'yearly' },
     { path: '/about', priority: 0.8, changeFrequency: 'monthly' },
     { path: '/about/company', priority: 0.5, changeFrequency: 'yearly' },
   ];
@@ -43,6 +47,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: 'yearly' as const,
       priority: 0.6,
+    })),
+    ...getJobs().map((job) => ({
+      url: `${site.url}/recruit/jobs/${job.id}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
     })),
   ];
 }
