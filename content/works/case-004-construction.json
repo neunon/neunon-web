@@ -1,0 +1,11 @@
+{
+  "slug": "overseas-infrastructure-demand",
+  "order": 4,
+  "industry": "建設コンサルティング",
+  "title": "先進国のインフラストック水準を基準に、対象国の潜在需要規模を算出",
+  "challenge": "海外市場でどの程度の投資規模が妥当か知りたい",
+  "approach": "先進国のインフラストック水準を目標値とし、対象国とのギャップから潜在需要規模を定量算出した。",
+  "services": [
+    "consulting"
+  ]
+}

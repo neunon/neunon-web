@@ -1,0 +1,12 @@
+{
+  "slug": "logistics-value-chain",
+  "order": 6,
+  "industry": "物流",
+  "title": "参入検討領域のバリューチェーンを整理し、各プレイヤーの課題を可視化",
+  "challenge": "新規参入を検討する領域の全体像を把握したい",
+  "approach": "対象領域のバリューチェーンを整理し、各プレイヤーの課題と対応状況を調査した。",
+  "services": [
+    "consulting",
+    "package"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "slug": "business-dd-trade-area",
+  "order": 7,
+  "industry": "ビジネスDD",
+  "title": "全拠点の所在地データを地図化し、3段階で商圏を可視化",
+  "challenge": "M&A・出店検討等で対象の事業実態を把握したい",
+  "approach": "全拠点の所在地データを地図に落とし込み、広域・中域・狭域の3段階で商圏を可視化した。",
+  "services": [
+    "consulting"
+  ]
+}

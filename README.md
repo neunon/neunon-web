@@ -16,8 +16,8 @@
 
 - [x] 1. プロジェクト初期化、デザイントークン定義
 - [x] 2. 共通レイアウト（ヘッダー／フッター／目次コンポーネント）
-- [x] 3. トップページ ← **発注者レビュー待ち。ここで一度停止**
-- [ ] 4. 会社概要・事業詳細
+- [x] 3. トップページ（発注者レビュー済み）
+- [x] 4. 会社概要・事業詳細
 - [ ] 5. 実績・人材パネル
 - [ ] 6. 採用サイト・求人票
 - [ ] 7. フォーム
@@ -52,14 +52,20 @@ app/
   page.tsx            トップページ（セクションの並びは要件定義書 6.1）
   globals.css         ブランドトークン・共通スタイル
   home.css            トップページ専用スタイル
+  pages.css           下層ページ専用スタイル
   sitemap.ts          sitemap.xml 自動生成
   robots.ts           robots.txt 自動生成
+  about/              /about, /about/message, /about/company
+  services/           /services と /services/[id]（generateStaticParams で静的生成）
 components/
   layout/             Header / Footer / Logo / ScrollReveal
   toc/                目次コンポーネント（要件定義書 5.3）
+  shared/             PageHero / ContactCta / StructureDiagram / PriceFlow
   home/               トップページの各セクション
+  about/              CompanyTable / History
 content/
   services/           事業データ。ファイルを増やすと /services が自動で増える（要件定義書 15.）
+  works/              支援実績。事業詳細の「この事業での実績」で services タグにより抽出
   news/               お知らせ。現在はダミー記事
 lib/
   site.ts             会社情報・ナビ定義
@@ -72,7 +78,7 @@ lib/
 `content/services/` に JSON を1枚追加すれば、トップページの事業セクションと
 `/services` の両方に反映される。
 
-## 発注者への確認事項（トップページ時点）
+## 発注者への確認事項
 
 | # | 論点 | 現状の実装 |
 |---|---|---|
@@ -82,6 +88,10 @@ lib/
 | 4 | 導入の流れの日数 | デザイン案 v2 に該当セクションがないため新規作成。各ステップの所要日数は暫定値 |
 | 5 | 実績件数 | パッケージ型支援「数百件」、AIプロダクト「5件」はデザイン案 v2 の値をそのまま使用（要件定義書 14. で未解決） |
 | 6 | お知らせ | 初期記事が未確定のためダミー3件。`content/news/` の JSON を差し替える |
+| 7 | 代表メッセージ | 原稿が未確定。実在の代表者名義の文章は創作していない。`/about/message` は準備中の表示とし、`noindex` にしている。原稿反映時に noindex を外すこと |
+| 8 | 沿革 | 載せる出来事が未確定。確認済みの設立日のみ掲載。`components/about/History.tsx` の entries に追記する |
+| 9 | 事業詳細のFAQ・進め方・想定期間 | 要件定義書に記載がないため実装側で作成した暫定内容。`content/services/*.json` の `faq` / `steps` / `engagement` を確認いただきたい |
+| 10 | 実績の事業への割り当て | `content/works/*.json` の `services` タグは実装側の判断。事業詳細ページに出す実績の対応付けを確認いただきたい |
 
 その他の未確定事項は `neunon-site-requirements.md` の「14. 未確定事項一覧」を参照。
 
