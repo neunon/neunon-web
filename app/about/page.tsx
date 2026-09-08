@@ -94,7 +94,7 @@ export default function AboutPage() {
               <p className="nc-section-lead">
                 アソシエイト学生がリード学生へ昇格し、新しいチームを組成する。この循環によって、対応できる案件量が拡大していきます。
               </p>
-              <StructureDiagram headingLevel={4} />
+              <StructureDiagram />
             </section>
 
             <section aria-labelledby="company">

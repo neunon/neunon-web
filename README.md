@@ -21,17 +21,24 @@
 - [x] 5. 実績・人材パネル
 - [x] 6. 採用サイト・求人票
 - [x] 7. フォーム
-- [ ] 8. SEO・アクセシビリティ・パフォーマンス調整
+- [x] 8. SEO・アクセシビリティ・パフォーマンス調整
 - [ ] 9. デプロイ
 
 ## セットアップ
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000
-npm run build    # out/ に静的書き出し
+npm run dev         # http://localhost:3000
+npm run build       # out/ に静的書き出し
 npm run typecheck
+npm run audit:html  # ビルド出力の SEO・アクセシビリティ検査（build のあとに実行）
+npm run images      # ロゴから OGP画像・ファビコンを再生成（通常は不要）
 ```
+
+`npm run audit:html` は out/ の HTML を読んで、title/description の有無と重複、
+canonical、h1 の数、見出しレベルの飛び、img の alt、リンクとボタンの名前、
+フォーム項目のラベル、スキップリンクの位置、構造化データの JSON 妥当性、
+機密に関わる禁止語の混入を検査する。**デプロイ前に必ず通すこと。**
 
 環境変数は `.env.example` をコピーして `.env.local` を作る。`.env` はコミットしない。
 
@@ -55,6 +62,9 @@ app/
   pages.css           下層ページ専用スタイル
   sitemap.ts          sitemap.xml 自動生成
   robots.ts           robots.txt 自動生成
+  not-found.tsx       404 ページ
+  icon.png            ファビコン（scripts/generate-images.mjs が生成）
+  apple-icon.png      ホーム画面用アイコン（同上）
   about/              /about, /about/message, /about/company
   services/           /services と /services/[id]（generateStaticParams で静的生成）
   works/              /works と /works/[slug]
@@ -79,6 +89,9 @@ content/
   talent/             人材パネル。public / private を分けて保持（要件定義書 8.1）
   jobs/               求人票（要件定義書 8.2 のスキーマ）
   news/               お知らせ。現在はダミー記事
+scripts/
+  generate-images.mjs OGP画像・ファビコンの生成（ロゴ1枚から合成）
+  audit.mjs           ビルド出力の静的検査
 lib/
   site.ts             会社情報・ナビ定義
   content.ts          content/ の読み込み（事業・実績・求人票・お知らせ）
@@ -148,6 +161,41 @@ grep -rl "consentPublish" out/ | wc -l
 要件定義書 15. の要請により、事業一覧はハードコードしていない。
 `content/services/` に JSON を1枚追加すれば、トップページの事業セクションと
 `/services` の両方に反映される。
+
+### 画像とフォント
+
+サイトに `<img>` は1つもなく、どのページも LCP 要素はテキスト。
+画像は OGP とアイコンだけで、いずれも受領したロゴ1枚から
+`npm run images` で生成している（文字はレンダリングせず合成のみ。
+実行環境のフォントに依存させないため）。
+
+| ファイル | 用途 | サイズ |
+|---|---|---|
+| `neunon-logo.png`（リポジトリ直下） | 受領した元データ。ブランド資産として保管 | 725 KB |
+| `public/neunon-logo.png` | 構造化データの logo | 11 KB |
+| `public/ogp.png` | OGP 1200x630 | 22 KB |
+| `app/icon.png` / `app/apple-icon.png` | ファビコン | 5 KB / 1 KB |
+
+ロゴのセリフ体は `next/font` で自己ホストしている。Google Fonts を
+`<link>` で読むとサードパーティへのリクエストがレンダリングを止めるため。
+閲覧者のブラウザから Google へリクエストが飛ばなくなる利点もある。
+
+実行時に取得されるフォントは、ロゴの文字に必要な2サブセット 21.6 KB のみ
+（`unicode-range` により必要な分だけ取得される）。
+ただしビルド出力には未使用のサブセットを含む 3.6 MB のフォントが残る。
+配信量は増えないが出力は膨らむので、気になる場合はロゴの文字だけに
+サブセット化したフォントを自前で持つ方法がある。
+
+### 演出を無効化する経路
+
+`.rise` / `.nc-cell` / `.nc-layer::before` / `.nc-step::before` は
+初期状態が `opacity: 0` または `transform` で、JS（`ScrollReveal`）が
+`.in` を付けることで表示される。これを打ち消す指定が2か所にある。
+
+- `app/globals.css` の `@media (prefers-reduced-motion: reduce)`
+- `app/layout.tsx` の `<noscript>`（JS が動かない環境で本文が読めなくなるのを防ぐ）
+
+演出を足すときは、この2か所にも対象セレクタを追記すること。
 
 ## 発注者への確認事項
 

@@ -42,7 +42,8 @@
   --font-sans:
     -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Hiragino Sans',
     'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Helvetica Neue', Arial, sans-serif;
-  --font-serif: 'Noto Serif JP', Georgia, serif;
+  /* next/font が自己ホストした Noto Serif JP。未読込時は Georgia にフォールバック */
+  --font-serif: var(--font-serif-loaded), Georgia, 'Times New Roman', serif;
 
   /* layout */
   --spacing-wrap: 1140px;
@@ -162,6 +163,15 @@ a {
   transition-delay: 0.32s;
 }
 
+/**
+ * 演出で初期状態が opacity: 0 / transform になっている要素は
+ *   .rise / .nc-cell / .nc-layer::before / .nc-step::before
+ * の4つ。これらを見えている状態に戻す指定は、
+ *   1. prefers-reduced-motion（下の @media）
+ *   2. JavaScript が動かない場合（app/layout.tsx の <noscript>）
+ * の2か所にある。演出を足すときは両方に追記すること。
+ */
+
 /* 要件定義書 9.4: prefers-reduced-motion を尊重 */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -171,11 +181,12 @@ a {
     animation: none !important;
   }
   .rise,
-  .flow .cell {
+  .nc-cell {
     opacity: 1 !important;
     transform: none !important;
   }
-  .layer::before {
+  .nc-layer::before,
+  .nc-step::before {
     transform: scaleY(1) !important;
   }
 }
