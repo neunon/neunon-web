@@ -266,8 +266,8 @@ Render の Static Site で配信する。手順とチェックリストは [docs
 | 22 | フォームの送信先 | Formspree のフォームを2つ作成し、エンドポイントを環境変数に設定する必要がある。通知先アドレスは Formspree 側で指定する（要件定義書 14. の「代表メールアドレスの新設」と合わせて決定） |
 | 23 | お知らせの本文 | 一覧・詳細ページを作るにあたり本文が必要だったため、確認済みの事実の範囲で実装側が起草した。原稿受領後に差し替えること |
 | 24 | CSP の強制 | 配信状態での検証ができていないため `Content-Security-Policy-Report-Only` にしてある。デプロイ後に違反0件を確認してから強制に切り替えること（docs/DEPLOY.md 5.1） |
-| 25 | Render への接続 | 坂本の Render アカウントで行う。private リポジトリのため、**Render を操作する人の GitHub アカウントにこのリポジトリへのアクセス権が必要**（コラボレーター招待か、`neunon` organization への移管）。詳細は docs/HANDOFF.md 2章 |
-| 27 | リポジトリの置き場所 | 現在は個人アカウント `shn51020-max` の下にある。会社の資産なので `neunon` organization へ移す選択肢がある。**Render に繋ぐ前に決める方がよい**（繋いだ後に移すと再接続が必要）。docs/HANDOFF.md 2章 |
+| 25 | Render への接続 | 坂本の Render アカウントで行う。private リポジトリのため、**Render を操作する人の GitHub アカウントが `neunon` organization のメンバーである必要がある**。詳細は docs/HANDOFF.md 2章 |
+| 27 | リポジトリの置き場所 | **解決済み。** 会社の資産として `neunon` organization へ移管済み（`neunon/neunon-web`）。Render 接続前に済ませたので再接続は不要 |
 | 26 | Render の 404 とディレクトリ配信 | 実配信でしか確定できないため未確認。初回デプロイ直後に `/about/` が表示されるか、存在しないURLで404ページが出るかを確認し、必要ならリライトルールを追加する（docs/DEPLOY.md 4章） |
 
 その他の未確定事項は `neunon-site-requirements.md` の「14. 未確定事項一覧」を参照。

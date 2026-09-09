@@ -17,9 +17,9 @@ Render のアカウント操作と、GitHub リポジトリへのアクセス許
 
 1. Render にログインし、**New → Blueprint** を開く
 2. GitHub 連携を承認する
-   - 認可の対象は **`shn51020-max/WEBSITE` のみ**に絞ることを推奨（全リポジトリへの許可は不要）
+   - 認可の対象は **`neunon` organization の `neunon-web` のみ**に絞ることを推奨（全リポジトリへの許可は不要）
    - private リポジトリでも問題なく連携できる
-3. リポジトリ `shn51020-max/WEBSITE` を選択すると `render.yaml` が読み込まれる
+3. リポジトリ `neunon/neunon-web` を選択すると `render.yaml` が読み込まれる
 4. 環境変数の入力を求められる（次項）
 
 ダッシュボードから手動で作る場合の設定は以下。

@@ -26,38 +26,34 @@
 
 ---
 
-## 2. Render に繋ぐには、GitHub のアクセス権が要る
+## 2. リポジトリの置き場所（対応済み）
 
-このリポジトリは **private** なので、Render から接続するには、
-**Render を操作する人の GitHub アカウントに、このリポジトリへのアクセス権が必要**。
+このリポジトリは **`neunon` organization の所有**になっている。
+
+```
+neunon/neunon-web          ← 本体。これが新サイト
+neunon/neunon-web-archive  ← 移管前に置かれていた README だけのリポジトリ。
+                              内容は本体に引き継がれているのでアーカイブ済み（読み取り専用）
+```
+
+個人アカウントではなく会社の organization に置いてあるので、
+担当者が変わっても引き継げる。Render に接続する前に移管を済ませてあるため、
+接続後にやり直す必要はない。
+
+### Render に繋ぐときの GitHub アクセスについて
+
+private リポジトリなので、**Render を操作する人の GitHub アカウントが
+`neunon` organization のメンバーである必要がある**。
 
 > サイトを「見るだけ」なら GitHub は一切不要（公開後のURLを知っていれば誰でも見られる）。
 > 必要になるのは「デプロイする」場合だけ。
 
-進め方は2つある。
+坂本の GitHub アカウントが `neunon` に入っていない場合は、
+organization の **People → Invite member** から招待する。
+すでにメンバーなら、そのまま Render から接続できる。
 
-### 案A: コラボレーターとして招待する（すぐできる）
-
-現在の所有者（`shn51020-max`）が、GitHub の
-**Settings → Collaborators** から坂本の GitHub アカウントを招待する。
-招待を受けたら、坂本が自分の Render アカウントから Blueprint で接続する。
-
-- 手間が少ない
-- リポジトリの所有者は `shn51020-max` のまま
-
-### 案B: `neunon` organization へ移す（長期的にはこちら）
-
-サイトは会社の資産なので、個人アカウントではなく organization に置く方が
-担当者が変わっても引き継ぎやすい。すでに `neunon` organization が存在し、
-`neunon/neunon-web` というリポジトリもある。
-
-- GitHub の **Settings → Danger Zone → Transfer ownership** で移せる
-- 移設後も URL のリダイレクトは効くが、Render の接続はやり直しになる
-- **Render に繋ぐ前に決めた方がよい**（繋いだ後に移すと再接続が必要）
-
-どちらにするかは坂本の判断。急ぐなら案A、落ち着いて整えるなら案B。
-
----
+Render の GitHub 連携を承認するとき、認可の対象は
+**`neunon/neunon-web` のみ**に絞ることを推奨する（全リポジトリへの許可は不要）。
 
 ## 3. 坂本にやってもらうこと
 
