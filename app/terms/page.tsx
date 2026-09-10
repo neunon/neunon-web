@@ -24,8 +24,8 @@ export default function TermsPage() {
         crumbs={[{ label: 'サイト利用規約' }]}
       />
 
-      <div className="section">
-        <div className="wrap nc-doc-narrow">
+      <div className="section nc-legal">
+        <div className="wrap nc-doc-narrow nc-legal-body">
           <p className="nc-pending is-lead">
             このページは公開前の案です。
             <br />

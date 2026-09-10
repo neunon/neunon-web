@@ -17,9 +17,7 @@ export function Footer() {
             <address className="nc-fmeta">
               {site.name}
               <br />
-              【本店】{site.address.head}
-              <br />
-              【事業所】{site.address.office}
+              {site.address.head}
               <br />
               TEL{' '}
               <a href={`tel:${site.tel.replace(/-/g, '')}`} className="nc-flink">

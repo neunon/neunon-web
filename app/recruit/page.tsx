@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getJobs, getWorks } from '@/lib/content';
+import { getWorks } from '@/lib/content';
 import {
   conditions,
   gakuchika,
@@ -27,11 +27,10 @@ export const metadata: Metadata = {
  *
  * セクション順は 6.6 の指定どおり:
  *   1 ヒーロー / 2 ここで何ができるか / 3 実際の案件例 / 4 役割とキャリアパス
- *   5 求める人物像 / 6 メンバーインタビュー / 7 選考フロー / 8 募集職種 / 9 CTA
+ *   5 求める人物像 / 6 メンバーインタビュー / 7 選考フロー / 8 CTA
  */
 export default function RecruitPage() {
-  const jobs = getJobs();
-  const works = getWorks().slice(0, 4);
+  const works = getWorks().slice(0, 6);
 
   return (
     <div className="nc-recruit">
@@ -53,8 +52,8 @@ export default function RecruitPage() {
             <Link href="/entry" className="btn">
               エントリーする
             </Link>
-            <Link href="/recruit/jobs" className="btn btn-ghost">
-              募集職種を見る
+            <Link href="/recruit/flow" className="btn btn-ghost">
+              選考フローを見る
             </Link>
           </div>
         </div>
@@ -67,7 +66,7 @@ export default function RecruitPage() {
             <h2 id="r-can">ここで何ができるか</h2>
           </div>
 
-          <p className="nc-glabel">ガクチカ、こう言えるようになります</p>
+          <p className="nc-glabel">実務を通じて、こんな経験を積めます</p>
           <ul className="nc-gakuchika nc-rgakuchika">
             {gakuchika.map((item) => (
               <li key={item}>{item}</li>
@@ -102,9 +101,13 @@ export default function RecruitPage() {
             ))}
           </dl>
 
-          <p className="nc-rnote">
-            事業拡大の段階なので、希望と実力次第では、新規サービスの企画、営業戦略の設計と実行、新規顧客の開拓まで任せます。
-          </p>
+          <div className="nc-rvision">
+            <span>挑戦できる領域は、決め切っていません</span>
+            <p>
+              私たちが目指すのは、コンサルティングだけをする学生組織ではありません。大学生のありあまる時間と、埋もれている意欲・能力を、企業支援に活かすことが出発点です。
+              筋がよく、よく考えられた提案なら、新規サービスの立ち上げや営業、Webサイト制作など、既存の枠にない支援にも自ら挑戦できます。
+            </p>
+          </div>
         </div>
       </section>
 
@@ -113,7 +116,7 @@ export default function RecruitPage() {
         <div className="wrap">
           <div className="shead">
             <h2 id="r-cases">実際に担当する案件</h2>
-            <p>守秘義務のため企業名は出せません。何を調べて、何を出したかだけ載せています。</p>
+            <p>調査・分析に限らず、事業づくりや制作を含む新しい企業支援にも挑戦できます。守秘義務のため、公開事例では企業名を伏せています。</p>
           </div>
 
           <div className="nc-inds">
@@ -155,21 +158,21 @@ export default function RecruitPage() {
 
           <ol className="nc-path">
             <li>
-              <span className="nc-path-n">STEP 01</span>
+              <span className="nc-path-n">Step 01</span>
               <h3>アソシエイト学生</h3>
               <p>調査・データ分析・資料作成の実務を担当。リード学生の指導のもとで進めます。</p>
               <span className="nc-tag">入口はここ</span>
             </li>
             <li>
-              <span className="nc-path-n">STEP 02</span>
+              <span className="nc-path-n">Step 02</span>
               <h3>リード学生へ昇格</h3>
               <p>
-                案件のディレクション、チーム編成、進捗管理、企業との窓口。アソシエイトを最大5名程度まで管理します。
+                案件実務を担いながら、ディレクション、チーム編成、進捗管理、企業との窓口を担当します。
               </p>
               <span className="nc-tag">自分のチームを持つ</span>
             </li>
             <li>
-              <span className="nc-path-n">STEP 03</span>
+              <span className="nc-path-n">Step 03</span>
               <h3>新しいチームを組成</h3>
               <p>
                 リードが増えると、対応できる案件が増えます。希望と実力次第では、新規サービスの企画や顧客開拓にも関われます。
@@ -226,13 +229,13 @@ export default function RecruitPage() {
         <div className="wrap">
           <div className="shead">
             <h2 id="r-flow">選考フロー</h2>
-            <p>4段階です。ケース課題は正解を当てる試験ではありません。</p>
+            <p>選考からオンボーディング、稼働開始まで7つのステップで進めます。</p>
           </div>
 
-          <ol className="nc-steps">
+          <ol className="nc-steps nc-selection-steps">
             {selectionSteps.map((step, index) => (
               <li className="nc-step" key={step.no}>
-                <div className="nc-step-n">STEP {step.no}</div>
+                <div className="nc-step-n">Step {step.no}</div>
                 <div className="nc-step-c">
                   <h3>{step.title}</h3>
                   <p>{step.body}</p>
@@ -249,33 +252,7 @@ export default function RecruitPage() {
         </div>
       </section>
 
-      {/* 8 募集職種一覧 */}
-      <section className="section" aria-labelledby="r-jobs">
-        <div className="wrap">
-          <div className="shead">
-            <h2 id="r-jobs">募集職種</h2>
-          </div>
-
-          <ul className="nc-joblist">
-            {jobs.map((job, index) => (
-              <li key={job.id}>
-                <Link href={`/recruit/jobs/${job.id}`}>
-                  <span className="nc-job-cat">{job.category}</span>
-                  <span className="nc-job-title">{job.title}</span>
-                  <span className="nc-job-lead">{job.lead}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          <Link href="/recruit/jobs" className="nc-more">
-            <i aria-hidden="true" />
-            求人票の一覧へ
-          </Link>
-        </div>
-      </section>
-
-      {/* 9 エントリーCTA */}
+      {/* エントリーCTA */}
       <div className="nc-cta nc-rcta">
         <div className="wrap">
           <h2>迷っているなら、話を聞くところから。</h2>
@@ -286,8 +263,8 @@ export default function RecruitPage() {
             <Link href="/entry" className="btn">
               エントリーする
             </Link>
-            <Link href="/recruit/jobs" className="btn btn-ghost">
-              募集職種を見る
+            <Link href="/recruit/flow" className="btn btn-ghost">
+              選考フローを見る
             </Link>
           </div>
         </div>

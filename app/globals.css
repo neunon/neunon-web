@@ -40,10 +40,8 @@
 
   /* type */
   --font-sans:
-    -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Hiragino Sans',
-    'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Helvetica Neue', Arial, sans-serif;
-  /* next/font が自己ホストした Noto Serif JP。未読込時は Georgia にフォールバック */
-  --font-serif: var(--font-serif-loaded), Georgia, 'Times New Roman', serif;
+    'Neue Haas Grotesk Text Pro', 'Neue Haas Grotesk', 'Helvetica Neue',
+    var(--font-jp-loaded), 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
 
   /* layout */
   --spacing-wrap: 1140px;
@@ -78,9 +76,38 @@ body {
   background: var(--color-white);
   font-size: 15px;
   line-height: 1.9;
-  letter-spacing: 0.005em;
+  letter-spacing: -0.018em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* 日本語見出しは太すぎない 550 相当で統一する。 */
+:where(h1, h2, h3, h4, h5, h6) {
+  font-family:
+    'Neue Haas Grotesk Display Pro', 'Neue Haas Grotesk', 'Helvetica Neue',
+    var(--font-jp-loaded), 'Noto Sans JP', sans-serif;
+  font-weight: 550 !important;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  word-break: auto-phrase;
+}
+
+/* 英字の小見出し・ラベルは Neue Haas Grotesk で詰め気味に見せる。 */
+:where(.nc-eyebrow, .nc-glabel, .nc-work-ind, .nc-svc-n, .nc-dd-num, .nc-path-n,
+  .nc-step-n, .nc-fhead, .nc-toc-title, .nc-about-kicker, .nc-org span,
+  .nc-record-label, .nc-hero-eyebrow, .nc-prob-k, .nc-flowlabel, .nc-work-index,
+  .nc-consulting-kicker, .nc-tag, .nc-side-head, .nc-form-step, .nc-filter-label,
+  .nc-talent-index, .nc-talent-tags > span, .nc-talent-selection span,
+  .nc-flowlabel, .nc-prob-k) {
+  font-family: 'Neue Haas Grotesk Text Pro', 'Neue Haas Grotesk', 'Helvetica Neue', sans-serif;
+  letter-spacing: -0.025em !important;
+  text-transform: none;
+}
+
+:where(.nc-lead, .shead > p, .nc-section-lead, .nc-workcard p, .nc-rcard p,
+  .nc-phero p, .nc-consulting-lead, .nc-rlead) {
+  text-wrap: pretty;
+  word-break: auto-phrase;
 }
 
 a {
@@ -253,7 +280,7 @@ a {
 .shead p {
   margin-top: 16px;
   color: var(--color-ink-sub);
-  max-width: 42em;
+  max-width: 50em;
   font-size: 14.5px;
 }
 
@@ -268,21 +295,19 @@ a {
    ============================================================ */
 
 .nc-logo {
-  display: inline-block;
-  font-family: var(--font-serif);
-  font-size: 21px;
-  letter-spacing: 0.01em;
-  line-height: 1.1;
-  color: var(--color-ink);
-}
-.nc-logo small {
+  position: relative;
   display: block;
-  font-family: var(--font-sans);
-  font-size: 9px;
-  letter-spacing: 0.26em;
-  color: var(--color-g700);
-  font-weight: 500;
-  margin-top: 2px;
+  width: 145px;
+  height: 60px;
+  overflow: hidden;
+}
+.nc-logo img {
+  position: absolute;
+  width: 145px;
+  height: auto;
+  max-width: none;
+  left: 0;
+  top: -6px;
 }
 
 /* ============================================================
@@ -320,7 +345,8 @@ a {
 .nc-nav li {
   position: relative;
 }
-.nc-nav a {
+.nc-nav a,
+.nc-nav-trigger {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -329,7 +355,14 @@ a {
   transition: color 0.3s var(--ease-brand);
   padding: 4px 0;
 }
-.nc-nav > ul > li > a::after {
+.nc-nav-trigger {
+  border:0;
+  background:none;
+  font:inherit;
+  cursor:pointer;
+}
+.nc-nav > ul > li > a::after,
+.nc-nav > ul > li > .nc-nav-trigger::after {
   content: '';
   position: absolute;
   left: 0;
@@ -341,15 +374,19 @@ a {
   transform-origin: right;
   transition: transform 0.4s var(--ease-brand);
 }
-.nc-nav a:hover {
+.nc-nav a:hover,
+.nc-nav-trigger:hover {
   color: var(--color-navy);
 }
 .nc-nav > ul > li > a:hover::after,
-.nc-nav > ul > li > a[aria-current='page']::after {
+.nc-nav > ul > li > a[aria-current='page']::after,
+.nc-nav > ul > li > .nc-nav-trigger:hover::after,
+.nc-nav > ul > li > .nc-nav-trigger[aria-current='page']::after {
   transform: scaleX(1);
   transform-origin: left;
 }
-.nc-nav a[aria-current='page'] {
+.nc-nav a[aria-current='page'],
+.nc-nav-trigger[aria-current='page'] {
   color: var(--color-ink);
 }
 
@@ -363,7 +400,7 @@ a {
 /* 事業内容のドロップダウン（要件定義書 5.4） */
 .nc-dropdown {
   position: absolute;
-  top: calc(100% + 14px);
+  top: 100%;
   left: -18px;
   min-width: 230px;
   background: var(--color-white);
@@ -377,6 +414,12 @@ a {
     opacity 0.25s var(--ease-brand),
     transform 0.25s var(--ease-brand),
     visibility 0.25s;
+}
+.nc-has-children:hover .nc-dropdown,
+.nc-has-children:focus-within .nc-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
 }
 .nc-dropdown.is-open {
   opacity: 1;
@@ -597,6 +640,7 @@ a {
 .nc-flogo {
   margin-bottom: 22px;
 }
+.nc-flogo img { width: 145px; }
 .nc-fmeta {
   font-size: 12.5px;
   color: var(--color-ink-sub);

@@ -8,7 +8,7 @@ export function Cta() {
   return (
     <div className="nc-cta">
       <div className="wrap">
-        <h2>まずは1社分から、試せます。</h2>
+        <h2>まずは小さく、試せます。</h2>
         <p>
           「外注するほどではない」「社内では手が回らない」規模の調査から承ります。
           内容が固まっていない段階でのご相談も歓迎です。

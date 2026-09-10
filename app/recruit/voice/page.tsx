@@ -53,9 +53,9 @@ export default function VoicePage() {
             <Link href="/works" className="nc-inline-link">
               支援実績
             </Link>
-            で、働き方の条件を
-            <Link href="/recruit/jobs" className="nc-inline-link">
-              求人票
+            で、応募後の進み方を
+            <Link href="/recruit/flow" className="nc-inline-link">
+              選考フロー
             </Link>
             でご確認ください。
           </p>

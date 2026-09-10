@@ -18,12 +18,12 @@ export type PublicTalent = {
   universityCategory: string;
   grade: number;
   skills: string[];
-  availableWork: string[];
+  primarySkills: string[];
+  serviceAreas: string[];
+  primaryAreas: string[];
+  appeal: string;
   /** 匿名化済み。件数と種別のみ */
   recordSummary: string;
-  availability: string;
-  /** フィルタ用の稼働状況 */
-  availabilityStatus: string;
   /**
    * 要件定義書 15.:「talents.json に certifications: [] フィールドを
    * 予約しておくこと」。認定制度が始まったらここにバッジが入る。
@@ -32,10 +32,8 @@ export type PublicTalent = {
 };
 
 export type TalentFacets = {
-  roles: TalentRole[];
   skills: string[];
-  availableWork: string[];
-  availabilityStatus: string[];
+  serviceAreas: string[];
 };
 
 export const roleLabels: Record<TalentRole, string> = {
@@ -43,15 +41,12 @@ export const roleLabels: Record<TalentRole, string> = {
   associate: 'アソシエイト学生',
 };
 
-/** フィルタの選択肢（要件定義書 6.5: 区分／スキルタグ／対応可能業務／稼働状況） */
 export function getTalentFacets(talents: PublicTalent[]): TalentFacets {
   const collect = (pick: (talent: PublicTalent) => string[]) =>
     [...new Set(talents.flatMap(pick))].sort((a, b) => a.localeCompare(b, 'ja'));
 
   return {
-    roles: [...new Set(talents.map((talent) => talent.role))],
     skills: collect((talent) => talent.skills),
-    availableWork: collect((talent) => talent.availableWork),
-    availabilityStatus: [...new Set(talents.map((talent) => talent.availabilityStatus))],
+    serviceAreas: collect((talent) => talent.serviceAreas),
   };
 }

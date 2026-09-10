@@ -6,12 +6,14 @@ import Link from 'next/link';
  * 「価格表の直後に必ず問い合わせCTAを置く」に対応する。
  */
 export function ContactCta({
-  title = 'まずは1社分から、試せます。',
+  title = 'まずは小さく、試せます。',
   body = '「外注するほどではない」「社内では手が回らない」規模の調査から承ります。内容が固まっていない段階でのご相談も歓迎です。',
+  primary,
   secondary,
 }: {
   title?: string;
   body?: string;
+  primary?: { label: string; href: string };
   secondary?: { label: string; href: string };
 }) {
   return (
@@ -20,8 +22,8 @@ export function ContactCta({
         <h2>{title}</h2>
         <p>{body}</p>
         <div className="nc-acts nc-cta-acts">
-          <Link href="/contact" className="btn">
-            お問い合わせ
+          <Link href={primary?.href ?? '/contact'} className="btn">
+            {primary?.label ?? 'お問い合わせ'}
           </Link>
           {secondary ? (
             <Link href={secondary.href} className="btn btn-ghost">

@@ -6,7 +6,7 @@
  *
  * 送信先について:
  *   本サイトは output: 'export' の静的書き出しなので、サーバー側で
- *   メールを送る API Route を持てない。そのため送信先は Formspree の
+ *   メールを送る API Route を持てない。そのため送信先は Cloudflare Worker の
  *   エンドポイントをブラウザから直接叩く構成にしている。
  *   ブラウザに値を渡す必要があるため、環境変数は NEXT_PUBLIC_ 接頭辞つき。
  *   要件定義書 11. の CONTACT_FORM_ENDPOINT に対応する。
@@ -15,7 +15,7 @@
  *   画面上に「送信先未設定」と表示する。
  */
 
-export type FieldType = 'text' | 'email' | 'tel' | 'url' | 'textarea' | 'select';
+export type FieldType = 'text' | 'email' | 'tel' | 'url' | 'textarea' | 'select' | 'file';
 
 export type FieldDef = {
   name: string;
@@ -27,6 +27,8 @@ export type FieldDef = {
   options?: string[];
   autoComplete?: string;
   maxLength?: number;
+  accept?: string;
+  maxFileSize?: number;
 };
 
 /** 企業向け問い合わせ（要件定義書 6.8） */
@@ -86,11 +88,22 @@ export const contactFields: FieldDef[] = [
       'コンサルティングについて',
       'パッケージ型支援について',
       'AIプロダクトについて',
+      '人材について',
+      '資料請求',
       'お見積りの依頼',
       '提携・協業のご相談',
       '採用・掲載に関するご連絡',
       'その他',
     ],
+  },
+  {
+    name: 'talent',
+    label: '関心のある人材',
+    type: 'text',
+    required: false,
+    placeholder: '人材ページから選択すると自動入力されます',
+    help: 'ご指名の確約をお約束するものではありませんが、チーム検討時の参考にします。',
+    maxLength: 200,
   },
   {
     name: 'message',
@@ -134,19 +147,6 @@ export const entryFields: FieldDef[] = [
     maxLength: 120,
   },
   {
-    name: 'position',
-    label: '希望区分',
-    type: 'select',
-    required: true,
-    options: [
-      'リサーチ・分析アソシエイト',
-      '案件ディレクション（リード学生）',
-      '事業開発メンバー',
-      '相談したい（決まっていない）',
-    ],
-    help: '決まっていなければ「相談したい」で構いません。',
-  },
-  {
     name: 'experience',
     label: 'スキル・経験',
     type: 'textarea',
@@ -171,8 +171,17 @@ export const entryFields: FieldDef[] = [
     type: 'url',
     required: false,
     placeholder: 'https://',
-    help: '任意です。GitHub、note、制作物など、あれば。',
+    help: '任意です。GitHub、note、制作物など、公開URLがあれば。',
     maxLength: 300,
+  },
+  {
+    name: 'portfolioFile',
+    label: 'ポートフォリオ・資料の添付',
+    type: 'file',
+    required: false,
+    help: 'PDF、PowerPoint、Word、画像を1点添付できます（10MBまで）。',
+    accept: '.pdf,.ppt,.pptx,.doc,.docx,.png,.jpg,.jpeg,.webp',
+    maxFileSize: 10 * 1024 * 1024,
   },
 ];
 

@@ -10,7 +10,7 @@ export function Hero() {
     <div className="nc-hero">
       <div className="wrap">
         <span className="nc-eyebrow rise" data-d="0">
-          NEUNON CONSULTING
+          Neunon Consulting
         </span>
         <h1 className="rise" data-d="1">
           企業の高度支援を、
@@ -28,6 +28,11 @@ export function Hero() {
           <Link href="/recruit" className="btn btn-ghost">
             学生の方へ
           </Link>
+        </div>
+        <div className="nc-hero-proof rise" data-d="3" aria-label="Neunon Consultingの特長">
+          <div><span>01</span><strong>実務品質</strong><small>経験者が論点と成果物を監修</small></div>
+          <div><span>02</span><strong>迅速対応</strong><small>学生チームによる機動的な実行</small></div>
+          <div><span>03</span><strong>柔軟な体制</strong><small>課題に応じて最適なチームを編成</small></div>
         </div>
       </div>
     </div>

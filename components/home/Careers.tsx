@@ -37,7 +37,7 @@ export function Careers() {
         </div>
 
         <div>
-          <p className="nc-glabel">ガクチカ、こう言えるようになります</p>
+          <p className="nc-glabel">実務を通じて、こんな経験を積めます</p>
           <ul className="nc-gakuchika">
             {gakuchika.map((item) => (
               <li key={item}>{item}</li>

@@ -1,26 +1,16 @@
 import type { Metadata } from 'next';
-import { Noto_Serif_JP } from 'next/font/google';
+import { Noto_Sans_JP } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { site } from '@/lib/site';
 
-/**
- * ロゴのセリフ体（要件定義書 9.1「細めのセリフ体」）。
- *
- * Google Fonts を <link> で読むと、サードパーティへのリクエストが
- * レンダリングをブロックする。next/font はビルド時にフォントを取得して
- * 自己ホストするため、その往復がなくなる。
- * 閲覧者のブラウザから Google へリクエストが飛ばなくなる利点もある。
- *
- * 用途はロゴの "Neunon / CONSULTING" だけなので latin サブセットで足りる。
- * 本文は --font-sans のシステムフォントで賄う（デザイン案 v2 の指定）。
- */
-const notoSerifJp = Noto_Serif_JP({
+/* 日本語は Noto Sans JP。英数字は CSS 側で Neue Haas Grotesk を優先する。 */
+const notoSansJp = Noto_Sans_JP({
   subsets: ['latin'],
-  weight: ['400'],
+  weight: ['400', '500', '600'],
   display: 'swap',
-  variable: '--font-serif-loaded',
+  variable: '--font-jp-loaded',
 });
 
 export const metadata: Metadata = {
@@ -59,7 +49,7 @@ const organizationJsonLd = {
   name: site.name,
   alternateName: site.nameEn,
   url: site.url,
-  logo: `${site.url}/neunon-logo.png`,
+  logo: `${site.url}/brand-logo-transparent.png`,
   foundingDate: '2026-01-27',
   description: site.description,
   address: {
@@ -79,7 +69,7 @@ const organizationJsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja" className={notoSerifJp.variable}>
+    <html lang="ja" className={notoSansJp.variable}>
       <head>
         <script
           type="application/ld+json"

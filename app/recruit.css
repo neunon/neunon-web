@@ -119,6 +119,18 @@
   line-height: 2.05;
 }
 
+.nc-rvision {
+  display:grid;
+  grid-template-columns:220px 1fr;
+  gap:34px;
+  margin-top:46px;
+  padding:34px 36px;
+  border-left:3px solid var(--color-navy);
+  background:var(--color-navy-wash);
+}
+.nc-rvision > span { color:var(--color-navy); font-size:13px; font-weight:600; line-height:1.8; }
+.nc-rvision p { color:var(--color-ink-sub); font-size:13.5px; line-height:2; }
+
 /* ---------- 実際の案件例 ---------- */
 
 .nc-rcases {
@@ -345,6 +357,68 @@
 
 /* ---------- CTA ---------- */
 
+/* ---------- 選考フロー ---------- */
+.nc-selection-steps {
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(7, minmax(0, 1fr));
+  gap:0;
+  overflow:visible;
+  padding:30px 0 24px;
+  border:0;
+}
+.nc-selection-steps .nc-step {
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  align-items:flex-start;
+  min-height:300px;
+  padding:44px 18px 22px 0;
+  border:0;
+  border-top:2px solid var(--color-navy);
+  scroll-snap-align:start;
+}
+.nc-selection-steps .nc-step::before {
+  content:'';
+  position:absolute;
+  left:0;
+  top:-8px;
+  width:14px;
+  height:14px;
+  border:3px solid var(--color-white);
+  border-radius:50%;
+  background:var(--color-navy);
+  box-shadow:0 0 0 1px var(--color-navy);
+}
+.section-alt .nc-selection-steps .nc-step::before { border-color:var(--color-surface); }
+.nc-selection-steps .nc-step:last-child { border-top-color:var(--color-navy); }
+.nc-selection-steps .nc-step:last-child::after {
+  content:'Start';
+  position:absolute;
+  right:4px;
+  top:-14px;
+  color:var(--color-navy);
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:.055em;
+}
+.nc-selection-steps .nc-step-n { color:var(--color-navy); font-size:10px; }
+.nc-selection-steps .nc-step-c h2,
+.nc-selection-steps .nc-step-c h3 { min-height:4.8em; margin:13px 0 12px; font-size:14px; line-height:1.6; }
+.nc-selection-steps .nc-step-c p { font-size:12px; line-height:1.9; }
+.nc-selection-steps .nc-step-s { margin-top:auto; padding-top:16px; color:var(--color-navy); font-size:10.5px; text-align:left; }
+
+@media (max-width:700px) {
+  .nc-selection-steps {
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x proximity;
+    scrollbar-width:thin;
+  }
+  .nc-selection-steps .nc-step { flex:0 0 78vw; min-height:270px; }
+}
+
 .nc-rcta {
   padding: 120px 0;
 }
@@ -359,6 +433,7 @@
 /* ---------- responsive ---------- */
 
 @media (max-width: 900px) {
+  .nc-rvision { grid-template-columns:1fr; gap:12px; padding:28px 24px; }
   .nc-recruit .section {
     padding: 76px 0;
   }

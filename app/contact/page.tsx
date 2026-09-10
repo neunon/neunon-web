@@ -8,7 +8,7 @@ import { site } from '@/lib/site';
 export const metadata: Metadata = {
   title: 'お問い合わせ',
   description:
-    '企業のお客様向けのお問い合わせフォーム。1社分の調査からお受けします。内容が固まっていない段階でのご相談も歓迎です。',
+    '企業のお客様向けのお問い合わせフォーム。スポット業務や小さなご相談からお受けします。',
   alternates: { canonical: '/contact' },
 };
 
@@ -21,7 +21,7 @@ export default function ContactPage() {
     <>
       <PageHero
         title="お問い合わせ"
-        lead="1社分の調査からお受けします。何を調べるべきかが決まっていない段階でのご相談も歓迎です。"
+        lead="スポット業務や小さなご相談からお受けします。何を調べるべきかが決まっていない段階でも歓迎です。"
         crumbs={[{ label: 'お問い合わせ' }]}
       />
 
@@ -39,12 +39,18 @@ export default function ContactPage() {
                 </Link>
                 からお願いします。
               </p>
+              <Link href="/entry" className="btn nc-contact-entry">
+                学生エントリーへ
+              </Link>
             </div>
 
             <dl className="nc-deflist nc-contactinfo">
               <div>
                 <dt>返信</dt>
-                <dd>当日〜翌営業日にメールでご連絡します。</dd>
+                <dd>
+                  当日〜翌営業日にメールでご連絡します。<br />
+                  <a href={`mailto:${site.email}`} className="nc-inline-link">{site.email}</a>
+                </dd>
               </div>
               <div>
                 <dt>電話</dt>
@@ -59,9 +65,7 @@ export default function ContactPage() {
               <div>
                 <dt>所在地</dt>
                 <dd>
-                  【本店】{site.address.head}
-                  <br />
-                  【事業所】{site.address.office}
+                  {site.address.head}
                 </dd>
               </div>
             </dl>

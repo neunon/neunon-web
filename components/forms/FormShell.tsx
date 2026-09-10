@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { validateAll, validateField, type FieldDef } from '@/lib/forms';
+import { site } from '@/lib/site';
 
 /**
  * 問い合わせ／エントリー共通のフォーム（要件定義書 6.8）
@@ -29,13 +30,30 @@ type Props = {
 };
 
 const MIN_FILL_MS = 3000;
+const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '';
+
+type TurnstileApi = {
+  render: (element: HTMLElement, options: Record<string, unknown>) => string;
+  remove: (widgetId: string) => void;
+  reset: (widgetId: string) => void;
+};
+
+declare global {
+  interface Window {
+    turnstile?: TurnstileApi;
+  }
+}
 
 export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, envName }: Props) {
   const router = useRouter();
   const formId = useId();
   const startedAt = useRef(Date.now());
+  const submissionId = useRef(crypto.randomUUID());
+  const turnstileContainer = useRef<HTMLDivElement>(null);
+  const turnstileWidgetId = useRef<string | null>(null);
 
   const [values, setValues] = useState<Record<string, string>>({});
+  const [files, setFiles] = useState<Record<string, File | null>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [consent, setConsent] = useState(false);
@@ -43,9 +61,65 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
   const [step, setStep] = useState<'input' | 'confirm'>('input');
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   const configured = endpoint !== '';
-  const canProceed = consent && !sending;
+  const canProceed = consent && !sending && (!turnstileSiteKey || turnstileToken !== '');
+
+  useEffect(() => {
+    if (!turnstileSiteKey) return;
+
+    let cancelled = false;
+    const renderWidget = () => {
+      if (cancelled || !window.turnstile || !turnstileContainer.current || turnstileWidgetId.current) return;
+      turnstileWidgetId.current = window.turnstile.render(turnstileContainer.current, {
+        sitekey: turnstileSiteKey,
+        theme: 'light',
+        callback: (token: string) => setTurnstileToken(token),
+        'expired-callback': () => setTurnstileToken(''),
+        'error-callback': () => setTurnstileToken(''),
+      });
+    };
+
+    const existing = document.querySelector<HTMLScriptElement>('script[data-neunon-turnstile]');
+    if (existing) {
+      existing.addEventListener('load', renderWidget);
+      renderWidget();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      script.async = true;
+      script.defer = true;
+      script.dataset.neunonTurnstile = 'true';
+      script.addEventListener('load', renderWidget);
+      document.head.appendChild(script);
+    }
+
+    return () => {
+      cancelled = true;
+      existing?.removeEventListener('load', renderWidget);
+      if (turnstileWidgetId.current && window.turnstile) {
+        window.turnstile.remove(turnstileWidgetId.current);
+        turnstileWidgetId.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const topic = params.get('topic');
+    const selectedTalents = params.getAll('talent').filter(Boolean);
+
+    setValues((current) => {
+      const next = { ...current };
+      const topicField = fields.find((field) => field.name === 'topic');
+      if (topic && topicField?.options?.includes(topic)) next.topic = topic;
+      if (selectedTalents.length > 0 && fields.some((field) => field.name === 'talent')) {
+        next.talent = selectedTalents.join('、');
+      }
+      return next;
+    });
+  }, [fields]);
 
   function setValue(name: string, value: string) {
     setValues((prev) => ({ ...prev, [name]: value }));
@@ -74,9 +148,29 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
     });
   }
 
+  function setFile(field: FieldDef, file: File | null) {
+    setFiles((prev) => ({ ...prev, [field.name]: file }));
+    setTouched((prev) => ({ ...prev, [field.name]: true }));
+    setErrors((prev) => {
+      const next = { ...prev };
+      if (file && field.maxFileSize && file.size > field.maxFileSize) {
+        next[field.name] = '添付ファイルは10MB以内にしてください。';
+      } else {
+        delete next[field.name];
+      }
+      return next;
+    });
+  }
+
   function goConfirm(event: React.FormEvent) {
     event.preventDefault();
     const found = validateAll(fields, values);
+    for (const field of fields) {
+      const file = files[field.name];
+      if (field.type === 'file' && file && field.maxFileSize && file.size > field.maxFileSize) {
+        found[field.name] = '添付ファイルは10MB以内にしてください。';
+      }
+    }
     setErrors(found);
     setTouched(Object.fromEntries(fields.map((field) => [field.name, true])));
 
@@ -107,16 +201,28 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
     setSendError(null);
 
     try {
-      const payload: Record<string, string> = { _subject: subject };
+      const payload = new FormData();
+      payload.append('subject', subject);
+      payload.append('submissionId', submissionId.current);
+      payload.append('startedAt', String(startedAt.current));
+      payload.append('_gotcha', gotcha);
+      if (turnstileToken) payload.append('cf-turnstile-response', turnstileToken);
+      const replyTo = (values.email ?? '').trim();
+      if (replyTo) payload.append('replyTo', replyTo);
       for (const field of fields) {
-        payload[field.label] = (values[field.name] ?? '').trim();
+        if (field.type === 'file') {
+          const file = files[field.name];
+          if (file) payload.append(field.name, file, file.name);
+        } else {
+          payload.append(field.name, (values[field.name] ?? '').trim());
+        }
       }
-      payload['個人情報の取り扱いへの同意'] = '同意する';
+      payload.append('privacyConsent', 'accepted');
 
       const response = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(payload),
+        headers: { Accept: 'application/json' },
+        body: payload,
       });
 
       if (!response.ok) throw new Error(`status ${response.status}`);
@@ -126,6 +232,8 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
         '送信に失敗しました。時間をおいて再度お試しいただくか、フッター記載の電話番号までご連絡ください。',
       );
       setSending(false);
+      setTurnstileToken('');
+      if (turnstileWidgetId.current) window.turnstile?.reset(turnstileWidgetId.current);
     }
   }
 
@@ -142,7 +250,9 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
             <div key={field.name}>
               <dt>{field.label}</dt>
               <dd>
-                {(values[field.name] ?? '').trim() === '' ? (
+                {field.type === 'file' && files[field.name] ? (
+                  `${files[field.name]?.name}（${Math.ceil((files[field.name]?.size ?? 0) / 1024)}KB）`
+                ) : (values[field.name] ?? '').trim() === '' ? (
                   <span className="nc-confirm-empty">（未入力）</span>
                 ) : (
                   (values[field.name] ?? '').trim()
@@ -257,6 +367,17 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
                   </option>
                 ))}
               </select>
+            ) : field.type === 'file' ? (
+              <input
+                id={id}
+                name={field.name}
+                type="file"
+                accept={field.accept}
+                aria-required={field.required}
+                aria-invalid={error ? true : undefined}
+                aria-describedby={describedBy || undefined}
+                onChange={(event) => setFile(field, event.target.files?.[0] ?? null)}
+              />
             ) : (
               <input
                 id={id}
@@ -318,6 +439,13 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
         ) : null}
       </div>
 
+      {turnstileSiteKey ? (
+        <div className="nc-turnstile">
+          <div ref={turnstileContainer} />
+          {!turnstileToken ? <p>迷惑送信防止の確認が完了すると、確認画面へ進めます。</p> : null}
+        </div>
+      ) : null}
+
       {!configured ? <EndpointNotice envName={envName} /> : null}
 
       <div className="nc-acts nc-form-acts">
@@ -330,14 +458,12 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
 }
 
 function EndpointNotice({ envName }: { envName: string }) {
+  void envName;
   return (
     <p className="nc-pending nc-form-pending">
-      現在、送信先が未設定のため送信できません。お急ぎの場合はフッター記載の電話番号までご連絡ください。
-      <br />
-      <span>
-        実装メモ: 要件定義書 14. の未解決事項（フォーム送信の通知先メールアドレス）。
-        Formspree のフォームIDを <code>{envName}</code> に設定すると送信が有効になる。
-      </span>
+      現在、フォームは準備中です。お急ぎの場合は、
+      <a href={'mailto:' + site.email} className="nc-inline-link">{site.email}</a>
+      までご連絡ください。
     </p>
   );
 }

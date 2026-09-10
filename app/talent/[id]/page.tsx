@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${talent.displayName}｜人材パネル`,
-    description: `${roleLabels[talent.role]}。${talent.universityCategory}。対応可能業務: ${talent.availableWork.join('、')}。`,
+    description: `${roleLabels[talent.role]}。${talent.universityCategory}。対応領域: ${talent.serviceAreas.join('、')}。`,
     alternates: { canonical: `/talent/${talent.id}` },
     // 個人単位のページを検索結果に出す必要はない（要件定義書 12.1）
     robots: { index: false, follow: true },
@@ -58,10 +58,15 @@ export default async function TalentDetailPage({ params }: Props) {
         </span>
       ),
     },
-    { label: '対応可能業務', value: talent.availableWork.join('、') },
+    {
+      label: '対応領域',
+      value: (
+        <span className="nc-tags">
+          {talent.serviceAreas.map((area) => <span className="nc-tag" key={area}>{area}</span>)}
+        </span>
+      ),
+    },
     { label: '過去実績', value: talent.recordSummary },
-    { label: '稼働可能時間', value: talent.availability },
-    { label: '稼働状況', value: talent.availabilityStatus },
   ];
 
   return (
@@ -74,6 +79,7 @@ export default async function TalentDetailPage({ params }: Props) {
 
       <div className="section">
         <div className="wrap nc-doc-narrow">
+          <p className="nc-talent-detail-appeal">{talent.appeal}</p>
           <dl className="nc-deflist">
             {rows.map((row) => (
               <div key={row.label}>
@@ -113,8 +119,9 @@ export default async function TalentDetailPage({ params }: Props) {
       </div>
 
       <ContactCta
-        title="この分野のメンバーに相談する"
-        body="ご相談内容に応じて、必要なスキルと稼働に合わせてチームを編成します。個別のメンバーのご指名は承っていません。"
+        title={`${talent.displayName} へのご相談`}
+        body="このメンバーを候補としてお問い合わせいただけます。案件や体制によりご希望に沿えない場合があります。"
+        primary={{ label: `${talent.displayName} を候補に相談する`, href: `/contact?topic=人材について&talent=${encodeURIComponent(talent.displayName)}` }}
         secondary={{ label: '人材パネルへ戻る', href: '/talent' }}
       />
     </>

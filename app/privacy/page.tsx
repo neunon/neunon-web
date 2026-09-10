@@ -42,11 +42,11 @@ export default function PrivacyPage() {
         crumbs={[{ label: 'プライバシーポリシー' }]}
       />
 
-      <div className="section">
+      <div className="section nc-legal">
         <div className="wrap nc-doc">
           <TableOfContents items={toc} title="このページの目次" />
 
-          <div className="nc-doc-body">
+          <div className="nc-doc-body nc-legal-body">
             <p className="nc-pending">
               このページは公開前の案です。
               <br />

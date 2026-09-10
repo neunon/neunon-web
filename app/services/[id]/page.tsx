@@ -46,6 +46,7 @@ export default async function ServiceDetailPage({ params }: Props) {
   const works = getWorksByService(service.id);
 
   const toc: TocItem[] = [
+    ...(service.id === 'consulting' ? [{ id: 'consulting-scope', label: '支援できること' }] : []),
     { id: 'use-cases', label: 'こういう課題に使えます' },
     { id: 'menu', label: '具体的なメニュー' },
     { id: 'steps', label: '進め方' },
@@ -72,6 +73,32 @@ export default async function ServiceDetailPage({ params }: Props) {
           <TableOfContents items={toc} title="このページの目次" />
 
           <div className="nc-doc-body">
+            {service.id === 'consulting' ? (
+              <section id="consulting-scope" className="nc-consulting-intro" aria-labelledby="consulting-scope-title">
+                <span className="nc-consulting-kicker">Management &amp; research support</span>
+                <h2 id="consulting-scope-title">経営課題から、手を動かす実務まで。</h2>
+                <p className="nc-consulting-lead">
+                  「売上を伸ばしたい」「方向性を整理したい」といった抽象度の高いご相談から、市場規模推定、競合比較、収益性分析、会議資料の作成まで。課題の解像度に応じて、考える支援と実行する支援を組み合わせます。
+                </p>
+                <div className="nc-consulting-pillars">
+                  <article>
+                    <span>01</span>
+                    <h3>経営コンサルティング</h3>
+                    <p>成長戦略、新規事業、収益改善、営業・マーケティングなど、答えが一つではない経営課題を整理し、判断と実行の道筋を設計します。</p>
+                  </article>
+                  <article>
+                    <span>02</span>
+                    <h3>調査・分析・資料作成</h3>
+                    <p>分散した情報や未整理のデータを集め、比較・構造化・可視化。会議や意思決定でそのまま使える成果物まで仕上げます。</p>
+                  </article>
+                </div>
+                <div className="nc-consulting-value">
+                  <strong>品質は経験者が担保し、実行は学生チームが機動的に担う。</strong>
+                  <p>専門的なディレクション体制と、固定費を抑えた柔軟なチーム編成によって、実務水準とコスト効率を両立します。</p>
+                </div>
+              </section>
+            ) : null}
+
             <section aria-labelledby="use-cases">
               <h2 id="use-cases">こういう課題に使えます</h2>
               <ul className="nc-checklist">
@@ -120,7 +147,7 @@ export default async function ServiceDetailPage({ params }: Props) {
               <ol className="nc-steps">
                 {service.steps.map((step, index) => (
                   <li className="nc-step" key={step.no}>
-                    <div className="nc-step-n">{step.no}</div>
+                    <div className="nc-step-n">{step.no.replace('STEP', 'Step')}</div>
                     <div className="nc-step-c">
                       <h3>{step.title}</h3>
                       <p>{step.body}</p>

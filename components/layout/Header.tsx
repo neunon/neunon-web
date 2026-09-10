@@ -90,13 +90,14 @@ export function Header() {
                 >
                   {hasChildren ? (
                     <>
-                      <Link
-                        href={item.href}
+                      <button
+                        type="button"
+                        className="nc-nav-trigger"
                         aria-current={isCurrent(item.href) ? 'page' : undefined}
                         aria-expanded={isOpen}
                         aria-haspopup="true"
                         onFocus={() => openNow(item.label)}
-                        onClick={() => setOpenDropdown(null)}
+                        onClick={() => setOpenDropdown(isOpen ? null : item.label)}
                       >
                         {item.label}
                         <svg
@@ -113,9 +114,15 @@ export function Header() {
                             strokeWidth="1.2"
                           />
                         </svg>
-                      </Link>
+                      </button>
                       <div className={`nc-dropdown ${isOpen ? 'is-open' : ''}`}>
                         <ul>
+                          <li>
+                            <Link href={item.href}>
+                              <span className="nc-dd-num">All</span>
+                              事業内容一覧
+                            </Link>
+                          </li>
                           {item.children?.map((child) => (
                             <li key={child.href}>
                               <Link href={child.href}>
