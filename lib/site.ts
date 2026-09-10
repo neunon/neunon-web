@@ -7,12 +7,22 @@
 export const site = {
   name: '株式会社Neunon Consulting',
   nameEn: 'Neunon Consulting, Inc.',
+  /** title の接尾辞用。「, Inc.」を含む nameEn は日本語SERPには長すぎる */
+  shortName: 'Neunon Consulting',
   // 要確認: 独自ドメインの取得状況（要件定義書 10.3 / 14）
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://neun-on.com',
   domain: 'neun-on.com',
   description:
     '調査・分析・資料作成といった工数集約的な工程を、経験あるコンサルタントの監修のもとで学生チームが担う。企業の高度支援を、より安く・より速く・より広く届けます。',
   keyMessage: '企業の高度支援を、より安く・より速く・より広く届ける',
+  /**
+   * トップページの title 用（要件定義書 10.2）。
+   * keyMessage は社内の言葉で書かれたブランドメッセージなので、
+   * ヒーローと OGP ではそのまま使うが、検索結果には
+   * 顧客が実際に検索する語を先に出す。
+   * 新規ドメインは社名では検索されないため、何をしている会社かを先頭に置く。
+   */
+  searchTagline: '競合調査・市場調査の実務支援',
   mission:
     '企業の成長・再建・立上げに伴う多様な課題に対し、画一的なフレームワークに頼らず、個々の状況に応じた柔軟かつ実践的な支援を提供すると共に、実務支援を通じて次世代ビジネス人材を育成し、社会的価値の創出を目指します',
   founded: '2026年1月27日',

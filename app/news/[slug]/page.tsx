@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { getNews, getNewsItem } from '@/lib/content';
+import { jsonLd, newsArticleSchema } from '@/lib/schema';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -19,8 +20,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!item) return {};
 
   return {
-    title: item.title,
-    description: item.excerpt,
+    // お知らせのタイトルは長いので接尾辞を付けない
+    title: { absolute: `${item.title}｜お知らせ` },
+    description: `${item.excerpt}${item.body[1] ?? ''}`.slice(0, 118),
     alternates: { canonical: `/news/${item.slug}` },
     openGraph: { type: 'article', publishedTime: item.date },
   };
@@ -36,6 +38,11 @@ export default async function NewsDetailPage({ params }: Props) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLd(newsArticleSchema(item))}
+      />
+
       <PageHero
         eyebrow={`${item.date.replace(/-/g, '.')}　${item.category}`}
         title={item.title}

@@ -2,11 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { selectionSteps, termsPendingNote } from '@/lib/recruit';
+import { faqSchema, jsonLd } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: '選考フロー',
   description:
-    '募集要項の送付から稼働開始までの7ステップ。オンラインを中心に選考と初期手続きを進めます。',
+    'エントリーから稼働開始までの7ステップ。募集要項の送付、書類選考、オンライン面接、選考結果の連絡、契約・初期手続き、オンボーディングを経て案件に参画します。オンラインを中心に進めます。',
   alternates: { canonical: '/recruit/flow' },
 };
 
@@ -41,6 +42,8 @@ const faq = [
 export default function FlowPage() {
   return (
     <div className="nc-recruit">
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(faqSchema(faq))} />
+
       <PageHero
         title="選考フロー"
         lead="募集要項の確認からオンボーディング、稼働開始まで。オンラインを中心に7つのステップで進めます。"

@@ -6,7 +6,7 @@ import { getNews } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'お知らせ',
-  description: '株式会社Neunon Consulting からのお知らせ。会社・サービス・採用に関する更新情報。',
+  description: '株式会社Neunon Consulting からのお知らせ。会社に関する発表、サービスの提供メニューの更新、学生アソシエイトの募集など、最新の情報を掲載しています。',
   alternates: { canonical: '/news' },
 };
 

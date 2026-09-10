@@ -6,7 +6,7 @@ import { site } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: '会社情報',
-  description: `${site.name} の会社情報。社名、設立、代表者、所在地、事業内容、従業員数。`,
+  description: `${site.name} の会社情報。社名、設立年月日、代表者、所在地、事業内容、従業員数、連絡先を掲載しています。経営コンサルティングおよび戦略コンサルティングを事業目的としています。`,
   alternates: { canonical: '/about/company' },
 };
 

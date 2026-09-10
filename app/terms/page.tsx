@@ -5,7 +5,7 @@ import { site } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'サイト利用規約',
-  description: `${site.name}のウェブサイトのご利用にあたっての条件。`,
+  description: `${site.name}のウェブサイトのご利用にあたっての条件。適用範囲、著作権・商標、掲載情報の取り扱い、禁止事項、免責、個人情報の取り扱い、規約の変更について定めています。`,
   alternates: { canonical: '/terms' },
 };
 

@@ -9,7 +9,7 @@ import { site } from '@/lib/site';
 export const metadata: Metadata = {
   title: '会社概要',
   description:
-    '株式会社Neunon Consultingのミッション、学生組織による実行基盤、品質管理体制、会社情報をご紹介します。',
+    '株式会社Neunon Consulting の会社概要。ミッション、私たちの考え方（なぜ学生なのか、品質はどう担保するのか）、組織体制、会社情報を掲載しています。経験のあるコンサルタントが監修し、学生チームが実務を担う体制です。',
   alternates: { canonical: '/about' },
 };
 
