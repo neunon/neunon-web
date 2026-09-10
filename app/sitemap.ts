@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { getJobs, getNews, getServices, getWorks } from '@/lib/content';
+import { getNews, getServices, getWorks } from '@/lib/content';
 import { site } from '@/lib/site';
 
 /**
@@ -24,7 +24,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/works', priority: 0.8, changeFrequency: 'monthly' },
     { path: '/talent', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/recruit', priority: 0.9, changeFrequency: 'monthly' },
-    { path: '/recruit/jobs', priority: 0.8, changeFrequency: 'monthly' },
     { path: '/recruit/flow', priority: 0.6, changeFrequency: 'yearly' },
     { path: '/about', priority: 0.8, changeFrequency: 'monthly' },
     { path: '/about/company', priority: 0.5, changeFrequency: 'yearly' },
@@ -53,12 +52,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: 'yearly' as const,
       priority: 0.6,
-    })),
-    ...getJobs().map((job) => ({
-      url: `${site.url}/recruit/jobs/${job.id}`,
-      lastModified,
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
     })),
     ...getNews().map((item) => ({
       url: `${site.url}/news/${item.slug}`,

@@ -39,13 +39,16 @@ export default function EntryPage() {
                 </Link>
                 からお願いします。
               </p>
+              <Link href="/contact" className="btn nc-contact-entry">
+                企業のお問い合わせへ
+              </Link>
             </div>
 
             <h2 className="nc-side-head">送信後の流れ</h2>
             <ol className="nc-sidesteps">
               {selectionSteps.map((step) => (
                 <li key={step.no}>
-                  <span className="nc-path-n">STEP {step.no}</span>
+                  <span className="nc-path-n">Step {step.no}</span>
                   <span className="nc-sidestep-t">{step.title}</span>
                   <span className="nc-sidestep-s">{step.span}</span>
                 </li>

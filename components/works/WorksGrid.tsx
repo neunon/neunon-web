@@ -54,14 +54,17 @@ export function WorksGrid({ works, industries }: { works: Work[]; industries: st
       </p>
 
       <div className="nc-workgrid">
-        {filtered.map((work) => (
+        {filtered.map((work, index) => (
           <article className="nc-workcard" key={work.slug}>
-            <span className="nc-work-ind">{work.industry}</span>
+            <div className="nc-workcard-meta">
+              <span className="nc-work-index">{String(index + 1).padStart(2, '0')}</span>
+              <span className="nc-work-ind">{work.industry}</span>
+            </div>
             <h2>
               <Link href={`/works/${work.slug}`}>{work.title}</Link>
             </h2>
             <p className="nc-work-ch">課題: {work.challenge}</p>
-            <p>{work.approach}</p>
+            <p className="nc-work-approach"><b>Approach</b>{work.approach}</p>
             <span className="nc-more" aria-hidden="true">
               <i />
               詳しく見る

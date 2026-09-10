@@ -9,7 +9,7 @@ import { getPublicTalents } from '@/lib/talent.server';
 export const metadata: Metadata = {
   title: '人材パネル',
   description:
-    '案件を担当する登録学生の一覧。フェーズ1では個人が特定できない粒度で、区分・大学区分・スキル・対応可能業務・稼働状況のみを公開しています。',
+    '案件を担当する登録学生の一覧。匿名のプロフィールから、スキルと対応領域を確認できます。',
   alternates: { canonical: '/talent' },
 };
 
@@ -28,7 +28,7 @@ export default function TalentPage() {
     <>
       <PageHero
         title="人材パネル"
-        lead="案件を担当する登録学生の一覧です。ご相談内容に応じて、スキルと稼働状況からチームを編成します。"
+        lead="案件を担当する登録学生の一覧です。スキルと対応領域から、相談したいメンバーを複数選択できます。"
         crumbs={[{ label: '人材' }]}
       />
 
@@ -42,7 +42,7 @@ export default function TalentPage() {
               個人情報保護のため、実名・大学名・詳細な経歴は公開していません。表示名はイニシャル、学校は区分のみ、実績は件数と種別のみを掲載しています。掲載はすべて本人の同意を得たうえで行っています。
             </p>
             <p>
-              実名・詳細経歴を含む完全版は、企業アカウントでのご確認を前提とした機能として準備中です。ご検討中の案件がある場合は
+              気になるメンバーは複数選択できます。案件や体制により必ずしも指名をお約束するものではありませんが、お問い合わせ時のチーム検討に活用します。ご検討中の案件がある場合は
               <Link href="/contact" className="nc-inline-link">
                 お問い合わせ
               </Link>
@@ -63,8 +63,9 @@ export default function TalentPage() {
       </div>
 
       <ContactCta
-        title="チーム編成のご相談"
-        body="案件の内容をお伺いし、必要なスキルと稼働に合わせてチームを編成します。まだ内容が固まっていない段階でも構いません。"
+        title="人材について相談する"
+        body="必要なスキルや役割がまだ固まっていない段階でも、案件の概要からご相談いただけます。"
+        primary={{ label: '人材について相談する', href: '/contact?topic=人材について' }}
         secondary={{ label: '事業内容を見る', href: '/services' }}
       />
     </>

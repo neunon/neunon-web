@@ -1,0 +1,12 @@
+name = "neunon-form-api"
+main = "src/index.mjs"
+compatibility_date = "2026-09-10"
+
+[vars]
+ALLOWED_ORIGINS = "https://neun-on.com,https://www.neun-on.com"
+NOTIFICATION_EMAIL = "keisakamoto@neun-on.com"
+FROM_EMAIL = "Neunon Website <website@neun-on.com>"
+
+# Dashboard または `wrangler secret put` で登録する値:
+# RESEND_API_KEY
+# TURNSTILE_SECRET

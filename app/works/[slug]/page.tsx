@@ -51,8 +51,14 @@ export default async function WorkDetailPage({ params }: Props) {
         crumbs={[{ label: '支援実績', href: '/works' }, { label: work.industry }]}
       />
 
-      <div className="section">
-        <div className="wrap nc-doc-narrow">
+      <div className="section nc-case-detail">
+        <div className="wrap nc-case-layout">
+          <aside className="nc-case-aside">
+            <span>Case study</span>
+            <strong>{work.industry}</strong>
+            <p>企業名や固有情報を伏せ、課題と分析の組み立てを公開しています。</p>
+          </aside>
+          <div className="nc-case-main">
           <ol className="nc-caseflow" aria-label="この事例の構成">
             <li>背景・課題</li>
             <li>分析アプローチ</li>
@@ -103,6 +109,7 @@ export default async function WorkDetailPage({ params }: Props) {
               </ul>
             </section>
           ) : null}
+          </div>
         </div>
       </div>
 

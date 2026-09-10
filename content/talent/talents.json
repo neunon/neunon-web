@@ -2,191 +2,359 @@
   {
     "id": "t-001",
     "public": {
-      "displayName": "Lead / A.S.",
+      "displayName": "A.S.",
       "role": "lead",
       "universityCategory": "国立大 / 理工系",
       "grade": 4,
-      "skills": ["Python", "統計解析", "SQL", "市場調査"],
-      "availableWork": ["データ分析", "市場調査", "資料作成"],
+      "skills": [
+        "Python",
+        "SQL",
+        "統計解析",
+        "データ可視化",
+        "市場調査"
+      ],
+      "primarySkills": [
+        "Python",
+        "SQL",
+        "統計解析"
+      ],
+      "serviceAreas": [
+        "データ分析",
+        "ダッシュボード作成",
+        "市場調査",
+        "調査レポート作成"
+      ],
+      "primaryAreas": [
+        "データ分析",
+        "市場調査"
+      ],
+      "appeal": "複雑なデータを整理し、意思決定に必要なポイントを言語化できるメンバーです。実装力と丁寧なコミュニケーションの両方で推進します。",
       "recordSummary": "データ分析 5件 / 市場調査 12件",
-      "availability": "週15時間程度",
-      "availabilityStatus": "受付中",
       "certifications": [],
       "consentPublish": true
     },
     "private": {
-      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+      "note": "フェーズ2で使用。公開ビルドに含めないこと"
     }
   },
   {
     "id": "t-002",
     "public": {
-      "displayName": "Lead / K.M.",
+      "displayName": "K.M.",
       "role": "lead",
       "universityCategory": "私立大 / 経済系",
       "grade": 3,
-      "skills": ["財務モデリング", "Excel", "競合調査", "スライド作成"],
-      "availableWork": ["財務モデリング", "競合調査", "資料作成"],
+      "skills": [
+        "Excel",
+        "PowerPoint",
+        "財務モデリング",
+        "事業計画策定",
+        "競合調査"
+      ],
+      "primarySkills": [
+        "財務モデリング",
+        "Excel",
+        "PowerPoint"
+      ],
+      "serviceAreas": [
+        "財務モデル作成",
+        "収益シミュレーション",
+        "競合調査",
+        "提案資料作成"
+      ],
+      "primaryAreas": [
+        "財務モデル作成",
+        "競合調査"
+      ],
+      "appeal": "数字の整合性を細部まで確認しつつ、事業の全体像をわかりやすく資料に落とし込めます。関係者との調整も粘り強く進めます。",
       "recordSummary": "競合調査 9件 / 事業計画の試算 4件",
-      "availability": "週20時間程度",
-      "availabilityStatus": "受付中",
       "certifications": [],
       "consentPublish": true
     },
     "private": {
-      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+      "note": "フェーズ2で使用。公開ビルドに含めないこと"
     }
   },
   {
     "id": "t-003",
     "public": {
-      "displayName": "Lead / R.T.",
+      "displayName": "R.T.",
       "role": "lead",
       "universityCategory": "国立大 / 社会科学系",
       "grade": 4,
-      "skills": ["市場調査", "アンケート設計", "統計解析", "英語文献調査"],
-      "availableWork": ["市場調査", "アンケート設計", "英文リサーチ"],
+      "skills": [
+        "市場調査",
+        "アンケート設計",
+        "統計解析",
+        "英語文献調査",
+        "インタビュー設計"
+      ],
+      "primarySkills": [
+        "市場調査",
+        "アンケート設計",
+        "英語文献調査"
+      ],
+      "serviceAreas": [
+        "市場調査",
+        "顧客調査",
+        "アンケート調査",
+        "業界構造分析"
+      ],
+      "primaryAreas": [
+        "市場調査",
+        "アンケート調査"
+      ],
+      "appeal": "目的から逆算した調査設計と、日英両方の情報源を使った深いリサーチが強みです。相手の意図を汲み取り、論点を整えます。",
       "recordSummary": "市場調査 14件 / アンケート設計 3件",
-      "availability": "週10時間程度",
-      "availabilityStatus": "調整中",
       "certifications": [],
       "consentPublish": true
     },
     "private": {
-      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+      "note": "フェーズ2で使用。公開ビルドに含めないこと"
     }
   },
   {
     "id": "t-004",
     "public": {
-      "displayName": "Associate / H.N.",
+      "displayName": "H.N.",
       "role": "associate",
       "universityCategory": "私立大 / 経営系",
       "grade": 2,
-      "skills": ["Excel", "競合調査", "スライド作成"],
-      "availableWork": ["競合調査", "資料作成"],
+      "skills": [
+        "Excel",
+        "PowerPoint",
+        "競合調査",
+        "デスクリサーチ"
+      ],
+      "primarySkills": [
+        "競合調査",
+        "PowerPoint",
+        "Excel"
+      ],
+      "serviceAreas": [
+        "競合調査",
+        "企業ベンチマーク",
+        "提案資料作成"
+      ],
+      "primaryAreas": [
+        "競合調査",
+        "企業ベンチマーク"
+      ],
+      "appeal": "情報の抜け漏れを防ぐ丁寧な調査と、比較軸を揃えた整理が得意です。フィードバックへの反応も早く、着実に仕上げます。",
       "recordSummary": "競合調査 6件",
-      "availability": "週10時間程度",
-      "availabilityStatus": "受付中",
       "certifications": [],
       "consentPublish": true
     },
     "private": {
-      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+      "note": "フェーズ2で使用。公開ビルドに含めないこと"
     }
   },
   {
     "id": "t-005",
     "public": {
-      "displayName": "Associate / Y.O.",
+      "displayName": "Y.O.",
       "role": "associate",
       "universityCategory": "国立大 / 理工系",
       "grade": 1,
-      "skills": ["Python", "SQL", "Tableau"],
-      "availableWork": ["データ分析", "資料作成"],
+      "skills": [
+        "Python",
+        "SQL",
+        "Tableau",
+        "データ可視化"
+      ],
+      "primarySkills": [
+        "Python",
+        "SQL",
+        "Tableau"
+      ],
+      "serviceAreas": [
+        "データ分析",
+        "ダッシュボード作成",
+        "データクレンジング"
+      ],
+      "primaryAreas": [
+        "データ分析",
+        "ダッシュボード作成"
+      ],
+      "appeal": "データの前処理から可視化までを一貫して進められます。新しい手法を素早く学び、不明点を言語化して相談できるメンバーです。",
       "recordSummary": "データ分析 3件",
-      "availability": "週8時間程度",
-      "availabilityStatus": "受付中",
       "certifications": [],
       "consentPublish": true
     },
     "private": {
-      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+      "note": "フェーズ2で使用。公開ビルドに含めないこと"
     }
   },
   {
     "id": "t-006",
     "public": {
-      "displayName": "Associate / S.I.",
+      "displayName": "S.I.",
       "role": "associate",
       "universityCategory": "私立大 / 文系",
       "grade": 2,
-      "skills": ["市場調査", "業界インタビュー", "スライド作成"],
-      "availableWork": ["市場調査", "資料作成", "議事録・文字起こし整理"],
+      "skills": [
+        "市場調査",
+        "業界インタビュー",
+        "PowerPoint",
+        "レポート執筆"
+      ],
+      "primarySkills": [
+        "市場調査",
+        "業界インタビュー",
+        "PowerPoint"
+      ],
+      "serviceAreas": [
+        "市場調査",
+        "業界構造分析",
+        "調査レポート作成"
+      ],
+      "primaryAreas": [
+        "市場調査",
+        "調査レポート作成"
+      ],
+      "appeal": "相手が話しやすい雰囲気をつくり、インタビューで本質的な情報を引き出します。情報を簡潔な文章にまとめる力にも強みがあります。",
       "recordSummary": "市場調査 5件",
-      "availability": "週12時間程度",
-      "availabilityStatus": "受付中",
       "certifications": [],
       "consentPublish": true
     },
     "private": {
-      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+      "note": "フェーズ2で使用。公開ビルドに含めないこと"
     }
   },
   {
     "id": "t-007",
     "public": {
-      "displayName": "Associate / M.K.",
+      "displayName": "M.K.",
       "role": "associate",
       "universityCategory": "国立大 / 社会科学系",
       "grade": 3,
-      "skills": ["統計解析", "Excel", "アンケート設計"],
-      "availableWork": ["データ分析", "アンケート設計"],
+      "skills": [
+        "統計解析",
+        "Excel",
+        "アンケート設計",
+        "アンケート解析"
+      ],
+      "primarySkills": [
+        "統計解析",
+        "アンケート設計",
+        "Excel"
+      ],
+      "serviceAreas": [
+        "データ分析",
+        "アンケート調査",
+        "顧客調査"
+      ],
+      "primaryAreas": [
+        "データ分析",
+        "アンケート調査"
+      ],
+      "appeal": "調査票の設計から分析まで、数値の背景を意識して進めます。前提と限界を丁寧に共有する、誠実な進め方が特長です。",
       "recordSummary": "データ分析 4件 / アンケート設計 2件",
-      "availability": "週15時間程度",
-      "availabilityStatus": "調整中",
       "certifications": [],
       "consentPublish": true
     },
     "private": {
-      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+      "note": "フェーズ2で使用。公開ビルドに含めないこと"
     }
   },
   {
     "id": "t-008",
     "public": {
-      "displayName": "Associate / T.F.",
+      "displayName": "T.F.",
       "role": "associate",
       "universityCategory": "私立大 / 理工系",
       "grade": 1,
-      "skills": ["Python", "Excel", "競合調査"],
-      "availableWork": ["競合調査", "データ分析"],
+      "skills": [
+        "Python",
+        "Excel",
+        "競合調査",
+        "スクレイピング"
+      ],
+      "primarySkills": [
+        "Python",
+        "Excel",
+        "競合調査"
+      ],
+      "serviceAreas": [
+        "競合調査",
+        "データ分析",
+        "公開情報調査"
+      ],
+      "primaryAreas": [
+        "競合調査",
+        "データ分析"
+      ],
+      "appeal": "技術とリサーチを組み合わせ、情報収集を効率化できます。作業状況をこまめに共有し、チームのスピードを落とさず進めます。",
       "recordSummary": "競合調査 3件",
-      "availability": "週8時間程度",
-      "availabilityStatus": "満稼働",
       "certifications": [],
       "consentPublish": true
     },
     "private": {
-      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+      "note": "フェーズ2で使用。公開ビルドに含めないこと"
     }
   },
   {
     "id": "t-009",
     "public": {
-      "displayName": "Associate / N.W.",
+      "displayName": "N.W.",
       "role": "associate",
       "universityCategory": "国立大 / 経済系",
       "grade": 2,
-      "skills": ["財務モデリング", "Excel", "英語文献調査"],
-      "availableWork": ["財務モデリング", "英文リサーチ", "資料作成"],
+      "skills": [
+        "財務モデリング",
+        "Excel",
+        "英語文献調査",
+        "管理会計"
+      ],
+      "primarySkills": [
+        "財務モデリング",
+        "Excel",
+        "英語文献調査"
+      ],
+      "serviceAreas": [
+        "財務モデル作成",
+        "収益シミュレーション",
+        "公開情報調査"
+      ],
+      "primaryAreas": [
+        "財務モデル作成",
+        "収益シミュレーション"
+      ],
+      "appeal": "英文情報も参照しながら、数値の根拠を積み上げるのが得意です。疑問点を放置せず確認し、再利用できる形に整理します。",
       "recordSummary": "事業計画の試算 2件 / 英文リサーチ 4件",
-      "availability": "週10時間程度",
-      "availabilityStatus": "受付中",
       "certifications": [],
       "consentPublish": true
     },
     "private": {
-      "note": "フェーズ2で使用。今回はビルド出力に含めないこと"
+      "note": "フェーズ2で使用。公開ビルドに含めないこと"
     }
   },
   {
     "id": "t-010",
     "public": {
-      "displayName": "Associate / (掲載同意なし)",
+      "displayName": "X.X.",
       "role": "associate",
       "universityCategory": "私立大 / 文系",
       "grade": 2,
-      "skills": ["市場調査"],
-      "availableWork": ["市場調査"],
+      "skills": [
+        "市場調査"
+      ],
+      "primarySkills": [
+        "市場調査"
+      ],
+      "serviceAreas": [
+        "市場調査"
+      ],
+      "primaryAreas": [
+        "市場調査"
+      ],
+      "appeal": "",
       "recordSummary": "市場調査 2件",
-      "availability": "週8時間程度",
-      "availabilityStatus": "受付中",
       "certifications": [],
       "consentPublish": false
     },
     "private": {
-      "note": "consentPublish が false のため、公開ビルドに出力してはいけない。動作確認用のダミー。"
+      "note": "consentPublish false"
     }
   }
 ]

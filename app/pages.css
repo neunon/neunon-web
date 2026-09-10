@@ -18,6 +18,7 @@
 }
 .nc-phero .nc-lead {
   margin-top: 26px;
+  max-width: 48em;
 }
 
 .nc-crumbs {
@@ -58,6 +59,9 @@
 .nc-doc-narrow {
   max-width: 760px;
 }
+.nc-doc-body {
+  min-width: 0;
+}
 
 .nc-doc-body > section {
   padding-bottom: 64px;
@@ -75,8 +79,8 @@
   line-height: 1.5;
   letter-spacing: -0.012em;
   margin-bottom: 24px;
-  padding-top: 4px;
-  border-top: 2px solid var(--color-ink);
+  padding-left: 16px;
+  border-left: 3px solid var(--color-navy);
 }
 .nc-doc-body h3 {
   font-weight: 600;
@@ -95,14 +99,15 @@
 }
 .nc-section-lead {
   margin-bottom: 28px !important;
+  max-width: 52em !important;
 }
 .nc-sub-head {
   font-weight: 600;
   font-size: clamp(19px, 2.1vw, 24px);
   letter-spacing: -0.012em;
   margin-bottom: 22px;
-  padding-top: 4px;
-  border-top: 2px solid var(--color-ink);
+  padding-left: 16px;
+  border-left: 3px solid var(--color-navy);
 }
 .nc-doc-narrow section + section {
   margin-top: 64px;
@@ -118,6 +123,25 @@
   color: var(--color-navy);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* ---------- consulting detail ---------- */
+.nc-consulting-intro { padding:48px!important; border:0!important; background:var(--color-ink); color:#fff; }
+.nc-consulting-kicker { display:block; margin-bottom:20px; color:#9fb0c7; font-size:10px; letter-spacing:.055em; }
+.nc-consulting-intro h2 { max-width:12em; border:0!important; color:#fff; font-size:clamp(28px,4vw,46px)!important; line-height:1.45!important; }
+.nc-consulting-lead { max-width:43em!important; color:#d5d9df!important; line-height:2.05!important; }
+.nc-consulting-pillars { display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:40px; background:#424850; }
+.nc-consulting-pillars article { padding:30px; background:#16191d; }
+.nc-consulting-pillars article > span { color:#91a9ca; font-size:10px; }
+.nc-consulting-pillars h3 { margin:14px 0 12px!important; color:#fff; font-size:18px!important; }
+.nc-consulting-pillars p { color:#bfc5cd!important; font-size:13px!important; }
+.nc-consulting-value { margin-top:1px; padding:28px 30px; background:var(--color-navy); }
+.nc-consulting-value strong { display:block; font-size:16px; font-weight:600; }
+.nc-consulting-value p { margin:8px 0 0!important; color:#dce3ed!important; font-size:12.5px!important; }
+
+@media (max-width:700px) {
+  .nc-consulting-intro { margin-inline:-20px; padding:38px 20px!important; }
+  .nc-consulting-pillars { grid-template-columns:1fr; }
 }
 
 /* ---------- 引用・準備中・署名 ---------- */
@@ -458,4 +482,102 @@
     flex-direction: column;
     gap: 4px;
   }
+}
+
+/* ---------- legal pages ---------- */
+.nc-legal { background:linear-gradient(180deg,#f6f7f9 0,#fff 360px); }
+.nc-legal-body > section {
+  padding:38px 42px 42px;
+  border:1px solid var(--color-g200);
+  border-top:0;
+  background:#fff;
+  box-shadow:0 14px 42px rgba(22,36,58,.035);
+}
+.nc-legal-body > section + section { margin-top:18px; }
+.nc-legal-body > section h2 {
+  margin:-38px -42px 28px;
+  padding:21px 42px;
+  border-top:2px solid var(--color-navy);
+  border-bottom:1px solid var(--color-g100);
+  background:#fbfcfd;
+  font-size:20px;
+}
+.nc-legal-body > .nc-pending { margin-bottom:32px; }
+
+@media (max-width:900px) {
+  .nc-legal-body > section { padding:30px 24px 34px; }
+  .nc-legal-body > section h2 { margin:-30px -24px 24px; padding:18px 24px; }
+}
+
+/* ---------- company / organization ---------- */
+.nc-about-kicker {
+  display: block;
+  margin-bottom: 18px;
+  color: var(--color-navy);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .055em;
+}
+.nc-about-page .nc-doc-body > section { padding-bottom: 84px; margin-bottom: 84px; }
+.nc-about-page .nc-doc-body h2 { border: 0; padding: 0; font-size: clamp(27px, 3.8vw, 46px); font-weight: 500; line-height: 1.45; }
+.nc-about-mission { background: var(--color-ink); color: var(--color-white); padding: 54px 52px 58px; }
+.nc-about-mission h2 { color: var(--color-white); max-width: 12em; }
+.nc-about-mission blockquote { max-width: 39em; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.24); color: #d8dce2; font-size: 15px; line-height: 2.15; }
+.nc-about-principles { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 42px; background: var(--color-g200); border: 1px solid var(--color-g200); }
+.nc-about-principles article { background: var(--color-white); padding: 34px 32px 38px; }
+.nc-about-principles article > span { color: var(--color-navy); font-size: 10px; font-weight: 600; letter-spacing: .055em; }
+.nc-about-principles h3 { margin: 22px 0 14px; font-size: 18px; line-height: 1.7; }
+.nc-about-principles p { margin: 0; font-size: 13.5px; line-height: 2; }
+.nc-org {
+  width: 100%;
+  max-width: 100%;
+  padding: 46px;
+  overflow-x: auto;
+  border: 1px solid var(--color-g200);
+  background: linear-gradient(180deg, #fafafa 0%, #f2f2f2 100%);
+  color: var(--color-ink);
+}
+.nc-org-canvas { min-width:800px; }
+.nc-org-supervisor { max-width:610px; margin:0 auto; padding:22px 28px; border:1px solid #98a2b1; border-radius:12px; background:#fff; text-align:center; box-shadow:0 12px 34px rgba(38,56,92,.06); }
+.nc-org-supervisor span { display:block; margin-bottom:4px; color:var(--color-g700); font-size:10px; }
+.nc-org-supervisor strong { display:block; font-size:18px; font-weight:600; }
+.nc-org-supervisor small { display:block; margin-top:4px; color:var(--color-g700); font-size:12px; }
+.nc-org-network { position:relative; height:64px; margin:0 8%; border-bottom:1px solid #b9c1cc; }
+.nc-org-network::before { content:''; position:absolute; top:0; left:50%; height:100%; width:1px; background:#b9c1cc; }
+.nc-org-network span { position:absolute; left:50%; top:22px; translate:14px 0; color:var(--color-g700); font-size:9px; }
+.nc-org-teams { position:relative; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+.nc-org-team { position:relative; padding-top:30px; }
+.nc-org-team::before { content:''; position:absolute; top:0; left:50%; width:1px; height:30px; background:#b9c1cc; }
+.nc-org-team-label { position:absolute; top:7px; left:8px; color:var(--color-g700); font-size:9px; }
+.nc-org-lead { min-height:112px; padding:22px 12px; border:1px solid var(--color-g300); border-radius:10px; background:#fff; text-align:center; }
+.nc-org-lead strong { display:block; font-size:15px; font-weight:600; }
+.nc-org-lead small,.nc-org-associates small { display:block; margin-top:6px; color:var(--color-g700); font-size:10px; }
+.nc-org-teamline { position:relative; width:74%; height:32px; margin:auto; border-bottom:1px solid var(--color-g300); }
+.nc-org-teamline::before { content:''; position:absolute; left:50%; top:0; width:1px; height:100%; background:var(--color-g300); }
+.nc-org-associates { padding:16px 8px 18px; text-align:center; }
+.nc-org-associates strong { display:block; margin-top:9px; font-size:12px; font-weight:600; }
+.nc-org-associates > div { display:flex; align-items:center; justify-content:center; gap:7px; }
+.nc-org-associates i { width:18px; height:18px; border:1px solid #aab3bf; border-radius:50%; background:#fff; }
+.nc-org-associates em { color:#8291a6; font-size:12px; font-style:normal; }
+.nc-org-team.is-new .nc-org-lead { border-color:#686868; background:#eeeeee; color:var(--color-ink); }
+.nc-org-team.is-new .nc-org-associates i { border-color:#777; background:#dedede; }
+.nc-org-team.is-future { opacity:.38; }
+.nc-org-promotion { position:absolute; z-index:3; top:92px; width:96px; height:150px; pointer-events:none; }
+.nc-org-promotion.is-one { left:43.8%; }
+.nc-org-promotion.is-two { left:69.5%; opacity:.5; }
+.nc-org-promotion span { position:absolute; z-index:1; top:45px; left:18px; padding:2px 5px; background:#f4f4f4; color:var(--color-ink); font-size:9px; font-weight:600; white-space:nowrap; }
+.nc-org-promotion svg { width:100%; height:100%; overflow:visible; fill:none; stroke:#222; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+.nc-about-company .nc-company > div { grid-template-columns:145px 1fr; padding:22px 0; }
+
+@media (max-width: 1100px) {
+  .nc-org { padding:36px 28px; }
+}
+
+@media (max-width: 700px) {
+  .nc-about-page .nc-doc-body > section { padding-bottom: 56px; margin-bottom: 56px; }
+  .nc-about-mission { margin-inline:-20px; padding:40px 20px 44px; }
+  .nc-about-principles { grid-template-columns:1fr; }
+  .nc-org { margin-inline:-20px; padding:32px 20px; }
+  .nc-org-canvas { min-width:820px; }
+  .nc-org-network { margin-inline:7%; }
 }

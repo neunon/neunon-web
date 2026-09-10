@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "test:worker": "node --test worker/test/*.test.mjs",
     "images": "node scripts/generate-images.mjs",
     "audit:html": "node scripts/audit.mjs"
   },

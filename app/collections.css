@@ -113,19 +113,27 @@ section > .wrap > .nc-filter {
 .nc-workgrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--color-g200);
-  border: 1px solid var(--color-g200);
+  gap: 14px;
+  background: transparent;
+  border: 0;
 }
 .nc-workcard {
-  background: var(--color-white);
-  padding: 30px 28px 34px;
+  background: linear-gradient(180deg,var(--color-white) 0%,#fafbfc 100%);
+  min-height:390px;
+  padding: 24px 26px 30px;
   display: flex;
   flex-direction: column;
-  transition: background 0.4s var(--ease-brand);
+  border:1px solid var(--color-g200);
+  border-top:2px solid var(--color-navy-soft);
+  box-shadow:0 10px 28px rgba(38,56,92,.045);
+  transition:background .4s var(--ease-brand),transform .4s var(--ease-brand),box-shadow .4s var(--ease-brand);
 }
+.nc-workcard-meta { display:flex; align-items:center; justify-content:space-between; margin-bottom:42px; }
+.nc-work-index { color:var(--color-g500); font-size:11px; }
 .nc-workcard:hover {
   background: var(--color-navy-wash);
+  transform:translateY(-3px);
+  box-shadow:0 16px 36px rgba(38,56,92,.09);
 }
 .nc-workcard h2,
 .nc-workcard h3 {
@@ -151,6 +159,8 @@ section > .wrap > .nc-filter {
   line-height: 1.95;
   margin: 0 0 10px;
 }
+.nc-workcard .nc-work-approach { margin-top:14px; padding-top:16px; border-top:1px solid var(--color-g100); }
+.nc-work-approach b { display:block; margin-bottom:5px; color:var(--color-navy); font-size:9px; font-weight:500; letter-spacing:.055em; }
 .nc-workcard .nc-more {
   margin-top: auto;
   padding-top: 20px;
@@ -196,6 +206,16 @@ section > .wrap > .nc-filter {
   color: var(--color-ink) !important;
   margin-top: 22px;
 }
+
+.nc-case-layout { display:grid; grid-template-columns:220px minmax(0,760px); gap:72px; align-items:start; }
+.nc-case-aside { position:sticky; top:104px; padding:22px 0; border-top:2px solid var(--color-navy); border-bottom:1px solid var(--color-g200); }
+.nc-case-aside span { display:block; color:var(--color-navy); font-size:10px; letter-spacing:.055em; }
+.nc-case-aside strong { display:block; margin:16px 0 10px; font-size:19px; font-weight:600; }
+.nc-case-aside p { color:var(--color-g700); font-size:11.5px; line-height:1.9; }
+.nc-case-main > section { position:relative; margin-top:0; padding:42px 42px 46px; border:1px solid var(--color-g200); background:#fff; }
+.nc-case-main > section + section { margin-top:18px; }
+.nc-case-main .nc-sub-head { border-top:0; padding-top:0; }
+.nc-case-main > .nc-note { margin:26px 0 48px; padding:18px 20px; background:var(--color-surface); }
 
 .nc-relservices {
   list-style: none;
@@ -255,18 +275,23 @@ section > .wrap > .nc-filter {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--color-g200);
-  border: 1px solid var(--color-g200);
+  gap: 14px;
+  background: transparent;
+  border: 0;
 }
 .nc-talentcard {
   position: relative;
-  background: var(--color-white);
+  background: linear-gradient(180deg,var(--color-white) 0%,#fafafa 100%);
   padding: 26px 26px 30px;
-  transition: background 0.4s var(--ease-brand);
+  border:1px solid var(--color-g200);
+  border-top:2px solid #8d8d8d;
+  box-shadow:0 10px 28px rgba(0,0,0,.045);
+  transition:background .4s var(--ease-brand),transform .4s var(--ease-brand),box-shadow .4s var(--ease-brand);
 }
 .nc-talentcard:hover {
-  background: var(--color-navy-wash);
+  background: #f5f5f5;
+  transform:translateY(-3px);
+  box-shadow:0 16px 36px rgba(0,0,0,.09);
 }
 .nc-talent-head {
   display: flex;
@@ -364,6 +389,9 @@ section > .wrap > .nc-filter {
 /* ---------- responsive ---------- */
 
 @media (max-width: 900px) {
+  .nc-case-layout { grid-template-columns:1fr; gap:32px; }
+  .nc-case-aside { position:static; }
+  .nc-case-main > section { padding:30px 24px 34px; }
   .nc-filter {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -389,3 +417,50 @@ section > .wrap > .nc-filter {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ---------- talent search / selection ---------- */
+.nc-talent-search { display:grid; grid-template-columns:180px 1fr; align-items:center; gap:24px; padding:26px 28px; background:var(--color-ink); color:white; }
+.nc-talent-search label { font-size:12px; font-weight:600; letter-spacing:.08em; }
+.nc-talent-search > div { position:relative; }
+.nc-talent-search input { width:100%; border:0; border-bottom:1px solid #667080; padding:12px 34px 12px 0; background:transparent; color:white; font:inherit; font-size:14px; }
+.nc-talent-search input::placeholder { color:#8e96a2; }
+.nc-talent-search span { position:absolute; right:4px; top:7px; font-size:22px; color:#9eabc0; }
+.nc-talent-quick { border:1px solid var(--color-g200); border-top:0; padding:0 28px; }
+.nc-talent-quick .nc-filter { grid-template-columns:150px 1fr; }
+.nc-filter-more { display:flex; width:100%; justify-content:space-between; padding:17px 0; border:0; background:none; color:var(--color-navy); font:inherit; font-size:12.5px; cursor:pointer; }
+.nc-filter-more span { font-size:19px; font-weight:300; }
+.nc-talent-advanced { display:grid; grid-template-columns:1fr 1fr; gap:1px; padding:1px; margin-top:12px; background:var(--color-g200); }
+.nc-talent-advanced > section { background:white; padding:28px; }
+.nc-talent-advanced h3 { margin:0 0 22px; font-size:16px; }
+.nc-filter-category { padding:13px 0; border-top:1px solid var(--color-g100); }
+.nc-filter-category > summary { display:flex; align-items:center; justify-content:space-between; gap:12px; list-style:none; color:var(--color-ink); font-size:11.5px; font-weight:600; cursor:pointer; }
+.nc-filter-category > summary::-webkit-details-marker { display:none; }
+.nc-filter-category > summary::after { content:'＋'; color:var(--color-g700); font-size:15px; font-weight:400; }
+.nc-filter-category[open] > summary::after { content:'−'; }
+.nc-filter-category > summary small { margin-left:auto; color:var(--color-g500); font-size:9px; font-weight:500; }
+.nc-filter-category[open] > summary { margin-bottom:12px; }
+.nc-filter-category > div { display:flex; flex-wrap:wrap; gap:6px; }
+.nc-active-filters { display:grid; grid-template-columns:150px 1fr; gap:20px; align-items:start; padding:16px 28px; border:1px solid var(--color-g200); border-top:0; background:#f7f7f7; }
+.nc-active-filters > span { padding-top:7px; color:var(--color-g700); font-size:10.5px; font-weight:600; }
+.nc-active-filters > div { display:flex; flex-wrap:wrap; gap:6px; }
+.nc-talentcard { display:flex; flex-direction:column; padding:30px; }
+.nc-talentcard.is-selected { background:#f3f3f3; box-shadow:inset 0 0 0 2px var(--color-ink); }
+.nc-talent-index { color:var(--color-g500); font-size:11px; letter-spacing:.12em; }
+.nc-talent-name a::after { display:none; }
+.nc-talent-appeal { min-height:8.2em; padding:20px 0; border-top:1px solid var(--color-g100); color:var(--color-ink-sub); font-size:13px; line-height:1.95; }
+.nc-talent-tags { margin-top:18px; }
+.nc-talent-tags > span { display:block; margin-bottom:8px; color:var(--color-g700); font-size:10px; font-weight:600; letter-spacing:.1em; }
+.nc-tag { background:white; }
+.nc-tag-more { border-style:dashed; color:var(--color-navy); }
+.nc-talent-actions { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-top:auto; padding-top:26px; }
+.nc-talent-actions .nc-more { margin:0; font-size:12px; }
+.nc-talent-select { border:1px solid var(--color-ink); padding:9px 12px; background:white; font:inherit; font-size:11.5px; cursor:pointer; }
+.nc-talent-select[aria-pressed=true] { background:var(--color-ink); color:white; }
+.nc-talent-selection { position:sticky; z-index:20; bottom:18px; display:grid; grid-template-columns:1fr auto auto; align-items:center; gap:24px; margin:28px auto 0; padding:18px 22px; background:var(--color-ink); color:white; box-shadow:0 14px 40px rgba(0,0,0,.2); }
+.nc-talent-selection > div { display:grid; gap:2px; }
+.nc-talent-selection span { color:#8fa3c0; font-size:9px; letter-spacing:.18em; }
+.nc-talent-selection strong { font-size:15px; }
+.nc-talent-selection small { color:#aeb5c0; font-size:10.5px; }
+.nc-talent-selection .nc-reset { color:white; }
+.nc-talent-detail-appeal { margin-bottom:42px; padding:30px 34px; border-left:3px solid var(--color-navy); background:var(--color-surface); font-size:16px; line-height:2; }
+@media(max-width:900px){.nc-talent-search{grid-template-columns:1fr;gap:8px;padding:22px 20px}.nc-talent-quick{padding:0 20px}.nc-talent-advanced{grid-template-columns:1fr}.nc-talent-appeal{min-height:0}.nc-talent-selection{grid-template-columns:1fr;gap:14px;bottom:8px}.nc-talent-selection .btn{width:100%;justify-content:center}}

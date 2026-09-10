@@ -6,14 +6,14 @@ import { selectionSteps, termsPendingNote } from '@/lib/recruit';
 export const metadata: Metadata = {
   title: '選考フロー',
   description:
-    '書類選考 → 面談 → ケース課題 → 最終面談 の4段階。ケース課題は正解を当てる試験ではなく、考え方と進め方を見るものです。',
+    '募集要項の送付から稼働開始までの7ステップ。オンラインを中心に選考と初期手続きを進めます。',
   alternates: { canonical: '/recruit/flow' },
 };
 
 const faq = [
   {
     q: '実務経験がなくても応募できますか。',
-    a: 'できます。応募者の大半が未経験からのスタートです。ケース課題も、知識ではなく考え方と進め方を見るものです。',
+    a: 'できます。応募者の大半が未経験からのスタートです。経験の多さより、責任感と学ぶ姿勢を重視しています。',
   },
   {
     q: '学部・学科は関係ありますか。',
@@ -25,7 +25,7 @@ const faq = [
   },
   {
     q: '選考にはどのくらい時間がかかりますか。',
-    a: 'エントリーから最終面談まで、おおむね2〜3週間です。ケース課題の期限はご相談に応じます。',
+    a: '応募受付から選考結果のご連絡までは、おおむね1〜3週間です。その後、契約・初期手続きとオンボーディングを経て稼働開始となります。',
   },
   {
     q: '契約や報酬の条件はいつ分かりますか。',
@@ -43,16 +43,16 @@ export default function FlowPage() {
     <div className="nc-recruit">
       <PageHero
         title="選考フロー"
-        lead="4段階です。合否を決める場であると同時に、こちらが何をしている会社かを知ってもらう場でもあります。"
+        lead="募集要項の確認からオンボーディング、稼働開始まで。オンラインを中心に7つのステップで進めます。"
         crumbs={[{ label: '採用情報', href: '/recruit' }, { label: '選考フロー' }]}
       />
 
       <div className="section">
         <div className="wrap nc-doc-narrow">
-          <ol className="nc-steps">
+          <ol className="nc-steps nc-selection-steps">
             {selectionSteps.map((step, index) => (
               <li className="nc-step" key={step.no}>
-                <div className="nc-step-n">STEP {step.no}</div>
+                <div className="nc-step-n">Step {step.no}</div>
                 <div className="nc-step-c">
                   <h2>{step.title}</h2>
                   <p>{step.body}</p>
@@ -63,7 +63,7 @@ export default function FlowPage() {
           </ol>
 
           <p className="nc-rnote">
-            所要期間は、エントリーから最終面談までおおむね2〜3週間です。学業の状況に応じて調整します。
+            選考結果のご連絡まではおおむね1〜3週間です。契約手続きとオンボーディングの日程は、学業の状況に応じて調整します。
           </p>
 
           <section aria-labelledby="flow-faq">
@@ -85,13 +85,13 @@ export default function FlowPage() {
       <div className="nc-cta nc-rcta">
         <div className="wrap">
           <h2>まずはエントリーから。</h2>
-          <p>迷っている段階でも構いません。面談で状況を伺って、こちらから提案します。</p>
+          <p>迷っている段階でも構いません。面接で状況を伺って、こちらから提案します。</p>
           <div className="nc-acts nc-cta-acts">
             <Link href="/entry" className="btn">
               エントリーする
             </Link>
-            <Link href="/recruit/jobs" className="btn btn-ghost">
-              募集職種を見る
+            <Link href="/recruit" className="btn btn-ghost">
+              採用情報へ戻る
             </Link>
           </div>
         </div>

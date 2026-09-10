@@ -12,21 +12,21 @@ import Link from 'next/link';
 
 const records = [
   {
-    tag: 'CONSULTING',
+    tag: 'Consulting',
     value: '約50',
     unit: '件',
     body: '1プロジェクトへの継続支援からスポット支援まで対応。営業データ分析、新規事業のPL・コスト試算、人事評価制度設計、収益性分析など。',
     confirmed: true,
   },
   {
-    tag: 'PACKAGE',
+    tag: 'Package',
     value: '数百',
     unit: '件',
     body: '企業・競合・市場分析等のレポートを低単価かつ大量に提供。新規営業対象企業のクローズアップ、M&A候補企業の個社分析など。',
     confirmed: false,
   },
   {
-    tag: 'AI PRODUCTS',
+    tag: 'AI Products',
     value: '5',
     unit: '件',
     body: '自社業務での実運用を起点に、外部提供を見据えて開発・高度化を推進。営業メール自動化、企業クローズアップ生成AIなど。',

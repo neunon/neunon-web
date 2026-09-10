@@ -16,17 +16,17 @@ export default function EntryThanksPage() {
     <div className="nc-recruit">
       <PageHero
         title="受け付けました"
-        lead="エントリーありがとうございます。1週間以内に選考結果をメールで返信します。"
+        lead="エントリーありがとうございます。内容を確認し、募集要項と事前質問をメールでお送りします。"
         crumbs={[{ label: 'エントリー', href: '/entry' }, { label: '完了' }]}
       />
 
       <div className="section">
         <div className="wrap nc-doc-narrow">
           <h2 className="nc-sub-head">このあとの流れ</h2>
-          <ol className="nc-steps">
+          <ol className="nc-steps nc-selection-steps">
             {selectionSteps.map((step, index) => (
               <li className="nc-step" key={step.no}>
-                <div className="nc-step-n">STEP {step.no}</div>
+                <div className="nc-step-n">Step {step.no}</div>
                 <div className="nc-step-c">
                   <h3>{step.title}</h3>
                   <p>{step.body}</p>

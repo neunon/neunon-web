@@ -20,10 +20,9 @@ export const site = {
   employees: '5名',
   address: {
     head: '東京都江東区南砂6-7-36-306',
-    office: '東京都台東区松が谷2-22-5-1002',
   },
   tel: '070-4360-2652',
-  // 要確認: 代表アドレスの新設を推奨（要件定義書 2. / 14）
+  // 代表問い合わせ先
   email: 'keisakamoto@neun-on.com',
 } as const;
 
@@ -58,7 +57,7 @@ export const contactNav = { label: 'お問い合わせ', href: '/contact' };
 
 export const footerNav = [
   {
-    heading: 'SERVICES',
+    heading: 'Services',
     items: [
       { label: 'コンサルティング', href: '/services/consulting' },
       { label: 'パッケージ型支援', href: '/services/package' },
@@ -68,7 +67,7 @@ export const footerNav = [
     ],
   },
   {
-    heading: 'COMPANY',
+    heading: 'Company',
     items: [
       { label: '会社概要', href: '/about' },
       { label: '代表メッセージ', href: '/about/message' },
@@ -77,7 +76,7 @@ export const footerNav = [
     ],
   },
   {
-    heading: 'CAREERS & CONTACT',
+    heading: 'Careers & Contact',
     items: [
       { label: '採用情報', href: '/recruit' },
       { label: '学生エントリー', href: '/entry' },

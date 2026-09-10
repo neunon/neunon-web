@@ -46,8 +46,9 @@ Node のバージョンは `render.yaml` の `NODE_VERSION`（24.14.0）で固�
 | 変数 | 値 | 状態 |
 |---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | 公開URL（末尾スラッシュなし） | ドメイン確定後に本番URLへ変更 |
-| `NEXT_PUBLIC_CONTACT_FORM_ENDPOINT` | `https://formspree.io/f/xxxxxxxx` | **未確定**。Formspree でフォーム作成後 |
-| `NEXT_PUBLIC_ENTRY_FORM_ENDPOINT` | `https://formspree.io/f/yyyyyyyy` | **未確定**。企業用とは別に作る |
+| `NEXT_PUBLIC_CONTACT_FORM_ENDPOINT` | `https://<worker-domain>/contact` | Cloudflare Worker公開後に設定 |
+| `NEXT_PUBLIC_ENTRY_FORM_ENDPOINT` | `https://<worker-domain>/entry` | 同じWorkerの学生用パス |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Turnstileのsitekey | Turnstile作成後に設定 |
 
 `NEXT_PUBLIC_SITE_URL` は sitemap.xml と構造化データの絶対URLに使われる。
 未設定だと `https://neun-on.com` が既定値になるので、
@@ -55,12 +56,9 @@ Node のバージョンは `render.yaml` の `NODE_VERSION`（24.14.0）で固�
 
 環境変数を変更したら、**再デプロイしないと反映されない**（ビルド時に埋め込まれるため）。
 
-### Formspree の設定（未着手）
+### フォーム基盤の設定
 
-1. Formspree でフォームを2つ作る（企業用・学生用）
-2. それぞれの通知先メールアドレスを Formspree 側で指定する
-   - 【要確認】要件定義書 14.「代表メールアドレスの新設」と合わせて決める
-3. 発行されたエンドポイントを上記の環境変数に入れる
+Cloudflare Worker、Resend、Turnstileの設定は `docs/FORM_SETUP.md` を参照する。
 
 未設定の間、フォームは送信ボタンが押せない状態になり、
 画面に「送信先が未設定のため送信できません」と表示される。

@@ -12,7 +12,7 @@ export function PriceFlow() {
   return (
     <>
       <div className="nc-flowrow">
-        <div className="nc-flowlabel">CONVENTIONAL&nbsp;／&nbsp;従来のコンサルティング案件</div>
+        <div className="nc-flowlabel">Conventional&nbsp;／&nbsp;従来のコンサルティング案件</div>
         <div className="nc-flow flow">
           {stages.map((stage) => (
             <div className="nc-cell" key={stage}>
@@ -28,7 +28,7 @@ export function PriceFlow() {
       </div>
 
       <div className="nc-flowrow">
-        <div className="nc-flowlabel">NEUNON&nbsp;／&nbsp;当社の提供体制</div>
+        <div className="nc-flowlabel">Neunon&nbsp;／&nbsp;当社の提供体制</div>
         <div className="nc-flow flow">
           {stages.map((stage) => (
             <div className="nc-cell is-stu" key={stage}>
