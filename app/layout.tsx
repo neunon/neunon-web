@@ -17,7 +17,7 @@ const notoSansJp = Noto_Sans_JP({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name}｜${site.keyMessage}`,
+    default: `${site.searchTagline}｜${site.name}`,
     /*
      * 日本語の検索結果は全角30字前後で切られる。
      * 「｜株式会社Neunon Consulting」は22字あり、
@@ -32,6 +32,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'ja_JP',
     siteName: site.name,
+    // OGP はカードの表示枠が広いので、ブランドメッセージをそのまま使う
     title: `${site.name}｜${site.keyMessage}`,
     description: site.description,
     url: site.url,

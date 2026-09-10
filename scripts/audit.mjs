@@ -36,6 +36,39 @@ function route(file) {
 /** 404 ページの出力先。title/description の重複チェックからは除く */
 const isNotFound = (r) => r === '/404' || r === '/_not-found';
 
+/**
+ * 日本語の検索結果の表示幅は「文字数」ではなく「全角換算幅」で決まる。
+ * 半角英数は全角の半分の幅しか使わないので、文字数で測ると
+ * 英字を含むタイトルを過剰に長いと判定してしまう。
+ *   例: 「Neunon Consulting」は17文字だが幅は 8.5
+ */
+function displayWidth(text) {
+  let width = 0;
+  for (const char of text) {
+    const code = char.codePointAt(0);
+    // 全角（CJK・かな・全角記号）は 1.0、それ以外は 0.5
+    const isFullWidth =
+      (code >= 0x1100 && code <= 0x115f) ||
+      (code >= 0x2e80 && code <= 0xa4cf) ||
+      (code >= 0xac00 && code <= 0xd7a3) ||
+      (code >= 0xf900 && code <= 0xfaff) ||
+      (code >= 0xfe30 && code <= 0xfe6f) ||
+      (code >= 0xff00 && code <= 0xff60) ||
+      (code >= 0xffe0 && code <= 0xffe6);
+    width += isFullWidth ? 1 : 0.5;
+  }
+  return width;
+}
+
+/*
+ * しきい値。表示枠の目安は title 30 / description 120 だが、
+ * 目安を少し超えた程度でデプロイを止めるのは行き過ぎなので、
+ * 明らかに破綻している場合だけ落とす。
+ */
+const TITLE_MAX_WIDTH = 36;
+const DESC_MAX_WIDTH = 130;
+const DESC_MIN_WIDTH = 60;
+
 /** 機密・個人情報に関する禁止語（要件定義書 6.6 / 12.1） */
 const FORBIDDEN = [
   { word: '偏差値', why: '学歴要件の非掲載（6.6）' },
@@ -77,6 +110,21 @@ async function main() {
     }
 
     if (!isNotFound(r) && !/<link rel="canonical"/.test(html)) add('canonical がない');
+
+    // --- 検索結果での表示幅（要件定義書 10.2） ---
+    // noindex のページは検索結果に出ないので、幅を測る意味がない
+    const noindex = /<meta name="robots" content="[^"]*noindex/.test(html);
+    if (title && !isNotFound(r) && !noindex) {
+      const w = displayWidth(title);
+      if (w > TITLE_MAX_WIDTH) {
+        add(`title が長すぎる（全角換算 ${w} / 目安30・上限${TITLE_MAX_WIDTH}）: ${title}`);
+      }
+    }
+    if (desc && !isNotFound(r) && !noindex) {
+      const w = displayWidth(desc);
+      if (w > DESC_MAX_WIDTH) add(`description が長すぎる（全角換算 ${w} / 上限${DESC_MAX_WIDTH}）`);
+      if (w < DESC_MIN_WIDTH) add(`description が短すぎる（全角換算 ${w} / 下限${DESC_MIN_WIDTH}）`);
+    }
 
     // --- 見出し ---
     const headings = [...html.matchAll(/<h([1-6])\b[^>]*>/g)].map((m) => Number(m[1]));
