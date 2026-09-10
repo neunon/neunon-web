@@ -6,6 +6,7 @@ import { PriceFlow } from '@/components/shared/PriceFlow';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { TableOfContents, type TocItem } from '@/components/toc/TableOfContents';
 import { getService, getServices, getWorksByService } from '@/lib/content';
+import { faqSchema, jsonLd, serviceSchema } from '@/lib/schema';
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -25,9 +26,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const service = getService(id);
   if (!service) return {};
 
+  // 事業ページは商談につながる入口なので、
+  // 概要だけでなく「どんな課題に使えるか」と主要メニュー名まで入れる
+  const menuNames = service.menu
+    .slice(0, 3)
+    .map((item) => item.name)
+    .join('、');
+
   return {
     title: service.title,
-    description: service.summary,
+    description: `${service.summary}${service.useCases[0] ?? ''}主なメニュー: ${menuNames} など。`.slice(0, 120),
     alternates: { canonical: `/services/${service.id}` },
   };
 }
@@ -62,6 +70,12 @@ export default async function ServiceDetailPage({ params }: Props) {
 
   return (
     <>
+      {/* 事業そのものと、このページのFAQ */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLd(serviceSchema(service), faqSchema(service.faq))}
+      />
+
       <PageHero
         title={service.title}
         lead={service.lead}

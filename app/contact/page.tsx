@@ -8,7 +8,7 @@ import { site } from '@/lib/site';
 export const metadata: Metadata = {
   title: 'お問い合わせ',
   description:
-    '企業のお客様向けのお問い合わせフォーム。スポット業務や小さなご相談からお受けします。',
+    '企業のお客様向けのお問い合わせフォーム。スポット業務や小さなご相談からお受けします。競合調査、市場調査、データ分析、資料作成などのご依頼に対応します。何を調べるべきかが決まっていない段階でのご相談も歓迎です。',
   alternates: { canonical: '/contact' },
 };
 

@@ -4,6 +4,7 @@ import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { site } from '@/lib/site';
+import { jsonLd, organizationSchema, webSiteSchema } from '@/lib/schema';
 
 /* 日本語は Noto Sans JP。英数字は CSS 側で Neue Haas Grotesk を優先する。 */
 const notoSansJp = Noto_Sans_JP({
@@ -17,7 +18,14 @@ export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
     default: `${site.name}｜${site.keyMessage}`,
-    template: `%s｜${site.name}`,
+    /*
+     * 日本語の検索結果は全角30字前後で切られる。
+     * 「｜株式会社Neunon Consulting」は22字あり、
+     * ページ名に使える幅がほとんど残らなかったため短縮した。
+     * これでも18字使うので、タイトルが長いページ（実績・お知らせ）は
+     * title.absolute で接尾辞そのものを外している。
+     */
+    template: `%s｜${site.shortName}`,
   },
   description: site.description,
   openGraph: {
@@ -39,42 +47,14 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-/**
- * 構造化データ（要件定義書 10.2）。
- * 掲載する会社情報は 12.1 の発注者判断に従い、所在地・電話番号を含める。
- */
-const organizationJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: site.name,
-  alternateName: site.nameEn,
-  url: site.url,
-  logo: `${site.url}/brand-logo-transparent.png`,
-  foundingDate: '2026-01-27',
-  description: site.description,
-  address: {
-    '@type': 'PostalAddress',
-    addressCountry: 'JP',
-    addressRegion: '東京都',
-    streetAddress: site.address.head,
-  },
-  contactPoint: {
-    '@type': 'ContactPoint',
-    telephone: `+81-${site.tel.slice(1).replace(/-/g, '-')}`,
-    contactType: 'sales',
-    areaServed: 'JP',
-    availableLanguage: ['Japanese'],
-  },
-};
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja" className={notoSansJp.variable}>
       <head>
+        {/* 全ページ共通。事業者とサイト自体の宣言 */}
         <script
           type="application/ld+json"
-          // 静的な自社情報のみを埋め込む
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          dangerouslySetInnerHTML={jsonLd(organizationSchema(), webSiteSchema())}
         />
       </head>
       <body>

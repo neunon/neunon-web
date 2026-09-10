@@ -9,7 +9,7 @@ import { getPublicTalents } from '@/lib/talent.server';
 export const metadata: Metadata = {
   title: '人材パネル',
   description:
-    '案件を担当する登録学生の一覧。匿名のプロフィールから、スキルと対応領域を確認できます。',
+    '案件を担当する登録学生の一覧。スキルと対応領域から、相談したいメンバーを複数選択できます。実名・大学名は公開せず、匿名のプロフィールとして掲載しています。',
   alternates: { canonical: '/talent' },
 };
 

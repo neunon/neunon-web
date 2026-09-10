@@ -7,6 +7,8 @@
 export const site = {
   name: '株式会社Neunon Consulting',
   nameEn: 'Neunon Consulting, Inc.',
+  /** title の接尾辞用。「, Inc.」を含む nameEn は日本語SERPには長すぎる */
+  shortName: 'Neunon Consulting',
   // 要確認: 独自ドメインの取得状況（要件定義書 10.3 / 14）
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://neun-on.com',
   domain: 'neun-on.com',

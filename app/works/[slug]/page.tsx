@@ -19,8 +19,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!work) return {};
 
   return {
-    title: `${work.title}｜${work.industry}`,
-    description: `${work.industry}の支援事例。${work.challenge}という課題に対する分析アプローチと、そこから得られた示唆。`,
+    // 事例タイトル自体が25〜32字あり、日本語SERPの表示枠をすでに使い切る。
+    // 業種は description の冒頭とパンくずで示すので、接尾辞は一切付けない
+    title: { absolute: work.title },
+    description: `${work.industry}の支援事例。${work.challenge}という課題に対し、${work.approach}`.slice(0, 120),
     alternates: { canonical: `/works/${work.slug}` },
   };
 }
