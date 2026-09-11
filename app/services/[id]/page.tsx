@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { PriceFlow } from '@/components/shared/PriceFlow';
 import { ContactCta } from '@/components/shared/ContactCta';
+import { PackageServiceDetail } from '@/components/services/PackageServiceDetail';
 import { TableOfContents, type TocItem } from '@/components/toc/TableOfContents';
 import { getService, getServices, getWorksByService } from '@/lib/content';
 
@@ -44,6 +45,10 @@ export default async function ServiceDetailPage({ params }: Props) {
   if (!service) notFound();
 
   const works = getWorksByService(service.id);
+
+  if (service.id === 'package') {
+    return <PackageServiceDetail service={service} works={works} />;
+  }
 
   const toc: TocItem[] = [
     ...(service.id === 'consulting' ? [{ id: 'consulting-scope', label: '支援できること' }] : []),

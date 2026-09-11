@@ -3,7 +3,6 @@ import { Hero } from '@/components/home/Hero';
 import { Problem } from '@/components/home/Problem';
 import { Structure } from '@/components/home/Structure';
 import { Services } from '@/components/home/Services';
-import { WhyThisPrice } from '@/components/home/WhyThisPrice';
 import { Process } from '@/components/home/Process';
 import { Careers } from '@/components/home/Careers';
 import { News } from '@/components/home/News';
@@ -18,19 +17,16 @@ export const metadata: Metadata = {
 
 /**
  * トップページ。
- * セクション順は要件定義書 6.1 の表に従う（この順序に意味がある）。
- *   1 ヒーロー / 2 課題提起 / 3 提供価値 / 4 事業内容・実績 / 5 導入の流れ
- *   6 学生の方へ / 7 お知らせ / 8 CTA
- * 加えて 6.3.1 の指示により「なぜこの価格でできるのか」をトップにも配置している。
+ * 課題提起から提供形態、品質体制へと読み進められる順序で構成する。
+ * 参考価格は提供形態と分離せず、同じセクション内で続けて提示する。
  */
 export default function HomePage() {
   return (
     <>
       <Hero />
       <Problem />
-      <Structure />
       <Services />
-      <WhyThisPrice />
+      <Structure />
       <Process />
       <Careers />
       <News />
