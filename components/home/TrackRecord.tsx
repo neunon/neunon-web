@@ -15,7 +15,7 @@ export function TrackRecord() {
       <div className="nc-evidence-foot">
         <div className="nc-industry-panel">
           <div className="nc-industry-copy">
-            <span>Industries</span>
+            <span>Industry</span>
             <h4 id="industry-heading">業界</h4>
             <p>業界固有の前提を捉えながら、幅広い領域の実務を支援しています。</p>
           </div>
@@ -27,6 +27,7 @@ export function TrackRecord() {
         <Link href="/works" className="nc-more">
           <i aria-hidden="true" />支援実績を見る
         </Link>
+        <span className="nc-industry-word" aria-hidden="true">Industry</span>
       </div>
     </aside>
   );

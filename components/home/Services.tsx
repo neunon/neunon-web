@@ -4,45 +4,12 @@ import { TrackRecord } from './TrackRecord';
 
 const serviceAchievements: Record<
   string,
-  { label: string; value: string; unit: string; icon: 'chart' | 'documents' | 'product' }
+  { label: string; value: string; unit: string }
 > = {
-  consulting: { label: '累計業務支援件数', value: '約50', unit: '件', icon: 'chart' },
-  package: { label: '累計レポート作成件数', value: '数百', unit: '件', icon: 'documents' },
-  ai: { label: 'プロダクト開発・運用数', value: '5', unit: '件', icon: 'product' },
+  consulting: { label: '累計業務支援件数', value: '約50', unit: '件' },
+  package: { label: '累計レポート作成件数', value: '数百', unit: '件' },
+  ai: { label: 'プロダクト開発・運用数', value: '5', unit: '件' },
 };
-
-function AchievementIcon({ type }: { type: 'chart' | 'documents' | 'product' }) {
-  const common = {
-    fill: 'none',
-    stroke: 'currentColor',
-    strokeWidth: 1.65,
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-  };
-
-  return (
-    <svg viewBox="0 0 56 56" aria-hidden="true">
-      {type === 'chart' ? (
-        <>
-          <path d="M10 45V34h8v11M24 45V25h8v20M38 45V14h8v31" {...common} />
-          <path d="M8 46h40" {...common} />
-        </>
-      ) : null}
-      {type === 'documents' ? (
-        <>
-          <path d="M18 12h25v32H18z" {...common} />
-          <path d="M13 17h5M13 17v32h25v-5M24 21h13M24 28h13M24 35h9" {...common} />
-        </>
-      ) : null}
-      {type === 'product' ? (
-        <>
-          <circle cx="28" cy="28" r="8" {...common} />
-          <path d="m24 9-1.3 5.1a15 15 0 0 0-3.4 2l-5-1.5-4 6.9 3.8 3.6a15 15 0 0 0 0 3.9l-3.8 3.6 4 6.9 5-1.5a15 15 0 0 0 3.4 2L24 47h8l1.3-5.1a15 15 0 0 0 3.4-2l5 1.5 4-6.9-3.8-3.6a15 15 0 0 0 0-3.9l3.8-3.6-4-6.9-5 1.5a15 15 0 0 0-3.4-2L32 9h-8Z" {...common} />
-        </>
-      ) : null}
-    </svg>
-  );
-}
 
 function ServiceAchievement({ serviceId }: { serviceId: string }) {
   const achievement = serviceAchievements[serviceId];
@@ -56,8 +23,6 @@ function ServiceAchievement({ serviceId }: { serviceId: string }) {
           {achievement.value}<small>{achievement.unit}</small>
         </strong>
       </div>
-      <AchievementIcon type={achievement.icon} />
-      <span className="nc-svc-achievement-word" aria-hidden="true">Achievements</span>
     </div>
   );
 }
@@ -96,7 +61,6 @@ export function Services() {
                   <li key={highlight}>{highlight}</li>
                 ))}
               </ul>
-              <ServiceAchievement serviceId={service.id} />
               <Link href={`/services/${service.id}`} className="nc-more">
                 <i aria-hidden="true" />
                 詳しく見る
@@ -105,6 +69,18 @@ export function Services() {
             </article>
           ))}
         </div>
+
+        <section className="nc-achievements" aria-labelledby="achievements-heading">
+          <h3 id="achievements-heading" className="sr-only-text">実績件数</h3>
+          <div className="nc-achievements-grid">
+            {services.map((service) => (
+              <ServiceAchievement serviceId={service.id} key={service.id} />
+            ))}
+          </div>
+          <span className="nc-achievements-word" aria-hidden="true">Achievements</span>
+        </section>
+
+        <TrackRecord />
 
         {referencePricing.length > 0 ? (
           <aside className="nc-reference-price" aria-labelledby="reference-price-heading">
@@ -132,8 +108,6 @@ export function Services() {
             <p className="nc-reference-price-note">{packageService?.pricingNote}</p>
           </aside>
         ) : null}
-
-        <TrackRecord />
       </div>
     </section>
   );

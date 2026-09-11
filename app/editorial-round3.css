@@ -20,32 +20,55 @@
   display: none;
 }
 
-/* ---------- open achievement rows ---------- */
+/* ---------- services followed by an open achievement stage ---------- */
 
 .nc-home-services .nc-svc {
-  min-height: 750px;
+  min-height: 530px;
 }
 
 .nc-home-services .nc-svc ul {
-  margin-bottom: 40px;
+  margin-bottom: 42px;
+}
+
+.nc-home-services .nc-svc > .nc-more {
+  margin-top: auto;
+}
+
+.nc-home-services .nc-achievements {
+  position: relative;
+  overflow: hidden;
+  min-height: 390px;
+  padding: 108px 50px 120px;
+  border-inline: 1px solid var(--nc-line);
+  border-top: 1px solid var(--nc-line);
+  border-bottom: 1px solid var(--nc-line);
+  background:
+    radial-gradient(circle at 72% 10%, rgba(203, 214, 225, 0.24), transparent 32%),
+    linear-gradient(115deg, #ffffff 0%, #f8fafc 48%, #eff3f7 100%);
+  color: var(--color-ink);
+  isolation: isolate;
+}
+
+.nc-home-services .nc-achievements-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .nc-home-services .nc-svc-achievement {
   position: relative;
-  display: flex;
-  min-height: 230px;
-  margin-top: auto;
-  align-items: center;
-  overflow: hidden;
-  padding: 52px 4px 46px;
+  display: block;
+  min-height: 0;
+  min-width: 0;
+  margin: 0;
+  padding: 8px 46px 14px;
+  overflow: visible;
   border: 0;
-  border-top: 1px solid var(--nc-line);
-  border-bottom: 1px solid var(--nc-line);
   border-radius: 0;
   background: transparent;
   color: var(--color-ink);
   box-shadow: none;
-  isolation: isolate;
 }
 
 .nc-home-services .nc-svc-achievement::before {
@@ -53,84 +76,53 @@
   display: none;
 }
 
+.nc-home-services .nc-svc-achievement + .nc-svc-achievement {
+  border-left: 1px solid rgba(124, 143, 164, 0.42);
+}
+
 .nc-home-services .nc-svc-achievement-copy {
   position: relative;
   z-index: 2;
-  width: 100%;
 }
 
 .nc-home-services .nc-svc-achievement-copy > span {
-  color: #3e5269;
-  font-size: 12px;
-  font-weight: 600;
+  display: block;
+  color: #43566c;
+  font-size: 13px;
+  font-weight: 650;
   line-height: 1.6;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.025em;
 }
 
 .nc-home-services .nc-svc-achievement-copy strong {
-  margin-top: 15px;
+  display: block;
+  margin-top: 22px;
   color: #173f78;
-  font-size: clamp(48px, 4.2vw, 62px);
+  font-size: clamp(56px, 5.2vw, 78px);
   font-weight: 550;
-  line-height: 0.96;
+  line-height: 0.9;
   letter-spacing: -0.065em;
+  white-space: nowrap;
 }
 
 .nc-home-services .nc-svc-achievement-copy small {
-  margin-left: 9px;
+  margin-left: 11px;
   color: #334d6d;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
+  letter-spacing: 0;
 }
 
-.nc-home-services .nc-svc-achievement > svg {
-  display: none;
-}
-
-.nc-home-services .nc-svc-achievement-word {
-  right: -8px;
-  bottom: 5px;
+.nc-home-services .nc-achievements-word {
+  position: absolute;
+  left: 18%;
+  bottom: -51px;
   z-index: 1;
-  color: rgba(72, 82, 94, 0.085);
-  font: 600 clamp(46px, 4.6vw, 68px) / 0.9 'Helvetica Neue', Arial, sans-serif;
-  letter-spacing: -0.065em;
-}
-
-.nc-home-services .nc-svc > .nc-more {
-  margin-top: 28px;
-}
-
-/* ---------- one achievement word across all three columns ---------- */
-
-@media (min-width: 901px) {
-  .nc-home-services .nc-svcs {
-    position: relative;
-    overflow: hidden;
-    isolation: isolate;
-  }
-
-  .nc-home-services .nc-svcs::after {
-    content: 'Achievements';
-    position: absolute;
-    left: 23%;
-    bottom: 58px;
-    z-index: 2;
-    color: rgba(72, 82, 94, 0.072);
-    font: 600 clamp(88px, 11.6vw, 168px) / 0.82 'Helvetica Neue', Arial, sans-serif;
-    letter-spacing: -0.075em;
-    white-space: nowrap;
-    pointer-events: none;
-  }
-
-  .nc-home-services .nc-svc-achievement-word {
-    display: none;
-  }
-
-  .nc-home-services .nc-svc-achievement-copy,
-  .nc-home-services .nc-svc > .nc-more {
-    position: relative;
-    z-index: 3;
-  }
+  color: rgba(42, 62, 84, 0.07);
+  font: 600 clamp(112px, 15vw, 214px) / 0.78 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.075em;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 /* ---------- reference price inside the service section ---------- */
@@ -264,18 +256,99 @@
   line-height: 1.7;
 }
 
+/* ---------- industry step between achievements and price ---------- */
+
+.nc-home-services .nc-service-evidence {
+  position: relative;
+  overflow: hidden;
+  margin-top: 0;
+  border: 0;
+  border-inline: 1px solid var(--nc-line);
+  border-bottom: 1px solid var(--nc-line);
+  isolation: isolate;
+}
+
+.nc-home-services .nc-evidence-foot {
+  position: relative;
+  z-index: 1;
+  min-height: 270px;
+  overflow: hidden;
+  padding: 62px 58px 76px;
+  border: 0;
+  background:
+    radial-gradient(circle at 78% 10%, rgba(79, 113, 154, 0.12), transparent 34%),
+    linear-gradient(108deg, #edf2f7 0%, #e5ecf3 54%, #d8e3ed 100%);
+  isolation: isolate;
+}
+
+.nc-home-services .nc-industry-panel,
+.nc-home-services .nc-evidence-foot > .nc-more {
+  position: relative;
+  z-index: 2;
+}
+
+.nc-home-services .nc-industry-copy > span {
+  color: #506986;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.nc-home-services .nc-industry-copy h4 {
+  margin-top: 13px;
+  font-size: 30px;
+  font-weight: 560;
+}
+
+.nc-home-services .nc-industry-copy p {
+  margin-top: 15px;
+  color: #526274;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.nc-home-services .nc-inds {
+  gap: 11px;
+}
+
+.nc-home-services .nc-ind {
+  padding: 10px 20px;
+  border-color: rgba(80, 105, 134, 0.32);
+  background: rgba(255, 255, 255, 0.72);
+  color: #344b65;
+  font-size: 13px;
+}
+
+.nc-home-services .nc-industry-word {
+  position: absolute;
+  left: 37%;
+  bottom: -49px;
+  z-index: 1;
+  color: rgba(36, 68, 105, 0.07);
+  font: 600 clamp(118px, 16vw, 225px) / 0.78 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.07em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 @media (max-width: 900px) {
   .nc-home-services .nc-svc {
     min-height: 0;
   }
 
-  .nc-home-services .nc-svc-achievement {
-    min-height: 196px;
-    padding-block: 38px 34px;
+  .nc-home-services .nc-achievements {
+    min-height: 0;
+    padding: 72px 34px 92px;
   }
 
-  .nc-home-services .nc-svc-achievement-word {
-    font-size: clamp(48px, 11vw, 66px);
+  .nc-home-services .nc-svc-achievement {
+    padding-inline: 26px;
+  }
+
+  .nc-home-services .nc-evidence-foot {
+    min-height: 0;
+    padding: 52px 34px 68px;
   }
 }
 
@@ -288,8 +361,50 @@
     margin-bottom: 34px;
   }
 
+  .nc-home-services .nc-achievements {
+    margin-inline: -20px;
+    padding: 62px 20px 88px;
+  }
+
+  .nc-home-services .nc-achievements-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nc-home-services .nc-svc-achievement {
+    padding: 32px 8px 38px;
+  }
+
+  .nc-home-services .nc-svc-achievement:first-child {
+    padding-top: 10px;
+  }
+
+  .nc-home-services .nc-svc-achievement + .nc-svc-achievement {
+    border-top: 1px solid rgba(124, 143, 164, 0.42);
+    border-left: 0;
+  }
+
   .nc-home-services .nc-svc-achievement-copy strong {
-    font-size: 50px;
+    font-size: 56px;
+  }
+
+  .nc-home-services .nc-achievements-word {
+    left: 2px;
+    bottom: -19px;
+    font-size: clamp(68px, 25vw, 98px);
+  }
+
+  .nc-home-services .nc-service-evidence {
+    margin-inline: -20px;
+  }
+
+  .nc-home-services .nc-evidence-foot {
+    padding: 48px 20px 76px;
+  }
+
+  .nc-home-services .nc-industry-word {
+    left: 15%;
+    bottom: -20px;
+    font-size: clamp(82px, 30vw, 120px);
   }
 }
 
