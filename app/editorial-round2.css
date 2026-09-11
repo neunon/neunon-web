@@ -1,0 +1,430 @@
+/* ============================================================
+   Homepage refinement / round 2
+   ------------------------------------------------------------
+   2026-09 refinement request is isolated here so the entire pass
+   can be removed without disturbing the preceding editorial refresh.
+   ============================================================ */
+
+/* Remove the decorative guide that crossed the hero and pale sections. */
+.nc-hero::after,
+.section-alt::after,
+.nc-structure-section::after {
+  content: none;
+  display: none;
+}
+
+/* Section headings share one optical axis; homepage counters are omitted. */
+#main > .section > .wrap > .shead:not(.nc-news-head),
+#main > .section > .wrap > div > .shead:not(.nc-news-head) {
+  align-items: center;
+}
+
+#main > .section > .wrap > .shead:not(.nc-news-head)::before,
+#main > .section > .wrap > div > .shead:not(.nc-news-head)::before {
+  content: none;
+  display: none;
+}
+
+.nc-news-head {
+  align-items: center;
+}
+
+.nc-hero .wrap::after {
+  content: none;
+  display: none;
+}
+
+/* ---------- four forces / two outcomes ---------- */
+
+.nc-potential-grid {
+  gap: 44px;
+}
+
+.nc-potential-grid .nc-prob {
+  min-height: 278px;
+  padding: 28px 26px 36px;
+  border-color: #b9c4ce;
+  background:
+    linear-gradient(180deg, rgba(237, 243, 248, 0.36), transparent 64px),
+    #fff;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 18px 44px rgba(7, 26, 53, 0.065);
+}
+
+.nc-potential-grid .nc-prob::after {
+  right: -34px;
+  width: 24px;
+  color: #173f78;
+  font-size: 25px;
+}
+
+.nc-potential-grid .nc-prob:hover {
+  border-color: rgba(23, 63, 120, 0.48);
+  background:
+    linear-gradient(180deg, rgba(226, 236, 245, 0.62), transparent 70px),
+    #fff;
+  box-shadow: 0 25px 62px rgba(7, 26, 53, 0.105);
+}
+
+.nc-prob-top::before {
+  border-color: rgba(255, 255, 255, 0.11);
+  background: linear-gradient(145deg, #313840 0%, #20272f 58%, #151b22 100%);
+  box-shadow:
+    inset 0 0 0 7px rgba(255, 255, 255, 0.018),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    0 13px 28px rgba(7, 26, 53, 0.15);
+}
+
+.nc-growth-map {
+  row-gap: 58px;
+  max-width: 920px;
+  padding-top: 56px;
+}
+
+.nc-growth-arrow {
+  width: 72px;
+  height: 72px;
+  filter: drop-shadow(0 8px 12px rgba(21, 27, 34, 0.13));
+}
+
+.nc-growth-arrow::before {
+  width: 390px;
+  height: 72px;
+  background: linear-gradient(90deg, transparent 0%, rgba(70, 81, 92, 0.045) 20%, rgba(92, 106, 119, 0.14) 50%, rgba(70, 81, 92, 0.045) 80%, transparent 100%);
+}
+
+.nc-growth-arrow svg {
+  top: 22px;
+  height: 58px;
+}
+
+.nc-growth-outcomes {
+  max-width: 900px;
+  gap: 24px;
+}
+
+.nc-growth-outcomes article {
+  min-height: 184px;
+  border-color: #b9c4ce;
+  background: #fff;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 18px 44px rgba(7, 26, 53, 0.07);
+}
+
+.nc-growth-outcomes article::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 36%;
+  z-index: 2;
+  height: 2px;
+  background: linear-gradient(90deg, #173f78, rgba(23, 63, 120, 0.12));
+}
+
+.nc-growth-outcomes article:hover {
+  border-color: rgba(23, 63, 120, 0.5);
+  box-shadow: 0 25px 58px rgba(7, 26, 53, 0.11);
+}
+
+.nc-outcome-visual {
+  filter: grayscale(1) contrast(1.12) brightness(0.82);
+}
+
+.nc-outcome-copy {
+  padding-right: 32px;
+}
+
+/* ---------- service columns / achievements ---------- */
+
+.nc-home-services .nc-svcs {
+  align-items: stretch;
+}
+
+.nc-home-services .nc-svc {
+  display: flex;
+  min-height: 660px;
+  flex-direction: column;
+  padding: 34px 32px 32px;
+  border-top: 2px solid transparent;
+}
+
+.nc-home-services .nc-svc:hover {
+  border-top-color: #173f78;
+  background: #f8fafc;
+}
+
+.nc-home-services .nc-svc > p {
+  min-height: 6.1em;
+}
+
+.nc-home-services .nc-svc ul {
+  margin-bottom: 28px;
+}
+
+.nc-svc-achievement {
+  position: relative;
+  display: grid;
+  min-height: 154px;
+  margin-top: auto;
+  grid-template-columns: minmax(0, 1fr) 76px;
+  align-items: center;
+  gap: 18px;
+  overflow: hidden;
+  padding: 24px 24px 22px;
+  border: 1px solid rgba(122, 158, 202, 0.42);
+  border-radius: 3px;
+  background:
+    linear-gradient(122deg, transparent 0 66%, rgba(255, 255, 255, 0.08) 66.2% 66.7%, transparent 67%),
+    linear-gradient(138deg, #071a35 0%, #113d76 47%, #2f67ae 68%, #0a2853 100%);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.13),
+    0 16px 30px rgba(7, 26, 53, 0.18);
+}
+
+.nc-svc-achievement::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: #81aee1;
+}
+
+.nc-svc-achievement-copy {
+  position: relative;
+  z-index: 2;
+}
+
+.nc-svc-achievement-copy > span {
+  display: block;
+  color: rgba(239, 246, 253, 0.82);
+  font-size: 11px;
+  font-weight: 550;
+  line-height: 1.55;
+  letter-spacing: 0.015em;
+}
+
+.nc-svc-achievement-copy strong {
+  display: block;
+  margin-top: 9px;
+  font-size: clamp(36px, 3.25vw, 50px);
+  font-weight: 550;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+}
+
+.nc-svc-achievement-copy small {
+  margin-left: 7px;
+  font-size: 14px;
+  font-weight: 550;
+  letter-spacing: 0;
+}
+
+.nc-svc-achievement > svg {
+  position: relative;
+  z-index: 2;
+  width: 70px;
+  height: 70px;
+  color: rgba(160, 198, 239, 0.88);
+}
+
+.nc-svc-achievement-word {
+  position: absolute;
+  right: -4px;
+  bottom: -13px;
+  color: rgba(255, 255, 255, 0.105);
+  font: 600 28px/1 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.055em;
+  white-space: nowrap;
+}
+
+.nc-home-services .nc-svc > .nc-more {
+  margin-top: 26px;
+}
+
+.nc-home-services .nc-service-evidence {
+  margin-top: 0;
+  border-top: 0;
+}
+
+.nc-home-services .nc-evidence-foot {
+  background: linear-gradient(100deg, #f2f6fa, #f8fafc 60%, #eef4f9);
+}
+
+/* ---------- organization ---------- */
+
+.section.section-alt.nc-structure-section {
+  border-color: var(--nc-line);
+  background: #fff;
+}
+
+.nc-structure-section .nc-org {
+  padding-block: 30px 22px;
+  border: 0;
+  background: #fff;
+}
+
+.nc-org {
+  --nc-card: #f3f5f7;
+  --nc-line: #aeb8c1;
+  --nc-gentian: #24558f;
+}
+
+.nc-org-team {
+  border: 1px solid rgba(19, 31, 45, 0.1);
+  border-radius: calc(var(--u) * 13);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.64), transparent 34%),
+    var(--nc-card);
+  box-shadow: 0 calc(var(--u) * 14) calc(var(--u) * 28) rgba(7, 26, 53, 0.055);
+}
+
+.nc-org-team.is-new {
+  background:
+    linear-gradient(180deg, rgba(232, 239, 247, 0.78), transparent 36%),
+    var(--nc-card);
+}
+
+.nc-org-team.is-new::after,
+.nc-org-team.is-future::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: calc(var(--u) * 74);
+  height: calc(var(--u) * 3);
+  transform: translateX(-50%);
+  background: var(--nc-gentian-metal);
+}
+
+.nc-org-oversight {
+  background: linear-gradient(115deg, #10151c, #17304f 52%, #10151c);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 calc(var(--u) * 8) calc(var(--u) * 18) rgba(7, 26, 53, 0.16);
+}
+
+.nc-org-avatar.is-featured::before {
+  background: linear-gradient(140deg, #0a203d, #315f9c 52%, #183e73);
+}
+
+.nc-org-promo-path {
+  stroke: #24558f;
+}
+
+.nc-org-promotion {
+  background: linear-gradient(135deg, #0a203d, #315f9c 55%, #173e73);
+  box-shadow: 0 calc(var(--u) * 6) calc(var(--u) * 14) rgba(7, 26, 53, 0.18);
+}
+
+/* Footer keeps its dark field while displaying the original black logo. */
+.nc-footer .nc-flogo {
+  width: 140px;
+  height: 70px;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.nc-footer .nc-flogo img {
+  top: 3px;
+  left: 7px;
+  width: 126px;
+  filter: none;
+}
+
+@media (max-width: 1050px) {
+  .nc-potential-grid {
+    gap: 30px;
+  }
+
+  .nc-potential-grid .nc-prob::after {
+    right: -27px;
+  }
+
+  .nc-home-services .nc-svc {
+    padding-inline: 26px;
+  }
+
+  .nc-svc-achievement {
+    grid-template-columns: minmax(0, 1fr) 58px;
+    padding-inline: 20px;
+  }
+
+  .nc-svc-achievement > svg {
+    width: 58px;
+    height: 58px;
+  }
+}
+
+@media (max-width: 900px) {
+  .nc-potential-grid {
+    gap: 28px;
+  }
+
+  .nc-potential-grid .nc-prob::after {
+    right: -26px;
+  }
+
+  .nc-home-services .nc-svc {
+    min-height: 0;
+  }
+
+  .nc-home-services .nc-svc > p {
+    min-height: 0;
+  }
+
+  .nc-svc-achievement {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 700px) {
+  #main > .section > .wrap > .shead:not(.nc-news-head),
+  #main > .section > .wrap > div > .shead:not(.nc-news-head) {
+    align-items: start;
+  }
+
+  .nc-potential-grid {
+    gap: 24px;
+  }
+
+  .nc-potential-grid .nc-prob::after {
+    right: auto;
+  }
+
+  .nc-growth-map {
+    row-gap: 48px;
+  }
+
+  .nc-growth-arrow::before {
+    width: min(290px, calc(100vw - 40px));
+  }
+
+  .nc-growth-outcomes article::before {
+    left: 34%;
+  }
+
+  .nc-outcome-copy {
+    padding-right: 18px;
+  }
+
+  .nc-home-services .nc-service-evidence {
+    margin-inline: -20px;
+  }
+
+  .nc-svc-achievement {
+    min-height: 144px;
+  }
+
+  .nc-svc-achievement-copy strong {
+    font-size: 42px;
+  }
+
+  .nc-structure-section .nc-org {
+    padding-block: 22px 16px;
+  }
+}
