@@ -16,7 +16,7 @@ export default function CompanyPage() {
     <>
       <PageHero
         title="会社情報"
-        crumbs={[{ label: '会社概要', href: '/about' }, { label: '会社情報' }]}
+        crumbs={[{ label: '企業情報', href: '/about' }, { label: '会社情報' }]}
       />
 
       <div className="section">
@@ -33,7 +33,7 @@ export default function CompanyPage() {
         </div>
       </div>
 
-      <ContactCta secondary={{ label: '会社概要へ戻る', href: '/about' }} />
+      <ContactCta secondary={{ label: '企業情報へ戻る', href: '/about' }} />
     </>
   );
 }

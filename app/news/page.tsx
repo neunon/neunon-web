@@ -45,7 +45,7 @@ export default function NewsPage() {
         </div>
       </div>
 
-      <ContactCta secondary={{ label: '会社概要を見る', href: '/about' }} />
+      <ContactCta secondary={{ label: '企業情報を見る', href: '/about' }} />
     </>
   );
 }

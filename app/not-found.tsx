@@ -14,7 +14,7 @@ export default function NotFound() {
     { href: '/services', label: '事業内容', note: '3つの提供形態' },
     { href: '/works', label: '支援実績', note: '業種と分析アプローチ' },
     { href: '/recruit', label: '採用情報', note: '学生の方はこちら' },
-    { href: '/about', label: '会社概要', note: '会社情報・沿革' },
+    { href: '/about', label: '企業情報', note: '理念・組織体制・会社情報' },
     { href: '/contact', label: 'お問い合わせ', note: '企業のお客様' },
   ];
 

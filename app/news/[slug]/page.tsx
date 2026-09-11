@@ -44,14 +44,14 @@ export default async function NewsDetailPage({ params }: Props) {
 
       <div className="section">
         <div className="wrap nc-doc-narrow">
-          <article>
+          <article className="nc-news-article">
             {item.body.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </article>
 
           {others.length > 0 ? (
-            <section aria-labelledby="other-news">
+            <section className="nc-news-related" aria-labelledby="other-news">
               <h2 id="other-news" className="nc-sub-head">
                 ほかのお知らせ
               </h2>

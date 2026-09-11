@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getServices } from '@/lib/content';
+import { TrackRecord } from './TrackRecord';
 
 /**
  * トップページ セクション4: 事業内容（要件定義書 6.1）
@@ -41,6 +42,8 @@ export function Services() {
             </article>
           ))}
         </div>
+
+        <TrackRecord />
       </div>
     </section>
   );

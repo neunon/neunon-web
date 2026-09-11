@@ -30,8 +30,8 @@ const steps = [
   },
   {
     no: 'Step 04',
-    title: '調査・分析・資料作成',
-    body: '学生チームが実務を担当し、経験のあるコンサルタントが論点と品質を監修します。',
+    title: 'プロジェクト遂行',
+    body: '学生チームがプロジェクトを遂行し、経験のあるコンサルタントが設計と成果物の品質を監修します。',
     span: '案件規模により変動',
   },
   {
@@ -58,8 +58,8 @@ export function Process() {
               <div className="nc-step-c">
                 <h3>{step.title}</h3>
                 <p>{step.body}</p>
+                <span className="nc-step-meta">{step.span}</span>
               </div>
-              <div className="nc-step-s">{step.span}</div>
             </li>
           ))}
         </ol>

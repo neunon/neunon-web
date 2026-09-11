@@ -24,7 +24,7 @@ export default function MessagePage() {
     <>
       <PageHero
         title="代表メッセージ"
-        crumbs={[{ label: '会社概要', href: '/about' }, { label: '代表メッセージ' }]}
+        crumbs={[{ label: '企業情報', href: '/about' }, { label: '代表メッセージ' }]}
       />
 
       <div className="section">
@@ -45,7 +45,7 @@ export default function MessagePage() {
         </div>
       </div>
 
-      <ContactCta secondary={{ label: '会社概要へ戻る', href: '/about' }} />
+      <ContactCta secondary={{ label: '企業情報へ戻る', href: '/about' }} />
     </>
   );
 }

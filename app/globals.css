@@ -19,29 +19,36 @@
 
 @theme {
   /* base */
-  --color-ink: #111111;
-  --color-ink-sub: #4a4a4a;
+  --color-ink: #121211;
+  --color-ink-sub: #4e4d49;
   --color-white: #ffffff;
-  --color-surface: #f5f6f6;
+  --color-surface: #f5f6f7;
 
   /* grayscale ramp */
   --color-g900: #2e2e2e;
-  --color-g700: #626262;
-  --color-g500: #929292;
-  --color-g300: #bdbdbd;
-  --color-g200: #d8dada;
-  --color-g100: #eeeeee;
+  --color-g700: #60656c;
+  --color-g500: #90969e;
+  --color-g300: #c4c9cf;
+  --color-g200: #dde1e5;
+  --color-g100: #eef0f2;
 
-  /* accent — マットネイビー（唯一の有彩色） */
-  --color-navy: #26385c;
-  --color-navy-mid: #3d5885;
-  --color-navy-soft: #8296b8;
-  --color-navy-wash: #f1f3f7;
+  /* accent — warm charcoal / mineral gray */
+  --color-navy: #242321;
+  --color-navy-mid: #45433f;
+  --color-navy-soft: #7d7971;
+  --color-navy-wash: #f0f2f4;
+
+  /* Gentian blue metallic — RAL 5010を基調にした画面用階調 */
+  --color-gentian-950: #071c32;
+  --color-gentian-800: #0b3558;
+  --color-gentian-700: #125b84;
+  --color-gentian-500: #4f88a6;
+  --color-gentian-wash: #edf4f8;
 
   /* type */
   --font-sans:
-    'Neue Haas Grotesk Text Pro', 'Neue Haas Grotesk', 'Helvetica Neue',
-    var(--font-jp-loaded), 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+    'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic UI', 'Yu Gothic',
+    Meiryo, sans-serif;
 
   /* layout */
   --spacing-wrap: 1140px;
@@ -81,11 +88,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 日本語見出しは太すぎない 550 相当で統一する。 */
+/* 日本語は端正な字面のヒラギノ角ゴシックを優先する。 */
 :where(h1, h2, h3, h4, h5, h6) {
-  font-family:
-    'Neue Haas Grotesk Display Pro', 'Neue Haas Grotesk', 'Helvetica Neue',
-    var(--font-jp-loaded), 'Noto Sans JP', sans-serif;
+  font-family: var(--font-sans);
   font-weight: 550 !important;
   letter-spacing: -0.03em;
   text-wrap: balance;
@@ -297,17 +302,22 @@ a {
 .nc-logo {
   position: relative;
   display: block;
-  width: 145px;
-  height: 60px;
+  width: 134px;
+  height: 64px;
   overflow: hidden;
 }
 .nc-logo img {
   position: absolute;
-  width: 145px;
+  width: 126px;
   height: auto;
   max-width: none;
   left: 0;
-  top: -6px;
+  top: 0;
+}
+
+/* 控えめな奥行きと精密な罫線で、全ページの質感を揃える。 */
+:where(.nc-svc, .nc-prob, .nc-workcard, .nc-talent-card, .nc-rcard) {
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ============================================================
@@ -639,8 +649,10 @@ a {
 }
 .nc-flogo {
   margin-bottom: 22px;
+  width: 132px;
+  overflow: visible;
 }
-.nc-flogo img { width: 145px; }
+.nc-flogo img { width: 122px; }
 .nc-fmeta {
   font-size: 12.5px;
   color: var(--color-ink-sub);

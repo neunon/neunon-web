@@ -4,7 +4,6 @@ import { Problem } from '@/components/home/Problem';
 import { Structure } from '@/components/home/Structure';
 import { Services } from '@/components/home/Services';
 import { WhyThisPrice } from '@/components/home/WhyThisPrice';
-import { TrackRecord } from '@/components/home/TrackRecord';
 import { Process } from '@/components/home/Process';
 import { Careers } from '@/components/home/Careers';
 import { News } from '@/components/home/News';
@@ -32,7 +31,6 @@ export default function HomePage() {
       <Structure />
       <Services />
       <WhyThisPrice />
-      <TrackRecord />
       <Process />
       <Careers />
       <News />

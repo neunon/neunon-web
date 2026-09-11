@@ -11,8 +11,8 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://neun-on.com',
   domain: 'neun-on.com',
   description:
-    '調査・分析・資料作成といった工数集約的な工程を、経験あるコンサルタントの監修のもとで学生チームが担う。企業の高度支援を、より安く・より速く・より広く届けます。',
-  keyMessage: '企業の高度支援を、より安く・より速く・より広く届ける',
+    '選抜・育成された学生人材が企業の実務に挑み、プロフェッショナルが成長と成果物の品質を支えることで、企業の成果創出と次世代ビジネス人材の育成を両立します。',
+  keyMessage: '次世代の成長を、企業の成長へ。',
   mission:
     '企業の成長・再建・立上げに伴う多様な課題に対し、画一的なフレームワークに頼らず、個々の状況に応じた柔軟かつ実践的な支援を提供すると共に、実務支援を通じて次世代ビジネス人材を育成し、社会的価値の創出を目指します',
   founded: '2026年1月27日',
@@ -49,7 +49,7 @@ export const globalNav: NavItem[] = [
   },
   { label: '実績', href: '/works' },
   { label: '人材', href: '/talent' },
-  { label: '会社概要', href: '/about' },
+  { label: '企業情報', href: '/about' },
   { label: '採用情報', href: '/recruit' },
 ];
 
@@ -69,7 +69,7 @@ export const footerNav = [
   {
     heading: 'Company',
     items: [
-      { label: '会社概要', href: '/about' },
+      { label: '企業情報', href: '/about' },
       { label: '代表メッセージ', href: '/about/message' },
       { label: '会社情報', href: '/about/company' },
       { label: 'お知らせ', href: '/news' },

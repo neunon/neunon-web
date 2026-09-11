@@ -1,17 +1,8 @@
 import type { Metadata } from 'next';
-import { Noto_Sans_JP } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { site } from '@/lib/site';
-
-/* 日本語は Noto Sans JP。英数字は CSS 側で Neue Haas Grotesk を優先する。 */
-const notoSansJp = Noto_Sans_JP({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  display: 'swap',
-  variable: '--font-jp-loaded',
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -69,7 +60,7 @@ const organizationJsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja" className={notoSansJp.variable}>
+    <html lang="ja">
       <head>
         <script
           type="application/ld+json"

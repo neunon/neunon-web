@@ -12,21 +12,21 @@ import Link from 'next/link';
 
 const records = [
   {
-    tag: 'Consulting',
+    tag: '累計業務支援件数',
     value: '約50',
     unit: '件',
     body: '1プロジェクトへの継続支援からスポット支援まで対応。営業データ分析、新規事業のPL・コスト試算、人事評価制度設計、収益性分析など。',
     confirmed: true,
   },
   {
-    tag: 'Package',
+    tag: '累計レポート作成件数',
     value: '数百',
     unit: '件',
     body: '企業・競合・市場分析等のレポートを低単価かつ大量に提供。新規営業対象企業のクローズアップ、M&A候補企業の個社分析など。',
     confirmed: false,
   },
   {
-    tag: 'AI Products',
+    tag: 'プロダクト開発・運用数',
     value: '5',
     unit: '件',
     body: '自社業務での実運用を起点に、外部提供を見据えて開発・高度化を推進。営業メール自動化、企業クローズアップ生成AIなど。',
@@ -34,21 +34,21 @@ const records = [
   },
 ];
 
-const industries = ['人材', '製造', '物流', '小売', 'メディア', 'インフラ', 'AI'];
+const industries = ['人材', '製造', '物流', '小売', 'メディア', 'SNS', '建設・インフラ', 'AI', '教育'];
 
 export function TrackRecord() {
   return (
-    <section className="section" aria-labelledby="record-heading">
-      <div className="wrap">
-        <div className="shead">
-          <h2 id="record-heading">約2年間の累計</h2>
-          <p>
-            守秘義務のため企業名と具体的な数値は記載していません。業種と分析アプローチのみを公開しています。
-          </p>
+    <aside className="nc-service-evidence" aria-labelledby="record-heading">
+      <div className="nc-evidence-main">
+        <div className="nc-evidence-head">
+          <span>Proven delivery</span>
+          <div>
+            <h3 id="record-heading">積み重ねてきた<br />支援実績</h3>
+            <p>提供形態を横断して蓄積してきた、Neunon Consultingの実績です。</p>
+          </div>
         </div>
-
         <div className="nc-recs">
-          {records.map((record, index) => (
+          {records.map((record) => (
             <div className="nc-rec" key={record.tag}>
               <div className="nc-rec-t">{record.tag}</div>
               <p className="nc-rec-num">
@@ -59,22 +59,24 @@ export function TrackRecord() {
             </div>
           ))}
         </div>
-
-        <div className="nc-inds">
-          {industries.map((industry) => (
-            <span className="nc-ind" key={industry}>
-              {industry}
-            </span>
-          ))}
-        </div>
-
-        <div className="nc-recs-act">
-          <Link href="/works" className="nc-more">
-            <i aria-hidden="true" />
-            支援実績を見る
-          </Link>
-        </div>
       </div>
-    </section>
+
+      <div className="nc-evidence-foot">
+        <div className="nc-industry-panel">
+          <div className="nc-industry-copy">
+            <span>Industries</span>
+            <h4>業界</h4>
+            <p>業界固有の前提を捉えながら、幅広い領域の実務を支援しています。</p>
+          </div>
+          <div className="nc-inds" aria-label="支援業界">
+            {industries.map((industry) => <span className="nc-ind" key={industry}>{industry}</span>)}
+          </div>
+        </div>
+
+        <Link href="/works" className="nc-more">
+          <i aria-hidden="true" />支援実績を見る
+        </Link>
+      </div>
+    </aside>
   );
 }

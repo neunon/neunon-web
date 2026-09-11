@@ -149,8 +149,11 @@
   min-height: 8em;
 }
 .nc-field select {
-  /* ネイティブの見た目を残しつつ高さを他の入力欄と揃える */
-  height: 46px;
+  min-height: 50px;
+  height: auto;
+  line-height: 1.35;
+  padding-top: 13px;
+  padding-bottom: 13px;
   cursor: pointer;
 }
 .nc-field input::placeholder,
@@ -315,6 +318,7 @@
 .nc-form-step { letter-spacing:.2em; }
 .nc-field { margin-bottom:36px; }
 .nc-field input,.nc-field textarea,.nc-field select { border:0; border-bottom:1px solid var(--color-g300); border-radius:0; padding:14px 2px; background:transparent; }
+.nc-field select { min-height:52px; padding:13px 30px 13px 2px; line-height:1.35; color:var(--color-ink); background-color:var(--color-white); }
 .nc-field input:focus-visible,.nc-field textarea:focus-visible,.nc-field select:focus-visible { outline:0; border-bottom-width:2px; }
 .nc-consent { border:0; border-top:1px solid var(--color-g200); border-bottom:1px solid var(--color-g200); background:transparent; padding:22px 0; }
 .nc-formwrap .nc-form-step { color:var(--color-ink); }
