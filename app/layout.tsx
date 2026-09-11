@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { MotionLayer } from '@/components/layout/MotionLayer';
 import { site } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main id="main">{children}</main>
         <Footer />
+        <MotionLayer />
       </body>
     </html>
   );
