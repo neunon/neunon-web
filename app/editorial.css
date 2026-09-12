@@ -52,8 +52,8 @@ body::before {
 }
 
 ::selection {
-  background: #173f78;
-  color: #fff;
+  background: rgba(16, 20, 26, 0.12);
+  color: inherit;
 }
 
 #main {
