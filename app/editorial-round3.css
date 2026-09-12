@@ -20,6 +20,37 @@
   display: none;
 }
 
+/* Three compact value pillars in the hero. */
+.nc-hero .nc-hero-proof {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.nc-hero .nc-hero-proof > div {
+  display: flex;
+  min-height: 102px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 30px;
+}
+
+.nc-hero .nc-hero-proof > div + div {
+  padding-left: 30px;
+}
+
+.nc-hero .nc-hero-proof span {
+  color: #91add0;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+}
+
+.nc-hero .nc-hero-proof strong {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
 /* ---------- services followed by an open achievement stage ---------- */
 
 .nc-home-services .nc-svc {
@@ -37,10 +68,11 @@
 .nc-home-services .nc-achievements {
   position: relative;
   overflow: hidden;
-  min-height: 390px;
-  padding: 108px 50px 120px;
+  height: 460px;
+  min-height: 460px;
+  padding: 0;
   border-inline: 1px solid var(--nc-line);
-  border-top: 1px solid var(--nc-line);
+  border-top: 0;
   border-bottom: 1px solid var(--nc-line);
   background:
     radial-gradient(circle at 72% 10%, rgba(203, 214, 225, 0.24), transparent 32%),
@@ -53,7 +85,9 @@
   position: relative;
   z-index: 2;
   display: grid;
+  height: 100%;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
 }
 
 .nc-home-services .nc-svc-achievement {
@@ -62,7 +96,7 @@
   min-height: 0;
   min-width: 0;
   margin: 0;
-  padding: 8px 46px 14px;
+  padding: 106px 32px 132px;
   overflow: visible;
   border: 0;
   border-radius: 0;
@@ -72,8 +106,15 @@
 }
 
 .nc-home-services .nc-svc-achievement::before {
-  content: none;
-  display: none;
+  content: '';
+  position: absolute;
+  top: 55px;
+  right: 32px;
+  left: 32px;
+  display: block;
+  width: auto;
+  height: 1px;
+  background: rgba(124, 143, 164, 0.42);
 }
 
 .nc-home-services .nc-svc-achievement + .nc-svc-achievement {
@@ -115,13 +156,14 @@
 
 .nc-home-services .nc-achievements-word {
   position: absolute;
-  left: 18%;
-  bottom: -51px;
+  left: 50%;
+  bottom: -42px;
   z-index: 1;
   color: rgba(42, 62, 84, 0.07);
-  font: 600 clamp(112px, 15vw, 214px) / 0.78 'Helvetica Neue', Arial, sans-serif;
+  font: 600 clamp(104px, 12.4vw, 178px) / 0.78 'Helvetica Neue', Arial, sans-serif;
   letter-spacing: -0.075em;
   white-space: nowrap;
+  transform: translateX(-50%);
   pointer-events: none;
 }
 
@@ -133,6 +175,8 @@
   grid-template-columns: minmax(250px, 0.78fr) minmax(0, 1.6fr);
   gap: 42px 66px;
   overflow: hidden;
+  height: 460px;
+  min-height: 460px;
   padding: 64px 62px 42px;
   background:
     radial-gradient(circle at 82% 0%, rgba(72, 112, 165, 0.32), transparent 35%),
@@ -141,7 +185,7 @@
 }
 
 .nc-reference-price::after {
-  content: 'PRICE';
+  content: 'Price';
   position: absolute;
   right: -18px;
   bottom: -53px;
@@ -170,7 +214,8 @@
   text-transform: uppercase;
 }
 
-.nc-reference-price-intro h3 {
+.nc-reference-price-intro h3,
+.nc-home-services .nc-industry-copy h4 {
   margin: 0 0 22px;
   font-size: clamp(34px, 4vw, 52px);
   font-weight: 520;
@@ -184,7 +229,8 @@
   line-height: 2;
 }
 
-.nc-reference-price-link {
+.nc-reference-price-link,
+.nc-industry-link {
   display: inline-flex;
   margin-top: 31px;
   align-items: center;
@@ -194,7 +240,8 @@
   font-weight: 650;
 }
 
-.nc-reference-price-link i {
+.nc-reference-price-link i,
+.nc-industry-link i {
   display: block;
   width: 42px;
   height: 1px;
@@ -202,7 +249,8 @@
   transition: width 0.35s ease;
 }
 
-.nc-reference-price-link:hover i {
+.nc-reference-price-link:hover i,
+.nc-industry-link:hover i {
   width: 58px;
 }
 
@@ -214,7 +262,7 @@
 
 .nc-reference-price-list > div {
   display: grid;
-  min-height: 112px;
+  min-height: 96px;
   grid-template-columns: 30px minmax(0, 1fr);
   grid-template-rows: auto auto;
   column-gap: 14px;
@@ -271,9 +319,13 @@
 .nc-home-services .nc-evidence-foot {
   position: relative;
   z-index: 1;
-  min-height: 270px;
+  height: 460px;
+  min-height: 460px;
+  grid-template-columns: minmax(250px, 0.78fr) minmax(0, 1.6fr);
+  gap: 42px 66px;
+  align-items: start;
   overflow: hidden;
-  padding: 62px 58px 76px;
+  padding: 64px 62px 42px;
   border: 0;
   background:
     radial-gradient(circle at 78% 10%, rgba(79, 113, 154, 0.12), transparent 34%),
@@ -281,8 +333,8 @@
   isolation: isolate;
 }
 
-.nc-home-services .nc-industry-panel,
-.nc-home-services .nc-evidence-foot > .nc-more {
+.nc-home-services .nc-industry-copy,
+.nc-home-services .nc-inds {
   position: relative;
   z-index: 2;
 }
@@ -295,41 +347,80 @@
   text-transform: uppercase;
 }
 
-.nc-home-services .nc-industry-copy h4 {
-  margin-top: 13px;
-  font-size: 30px;
-  font-weight: 560;
+.nc-home-services .nc-industry-copy p {
+  max-width: 27em;
+  color: #526274;
+  font-size: 14px;
+  line-height: 2;
 }
 
-.nc-home-services .nc-industry-copy p {
-  margin-top: 15px;
-  color: #526274;
-  font-size: 13px;
-  line-height: 1.9;
+.nc-home-services .nc-industry-link {
+  color: #17283b;
 }
 
 .nc-home-services .nc-inds {
-  gap: 11px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-self: stretch;
+  gap: 0;
+  border-top: 1px solid rgba(80, 105, 134, 0.32);
+  counter-reset: industry;
 }
 
 .nc-home-services .nc-ind {
-  padding: 10px 20px;
-  border-color: rgba(80, 105, 134, 0.32);
-  background: rgba(255, 255, 255, 0.72);
+  display: grid;
+  min-height: 58px;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px 10px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(80, 105, 134, 0.28);
+  border-radius: 0;
+  background: transparent;
   color: #344b65;
   font-size: 13px;
+}
+
+.nc-home-services .nc-ind:nth-child(even) {
+  padding-left: 20px;
+  border-left: 1px solid rgba(80, 105, 134, 0.24);
+}
+
+.nc-home-services .nc-ind::before {
+  counter-increment: industry;
+  content: counter(industry, decimal-leading-zero);
+  color: #7188a3;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+.nc-home-services .nc-ind:hover {
+  border-color: rgba(37, 78, 126, 0.5);
+  background: rgba(255, 255, 255, 0.26);
+  color: #173f78;
 }
 
 .nc-home-services .nc-industry-word {
   position: absolute;
   left: 37%;
-  bottom: -49px;
+  bottom: -50px;
   z-index: 1;
   color: rgba(36, 68, 105, 0.07);
-  font: 600 clamp(118px, 16vw, 225px) / 0.78 'Helvetica Neue', Arial, sans-serif;
+  font: 600 clamp(110px, 15.4vw, 220px) / 0.78 'Helvetica Neue', Arial, sans-serif;
   letter-spacing: -0.07em;
   white-space: nowrap;
   pointer-events: none;
+}
+
+/* The organization section starts cleanly after the pricing stage. */
+.section.section-alt.nc-structure-section {
+  border-top: 0;
+}
+
+.nc-structure-section > .wrap > .shead {
+  padding-top: 0 !important;
+  border-top: 0 !important;
 }
 
 @media (max-width: 900px) {
@@ -338,17 +429,32 @@
   }
 
   .nc-home-services .nc-achievements {
-    min-height: 0;
-    padding: 72px 34px 92px;
+    height: 420px;
+    min-height: 420px;
+    padding: 0;
   }
 
   .nc-home-services .nc-svc-achievement {
-    padding-inline: 26px;
+    padding: 94px 26px 116px;
+  }
+
+  .nc-home-services .nc-svc-achievement::before {
+    top: 48px;
+    right: 26px;
+    left: 26px;
   }
 
   .nc-home-services .nc-evidence-foot {
+    height: auto;
     min-height: 0;
-    padding: 52px 34px 68px;
+    grid-template-columns: 1fr;
+    gap: 46px;
+    padding: 58px 42px 82px;
+  }
+
+  .nc-reference-price {
+    height: auto;
+    min-height: 0;
   }
 }
 
@@ -362,25 +468,34 @@
   }
 
   .nc-home-services .nc-achievements {
+    height: auto;
+    min-height: 0;
     margin-inline: -20px;
-    padding: 62px 20px 88px;
+    padding: 0 20px 88px;
   }
 
   .nc-home-services .nc-achievements-grid {
+    height: auto;
     grid-template-columns: 1fr;
   }
 
   .nc-home-services .nc-svc-achievement {
-    padding: 32px 8px 38px;
+    padding: 84px 8px 52px;
   }
 
   .nc-home-services .nc-svc-achievement:first-child {
-    padding-top: 10px;
+    padding-top: 84px;
   }
 
   .nc-home-services .nc-svc-achievement + .nc-svc-achievement {
-    border-top: 1px solid rgba(124, 143, 164, 0.42);
+    border-top: 0;
     border-left: 0;
+  }
+
+  .nc-home-services .nc-svc-achievement::before {
+    top: 42px;
+    right: 0;
+    left: 0;
   }
 
   .nc-home-services .nc-svc-achievement-copy strong {
@@ -388,9 +503,9 @@
   }
 
   .nc-home-services .nc-achievements-word {
-    left: 2px;
-    bottom: -19px;
-    font-size: clamp(68px, 25vw, 98px);
+    left: 50%;
+    bottom: -12px;
+    font-size: clamp(48px, 14.2vw, 54px);
   }
 
   .nc-home-services .nc-service-evidence {
@@ -398,13 +513,34 @@
   }
 
   .nc-home-services .nc-evidence-foot {
-    padding: 48px 20px 76px;
+    gap: 42px;
+    padding: 54px 20px 84px;
+  }
+
+  .nc-home-services .nc-inds {
+    grid-template-columns: 1fr;
+  }
+
+  .nc-home-services .nc-ind:nth-child(even) {
+    padding-left: 0;
+    border-left: 0;
   }
 
   .nc-home-services .nc-industry-word {
-    left: 15%;
-    bottom: -20px;
-    font-size: clamp(82px, 30vw, 120px);
+    left: 50%;
+    bottom: -16px;
+    font-size: clamp(72px, 21vw, 82px);
+    transform: translateX(-50%);
+  }
+
+  .nc-hero .nc-hero-proof {
+    grid-template-columns: 1fr;
+  }
+
+  .nc-hero .nc-hero-proof > div,
+  .nc-hero .nc-hero-proof > div + div {
+    min-height: 0;
+    padding: 18px 0;
   }
 }
 

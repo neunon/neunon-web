@@ -40,10 +40,9 @@ export function Hero() {
           </Link>
         </div>
         <div className="nc-hero-proof rise" data-d="3" aria-label="Neunon Consultingの特長">
-          <div><span>01</span><strong>低価格</strong><small>学生人材活用による低コスト支援</small></div>
-          <div><span>02</span><strong>優秀な学生人材</strong><small>高い意欲と能力を持つ学生を選抜</small></div>
-          <div><span>03</span><strong>実務品質</strong><small>プロによる設計・レビュー</small></div>
-          <div><span>04</span><strong>次世代人材育成</strong><small>実践的な教育・育成体制</small></div>
+          <div><span>QUALITY</span><strong>高品質な成果物</strong></div>
+          <div><span>COST</span><strong>合理的な低価格</strong></div>
+          <div><span>FLEXIBILITY</span><strong>柔軟・迅速な支援体制</strong></div>
         </div>
       </div>
     </div>
