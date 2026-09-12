@@ -173,7 +173,7 @@
 
 .nc-home-services .nc-achievements-word {
   position: absolute;
-  right: 32px;
+  right: 0;
   bottom: -42px;
   z-index: 1;
   color: rgba(42, 62, 84, 0.07);
@@ -432,6 +432,12 @@
 /* The organization section starts cleanly after the pricing stage. */
 .section.section-alt.nc-structure-section {
   border-top: 0;
+}
+
+.nc-structure-section > .wrap > .shead {
+  padding-top: 30px !important;
+  border-top: 0 !important;
+  background: linear-gradient(var(--nc-line-strong), var(--nc-line-strong)) no-repeat left top / 88px 1px;
 }
 
 @media (max-width: 900px) {
