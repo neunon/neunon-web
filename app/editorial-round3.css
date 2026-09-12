@@ -434,12 +434,6 @@
   border-top: 0;
 }
 
-.nc-structure-section > .wrap > .shead {
-  padding-top: 30px !important;
-  border-top: 0 !important;
-  background: linear-gradient(var(--nc-line-strong), var(--nc-line-strong)) no-repeat left top / 88px 1px;
-}
-
 @media (max-width: 900px) {
   .nc-home-services .nc-svc {
     min-height: 0;

@@ -52,7 +52,7 @@ body::before {
 }
 
 ::selection {
-  background: rgba(16, 20, 26, 0.12);
+  background: #fff;
   color: inherit;
 }
 
