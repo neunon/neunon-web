@@ -54,7 +54,24 @@
 /* ---------- services followed by an open achievement stage ---------- */
 
 .nc-home-services .nc-svc {
+  position: relative;
   min-height: 530px;
+}
+
+@media (min-width: 901px) {
+  .nc-home-services .nc-svcs {
+    border-bottom: 0;
+  }
+
+  .nc-home-services .nc-svc::after {
+    content: '';
+    position: absolute;
+    right: 32px;
+    bottom: 0;
+    left: 32px;
+    height: 1px;
+    background: rgba(124, 143, 164, 0.42);
+  }
 }
 
 .nc-home-services .nc-svc ul {
@@ -156,14 +173,13 @@
 
 .nc-home-services .nc-achievements-word {
   position: absolute;
-  left: 50%;
+  right: 32px;
   bottom: -42px;
   z-index: 1;
   color: rgba(42, 62, 84, 0.07);
   font: 600 clamp(104px, 12.4vw, 178px) / 0.78 'Helvetica Neue', Arial, sans-serif;
   letter-spacing: -0.075em;
   white-space: nowrap;
-  transform: translateX(-50%);
   pointer-events: none;
 }
 
@@ -418,11 +434,6 @@
   border-top: 0;
 }
 
-.nc-structure-section > .wrap > .shead {
-  padding-top: 0 !important;
-  border-top: 0 !important;
-}
-
 @media (max-width: 900px) {
   .nc-home-services .nc-svc {
     min-height: 0;
@@ -504,8 +515,10 @@
 
   .nc-home-services .nc-achievements-word {
     left: 50%;
+    right: auto;
     bottom: -12px;
     font-size: clamp(48px, 14.2vw, 54px);
+    transform: translateX(-50%);
   }
 
   .nc-home-services .nc-service-evidence {
