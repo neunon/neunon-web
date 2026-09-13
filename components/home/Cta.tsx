@@ -6,7 +6,7 @@ import Link from 'next/link';
  */
 export function Cta() {
   return (
-    <div className="nc-cta">
+    <div className="nc-cta nc-home-wide">
       <div className="wrap">
         <h2>まずは小さく、試せます。</h2>
         <p>

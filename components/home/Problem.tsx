@@ -46,7 +46,7 @@ function OpportunityIcon({ type }: { type: (typeof opportunities)[number]['icon'
 
 export function Problem() {
   return (
-    <section className="section" aria-labelledby="problem-heading">
+    <section className="section nc-problem-section nc-home-wide" aria-labelledby="problem-heading">
       <div className="wrap">
         <div className="shead">
           <h2 id="problem-heading">まだ活かされていない、次世代の力。</h2>

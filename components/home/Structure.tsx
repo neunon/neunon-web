@@ -1,4 +1,5 @@
 import { StructureDiagram } from '@/components/shared/StructureDiagram';
+import { ReferencePrice } from './ReferencePrice';
 
 /**
  * トップページ セクション3: 提供価値（要件定義書 6.1）
@@ -8,7 +9,7 @@ import { StructureDiagram } from '@/components/shared/StructureDiagram';
  */
 export function Structure() {
   return (
-    <section className="section section-alt nc-structure-section" aria-labelledby="structure-heading">
+    <section className="section section-alt nc-structure-section nc-home-wide" aria-labelledby="structure-heading">
       <div className="wrap">
         <div className="shead">
           <h2 id="structure-heading">高品質を担保する徹底した管理・育成体制</h2>
@@ -19,6 +20,7 @@ export function Structure() {
           </p>
         </div>
         <StructureDiagram />
+        <ReferencePrice />
       </div>
     </section>
   );

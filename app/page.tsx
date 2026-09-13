@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 /**
  * トップページ。
  * 課題提起から提供形態、品質体制へと読み進められる順序で構成する。
- * 参考価格は提供形態と分離せず、同じセクション内で続けて提示する。
+ * 参考価格は品質体制の直後に置き、体制が価格を実現する因果を示す。
  */
 export default function HomePage() {
   return (

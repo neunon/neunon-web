@@ -16,7 +16,7 @@ export function News() {
   const hasPlaceholder = news.some((item) => item.placeholder);
 
   return (
-    <section className="section section-alt" aria-labelledby="news-heading">
+    <section className="section section-alt nc-home-wide" aria-labelledby="news-heading">
       <div className="wrap">
         <div className="nc-news-head shead">
           <div>

@@ -13,7 +13,7 @@ const gakuchika = [
 
 export function Careers() {
   return (
-    <section className="section" aria-labelledby="careers-heading">
+    <section className="section nc-home-wide" aria-labelledby="careers-heading">
       <div className="wrap nc-stu-sec">
         <div className="nc-stu-copy">
           <h2 id="careers-heading">

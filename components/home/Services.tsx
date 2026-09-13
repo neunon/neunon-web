@@ -1,14 +1,21 @@
+import Image from 'next/image';
 import Link from 'next/link';
-import { getService, getServices } from '@/lib/content';
+import { getServices } from '@/lib/content';
 import { TrackRecord } from './TrackRecord';
 
 const serviceAchievements: Record<
   string,
-  { label: string; value: string; unit: string }
+  { label: string; prefix?: string; value: string; unit: string }
 > = {
-  consulting: { label: '累計業務支援件数', value: '約50', unit: '件' },
+  consulting: { label: '累計業務支援件数', prefix: '約', value: '50', unit: '件' },
   package: { label: '累計レポート作成件数', value: '数百', unit: '件' },
   ai: { label: 'プロダクト開発・運用数', value: '5', unit: '件' },
+};
+
+const serviceVisuals: Record<string, { src?: string; position?: string }> = {
+  consulting: { src: '/home-hero-city.webp', position: 'center 58%' },
+  package: { src: '/outcome-buildings.webp', position: 'center 36%' },
+  ai: { src: '/ai-product-workspace-v1.webp', position: 'center 52%' },
 };
 
 function ServiceAchievement({ serviceId }: { serviceId: string }) {
@@ -20,6 +27,9 @@ function ServiceAchievement({ serviceId }: { serviceId: string }) {
       <div className="nc-svc-achievement-copy">
         <span>{achievement.label}</span>
         <strong>
+          {achievement.prefix ? (
+            <em className="nc-achievement-prefix">{achievement.prefix}</em>
+          ) : null}
           {achievement.value}<small>{achievement.unit}</small>
         </strong>
       </div>
@@ -36,11 +46,9 @@ function ServiceAchievement({ serviceId }: { serviceId: string }) {
  */
 export function Services() {
   const services = getServices();
-  const packageService = getService('package');
-  const referencePricing = packageService?.pricing.slice(0, 6) ?? [];
 
   return (
-    <section className="section nc-home-services" aria-labelledby="services-heading">
+    <section className="section nc-home-services nc-home-wide" aria-labelledby="services-heading">
       <div className="wrap">
         <div className="shead">
           <h2 id="services-heading">{services.length}つの提供形態</h2>
@@ -50,64 +58,48 @@ export function Services() {
           </p>
         </div>
 
-        <div className="nc-svcs" data-count={services.length}>
-          {services.map((service, index) => (
+        <div className="nc-svcs nc-service-showcase" data-count={services.length}>
+          <h3 id="achievements-heading" className="sr-only-text">実績件数</h3>
+          {services.map((service) => {
+            const visual = serviceVisuals[service.id];
+            return (
             <article className="nc-svc" key={service.id}>
-              <span className="nc-svc-n">{service.number}</span>
-              <h3>{service.title}</h3>
-              <p>{service.summary}</p>
-              <ul>
-                {service.highlights.map((highlight) => (
-                  <li key={highlight}>{highlight}</li>
-                ))}
-              </ul>
-              <Link href={`/services/${service.id}`} className="nc-more">
-                <i aria-hidden="true" />
-                詳しく見る
-                <span className="sr-only-text">（{service.title}）</span>
-              </Link>
+              <div className="nc-svc-copy">
+                <span className="nc-svc-n">{service.number}</span>
+                <h3>{service.title}</h3>
+                <p>{service.summary}</p>
+                <ul>
+                  {service.highlights.map((highlight) => (
+                    <li key={highlight}>{highlight}</li>
+                  ))}
+                </ul>
+                <Link href={`/services/${service.id}`} className="nc-more">
+                  <i aria-hidden="true" />
+                  詳しく見る
+                  <span className="sr-only-text">（{service.title}）</span>
+                </Link>
+              </div>
+              <div className={`nc-svc-side is-${service.id}`}>
+                <div className="nc-svc-visual" aria-hidden="true">
+                  {visual?.src ? (
+                    <Image
+                      src={visual.src}
+                      alt=""
+                      fill
+                      sizes="(max-width: 700px) 100vw, 38vw"
+                      style={{ objectPosition: visual.position }}
+                    />
+                  ) : null}
+                </div>
+                <ServiceAchievement serviceId={service.id} />
+              </div>
             </article>
-          ))}
+            );
+          })}
+          <span className="nc-achievements-word" aria-hidden="true">Achievements</span>
         </div>
 
-        <section className="nc-achievements" aria-labelledby="achievements-heading">
-          <h3 id="achievements-heading" className="sr-only-text">実績件数</h3>
-          <div className="nc-achievements-grid">
-            {services.map((service) => (
-              <ServiceAchievement serviceId={service.id} key={service.id} />
-            ))}
-          </div>
-          <span className="nc-achievements-word" aria-hidden="true">Achievements</span>
-        </section>
-
         <TrackRecord />
-
-        {referencePricing.length > 0 ? (
-          <aside className="nc-reference-price" aria-labelledby="reference-price-heading">
-            <div className="nc-reference-price-intro">
-              <span>Reference price</span>
-              <h3 id="reference-price-heading">参考価格</h3>
-              <p>
-                定型化した調査メニューは、1件・1案件からご依頼いただけます。
-                必要な範囲だけを選び、まず小さく試すことも可能です。
-              </p>
-              <Link href="/contact" className="nc-reference-price-link">
-                見積りを相談する
-                <i aria-hidden="true" />
-              </Link>
-            </div>
-            <dl className="nc-reference-price-list">
-              {referencePricing.map((row, index) => (
-                <div key={row.label}>
-                  <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                  <dt>{row.label}</dt>
-                  <dd>{row.price}</dd>
-                </div>
-              ))}
-            </dl>
-            <p className="nc-reference-price-note">{packageService?.pricingNote}</p>
-          </aside>
-        ) : null}
       </div>
     </section>
   );

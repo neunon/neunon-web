@@ -44,7 +44,7 @@ const steps = [
 
 export function Process() {
   return (
-    <section className="section section-alt" aria-labelledby="process-heading">
+    <section className="section section-alt nc-home-wide" aria-labelledby="process-heading">
       <div className="wrap">
         <div className="shead">
           <h2 id="process-heading">お問い合わせから納品まで</h2>

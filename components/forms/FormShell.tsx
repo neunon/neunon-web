@@ -31,6 +31,7 @@ type Props = {
 
 const MIN_FILL_MS = 3000;
 const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '';
+const turnstileLocalTestKey = '1x00000000000000000000AA';
 
 type TurnstileApi = {
   render: (element: HTMLElement, options: Record<string, unknown>) => string;
@@ -62,6 +63,8 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState<string | null>(null);
   const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileStatus, setTurnstileStatus] = useState<'loading' | 'verified' | 'error'>('loading');
+  const [turnstileAttempt, setTurnstileAttempt] = useState(0);
 
   const configured = endpoint !== '';
   const canProceed = consent && !sending && (!turnstileSiteKey || turnstileToken !== '');
@@ -70,15 +73,32 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
     if (!turnstileSiteKey) return;
 
     let cancelled = false;
+    const localHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const effectiveSiteKey = localHost ? turnstileLocalTestKey : turnstileSiteKey;
+    setTurnstileStatus('loading');
+
     const renderWidget = () => {
       if (cancelled || !window.turnstile || !turnstileContainer.current || turnstileWidgetId.current) return;
-      turnstileWidgetId.current = window.turnstile.render(turnstileContainer.current, {
-        sitekey: turnstileSiteKey,
-        theme: 'light',
-        callback: (token: string) => setTurnstileToken(token),
-        'expired-callback': () => setTurnstileToken(''),
-        'error-callback': () => setTurnstileToken(''),
-      });
+      try {
+        turnstileWidgetId.current = window.turnstile.render(turnstileContainer.current, {
+          sitekey: effectiveSiteKey,
+          theme: 'light',
+          callback: (token: string) => {
+            setTurnstileToken(token);
+            setTurnstileStatus('verified');
+          },
+          'expired-callback': () => {
+            setTurnstileToken('');
+            setTurnstileStatus('loading');
+          },
+          'error-callback': () => {
+            setTurnstileToken('');
+            setTurnstileStatus('error');
+          },
+        });
+      } catch {
+        setTurnstileStatus('error');
+      }
     };
 
     const existing = document.querySelector<HTMLScriptElement>('script[data-neunon-turnstile]');
@@ -92,6 +112,7 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
       script.defer = true;
       script.dataset.neunonTurnstile = 'true';
       script.addEventListener('load', renderWidget);
+      script.addEventListener('error', () => setTurnstileStatus('error'), { once: true });
       document.head.appendChild(script);
     }
 
@@ -103,7 +124,18 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
         turnstileWidgetId.current = null;
       }
     };
-  }, []);
+  }, [turnstileAttempt]);
+
+  function retryTurnstile() {
+    setTurnstileToken('');
+    setTurnstileStatus('loading');
+    if (turnstileWidgetId.current && window.turnstile) {
+      window.turnstile.reset(turnstileWidgetId.current);
+      return;
+    }
+    document.querySelector<HTMLScriptElement>('script[data-neunon-turnstile]')?.remove();
+    setTurnstileAttempt((current) => current + 1);
+  }
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -440,17 +472,22 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
       </div>
 
       {turnstileSiteKey ? (
-        <div className="nc-turnstile">
+        <div className={`nc-turnstile is-${turnstileStatus}`}>
           <div ref={turnstileContainer} />
-          {!turnstileToken ? <p>迷惑送信防止の確認が完了すると、確認画面へ進めます。</p> : null}
+          {turnstileStatus === 'error' ? (
+            <div className="nc-turnstile-error" role="status">
+              <p><strong>セキュリティ確認を読み込めませんでした</strong><span>通信状況をご確認のうえ、もう一度お試しください。</span></p>
+              <button type="button" onClick={retryTurnstile}>再読み込み</button>
+            </div>
+          ) : !turnstileToken ? <p>迷惑送信防止の確認を行っています。</p> : null}
         </div>
       ) : null}
 
       {!configured ? <EndpointNotice envName={envName} /> : null}
 
       <div className="nc-acts nc-form-acts">
-        <button type="submit" className="btn" disabled={!canProceed}>
-          入力内容を確認する
+        <button type="submit" className="btn nc-form-next" disabled={!canProceed}>
+          <span>確認画面へ進む</span><i aria-hidden="true" />
         </button>
       </div>
     </form>

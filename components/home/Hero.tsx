@@ -8,7 +8,7 @@ import Link from 'next/link';
  */
 export function Hero() {
   return (
-    <div className="nc-hero">
+    <div className="nc-hero nc-home-wide">
       <div className="nc-hero-media" aria-hidden="true">
         <Image
           src="/home-hero-city.webp"
