@@ -7,42 +7,25 @@
 const opportunities = [
   {
     key: '01',
-    icon: 'time',
     title: '未活用の時間',
     body: ['大学生の持て余した多くの時間'],
   },
   {
     key: '02',
-    icon: 'ability',
     title: '高い能力',
     body: ['学習力・思考力・主体性', '責任感・好奇心'],
   },
   {
     key: '03',
-    icon: 'execution',
     title: '新たな実行力',
     body: ['柔軟で迅速な人的リソース'],
   },
   {
     key: '04',
-    icon: 'connection',
     title: '将来人材との接点',
     body: ['次世代人材との関係構築'],
   },
 ] as const;
-
-function OpportunityIcon({ type }: { type: (typeof opportunities)[number]['icon'] }) {
-  const common = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.55, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
-
-  return (
-    <svg className="nc-prob-icon" viewBox="0 0 48 48" aria-hidden="true">
-      {type === 'time' ? <><circle cx="24" cy="25" r="14" {...common} /><path d="M24 16v9l6 4M19 8h10M24 8v3" {...common} /><circle cx="24" cy="25" r="1.75" className="nc-prob-icon-fill" /></> : null}
-      {type === 'ability' ? <><path d="m24 9 13 9-13 21-13-21 13-9Z" {...common} /><path d="m11 18 13 6 13-6M24 24v15" {...common} /><path d="m18 14 6 10 6-10" {...common} /></> : null}
-      {type === 'execution' ? <><path d="M9 37h9v-8h9v-8h9V10" {...common} /><path d="m31 15 5-5 5 5" {...common} /><path d="M9 41h32" className="nc-prob-icon-muted" {...common} /></> : null}
-      {type === 'connection' ? <><path d="m15 16 9 8 10-10M15 32l9-8 10 10" {...common} /><circle cx="13" cy="14" r="4" {...common} /><circle cx="13" cy="34" r="4" {...common} /><circle cx="36" cy="12" r="4" {...common} /><circle cx="36" cy="36" r="4" {...common} /><circle cx="24" cy="24" r="2" className="nc-prob-icon-fill" /></> : null}
-    </svg>
-  );
-}
 
 export function Problem() {
   return (
@@ -60,7 +43,7 @@ export function Problem() {
         <div className="nc-probs nc-potential-grid">
           {opportunities.map((problem) => (
             <div className="nc-prob" key={problem.key}>
-              <div className="nc-prob-top"><span className="nc-prob-k">{problem.key}</span><OpportunityIcon type={problem.icon} /></div>
+              <div className="nc-prob-top"><span className="nc-prob-k">{problem.key}</span></div>
               <h3>{problem.title}</h3>
               <p>{problem.body.map((line) => <span key={line}>{line}</span>)}</p>
             </div>

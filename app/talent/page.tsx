@@ -20,8 +20,8 @@ export const metadata: Metadata = {
  * 実名・大学名・詳細経歴はフェーズ2（企業アカウントでのログイン後）まで出さない。
  * データ側の担保は lib/talent.ts を参照。
  */
-export default function TalentPage() {
-  const talents = getPublicTalents();
+export default async function TalentPage() {
+  const talents = await getPublicTalents();
   const facets = getTalentFacets(talents);
 
   return (
@@ -39,7 +39,7 @@ export default function TalentPage() {
               <b>公開している情報について</b>
             </p>
             <p>
-              個人情報保護のため、実名・大学名・詳細な経歴は公開していません。表示名はイニシャル、学校は区分のみ、実績は件数と種別のみを掲載しています。掲載はすべて本人の同意を得たうえで行っています。
+              個人情報保護のため、実名・大学名・詳細な経歴は公開していません。表示名は匿名の学生ID、学校は分野区分のみ、実績は件数のみを掲載しています。「サイト掲載可」が「可」の登録者だけを表示しています。
             </p>
             <p>
               気になるメンバーは複数選択できます。案件や体制により必ずしも指名をお約束するものではありませんが、お問い合わせ時のチーム検討に活用します。ご検討中の案件がある場合は

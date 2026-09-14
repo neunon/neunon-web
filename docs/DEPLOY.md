@@ -49,12 +49,34 @@ Node のバージョンは `render.yaml` の `NODE_VERSION`（24.14.0）で固�
 | `NEXT_PUBLIC_CONTACT_FORM_ENDPOINT` | `https://<worker-domain>/contact` | Cloudflare Worker公開後に設定 |
 | `NEXT_PUBLIC_ENTRY_FORM_ENDPOINT` | `https://<worker-domain>/entry` | 同じWorkerの学生用パス |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Turnstileのsitekey | Turnstile作成後に設定 |
+| `MS_GRAPH_TENANT_ID` | Microsoft Entra のテナントID | 人材パネル連携に必須 |
+| `MS_GRAPH_CLIENT_ID` | 連携アプリのアプリケーションID | 人材パネル連携に必須 |
+| `MS_GRAPH_CLIENT_SECRET` | クライアントシークレットの**値** | 人材パネル連携に必須・非公開 |
+| `MS_GRAPH_SITE_ID` | Graphで取得したSharePointサイトID | 人材パネル連携に必須 |
+| `MS_GRAPH_TALENT_LIST_ID` | Graphで取得した「学生マスタ」のリストID | 人材パネル連携に必須 |
 
 `NEXT_PUBLIC_SITE_URL` は sitemap.xml と構造化データの絶対URLに使われる。
 未設定だと `https://neun-on.com` が既定値になるので、
 ドメイン取得前は Render の `*.onrender.com` のURLを入れておくこと。
 
 環境変数を変更したら、**再デプロイしないと反映されない**（ビルド時に埋め込まれるため）。
+
+### Microsoft Lists 人材パネル連携
+
+上記5変数がすべて設定されると、Renderのビルド時にMicrosoft Listsの
+「学生マスタ」を読み、「サイト掲載可」が「可」の行だけを人材パネルへ反映する。
+実名・大学名・メールアドレス・時間単価などは公開HTMLへ渡さず、学生ID、
+学年、スキル、対応領域、案件経験数から匿名の公開プロフィールを生成する。
+
+`MS_GRAPH_CLIENT_SECRET` にはシークレットIDではなく、作成時に一度だけ表示された
+**値**を設定する。5変数には `NEXT_PUBLIC_` を付けないこと。
+
+アプリのAPIアクセス許可は `Lists.SelectedOperations.Selected` のアプリケーション許可と、
+対象リストに付与した `read` だけを残す。権限付与用に一時追加した
+`Sites.FullControl.All` は削除する。
+
+なお、リストの追加・編集だけではRenderの再ビルドは始まらない。更新を完全自動化する場合は、
+RenderのDeploy HookをPower Automateから呼び出すフローを別途設定する。
 
 ### フォーム基盤の設定
 

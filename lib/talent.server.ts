@@ -1,57 +1,189 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import type { PublicTalent } from './talent';
+import type { PublicTalent, TalentRole } from './talent';
 
 /**
- * 人材パネルのデータ層（要件定義書 6.5 ★設計注意 / 8.1）
+ * 人材パネルのサーバー専用データ層。
  *
- * ------------------------------------------------------------------
- * このファイルが唯一の出入口である理由
- * ------------------------------------------------------------------
- * 要件定義書 8.1 に「**重要：`private` はビルド時に静的出力へ含めないこと。**」
- * とある。静的書き出しでは、ページやクライアントコンポーネントに渡した値が
- * そのまま HTML と RSC ペイロードに書き出されるため、private を持ったまま
- * 引き回すと出力に混入する。
- *
- * そこで talents.json を読む場所をこのファイルだけに限定し、読み込んだ直後に
- * public のみを取り出して返す。private はこのモジュールの外へ出ない。
- * 呼び出し側は PublicTalent 型しか受け取れないので、型の上でも混入を防げる。
- *
- * あわせて 6.5 の「学生本人の同意」に対応し、consentPublish が true の
- * ものだけを返す。同意のない登録者はページ自体が生成されない。
- *
- * サーバー専用（node:fs を使う）。クライアントコンポーネントからは
- * lib/talent.ts の型とラベルだけを読み込むこと。
- * ------------------------------------------------------------------
+ * 本番では Microsoft Lists の「学生マスタ」をビルド時に読み、
+ * 「サイト掲載可」が「可」の行だけを公開用の型へ変換する。
+ * 実名・大学名・メールアドレス・単価などの元データは、このモジュールの外へ
+ * 一切返さない。Graph の設定がないローカル環境では従来の JSON を使う。
  */
 
-/** JSON の生の形。private を含むため、この型は export しない */
 type TalentRecord = {
   id: string;
   public: Omit<PublicTalent, 'id'> & { consentPublish: boolean };
   private?: Record<string, unknown>;
 };
 
+type GraphConfig = {
+  tenantId: string;
+  clientId: string;
+  clientSecret: string;
+  siteId: string;
+  listId: string;
+};
+
+type GraphColumn = { name?: string; displayName?: string };
+type GraphListItem = { id?: string; fields?: Record<string, unknown> };
+type GraphPage<T> = { value?: T[]; '@odata.nextLink'?: string };
+
 const talentsPath = path.join(process.cwd(), 'content', 'talent', 'talents.json');
+let publicTalentsPromise: Promise<PublicTalent[]> | undefined;
 
-/**
- * 掲載同意済みの学生の、公開項目だけを返す。
- * private フィールドはここで破棄され、呼び出し側には決して渡らない。
- */
-export function getPublicTalents(): PublicTalent[] {
+function getGraphConfig(): GraphConfig | undefined {
+  const config = {
+    tenantId: process.env.MS_GRAPH_TENANT_ID,
+    clientId: process.env.MS_GRAPH_CLIENT_ID,
+    clientSecret: process.env.MS_GRAPH_CLIENT_SECRET,
+    siteId: process.env.MS_GRAPH_SITE_ID,
+    listId: process.env.MS_GRAPH_TALENT_LIST_ID,
+  };
+
+  if (Object.values(config).every(Boolean)) return config as GraphConfig;
+  if (Object.values(config).some(Boolean)) {
+    throw new Error('Microsoft Lists の環境変数が一部だけ設定されています。5項目すべてを設定してください。');
+  }
+  return undefined;
+}
+
+async function getAccessToken(config: GraphConfig): Promise<string> {
+  const response = await fetch(
+    `https://login.microsoftonline.com/${config.tenantId}/oauth2/v2.0/token`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        client_id: config.clientId,
+        client_secret: config.clientSecret,
+        scope: 'https://graph.microsoft.com/.default',
+        grant_type: 'client_credentials',
+      }),
+    },
+  );
+
+  if (!response.ok) throw new Error(`Microsoft Graph のトークン取得に失敗しました (${response.status})`);
+  const payload = (await response.json()) as { access_token?: string };
+  if (!payload.access_token) throw new Error('Microsoft Graph のアクセストークンが空です。');
+  return payload.access_token;
+}
+
+async function graphGet<T>(url: string, accessToken: string): Promise<T> {
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  if (!response.ok) throw new Error(`Microsoft Graph の読取りに失敗しました (${response.status}: ${url})`);
+  return (await response.json()) as T;
+}
+
+async function getAllPages<T>(initialUrl: string, accessToken: string): Promise<T[]> {
+  const values: T[] = [];
+  let nextUrl: string | undefined = initialUrl;
+
+  while (nextUrl) {
+    const page: GraphPage<T> = await graphGet<GraphPage<T>>(nextUrl, accessToken);
+    values.push(...(page.value ?? []));
+    nextUrl = page['@odata.nextLink'];
+  }
+  return values;
+}
+
+function toStrings(value: unknown): string[] {
+  const raw = Array.isArray(value) ? value : typeof value === 'string' ? value.split(/[;,、\n]/) : [];
+  return [...new Set(raw.map((item) => String(item).trim()).filter(Boolean))];
+}
+
+function toText(value: unknown): string {
+  return typeof value === 'string' || typeof value === 'number' ? String(value).trim() : '';
+}
+
+function toNumber(value: unknown): number {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : 0;
+}
+
+function broadStudyCategory(faculty: string): string {
+  if (/理工|工学|情報|数理|理学|科学|デザイン|建築|農学|医|薬/.test(faculty)) return '大学生 / 理工系';
+  if (/経済|経営|商学|会計/.test(faculty)) return '大学生 / 経済・経営系';
+  if (/法学|政治|社会|国際|文学|人文|教育/.test(faculty)) return '大学生 / 社会科学・人文系';
+  return '大学生';
+}
+
+function roleFrom(value: unknown): TalentRole {
+  return /リード/i.test(toText(value)) ? 'lead' : 'associate';
+}
+
+function loadLocalTalents(): PublicTalent[] {
   if (!fs.existsSync(talentsPath)) return [];
-
   const records = JSON.parse(fs.readFileSync(talentsPath, 'utf-8')) as TalentRecord[];
 
   return records
     .filter((record) => record.public?.consentPublish === true)
     .map((record) => {
-      // consentPublish 自体も公開する必要がないので、ここで落とす
       const { consentPublish: _consentPublish, ...rest } = record.public;
       return { id: record.id, ...rest } satisfies PublicTalent;
     });
 }
 
-export function getPublicTalent(id: string): PublicTalent | undefined {
-  return getPublicTalents().find((talent) => talent.id === id);
+async function loadGraphTalents(config: GraphConfig): Promise<PublicTalent[]> {
+  const accessToken = await getAccessToken(config);
+  const root = `https://graph.microsoft.com/v1.0/sites/${config.siteId}/lists/${config.listId}`;
+  const [columns, items] = await Promise.all([
+    getAllPages<GraphColumn>(`${root}/columns?$select=name,displayName`, accessToken),
+    getAllPages<GraphListItem>(`${root}/items?$expand=fields`, accessToken),
+  ]);
+  const internalNames = new Map(
+    columns
+      .filter((column): column is Required<GraphColumn> => Boolean(column.name && column.displayName))
+      .map((column) => [column.displayName, column.name]),
+  );
+  const field = (fields: Record<string, unknown>, displayName: string) =>
+    fields[internalNames.get(displayName) ?? displayName];
+
+  return items
+    .filter((item) => item.fields && toText(field(item.fields, 'サイト掲載可')) === '可')
+    .map((item): PublicTalent | undefined => {
+      const fields = item.fields ?? {};
+      const studentId = toText(field(fields, '学生ID')) || item.id || '';
+      if (!studentId) return undefined;
+
+      const skills = toStrings(field(fields, 'スキル'));
+      const serviceAreas = toStrings(field(fields, '対応領域'));
+      const primarySkills = skills.slice(0, 3);
+      const primaryAreas = serviceAreas.slice(0, 2);
+      const experienceCount = Math.max(0, Math.trunc(toNumber(field(fields, '案件経験数'))));
+      const focus = primarySkills[0] ?? 'リサーチ';
+      const area = primaryAreas[0] ?? '企業実務';
+
+      return {
+        id: `student-${studentId.replace(/[^a-zA-Z0-9_-]/g, '-')}`,
+        displayName: `学生 ${studentId}`,
+        role: roleFrom(field(fields, '学生区分')),
+        universityCategory: broadStudyCategory(toText(field(fields, '学部・研究科'))),
+        grade: Math.max(1, Math.min(9, Math.trunc(toNumber(field(fields, '学年')) || 1))),
+        skills,
+        primarySkills,
+        serviceAreas,
+        primaryAreas,
+        appeal: `${focus}を中心に、${area}に対応します。目的に沿って、丁寧かつ着実に業務を進めます。`,
+        recordSummary: experienceCount > 0 ? `案件経験 ${experienceCount}件` : '実務参加に向けて準備中',
+        certifications: [],
+      };
+    })
+    .filter((talent): talent is PublicTalent => Boolean(talent))
+    .sort((a, b) => a.id.localeCompare(b.id, 'ja'));
+}
+
+/** 掲載許可済みの学生について、匿名化した公開項目だけを返す。 */
+export function getPublicTalents(): Promise<PublicTalent[]> {
+  publicTalentsPromise ??= (async () => {
+    const config = getGraphConfig();
+    return config ? loadGraphTalents(config) : loadLocalTalents();
+  })();
+  return publicTalentsPromise;
+}
+
+export async function getPublicTalent(id: string): Promise<PublicTalent | undefined> {
+  return (await getPublicTalents()).find((talent) => talent.id === id);
 }

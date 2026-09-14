@@ -13,15 +13,15 @@ type Props = { params: Promise<{ id: string }> };
  * 同意していない登録者は getPublicTalents() の時点で除外されるため、
  * URL 自体が生成されない（dynamicParams = false で 404）。
  */
-export function generateStaticParams() {
-  return getPublicTalents().map((talent) => ({ id: talent.id }));
+export async function generateStaticParams() {
+  return (await getPublicTalents()).map((talent) => ({ id: talent.id }));
 }
 
 export const dynamicParams = false;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const talent = getPublicTalent(id);
+  const talent = await getPublicTalent(id);
   if (!talent) return {};
 
   return {
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  */
 export default async function TalentDetailPage({ params }: Props) {
   const { id } = await params;
-  const talent = getPublicTalent(id);
+  const talent = await getPublicTalent(id);
   if (!talent) notFound();
 
   const rows: { label: string; value: React.ReactNode }[] = [
