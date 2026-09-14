@@ -91,7 +91,13 @@ async function getAllPages<T>(initialUrl: string, accessToken: string): Promise<
 
 function toStrings(value: unknown): string[] {
   const raw = Array.isArray(value) ? value : typeof value === 'string' ? value.split(/[;,、\n]/) : [];
-  return [...new Set(raw.map((item) => String(item).trim()).filter(Boolean))];
+  return [
+    ...new Set(
+      raw
+        .map((item) => String(item).trim())
+        .filter((item) => item && item !== '0' && item !== '-' && item !== 'なし'),
+    ),
+  ];
 }
 
 function toText(value: unknown): string {
@@ -157,7 +163,7 @@ async function loadGraphTalents(config: GraphConfig): Promise<PublicTalent[]> {
       const area = primaryAreas[0] ?? '企業実務';
 
       return {
-        id: `student-${studentId.replace(/[^a-zA-Z0-9_-]/g, '-')}`,
+        id: `t-${studentId.replace(/[^a-zA-Z0-9_-]/g, '-')}`,
         displayName: `学生 ${studentId}`,
         role: roleFrom(field(fields, '学生区分')),
         universityCategory: broadStudyCategory(toText(field(fields, '学部・研究科'))),
