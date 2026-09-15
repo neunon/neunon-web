@@ -7,7 +7,7 @@ import type { PublicTalent, TalentRole } from './talent';
  *
  * 本番では Microsoft Lists の「学生マスタ」をビルド時に読み、
  * 「サイト掲載可」が「可」の行だけを公開用の型へ変換する。
- * 実名・大学名・メールアドレス・単価などの元データは、このモジュールの外へ
+ * 実名・メールアドレス・単価などの非公開データは、このモジュールの外へ
  * 一切返さない。Graph の設定がないローカル環境では従来の JSON を使う。
  */
 
@@ -110,10 +110,10 @@ function toNumber(value: unknown): number {
   return Number.isFinite(number) ? number : 0;
 }
 
-function publicStudyCategory(facultyOrGraduateSchool: string): string {
+function publicStudyCategory(university: string, facultyOrGraduateSchool: string): string {
   const normalized = facultyOrGraduateSchool.replace(/\s+/g, '');
   const faculty = normalized.match(/^(.+?(?:学部|研究科))/)?.[1];
-  return faculty ? `大学生 / ${faculty}` : '大学生';
+  return [university || '大学生', faculty].filter(Boolean).join(' / ');
 }
 
 function roleFrom(value: unknown): TalentRole {
@@ -175,7 +175,10 @@ async function loadGraphTalents(config: GraphConfig): Promise<PublicTalent[]> {
         id: `t-${studentNumber}`,
         displayName: `No.${studentNumber}`,
         role: roleFrom(field(fields, '学生区分')),
-        universityCategory: publicStudyCategory(toText(field(fields, '学部・研究科'))),
+        universityCategory: publicStudyCategory(
+          toText(field(fields, '大学')),
+          toText(field(fields, '学部・研究科')),
+        ),
         grade: Math.max(1, Math.min(9, Math.trunc(toNumber(field(fields, '学年')) || 1))),
         weeklyAvailability: weeklyAvailability || null,
         skills,

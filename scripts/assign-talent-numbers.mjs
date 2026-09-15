@@ -113,10 +113,11 @@ const strings = (value) => {
   const raw = Array.isArray(value) ? value : typeof value === 'string' ? value.split(/[;,、\n]/) : [];
   return [...new Set(raw.map((entry) => String(entry).trim()).filter((entry) => entry && entry !== '0' && entry !== '-' && entry !== 'なし'))];
 };
-const studyCategory = (value) => {
-  const normalized = text(value).replace(/\s+/g, '');
+const studyCategory = (universityValue, facultyValue) => {
+  const university = text(universityValue);
+  const normalized = text(facultyValue).replace(/\s+/g, '');
   const faculty = normalized.match(/^(.+?(?:学部|研究科))/)?.[1];
-  return faculty ? `大学生 / ${faculty}` : '大学生';
+  return [university || '大学生', faculty].filter(Boolean).join(' / ');
 };
 
 const publicTalents = items
@@ -137,7 +138,7 @@ const publicTalents = items
       id: `t-${studentNumber}`,
       displayName: `No.${studentNumber}`,
       role: /リード/i.test(text(field(fields, '学生区分'))) ? 'lead' : 'associate',
-      universityCategory: studyCategory(field(fields, '学部・研究科')),
+      universityCategory: studyCategory(field(fields, '大学'), field(fields, '学部・研究科')),
       grade: Math.max(1, Math.min(9, Math.trunc(number(field(fields, '学年')) || 1))),
       weeklyAvailability: weeklyAvailability || null,
       skills,

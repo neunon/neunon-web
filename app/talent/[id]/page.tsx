@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 /**
  * 学生個別ページ（要件定義書 6.5・公開範囲は 12.1 に従う）。
- * フェーズ1では公開項目のみ。実名・大学名・詳細経歴・成果物は出さない。
+ * フェーズ1では公開項目のみ。実名・詳細経歴・成果物は出さない。
  */
 export default async function TalentDetailPage({ params }: Props) {
   const { id } = await params;
@@ -44,7 +44,7 @@ export default async function TalentDetailPage({ params }: Props) {
 
   const rows: { label: string; value: React.ReactNode }[] = [
     { label: '区分', value: roleLabels[talent.role] },
-    { label: '学校区分', value: talent.universityCategory },
+    { label: '大学・学部', value: talent.universityCategory },
     { label: '学年', value: `${talent.grade}年` },
     { label: '想定稼働時間 / 週', value: talent.weeklyAvailability ? `${talent.weeklyAvailability}時間` : '個別相談' },
     {
@@ -105,7 +105,7 @@ export default async function TalentDetailPage({ params }: Props) {
           ) : null}
 
           <p className="nc-note">
-            個人情報保護のため、実名・大学名・詳細な経歴・成果物は公開していません。実績は件数と種別のみを匿名化して掲載しています。
+            個人情報保護のため、実名・詳細な経歴・成果物は公開していません。大学名と学部・研究科は「サイト掲載可」が「可」の登録者に限って掲載し、実績は件数と種別のみを匿名化しています。
           </p>
 
           <p className="nc-optout">

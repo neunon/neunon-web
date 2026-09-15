@@ -14,7 +14,7 @@ export type PublicTalent = {
   /** イニシャルまたは番号。実名は出さない */
   displayName: string;
   role: TalentRole;
-  /** 「国立大 / 理工系」程度。大学名は出さない */
+  /** Microsoft Lists の大学名と、学部・研究科の先頭部分 */
   universityCategory: string;
   grade: number;
   /** Microsoft Lists の週稼働可能時間。未入力は null */
