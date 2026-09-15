@@ -109,11 +109,10 @@ function toNumber(value: unknown): number {
   return Number.isFinite(number) ? number : 0;
 }
 
-function broadStudyCategory(faculty: string): string {
-  if (/理工|工学|情報|数理|理学|科学|デザイン|建築|農学|医|薬/.test(faculty)) return '大学生 / 理工系';
-  if (/経済|経営|商学|会計/.test(faculty)) return '大学生 / 経済・経営系';
-  if (/法学|政治|社会|国際|文学|人文|教育/.test(faculty)) return '大学生 / 社会科学・人文系';
-  return '大学生';
+function publicStudyCategory(facultyOrGraduateSchool: string): string {
+  const normalized = facultyOrGraduateSchool.replace(/\s+/g, '');
+  const faculty = normalized.match(/^(.+?(?:学部|研究科))/)?.[1];
+  return faculty ? `大学生 / ${faculty}` : '大学生';
 }
 
 function roleFrom(value: unknown): TalentRole {
@@ -128,7 +127,7 @@ function loadLocalTalents(): PublicTalent[] {
     .filter((record) => record.public?.consentPublish === true)
     .map((record) => {
       const { consentPublish: _consentPublish, ...rest } = record.public;
-      return { id: record.id, ...rest } satisfies PublicTalent;
+      return { id: record.id, ...rest, weeklyAvailability: rest.weeklyAvailability ?? null } satisfies PublicTalent;
     });
 }
 
@@ -151,28 +150,32 @@ async function loadGraphTalents(config: GraphConfig): Promise<PublicTalent[]> {
     .filter((item) => item.fields && toText(field(item.fields, 'サイト掲載可')) === '可')
     .map((item): PublicTalent | undefined => {
       const fields = item.fields ?? {};
-      const studentId = toText(field(fields, '学生ID')) || item.id || '';
-      if (!studentId) return undefined;
+      const studentNumber = toText(field(fields, '学生No')) || toText(field(fields, '学生No.'));
+      if (!/^\d{5}$/.test(studentNumber)) return undefined;
 
       const skills = toStrings(field(fields, 'スキル'));
       const serviceAreas = toStrings(field(fields, '対応領域'));
       const primarySkills = skills.slice(0, 3);
       const primaryAreas = serviceAreas.slice(0, 2);
       const experienceCount = Math.max(0, Math.trunc(toNumber(field(fields, '案件経験数'))));
-      const focus = primarySkills[0] ?? 'リサーチ';
-      const area = primaryAreas[0] ?? '企業実務';
+      const weeklyAvailability = Math.max(
+        0,
+        Math.trunc(
+          toNumber(field(fields, '週稼働可能時間')) || toNumber(field(fields, '週稼働時間')),
+        ),
+      );
 
       return {
-        id: `t-${studentId.replace(/[^a-zA-Z0-9_-]/g, '-')}`,
-        displayName: `学生 ${studentId}`,
+        id: `t-${studentNumber}`,
+        displayName: `No.${studentNumber}`,
         role: roleFrom(field(fields, '学生区分')),
-        universityCategory: broadStudyCategory(toText(field(fields, '学部・研究科'))),
+        universityCategory: publicStudyCategory(toText(field(fields, '学部・研究科'))),
         grade: Math.max(1, Math.min(9, Math.trunc(toNumber(field(fields, '学年')) || 1))),
+        weeklyAvailability: weeklyAvailability || null,
         skills,
         primarySkills,
         serviceAreas,
         primaryAreas,
-        appeal: `${focus}を中心に、${area}に対応します。目的に沿って、丁寧かつ着実に業務を進めます。`,
         recordSummary: experienceCount > 0 ? `案件経験 ${experienceCount}件` : '実務参加に向けて準備中',
         certifications: [],
       };

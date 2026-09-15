@@ -17,11 +17,12 @@ export type PublicTalent = {
   /** 「国立大 / 理工系」程度。大学名は出さない */
   universityCategory: string;
   grade: number;
+  /** Microsoft Lists の週稼働可能時間。未入力は null */
+  weeklyAvailability: number | null;
   skills: string[];
   primarySkills: string[];
   serviceAreas: string[];
   primaryAreas: string[];
-  appeal: string;
   /** 匿名化済み。件数と種別のみ */
   recordSummary: string;
   /**

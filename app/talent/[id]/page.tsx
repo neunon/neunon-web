@@ -46,6 +46,7 @@ export default async function TalentDetailPage({ params }: Props) {
     { label: '区分', value: roleLabels[talent.role] },
     { label: '学校区分', value: talent.universityCategory },
     { label: '学年', value: `${talent.grade}年` },
+    { label: '想定稼働時間 / 週', value: talent.weeklyAvailability ? `${talent.weeklyAvailability}時間` : '個別相談' },
     {
       label: 'スキル',
       value: (
@@ -79,7 +80,6 @@ export default async function TalentDetailPage({ params }: Props) {
 
       <div className="section">
         <div className="wrap nc-doc-narrow">
-          <p className="nc-talent-detail-appeal">{talent.appeal}</p>
           <dl className="nc-deflist">
             {rows.map((row) => (
               <div key={row.label}>

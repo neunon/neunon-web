@@ -62,6 +62,8 @@ jobs:
             exit 1
           fi
 
+          MS_GRAPH_ACCESS_TOKEN="$access_token" node scripts/assign-talent-numbers.mjs
+
           response_file="$(mktemp)"
           trap 'rm -f "$response_file"' EXIT
           http_code="$(
