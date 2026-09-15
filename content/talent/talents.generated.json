@@ -1,0 +1,76 @@
+[
+  {
+    "id": "t-52441",
+    "displayName": "No.52441",
+    "role": "associate",
+    "universityCategory": "大学生 / 創造理工学部",
+    "grade": 3,
+    "weeklyAvailability": 16,
+    "skills": [],
+    "primarySkills": [],
+    "serviceAreas": [],
+    "primaryAreas": [],
+    "recordSummary": "実務参加に向けて準備中",
+    "certifications": []
+  },
+  {
+    "id": "t-71130",
+    "displayName": "No.71130",
+    "role": "lead",
+    "universityCategory": "大学生 / 創域理工学部",
+    "grade": 3,
+    "weeklyAvailability": null,
+    "skills": [],
+    "primarySkills": [],
+    "serviceAreas": [],
+    "primaryAreas": [],
+    "recordSummary": "実務参加に向けて準備中",
+    "certifications": []
+  },
+  {
+    "id": "t-72766",
+    "displayName": "No.72766",
+    "role": "associate",
+    "universityCategory": "大学生",
+    "grade": 3,
+    "weeklyAvailability": null,
+    "skills": [],
+    "primarySkills": [],
+    "serviceAreas": [],
+    "primaryAreas": [],
+    "recordSummary": "実務参加に向けて準備中",
+    "certifications": []
+  },
+  {
+    "id": "t-84792",
+    "displayName": "No.84792",
+    "role": "associate",
+    "universityCategory": "大学生 / 創域理工学部",
+    "grade": 3,
+    "weeklyAvailability": null,
+    "skills": [],
+    "primarySkills": [],
+    "serviceAreas": [],
+    "primaryAreas": [],
+    "recordSummary": "実務参加に向けて準備中",
+    "certifications": []
+  },
+  {
+    "id": "t-90189",
+    "displayName": "No.90189",
+    "role": "associate",
+    "universityCategory": "大学生 / 創域理工学部",
+    "grade": 3,
+    "weeklyAvailability": null,
+    "skills": [],
+    "primarySkills": [],
+    "serviceAreas": [
+      "経営戦略"
+    ],
+    "primaryAreas": [
+      "経営戦略"
+    ],
+    "recordSummary": "実務参加に向けて準備中",
+    "certifications": []
+  }
+]
