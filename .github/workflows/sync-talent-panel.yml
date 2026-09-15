@@ -62,14 +62,27 @@ jobs:
             exit 1
           fi
 
-          list_payload="$({
-            curl --fail-with-body --silent --show-error \
+          response_file="$(mktemp)"
+          trap 'rm -f "$response_file"' EXIT
+          http_code="$(
+            curl --silent --show-error \
+              --output "$response_file" \
+              --write-out '%{http_code}' \
               --header "Authorization: Bearer $access_token" \
               --get \
               --data-urlencode '$expand=fields' \
               --data-urlencode '$top=999' \
               "https://graph.microsoft.com/v1.0/sites/$MS_GRAPH_SITE_ID/lists/$MS_GRAPH_TALENT_LIST_ID/items"
-          })"
+          )"
+
+          if [[ "$http_code" != 2* ]]; then
+            graph_error_code="$(jq --raw-output '.error.code // "unknown"' "$response_file" 2>/dev/null || printf 'unknown')"
+            graph_error_message="$(jq --raw-output '.error.message // "No error message returned"' "$response_file" 2>/dev/null || printf 'No error message returned')"
+            echo "::error::Microsoft Graph returned HTTP $http_code ($graph_error_code): $graph_error_message"
+            exit 1
+          fi
+
+          list_payload="$(<"$response_file")"
 
           fingerprint="$({
             printf '%s' "$list_payload" \
