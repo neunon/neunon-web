@@ -20,4 +20,7 @@ jobs:
           RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
           test -n "$RENDER_DEPLOY_HOOK_URL"
-          curl --silent --show-error --output /dev/null "$RENDER_DEPLOY_HOOK_URL"
+          curl --silent --show-error --output /dev/null \
+            --header "Accept: application/json" \
+            --user-agent "Mozilla/5.0 (compatible; NeunonTalentSync/1.0)" \
+            "$RENDER_DEPLOY_HOOK_URL"
