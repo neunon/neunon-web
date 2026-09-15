@@ -5,22 +5,77 @@ on:
     - cron: "0 * * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 concurrency:
   group: sync-talent-panel
   cancel-in-progress: false
 
+env:
+  MS_GRAPH_TENANT_ID: a2662d08-1b8c-4861-a23e-e01206549b51
+  MS_GRAPH_CLIENT_ID: 44a97176-fb24-4011-b8cd-49a532d50376
+  MS_GRAPH_SITE_ID: neunon.sharepoint.com,0783ad67-da83-4b5e-b7db-d1d91cb93d9b,e328c632-77ee-4a26-8a69-394bd5813640
+  MS_GRAPH_TALENT_LIST_ID: d8f55970-239c-489f-ae3f-f60dcfc1dbc9
+
 jobs:
-  deploy:
-    name: Rebuild site from Microsoft Lists
+  detect-changes:
+    name: Detect Microsoft Lists changes
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Trigger Render deploy
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Read the student master and compare its fingerprint
         env:
-          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+          MS_GRAPH_CLIENT_SECRET: ${{ secrets.MS_GRAPH_CLIENT_SECRET }}
+        shell: bash
         run: |
-          test -n "$RENDER_DEPLOY_HOOK_URL"
-          curl --silent --show-error --output /dev/null \
-            --header "Accept: application/json" \
-            --user-agent "Mozilla/5.0 (compatible; NeunonTalentSync/1.0)" \
-            "$RENDER_DEPLOY_HOOK_URL"
+          set -euo pipefail
+          test -n "$MS_GRAPH_CLIENT_SECRET"
+
+          access_token="$({
+            curl --fail --silent --show-error \
+              --request POST \
+              --header "Content-Type: application/x-www-form-urlencoded" \
+              --data-urlencode "client_id=$MS_GRAPH_CLIENT_ID" \
+              --data-urlencode "client_secret=$MS_GRAPH_CLIENT_SECRET" \
+              --data-urlencode "scope=https://graph.microsoft.com/.default" \
+              --data-urlencode "grant_type=client_credentials" \
+              "https://login.microsoftonline.com/$MS_GRAPH_TENANT_ID/oauth2/v2.0/token"
+          } | jq --raw-output '.access_token')"
+          test -n "$access_token"
+          test "$access_token" != "null"
+
+          list_payload="$({
+            curl --fail --silent --show-error \
+              --header "Authorization: Bearer $access_token" \
+              --get \
+              --data-urlencode '$expand=fields' \
+              --data-urlencode '$top=999' \
+              "https://graph.microsoft.com/v1.0/sites/$MS_GRAPH_SITE_ID/lists/$MS_GRAPH_TALENT_LIST_ID/items"
+          })"
+
+          fingerprint="$({
+            printf '%s' "$list_payload" \
+              | jq --compact-output --sort-keys '[.value[] | {id, fields}] | sort_by(.id)' \
+              | sha256sum \
+              | awk '{print $1}'
+          })"
+          state_file=".github/talent-sync-state"
+          previous_fingerprint="$(tr -d '[:space:]' < "$state_file" 2>/dev/null || true)"
+
+          if [[ "$fingerprint" == "$previous_fingerprint" ]]; then
+            echo "Student master is unchanged."
+            exit 0
+          fi
+
+          printf '%s\n' "$fingerprint" > "$state_file"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$state_file"
+          git commit -m "Sync talent panel data"
+          git push origin HEAD:main
