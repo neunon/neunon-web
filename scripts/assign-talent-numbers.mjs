@@ -1,4 +1,5 @@
 import { randomInt } from 'node:crypto';
+import { mkdir, writeFile } from 'node:fs/promises';
 
 const accessToken = process.env.MS_GRAPH_ACCESS_TOKEN;
 const siteId = process.env.MS_GRAPH_SITE_ID;
@@ -90,7 +91,66 @@ for (const item of items) {
     method: 'PATCH',
     body: JSON.stringify({ [numberColumn.name]: studentNumber }),
   });
+  item.fields[numberColumn.name] = studentNumber;
   assigned += 1;
 }
 
 console.log(assigned > 0 ? `Assigned ${assigned} student number(s).` : 'All students already have a student number.');
+
+const internalNames = new Map(
+  columns
+    .concat(numberColumn)
+    .filter((column) => column.name && column.displayName)
+    .map((column) => [column.displayName, column.name]),
+);
+const field = (fields, displayName) => fields[internalNames.get(displayName) ?? displayName];
+const text = (value) => (typeof value === 'string' || typeof value === 'number' ? String(value).trim() : '');
+const number = (value) => {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : 0;
+};
+const strings = (value) => {
+  const raw = Array.isArray(value) ? value : typeof value === 'string' ? value.split(/[;,、\n]/) : [];
+  return [...new Set(raw.map((entry) => String(entry).trim()).filter((entry) => entry && entry !== '0' && entry !== '-' && entry !== 'なし'))];
+};
+const studyCategory = (value) => {
+  const normalized = text(value).replace(/\s+/g, '');
+  const faculty = normalized.match(/^(.+?(?:学部|研究科))/)?.[1];
+  return faculty ? `大学生 / ${faculty}` : '大学生';
+};
+
+const publicTalents = items
+  .filter((item) => text(field(item.fields ?? {}, 'サイト掲載可')) === '可')
+  .map((item) => {
+    const fields = item.fields ?? {};
+    const studentNumber = text(fields[numberColumn.name]);
+    if (!/^\d{5}$/.test(studentNumber)) return undefined;
+    const skills = strings(field(fields, 'スキル'));
+    const serviceAreas = strings(field(fields, '対応領域'));
+    const experienceCount = Math.max(0, Math.trunc(number(field(fields, '案件経験数'))));
+    const weeklyAvailability = Math.max(
+      0,
+      Math.trunc(number(field(fields, '週稼働可能時間')) || number(field(fields, '週稼働時間'))),
+    );
+
+    return {
+      id: `t-${studentNumber}`,
+      displayName: `No.${studentNumber}`,
+      role: /リード/i.test(text(field(fields, '学生区分'))) ? 'lead' : 'associate',
+      universityCategory: studyCategory(field(fields, '学部・研究科')),
+      grade: Math.max(1, Math.min(9, Math.trunc(number(field(fields, '学年')) || 1))),
+      weeklyAvailability: weeklyAvailability || null,
+      skills,
+      primarySkills: skills.slice(0, 3),
+      serviceAreas,
+      primaryAreas: serviceAreas.slice(0, 2),
+      recordSummary: experienceCount > 0 ? `案件経験 ${experienceCount}件` : '実務参加に向けて準備中',
+      certifications: [],
+    };
+  })
+  .filter(Boolean)
+  .sort((a, b) => a.id.localeCompare(b.id, 'ja'));
+
+await mkdir('content/talent', { recursive: true });
+await writeFile('content/talent/talents.generated.json', `${JSON.stringify(publicTalents, null, 2)}\n`, 'utf8');
+console.log(`Wrote ${publicTalents.length} public talent profile(s).`);

@@ -95,7 +95,8 @@ jobs:
           state_file=".github/talent-sync-state"
           previous_fingerprint="$(tr -d '[:space:]' < "$state_file" 2>/dev/null || true)"
 
-          if [[ "$fingerprint" == "$previous_fingerprint" ]]; then
+          generated_file="content/talent/talents.generated.json"
+          if [[ "$fingerprint" == "$previous_fingerprint" ]] && [[ -z "$(git status --porcelain -- "$generated_file")" ]]; then
             echo "Student master is unchanged."
             exit 0
           fi
@@ -103,6 +104,6 @@ jobs:
           printf '%s\n' "$fingerprint" > "$state_file"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$state_file"
+          git add "$state_file" "$generated_file"
           git commit -m "Sync talent panel data"
           git push origin HEAD:main

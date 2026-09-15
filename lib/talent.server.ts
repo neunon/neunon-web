@@ -30,6 +30,7 @@ type GraphListItem = { id?: string; fields?: Record<string, unknown> };
 type GraphPage<T> = { value?: T[]; '@odata.nextLink'?: string };
 
 const talentsPath = path.join(process.cwd(), 'content', 'talent', 'talents.json');
+const generatedTalentsPath = path.join(process.cwd(), 'content', 'talent', 'talents.generated.json');
 let publicTalentsPromise: Promise<PublicTalent[]> | undefined;
 
 function getGraphConfig(): GraphConfig | undefined {
@@ -131,6 +132,11 @@ function loadLocalTalents(): PublicTalent[] {
     });
 }
 
+function loadGeneratedTalents(): PublicTalent[] | undefined {
+  if (!fs.existsSync(generatedTalentsPath)) return undefined;
+  return JSON.parse(fs.readFileSync(generatedTalentsPath, 'utf-8')) as PublicTalent[];
+}
+
 async function loadGraphTalents(config: GraphConfig): Promise<PublicTalent[]> {
   const accessToken = await getAccessToken(config);
   const root = `https://graph.microsoft.com/v1.0/sites/${config.siteId}/lists/${config.listId}`;
@@ -187,6 +193,8 @@ async function loadGraphTalents(config: GraphConfig): Promise<PublicTalent[]> {
 /** 掲載許可済みの学生について、匿名化した公開項目だけを返す。 */
 export function getPublicTalents(): Promise<PublicTalent[]> {
   publicTalentsPromise ??= (async () => {
+    const generatedTalents = loadGeneratedTalents();
+    if (generatedTalents) return generatedTalents;
     const config = getGraphConfig();
     return config ? loadGraphTalents(config) : loadLocalTalents();
   })();
