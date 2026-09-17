@@ -32,14 +32,12 @@ export const metadata: Metadata = {
 };
 
 /**
- * スマートフォンでもPC版と同じレイアウトを保ち、
- * デスクトップ全体を縮小表示する。固定幅にすることで、
- * max-width ベースのモバイル用CSSへ切り替わらない。
+ * スマートフォンでも本文と操作要素の可読性を保つ。
+ * PC版の情報順序と視覚表現は維持しつつ、CSSのモバイル用配置を有効にする。
  */
 export const viewport: Viewport = {
-  width: 1440,
-  initialScale: 0.25,
-  minimumScale: 0.25,
+  width: 'device-width',
+  initialScale: 1,
 };
 
 /**
