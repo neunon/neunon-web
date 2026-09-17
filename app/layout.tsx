@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -29,6 +29,17 @@ export const metadata: Metadata = {
   },
   alternates: { canonical: '/' },
   robots: { index: true, follow: true },
+};
+
+/**
+ * スマートフォンでもPC版と同じレイアウトを保ち、
+ * デスクトップ全体を縮小表示する。固定幅にすることで、
+ * max-width ベースのモバイル用CSSへ切り替わらない。
+ */
+export const viewport: Viewport = {
+  width: 1440,
+  initialScale: 0.25,
+  minimumScale: 0.25,
 };
 
 /**
