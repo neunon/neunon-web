@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { getNews, getServices, getWorks } from '@/lib/content';
+import { getNews, getServices } from '@/lib/content';
 import { site } from '@/lib/site';
 
 /**
@@ -46,12 +46,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
-    })),
-    ...getWorks().map((work) => ({
-      url: `${site.url}/works/${work.slug}`,
-      lastModified,
-      changeFrequency: 'yearly' as const,
-      priority: 0.6,
     })),
     ...getNews().map((item) => ({
       url: `${site.url}/news/${item.slug}`,

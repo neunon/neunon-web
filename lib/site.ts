@@ -21,7 +21,7 @@ export const site = {
   address: {
     head: '東京都江東区南砂6-7-36-306',
   },
-  tel: '070-4360-2652',
+  tel: '070-4360-2752',
   // 代表問い合わせ先
   email: 'keisakamoto@neun-on.com',
 } as const;

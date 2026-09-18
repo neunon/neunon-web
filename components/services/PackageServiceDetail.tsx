@@ -1,32 +1,83 @@
-import Link from 'next/link';
-import type { Service, Work } from '@/lib/content';
+import type { Service } from '@/lib/content';
 import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 
 const deliverablePoints = [
   {
     no: '01',
-    title: '事実を集める',
-    body: '公開情報や指定資料から、判断の前提になる情報を抜け漏れなく収集します。',
+    title: '実態把握',
+    body: '市場の規模・成長性・主要プレイヤーを整理し、対象企業の事業・商品・顧客・販売チャネル・戦略を把握します。',
   },
   {
     no: '02',
-    title: '比較できる形にする',
-    body: '企業や商品ごとに異なる情報を、同じ評価軸で並べ直します。',
+    title: '分析・評価',
+    body: '収集した事実を比較・構造化し、特徴・競争力・成長余地・課題を読み解きます。',
   },
   {
     no: '03',
-    title: '変化と意味を読む',
-    body: '単なる情報の羅列で終わらせず、競争環境や営業機会への示唆を整理します。',
-  },
-  {
-    no: '04',
-    title: '次の行動につなげる',
-    body: '会議・提案・優先順位付けにそのまま使える成果物として納品します。',
+    title: '示唆・活用',
+    body: '分析結果を具体的な判断・優先順位・提案につなげ、営業先選定、既存顧客深耕、競合分析、M&A候補評価に活用できる形にまとめます。',
   },
 ];
 
-export function PackageServiceDetail({ service, works }: { service: Service; works: Work[] }) {
+const packageMenuLabels = ['New sales', 'Account', 'Market', 'Competitor', 'Landscape', 'Re-approach', 'Monitoring', 'M&A'];
+
+const packageMenuEffects = [
+  ['初回接触の切り口が具体化し、提案の説得力が増す', '担当者の事前調査工数を大幅に削減'],
+  ['深耕・クロスセルの機会と提案テーマを特定', '担当交代時の引継ぎや顧客理解の促進／共有にも転用'],
+  ['初回接触の切り口が具体化し、提案の説得力が増す', '担当者の事前調査工数を大幅に削減'],
+  ['自社との差別化ポイントが明確になる', '失注要因の検証と競合対策の材料となる'],
+  ['自社の立ち位置と市場の空白領域等が一目で分かる', '社内の共通認識づくり・合意形成が速い'],
+  ['休眠リストが再アプローチ可能リストに変わる', '新規開拓より低コストで商談を掘り起こせる'],
+  ['競合／業界の変化の見落としを防げる', '常に最新の前提で提案・戦略を組み立てられる'],
+  ['ロングリストからの絞り込みを最適に高速化できる', '初期検討フェーズの外部委託コストを抑制'],
+];
+
+const packageBenefits = [
+  {
+    no: '01',
+    title: '調査・分析工数を削減',
+    points: [
+      '情報収集・整理にかかる作業を削減し、本来注力すべき検討・判断・実行に時間を使える',
+      '工数制約で十分に調べられなかった企業・市場等まで検討対象を広げられる',
+    ],
+  },
+  {
+    no: '02',
+    title: '新たな示唆・機会を発見',
+    points: [
+      '個別情報を横断的に分析することで、通常業務で見落としやすい論点や示唆・機会を抽出できる',
+      '新規提案・クロスセル・再攻略、成長市場、競合の脅威・勝ち筋、M&A候補等',
+    ],
+  },
+  {
+    no: '03',
+    title: '対象の変化を継続的に把握',
+    points: [
+      '一度きりの調査で終わらず、企業や市場の変化を捉え続け、機会損失を抑える',
+      '新商品、戦略変更、投資、提携、M&A、組織変更等',
+      '適切なタイミングで判断・アクションにつなげられる',
+    ],
+  },
+  {
+    no: '04',
+    title: '理解・知見を深め、判断・提案を高度化',
+    points: [
+      '企業・市場・競合・製品を多面的に把握することで、担当者自身の理解・知見が深まる',
+      '背景や構造まで踏まえた、より深く多角的な判断・提案が可能になる',
+    ],
+  },
+  {
+    no: '05',
+    title: '分析品質を標準化・組織知化',
+    points: [
+      '調査項目・分析観点を統一し、担当者ごとの深さ・着眼点のばらつきを抑制',
+      '分析結果や重要な着眼点を蓄積・更新し、個人知を組織資産として再利用できる',
+    ],
+  },
+];
+
+export function PackageServiceDetail({ service }: { service: Service }) {
   const faq = service.faq.filter((item) => !item.q.includes('価格'));
 
   return (
@@ -49,9 +100,8 @@ export function PackageServiceDetail({ service, works }: { service: Service; wor
                 判断できるところまで。
               </h2>
               <p>
-                商談前の企業調査、競合の比較、休眠・失注顧客の再攻略。
-                必要性は分かっていても、社内では後回しになりやすい調査業務を、
-                目的に合わせて整理されたスライドへ仕上げます。
+                公開情報を横断的に収集・分析し、市場・競争環境から対象企業の実態、
+                目的に応じた示唆までを一気通貫で支援します。
               </p>
             </div>
             <dl className="nc-package-principles">
@@ -71,23 +121,6 @@ export function PackageServiceDetail({ service, works }: { service: Service; wor
           </div>
         </section>
 
-        <section className="section nc-package-use" aria-labelledby="package-use-title">
-          <div className="wrap">
-            <header className="nc-package-section-head">
-              <span>When to use</span>
-              <h2 id="package-use-title">こんな停滞を、前に進めます。</h2>
-            </header>
-            <div className="nc-package-use-grid">
-              {service.useCases.map((useCase, index) => (
-                <article key={useCase}>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <p>{useCase}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <section className="section nc-package-menu" aria-labelledby="package-menu-title">
           <div className="wrap">
             <header className="nc-package-section-head is-light">
@@ -100,20 +133,65 @@ export function PackageServiceDetail({ service, works }: { service: Service; wor
                 <article key={item.name}>
                   <div className="nc-package-menu-meta">
                     <span>{String(index + 1).padStart(2, '0')}</span>
-                    <span>{index < 2 ? 'Company' : index < 5 ? 'Competition' : 'Re-approach'}</span>
+                    <span>{packageMenuLabels[index]}</span>
                   </div>
                   <h3>{item.name}</h3>
                   <p>{item.body}</p>
-                  <dl>
-                    <div>
-                      <dt>想定顧客</dt>
-                      <dd>{item.target}</dd>
-                    </div>
-                    <div>
-                      <dt>解決する課題</dt>
-                      <dd>{item.issue}</dd>
-                    </div>
-                  </dl>
+                  <div className="nc-package-menu-effects">
+                    <span>効果</span>
+                    <ul>
+                      {packageMenuEffects[index].map((effect) => (
+                        <li key={effect}>{effect}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section nc-package-benefits" aria-labelledby="package-benefits-title">
+          <div className="wrap">
+            <header className="nc-package-section-head">
+              <span>Five changes</span>
+              <h2 id="package-benefits-title">支援がもたらす5つの変化</h2>
+            </header>
+            <div className="nc-package-benefit-list">
+              {packageBenefits.map((benefit) => (
+                <article key={benefit.no}>
+                  <span>{benefit.no}</span>
+                  <h3>{benefit.title}</h3>
+                  <ul>
+                    {benefit.points.map((point) => (
+                      <li key={point}>{point}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section nc-package-impact" aria-labelledby="package-impact-title">
+          <div className="wrap">
+            <header className="nc-package-section-head">
+              <span>Issue to impact</span>
+              <h2 id="package-impact-title">課題別の活用イメージ</h2>
+            </header>
+            <div className="nc-package-impact-list">
+              {service.menu.map((item, index) => (
+                <article key={item.name}>
+                  <span className="nc-package-impact-no">{String(index + 1).padStart(2, '0')}</span>
+                  <div>
+                    <small>Issue</small>
+                    <p>{item.issue}</p>
+                  </div>
+                  <i aria-hidden="true" />
+                  <div>
+                    <small>Impact</small>
+                    <p>{item.effect}</p>
+                  </div>
                 </article>
               ))}
             </div>
@@ -157,27 +235,6 @@ export function PackageServiceDetail({ service, works }: { service: Service; wor
             </ol>
           </div>
         </section>
-
-        {works.length > 0 ? (
-          <section className="section nc-package-case" aria-labelledby="package-case-title">
-            <div className="wrap">
-              <header className="nc-package-section-head">
-                <span>Case study</span>
-                <h2 id="package-case-title">実務で生まれた成果。</h2>
-              </header>
-              <div className="nc-package-case-grid">
-                {works.map((work) => (
-                  <Link href={`/works/${work.slug}`} key={work.slug}>
-                    <span>{work.industry}</span>
-                    <h3>{work.title}</h3>
-                    <p>{work.approach}</p>
-                    <i aria-hidden="true">↗</i>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </section>
-        ) : null}
 
         {/* Reserved for the future price and delivery-time section. */}
         <div className="nc-package-price-delivery-slot" data-reserved-section="price-and-delivery" hidden />

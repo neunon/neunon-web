@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getWorks } from '@/lib/content';
+import { anonymousWorks } from '@/lib/anonymous-works';
 import {
   conditions,
   gakuchika,
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
  *   5 求める人物像 / 6 メンバーインタビュー / 7 選考フロー / 8 CTA
  */
 export default function RecruitPage() {
-  const works = getWorks().slice(0, 6);
+  const works = anonymousWorks.slice(0, 6);
 
   return (
     <div className="nc-recruit">
@@ -128,13 +128,10 @@ export default function RecruitPage() {
           </div>
 
           <ul className="nc-rcases">
-            {works.map((work, index) => (
-              <li key={work.slug}>
+            {works.map((work) => (
+              <li key={`${work.industry}-${work.title}`}>
                 <span className="nc-work-ind">{work.industry}</span>
-                <h3>
-                  <Link href={`/works/${work.slug}`}>{work.title}</Link>
-                </h3>
-                <p>{work.approach}</p>
+                <h3>{work.title}</h3>
               </li>
             ))}
           </ul>

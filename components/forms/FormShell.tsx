@@ -13,7 +13,7 @@ import { site } from '@/lib/site';
  * - 送信前に確認画面またはバリデーション表示
  *     → 入力時のインライン検証と、送信前の確認画面の両方を実装
  * - 送信完了ページ            → 送信成功後に thanksPath へ遷移
- * - スパム対策                → honeypot（Formspree の _gotcha）+ 極端に速い送信の拒否
+ * - スパム対策                → honeypot + Cloudflare Turnstile + 極端に速い送信の拒否
  * - 同意チェックなしでは送信不可 → 未チェックの間は送信ボタンを disabled
  *
  * 送信先が未設定の場合は送信できない状態にし、その旨を画面に出す。

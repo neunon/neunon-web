@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { publicIndustries } from '@/lib/anonymous-works';
 
 /**
  * トップページの提供形態に付随する支援業界一覧。
@@ -6,8 +7,6 @@ import Link from 'next/link';
  * 要件定義書 12.1 により、取引先の実名・案件の具体的数値は出さない。
  * 実績件数に続く独立した帯として、支援業界を横断表示する。
  */
-
-const industries = ['人材', '製造', '物流', '小売', '食品・卸売', 'メディア', 'SNS', '建設・インフラ', 'AI', '教育'];
 
 export function TrackRecord() {
   return (
@@ -24,7 +23,7 @@ export function TrackRecord() {
         </div>
 
         <div className="nc-inds" aria-label="支援業界">
-          {industries.map((industry) => <span className="nc-ind" key={industry}>{industry}</span>)}
+          {publicIndustries.map((industry) => <span className="nc-ind" key={industry}>{industry}</span>)}
         </div>
         <span className="nc-industry-word" aria-hidden="true">Industry</span>
       </div>

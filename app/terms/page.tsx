@@ -12,8 +12,7 @@ export const metadata: Metadata = {
 /**
  * サイト利用規約（要件定義書 4. のサイトマップ）
  *
- * ★このページは実装側が作成した案です。公開前にリーガルチェックを受けること。
- * サービス提供条件ではなく、あくまで当ウェブサイトの利用条件のみを定めている。
+ * サービス提供条件ではなく、当ウェブサイトの利用条件のみを定めている。
  */
 export default function TermsPage() {
   return (
@@ -26,15 +25,6 @@ export default function TermsPage() {
 
       <div className="section nc-legal">
         <div className="wrap nc-doc-narrow nc-legal-body">
-          <p className="nc-pending is-lead">
-            このページは公開前の案です。
-            <br />
-            <span>
-              実装メモ: 記載内容は実装側で起草した。<b>公開前にリーガルチェックを受けること。</b>
-              個別の業務委託契約の条件を定めるものではなく、本サイトの利用条件のみを扱っている。
-            </span>
-          </p>
-
           <section aria-labelledby="terms-scope">
             <h2 id="terms-scope" className="nc-sub-head">
               適用範囲
@@ -109,6 +99,15 @@ export default function TermsPage() {
             </h2>
             <p>
               本規約は、必要に応じて変更することがあります。変更後の規約は本ページに掲載した時点から適用されます。
+            </p>
+          </section>
+
+          <section aria-labelledby="terms-law">
+            <h2 id="terms-law" className="nc-sub-head">
+              準拠法・管轄裁判所
+            </h2>
+            <p>
+              本規約は日本法に準拠します。本サイトに関して当社と利用者との間で生じた紛争については、東京地方裁判所を第一審の専属的合意管轄裁判所とします。
             </p>
           </section>
 

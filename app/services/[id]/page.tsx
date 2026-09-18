@@ -6,7 +6,7 @@ import { PriceFlow } from '@/components/shared/PriceFlow';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { PackageServiceDetail } from '@/components/services/PackageServiceDetail';
 import { TableOfContents, type TocItem } from '@/components/toc/TableOfContents';
-import { getService, getServices, getWorksByService } from '@/lib/content';
+import { getService, getServices } from '@/lib/content';
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -44,10 +44,8 @@ export default async function ServiceDetailPage({ params }: Props) {
   const service = getService(id);
   if (!service) notFound();
 
-  const works = getWorksByService(service.id);
-
   if (service.id === 'package') {
-    return <PackageServiceDetail service={service} works={works} />;
+    return <PackageServiceDetail service={service} />;
   }
 
   const toc: TocItem[] = [
@@ -57,7 +55,6 @@ export default async function ServiceDetailPage({ params }: Props) {
     { id: 'steps', label: '進め方' },
     ...(service.showPricing ? [{ id: 'price', label: 'なぜこの価格か・参考価格' }] : []),
     { id: 'engagement', label: '想定期間・体制' },
-    ...(works.length > 0 ? [{ id: 'works', label: 'この事業での実績' }] : []),
     { id: 'faq', label: 'よくある質問' },
   ];
 
@@ -199,31 +196,6 @@ export default async function ServiceDetailPage({ params }: Props) {
               </dl>
               {!service.showPricing ? <p className="nc-note">{service.pricingNote}</p> : null}
             </section>
-
-            {works.length > 0 ? (
-              <section aria-labelledby="works">
-                <h2 id="works">この事業での実績</h2>
-                <p className="nc-section-lead">
-                  守秘義務のため、企業名と具体的な数値は記載していません。業種と分析アプローチのみを公開しています。
-                </p>
-                <ul className="nc-worklist">
-                  {works.map((work) => (
-                    <li key={work.slug}>
-                      <span className="nc-work-ind">{work.industry}</span>
-                      <h3>
-                        <Link href={`/works/${work.slug}`}>{work.title}</Link>
-                      </h3>
-                      <p className="nc-work-ch">課題: {work.challenge}</p>
-                      <p>{work.approach}</p>
-                    </li>
-                  ))}
-                </ul>
-                <Link href="/works" className="nc-more">
-                  <i aria-hidden="true" />
-                  支援実績の一覧へ
-                </Link>
-              </section>
-            ) : null}
 
             <section aria-labelledby="faq">
               <h2 id="faq">よくある質問</h2>

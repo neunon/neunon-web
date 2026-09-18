@@ -18,8 +18,7 @@ export const metadata: Metadata = {
  *   取得する個人情報の項目 / 利用目的 / 第三者提供の有無 /
  *   保管期間と削除請求の方法 / 問い合わせ窓口
  *
- * ★このページは実装側が作成した案です。公開前に必ずリーガルチェックを受けること。
- *   保管期間など、会社として決める必要がある箇所は【要確認】としてある。
+ * 公開時の実際のフォーム構成（Cloudflare Worker / Turnstile / Resend）に合わせている。
  */
 const toc: TocItem[] = [
   { id: 'items', label: '取得する個人情報の項目' },
@@ -47,17 +46,6 @@ export default function PrivacyPage() {
           <TableOfContents items={toc} title="このページの目次" />
 
           <div className="nc-doc-body nc-legal-body">
-            <p className="nc-pending">
-              このページは公開前の案です。
-              <br />
-              <span>
-                実装メモ: 要件定義書 7. で必須とされているページ。記載内容は 12.2
-                の項目を満たすよう実装側で起草した。
-                <b>公開前に必ず顧問弁護士等のリーガルチェックを受けること。</b>
-                本文中の【要確認】は会社として決める必要がある箇所。
-              </span>
-            </p>
-
             <section aria-labelledby="items">
               <h2 id="items">取得する個人情報の項目</h2>
               <p>当サイトでは、以下のフォームから個人情報を取得します。</p>
@@ -82,9 +70,7 @@ export default function PrivacyPage() {
                 ))}
               </ul>
 
-              <p>
-                このほか、アクセス解析のために、閲覧されたページ、ブラウザの種類、参照元などの情報を取得します。これらは個人を特定できる形では取得しません。
-              </p>
+              <p>このほか、フォームの安全な送信と不正利用防止のため、IPアドレス、ブラウザ情報、送信日時等を取得する場合があります。</p>
             </section>
 
             <section aria-labelledby="purpose">
@@ -94,7 +80,7 @@ export default function PrivacyPage() {
                 <li>お問い合わせへの回答、お見積りの提示、ご契約に関するご連絡</li>
                 <li>採用選考の実施、選考結果のご連絡、採用後の業務連絡</li>
                 <li>当社サービスに関するご案内（ご本人の同意がある場合に限ります）</li>
-                <li>サイトの利用状況の分析と改善</li>
+                <li>迷惑送信、不正アクセスその他の不正利用の防止</li>
               </ul>
               <p>上記の目的の範囲を超えて利用する場合は、あらためてご本人の同意を得ます。</p>
             </section>
@@ -112,10 +98,7 @@ export default function PrivacyPage() {
 
               <h3 id="outsourcing">業務委託先への提供</h3>
               <p>
-                フォームの送信・保管には外部サービス（Formspree）を利用しています。送信いただいた内容は同サービスを経由して当社に届きます。また、アクセス解析には解析サービスを利用します。いずれも利用目的の達成に必要な範囲でのみ取り扱わせ、適切に監督します。
-              </p>
-              <p className="nc-note">
-                【要確認】実際に利用する解析サービス（Google Analytics または Plausible）が確定したら、サービス名とプライバシーポリシーへのリンクをここに明記すること。
+                フォームの送信処理には Cloudflare Workers、不正利用の防止には Cloudflare Turnstile、メール送信には Resend を利用しています。送信いただいた情報は、これらのサービスを経由して当社に届きます。当社は利用目的の達成に必要な範囲で委託し、委託先を適切に監督します。
               </p>
             </section>
 
@@ -123,9 +106,6 @@ export default function PrivacyPage() {
               <h2 id="retention">保管期間と削除・開示の請求</h2>
               <p>
                 取得した個人情報は、利用目的の達成に必要な期間に限って保管し、期間の経過後は速やかに削除します。
-              </p>
-              <p className="nc-note">
-                【要確認】お問い合わせ内容・エントリー内容それぞれの具体的な保管期間を会社として決め、ここに明記すること。
               </p>
               <p>
                 ご本人からの求めに応じて、保有する個人情報の開示、訂正、追加、削除、利用停止に応じます。ご請求は下記の窓口までご連絡ください。ご本人であることを確認したうえで、法令に従い速やかに対応します。
@@ -142,8 +122,7 @@ export default function PrivacyPage() {
             <section aria-labelledby="cookie">
               <h2 id="cookie">Cookie とアクセス解析</h2>
               <p>
-                当サイトでは、利用状況の把握と改善のためにアクセス解析を利用します。ブラウザの設定により Cookie
-                を無効にすることができます。無効にした場合でも、サイトの閲覧に支障はありません。
+                当サイトでは、フォームの迷惑送信防止のため Cloudflare Turnstile を利用しています。Turnstile は、利用者が人間か自動プログラムかを判定するために必要な範囲で、ブラウザや端末に関する情報を処理します。現時点で広告配信や行動分析を目的とするアクセス解析ツールは使用していません。
               </p>
             </section>
 
@@ -188,6 +167,14 @@ export default function PrivacyPage() {
                   </dd>
                 </div>
                 <div>
+                  <dt>メール</dt>
+                  <dd>
+                    <a href={`mailto:${site.email}`} className="nc-inline-link">
+                      {site.email}
+                    </a>
+                  </dd>
+                </div>
+                <div>
                   <dt>フォーム</dt>
                   <dd>
                     <Link href="/contact" className="nc-inline-link">
@@ -196,9 +183,6 @@ export default function PrivacyPage() {
                   </dd>
                 </div>
               </dl>
-              <p className="nc-note">
-                【要確認】個人情報に関する問い合わせ用のメールアドレスを新設し、ここに明記すること（要件定義書 14. の「代表メールアドレスの新設」と合わせて検討）。
-              </p>
             </section>
           </div>
         </div>

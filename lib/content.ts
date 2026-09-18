@@ -19,6 +19,7 @@ export type ServiceMenuItem = {
   body?: string;
   target?: string;
   issue?: string;
+  effect?: string;
   /** AIプロダクトが元にしているパッケージ型支援のメニュー名 */
   base?: string;
 };
