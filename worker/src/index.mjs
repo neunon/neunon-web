@@ -106,7 +106,6 @@ export default {
 
 export function corsHeaders(origin, allowedOrigins = '') {
   const allowed = new Set(String(allowedOrigins).split(',').map((item) => item.trim()).filter(Boolean));
-  if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) allowed.add(origin);
   if (!allowed.has(origin)) return null;
   return {
     'Access-Control-Allow-Origin': origin,

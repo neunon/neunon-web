@@ -29,6 +29,7 @@ export const metadata: Metadata = {
   },
   alternates: { canonical: '/' },
   robots: { index: true, follow: true },
+  verification: { google: '-4wv0Oprcw44Vb4TvihqG88aNLnk_yDfHrz8gJsnwzE' },
 };
 
 /**

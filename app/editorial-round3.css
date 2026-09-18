@@ -3060,7 +3060,7 @@
 
 .nc-works-column .nc-work-tile > span {
   color: #6e7781;
-  font-size: 8.5px;
+  font-size: 10.5px;
   font-weight: 650;
   letter-spacing: 0.14em;
 }
@@ -3084,7 +3084,9 @@
 
 .nc-package-benefit-list article {
   width: 100%;
+  height: 184px;
   grid-template-columns: 72px minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
 }
 
 @media (max-width: 700px) {
@@ -3115,6 +3117,10 @@
     line-height: 1.62;
   }
 
+  .nc-works-column .nc-work-tile > span {
+    font-size: 10px;
+  }
+
   .nc-package-menu-grid article,
   .nc-package-menu-grid article:nth-child(even),
   .nc-package-menu-grid article:last-child:nth-child(odd) {
@@ -3137,6 +3143,7 @@
   }
 
   .nc-package-benefit-list article {
+    height: auto;
     grid-template-columns: 42px minmax(0, 1fr);
     gap: 8px 14px;
     padding: 20px 0 22px;

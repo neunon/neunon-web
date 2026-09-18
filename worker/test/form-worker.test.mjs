@@ -2,9 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { buildAutoReply, buildNotificationText, corsHeaders, textToHtml } from '../src/index.mjs';
 
-test('CORS allows the production site and local development only', () => {
+test('CORS allows only origins explicitly configured for the environment', () => {
   assert.equal(corsHeaders('https://neun-on.com', 'https://neun-on.com')['Access-Control-Allow-Origin'], 'https://neun-on.com');
-  assert.equal(corsHeaders('http://127.0.0.1:3000', 'https://neun-on.com')['Access-Control-Allow-Origin'], 'http://127.0.0.1:3000');
+  assert.equal(corsHeaders('http://127.0.0.1:3000', 'https://neun-on.com'), null);
+  assert.equal(
+    corsHeaders('http://127.0.0.1:3000', 'https://neun-on.com,http://127.0.0.1:3000')['Access-Control-Allow-Origin'],
+    'http://127.0.0.1:3000',
+  );
   assert.equal(corsHeaders('https://attacker.example', 'https://neun-on.com'), null);
 });
 
