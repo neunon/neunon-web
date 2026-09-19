@@ -39,7 +39,9 @@
 
 4コレクション（SEO、トップ、3事業、ニュース）と認証Workerコード・テストを実装。URL、法務、個人情報、secretsは編集項目から除外。詳細は [CMS_SETUP.md](CMS_SETUP.md)。
 
-本番OAuthアプリ登録、Workerへのsecret設定/デプロイ、Render環境変数とCSP反映、実ユーザーでの下書き→レビュー→公開の一往復は未実施です。これらが終わるまでCMSログインは有効にしません。
+本番OAuthアプリ登録、Workerへのsecret設定/デプロイ、RenderのCMS_AUTH_BASE_URL設定、実ユーザーでの下書き→レビュー→公開の一往復は未実施です。これらが終わるまでCMSログインは有効にしません。
+
+本番確認: mainの463e645をRenderが自動デプロイし、2026-09-19 15:41 JSTにLiveを確認。新SEOタイトル・実績の16px角丸と上下透過・sitemapの19 URLを確認。Blueprintによりadmin専用CSPも反映済みで、公開トップのCSPは従来の制限を維持しています。`/admin/`はHTTP 200かつnoindex/nofollow、status.jsonはconfigured:false。adminと個別人材ページはsitemapに含まれていません。
 
 公開サイトの本番npm依存監査は0件ですが、Decapを含む依存全体には未解決の警告があります。初回有効化前の確認事項として手順書に記録しています。
 
