@@ -2,6 +2,14 @@
 
 株式会社Neunon Consulting の新コーポレートサイト制作プロジェクト。既存の Wix サイトを廃止し、事業内容の転換（コンサルティング単体 → 学生ネットワークを基盤とした実務支援）を反映した新サイトを構築する。
 
+## 現在の運用（2026-09-19）
+
+本番は https://neun-on.com/（Render Static Site）、フォームは専用 Cloudflare Worker です。
+下の初期制作チェックリストより、現在の運用については以下を優先してください。
+
+- [SEO・CMS実装報告](docs/SEO_IMPLEMENTATION.md)
+- [CMS初回設定・編集・復旧手順](docs/CMS_SETUP.md) — OAuth 初回設定が完了するまでログインは無効です。
+
 ## 資料
 
 | ファイル | 内容 |

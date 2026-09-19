@@ -20,6 +20,8 @@ export type ServiceMenuItem = {
   target?: string;
   issue?: string;
   effect?: string;
+  effects?: string[];
+  caption?: string;
   /** AIプロダクトが元にしているパッケージ型支援のメニュー名 */
   base?: string;
 };
@@ -34,6 +36,9 @@ export type Service = {
   number: string;
   title: string;
   summary: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  updatedAt?: string;
   highlights: string[];
   lead: string;
   useCases: string[];

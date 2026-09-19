@@ -1,14 +1,10 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { Services } from '@/components/home/Services';
 import { Structure } from '@/components/home/Structure';
 
-export const metadata: Metadata = {
-  title: '事業内容',
-  description:
-    'コンサルティング、パッケージ型支援、AIプロダクトの3つの提供形態。案件単位の個別支援から、定型化して低単価で継続提供するパッケージ、その工程自体を自動化するAIまで。',
-  alternates: { canonical: '/services' },
-};
+export const metadata: Metadata = pageMetadata('services', '/services/');
 
 /**
  * 事業一覧（3事業のハブ・要件定義書 4. のサイトマップ）

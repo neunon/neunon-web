@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { TableOfContents, type TocItem } from '@/components/toc/TableOfContents';
@@ -6,12 +7,7 @@ import { CompanyTable } from '@/components/about/CompanyTable';
 import { OrganizationDiagram } from '@/components/about/OrganizationDiagram';
 import { site } from '@/lib/site';
 
-export const metadata: Metadata = {
-  title: '企業情報',
-  description:
-    '株式会社Neunon Consultingのミッション、学生組織による実行基盤、品質管理体制、会社情報をご紹介します。',
-  alternates: { canonical: '/about' },
-};
+export const metadata: Metadata = pageMetadata('about', '/about/');
 
 const toc: TocItem[] = [
   { id: 'mission', label: 'ミッション' },

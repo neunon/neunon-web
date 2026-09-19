@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { anonymousWorks } from '@/lib/anonymous-works';
 import {
@@ -11,12 +12,7 @@ import {
   termsPendingNote,
 } from '@/lib/recruit';
 
-export const metadata: Metadata = {
-  title: '採用情報',
-  description:
-    '学生のうちに、企業の実案件を。市場規模の推定、競合分析、収益性分析、提案資料の作成まで。経験のあるコンサルタントが監修するので、知識ゼロから始められます。フルリモート・時間帯自由・学部学科不問。',
-  alternates: { canonical: '/recruit' },
-};
+export const metadata: Metadata = pageMetadata('recruit', '/recruit/');
 
 /**
  * 採用トップ（要件定義書 6.6）。

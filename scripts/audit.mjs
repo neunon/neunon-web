@@ -8,6 +8,7 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { validateContent } from './audit-content.mjs';
 
 const OUT = 'out';
 
@@ -52,11 +53,36 @@ async function main() {
   const issues = [];
   const titles = new Map();
   const descriptions = new Map();
+  const content = validateContent();
+  for (const msg of content.errors) issues.push({ route: 'content', msg });
+  for (const msg of content.warnings) console.warn('WARN ' + msg);
+  const base = new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://neun-on.com');
+  const sitemap = await fs.readFile(path.join(OUT, 'sitemap.xml'), 'utf8');
+  const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => new URL(m[1]));
+  const normalized = p => p === '/' ? '/' : p.replace(/\/$/, '');
+  const listed = new Set(sitemapUrls.map(u => normalized(u.pathname)));
+  const seen = new Set();
+  for (const url of sitemapUrls) {
+    if (url.origin !== base.origin) issues.push({ route: 'sitemap', msg: 'サイト外URLが含まれる' });
+    if (!url.pathname.endsWith('/')) issues.push({ route: 'sitemap', msg: 'URL末尾スラッシュがない' });
+  }
+  if (listed.size !== sitemapUrls.length) issues.push({ route: 'sitemap', msg: 'URLが重複している' });
+  for (const expected of ['/', '/services', '/services/consulting', '/services/package', '/services/ai', '/works', '/talent', '/recruit', '/about', '/contact']) {
+    if (!listed.has(expected)) issues.push({ route: expected, msg: '主要ページがsitemapにない' });
+  }
 
   for (const file of files) {
     const html = await fs.readFile(file, 'utf-8');
     const r = route(file);
     const add = (msg) => issues.push({ route: r, msg });
+    seen.add(r);
+    const noindex = /<meta[^>]+name="robots"[^>]+content="[^"]*\bnoindex\b/.test(html);
+    if (noindex && listed.has(r)) add('noindexページがsitemapに含まれる');
+    if (r === '/admin') {
+      if (!noindex || !/<meta[^>]+name="robots"[^>]+content="[^"]*\bnofollow\b/.test(html)) add('adminにnoindex,nofollowがない');
+      if (listed.has(r)) add('adminがsitemapに含まれる');
+      continue; // 外部CMSアプリの動的DOMは公開サイトのH1/ランドマーク監査対象外。
+    }
 
     // --- lang ---
     if (!/<html[^>]*\blang="ja"/.test(html)) add('html に lang="ja" がない');
@@ -77,6 +103,21 @@ async function main() {
     }
 
     if (!isNotFound(r) && !/<link rel="canonical"/.test(html)) add('canonical がない');
+    if (!isNotFound(r)) {
+      const href = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+      try {
+        const canonical = new URL(href);
+        // 機密保護で一覧に統合した旧実績URLだけは、既存の/works canonicalを維持。
+        const expectedPath = noindex && r.startsWith('/works/') ? '/works' : r;
+        if (canonical.origin !== base.origin || normalized(canonical.pathname) !== expectedPath || canonical.search || canonical.hash) add('canonicalが自己URLでない');
+      } catch { add('canonicalが絶対URLでない'); }
+    }
+    if (listed.has(r) && noindex) add('公開対象ページがnoindexになっている');
+    if (r === '/' || r.startsWith('/services/') || r.startsWith('/news/')) {
+      const ogTitle = html.match(/<meta property="og:title" content="([^"]*)"/)?.[1];
+      const ogDescription = html.match(/<meta property="og:description" content="([^"]*)"/)?.[1];
+      if (ogTitle !== title || ogDescription !== desc) add('OGPとtitle/descriptionが一致しない');
+    }
 
     // --- 見出し ---
     const headings = [...html.matchAll(/<h([1-6])\b[^>]*>/g)].map((m) => Number(m[1]));
@@ -138,14 +179,19 @@ async function main() {
     }
 
     // --- 構造化データが壊れていないか ---
-    for (const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    const structured = [];
+    for (const m of html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) {
       try {
-        JSON.parse(m[1]);
+        structured.push(JSON.parse(m[1]));
       } catch {
         add('構造化データ（JSON-LD）が JSON として不正');
       }
     }
+    if (r === '/' && !structured.some(data => data['@type'] === 'WebSite' && data.name === 'Neunon Consulting' && data.url === new URL('/', base).href)) {
+      add('トップのWebSite構造化データがない、または不正');
+    }
   }
+  for (const r of listed) if (!seen.has(r)) issues.push({ route: r, msg: 'sitemapのURLに対応するHTMLがない' });
 
   // --- 結果 ---
   console.log(`検査対象: ${files.length} ページ`);

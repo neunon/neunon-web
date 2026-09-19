@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { getHomeCopy } from '@/lib/seo';
 
 /**
  * トップページ セクション1: ヒーロー（要件定義書 6.1）
@@ -7,6 +8,7 @@ import Link from 'next/link';
  * 企業向け／学生向けの2分岐CTA（要件定義書 3. の設計上の重要事項）
  */
 export function Hero() {
+  const copy = getHomeCopy();
   return (
     <div className="nc-hero nc-home-wide">
       <div className="nc-hero-media" aria-hidden="true">
@@ -21,22 +23,21 @@ export function Hero() {
       </div>
       <div className="wrap">
         <span className="nc-eyebrow rise" data-d="0">
-          Neunon Consulting
+          {copy.eyebrow}
         </span>
         <h1 className="rise" data-d="1">
-          次世代の成長を、<br />企業の成長へ。
+          {copy.titleLine1}<br />{copy.titleLine2}
         </h1>
         <p className="nc-lead rise" data-d="2">
-          徹底した品質管理・育成体制のもとで選抜・育成された優秀な学生人材が企業の実務に挑み、
-          プロフェッショナルが学生の成長と成果物の品質を支えます。実践を通じて、企業の成果創出と
-          次世代ビジネス人材の育成を両立します。
+          {copy.lead}
         </p>
+        <p className="nc-business-summary rise" data-d="2">{copy.businessSummary}</p>
         <div className="nc-acts rise" data-d="3">
           <Link href="/services" className="btn">
-            企業の方へ
+            {copy.companyCtaLabel}
           </Link>
           <Link href="/recruit" className="btn btn-ghost">
-            学生の方へ
+            {copy.studentCtaLabel}
           </Link>
         </div>
         <div className="nc-hero-proof rise" data-d="3" aria-label="Neunon Consultingの特長">

@@ -1,0 +1,16 @@
+name = "neunon-cms-auth"
+main = "src/index.mjs"
+compatibility_date = "2026-09-19"
+workers_dev = true
+preview_urls = false
+
+[vars]
+AUTH_ORIGIN = "https://neunon-cms-auth.keisakamoto.workers.dev"
+GITHUB_REPO_PRIVATE = "true"
+
+[observability]
+enabled = false
+
+# Set via "wrangler secret put", never in this file:
+# GITHUB_CLIENT_ID
+# GITHUB_CLIENT_SECRET

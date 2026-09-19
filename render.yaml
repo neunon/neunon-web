@@ -30,6 +30,9 @@ services:
       # （sync: false は「Blueprint では値を同期しない」の意味）
       - key: NEXT_PUBLIC_SITE_URL
         sync: false
+      # OAuth Worker公開後に設定（公開URLのみ。SecretはWorker側）。
+      - key: CMS_AUTH_BASE_URL
+        sync: false
       - key: NEXT_PUBLIC_CONTACT_FORM_ENDPOINT
         sync: false
       - key: NEXT_PUBLIC_ENTRY_FORM_ENDPOINT
@@ -76,9 +79,96 @@ services:
       #
       #   将来 Google Analytics 等を入れる場合は script-src と connect-src に
       #   その配信元を追加すること。追加しないと動かない。
-      - path: /*
+      # CMS用の権限を公開ページへ広げない。Renderは重複ヘッダを結合するためパスを分離。
+      - path: /
         name: Content-Security-Policy
-        value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://neunon-form-api.keisakamoto.workers.dev https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+        value: &publicCsp "default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://neunon-form-api.keisakamoto.workers.dev https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+      - path: /index.html
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /404.html
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /404/*
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /_not-found/*
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /services
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /services/*
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /works
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /works/*
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /talent
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /talent/*
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /recruit
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /recruit/*
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /about
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /about/*
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /contact
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /contact/*
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /entry
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /entry/*
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /news
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /news/*
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /privacy
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /privacy/*
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /terms
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /terms/*
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /admin
+        name: Content-Security-Policy
+        # Browser-verified requirement: Decap/AJV compiles config with new Function.
+        # This exception applies ONLY to /admin. Never add it to publicCsp.
+        value: &adminCsp "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://avatars.githubusercontent.com https://raw.githubusercontent.com; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; frame-src 'none'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+      - path: /admin/*
+        name: Content-Security-Policy
+        value: *adminCsp
+      - path: /admin/*
+        name: X-Robots-Tag
+        value: noindex, nofollow
+      - path: /admin/*
+        name: Cache-Control
+        value: no-store
 
       # --- キャッシュ ---
       # ビルドごとにファイル名へハッシュが付くので、恒久的にキャッシュしてよい。

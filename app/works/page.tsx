@@ -1,15 +1,11 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { WorksGrid } from '@/components/works/WorksGrid';
 import { anonymousWorks } from '@/lib/anonymous-works';
 
-export const metadata: Metadata = {
-  title: '支援実績',
-  description:
-    '守秘義務に配慮した匿名の支援実績。人材・製造・物流・小売・食品卸売・メディア・SNS・建設インフラ・AIなどの支援テーマを掲載しています。',
-  alternates: { canonical: '/works' },
-};
+export const metadata: Metadata = pageMetadata('works', '/works/');
 
 /**
  * 支援実績の一覧（要件定義書 6.4）。

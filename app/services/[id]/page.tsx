@@ -7,6 +7,7 @@ import { ContactCta } from '@/components/shared/ContactCta';
 import { PackageServiceDetail } from '@/components/services/PackageServiceDetail';
 import { TableOfContents, type TocItem } from '@/components/toc/TableOfContents';
 import { getService, getServices } from '@/lib/content';
+import { createPageMetadata } from '@/lib/seo';
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -26,11 +27,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const service = getService(id);
   if (!service) return {};
 
-  return {
-    title: service.title,
-    description: service.summary,
-    alternates: { canonical: `/services/${service.id}` },
-  };
+  return createPageMetadata({
+    title: service.seoTitle?.trim() || service.title,
+    description: service.seoDescription?.trim() || service.summary,
+  }, `/services/${service.id}/`);
 }
 
 /**

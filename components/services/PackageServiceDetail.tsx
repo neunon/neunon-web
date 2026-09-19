@@ -20,19 +20,6 @@ const deliverablePoints = [
   },
 ];
 
-const packageMenuLabels = ['New sales', 'Account', 'Market', 'Competitor', 'Landscape', 'Re-approach', 'Monitoring', 'M&A'];
-
-const packageMenuEffects = [
-  ['初回接触の切り口が具体化し、提案の説得力が増す', '担当者の事前調査工数を大幅に削減'],
-  ['深耕・クロスセルの機会と提案テーマを特定', '担当交代時の引継ぎや顧客理解の促進／共有にも転用'],
-  ['初回接触の切り口が具体化し、提案の説得力が増す', '担当者の事前調査工数を大幅に削減'],
-  ['自社との差別化ポイントが明確になる', '失注要因の検証と競合対策の材料となる'],
-  ['自社の立ち位置と市場の空白領域等が一目で分かる', '社内の共通認識づくり・合意形成が速い'],
-  ['休眠リストが再アプローチ可能リストに変わる', '新規開拓より低コストで商談を掘り起こせる'],
-  ['競合／業界の変化の見落としを防げる', '常に最新の前提で提案・戦略を組み立てられる'],
-  ['ロングリストからの絞り込みを最適に高速化できる', '初期検討フェーズの外部委託コストを抑制'],
-];
-
 const packageBenefits = [
   {
     no: '01',
@@ -84,8 +71,8 @@ export function PackageServiceDetail({ service }: { service: Service }) {
     <div className="nc-package-page">
       <PageHero
         eyebrow="Package research support"
-        title="パッケージ型支援"
-        lead="営業・戦略判断の前提となる調査を、必要な範囲から。調査設計と品質基準を定型化し、1件単位でも発注しやすい実務支援にしました。"
+        title={service.title}
+        lead={service.lead}
         crumbs={[{ label: '事業内容', href: '/services' }, { label: service.title }]}
       />
 
@@ -133,14 +120,14 @@ export function PackageServiceDetail({ service }: { service: Service }) {
                 <article key={item.name}>
                   <div className="nc-package-menu-meta">
                     <span>{String(index + 1).padStart(2, '0')}</span>
-                    <span>{packageMenuLabels[index]}</span>
+                    <span>{item.caption}</span>
                   </div>
                   <h3>{item.name}</h3>
                   <p>{item.body}</p>
                   <div className="nc-package-menu-effects">
                     <span>効果</span>
                     <ul>
-                      {packageMenuEffects[index].map((effect) => (
+                      {(item.effects ?? []).map((effect) => (
                         <li key={effect}>{effect}</li>
                       ))}
                     </ul>

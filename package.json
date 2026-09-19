@@ -3,15 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "build:deploy": "next build && node scripts/audit.mjs",
+    "dev": "node scripts/prepare-cms.mjs && next dev",
+    "build": "node scripts/audit-content.mjs && node scripts/prepare-cms.mjs && next build",
+    "build:deploy": "npm run build && node scripts/audit.mjs",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test:worker": "node --test worker/test/*.test.mjs",
     "images": "node scripts/generate-images.mjs",
-    "audit:html": "node scripts/audit.mjs"
+    "audit:html": "node scripts/audit.mjs",
+    "audit:content": "node scripts/audit-content.mjs",
+    "test:cms": "node --test scripts/test/*.test.mjs cms-auth-worker/test/*.test.mjs"
   },
   "dependencies": {
     "next": "^16.3.4",
@@ -23,6 +25,7 @@
     "@types/node": "^22.15.3",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
+    "decap-cms": "3.16.2",
     "sharp": "^0.35.4",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.8.3"

@@ -1,16 +1,12 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { FormShell } from '@/components/forms/FormShell';
 import { contactFields, formEndpoints } from '@/lib/forms';
 import { site } from '@/lib/site';
 
-export const metadata: Metadata = {
-  title: 'お問い合わせ',
-  description:
-    '企業のお客様向けのお問い合わせフォーム。スポット業務や小さなご相談からお受けします。',
-  alternates: { canonical: '/contact' },
-};
+export const metadata: Metadata = pageMetadata('contact', '/contact/');
 
 /**
  * 企業向け問い合わせ（要件定義書 6.8）。

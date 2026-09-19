@@ -29,6 +29,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
+# Generated, pinned CMS distribution and environment-specific public config
+/public/admin/vendor/
+/public/admin/config.yml
+/public/admin/status.json
+**/.wrangler/
+**/.dev.vars
+
 # editor
 .vscode/
 .idea/

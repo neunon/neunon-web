@@ -1,10 +1,11 @@
 import type { MetadataRoute } from 'next';
 import { getNews, getServices } from '@/lib/content';
 import { site } from '@/lib/site';
+import { isIsoDate } from '@/lib/seo';
 
 /**
  * sitemap.xml の自動生成（要件定義書 10.2）。
- * 事業詳細・実績詳細は content/ から生成するので、追加すれば自動で載る。
+ * 事業詳細・ニュースは content/ から生成する。旧実績詳細は noindex のため除外。
  * 実装フェーズ 6 以降でページを追加したら、ここにも追記すること。
  *
  * 意図的に含めないもの:
@@ -16,8 +17,6 @@ import { site } from '@/lib/site';
 export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
-
   const staticRoutes: { path: string; priority: number; changeFrequency: 'monthly' | 'yearly' }[] = [
     { path: '/', priority: 1, changeFrequency: 'monthly' },
     { path: '/services', priority: 0.9, changeFrequency: 'monthly' },
@@ -36,20 +35,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...staticRoutes.map((route) => ({
-      url: `${site.url}${route.path}`,
-      lastModified,
+      url: new URL(route.path === '/' ? '/' : route.path + '/', site.url).href,
       changeFrequency: route.changeFrequency,
       priority: route.priority,
     })),
     ...getServices().map((service) => ({
-      url: `${site.url}/services/${service.id}`,
-      lastModified,
+      url: new URL(`/services/${service.id}/`, site.url).href,
+      ...(isIsoDate(service.updatedAt) ? { lastModified: service.updatedAt } : {}),
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     })),
     ...getNews().map((item) => ({
-      url: `${site.url}/news/${item.slug}`,
-      lastModified: new Date(item.date),
+      url: new URL(`/news/${item.slug}/`, site.url).href,
+      ...(isIsoDate(item.date) ? { lastModified: item.date } : {}),
       changeFrequency: 'yearly' as const,
       priority: 0.4,
     })),

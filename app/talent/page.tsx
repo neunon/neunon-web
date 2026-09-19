@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
@@ -6,12 +7,7 @@ import { TalentPanel } from '@/components/talent/TalentPanel';
 import { getTalentFacets } from '@/lib/talent';
 import { getPublicTalents } from '@/lib/talent.server';
 
-export const metadata: Metadata = {
-  title: '人材パネル',
-  description:
-    '案件を担当する登録学生の一覧。匿名のプロフィールから、スキルと対応領域を確認できます。',
-  alternates: { canonical: '/talent' },
-};
+export const metadata: Metadata = pageMetadata('talent', '/talent/');
 
 /**
  * 人材パネル（要件定義書 6.5 ★設計注意）

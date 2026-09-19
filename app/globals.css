@@ -8,6 +8,16 @@
 @import './editorial-round2.css';
 @import './editorial-round3.css';
 
+/* 主見出しより控えめな、検索意図と事業内容をつなぐ補助文。 */
+.nc-hero .nc-business-summary {
+  max-width: 62rem;
+  margin: 12px 0 0;
+  color: rgba(255, 255, 255, .68);
+  font-size: clamp(10px, .85vw, 13px);
+  line-height: 1.9;
+  letter-spacing: .04em;
+}
+
 /* ============================================================
    ブランドトークン
    出典: 要件定義書 9.1 + neunon-toppage-design.html (v2)

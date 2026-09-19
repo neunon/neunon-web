@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { getNews, getNewsItem } from '@/lib/content';
+import { createPageMetadata } from '@/lib/seo';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -18,11 +19,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const item = getNewsItem(slug);
   if (!item) return {};
 
+  const metadata = createPageMetadata({ title: item.title, description: item.excerpt }, `/news/${item.slug}/`);
   return {
-    title: item.title,
-    description: item.excerpt,
-    alternates: { canonical: `/news/${item.slug}` },
-    openGraph: { type: 'article', publishedTime: item.date },
+    ...metadata,
+    openGraph: { ...metadata.openGraph, type: 'article', publishedTime: item.date },
   };
 }
 
