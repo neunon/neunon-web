@@ -30,7 +30,7 @@
 - [x] 6. 採用サイト・求人票
 - [x] 7. フォーム
 - [x] 8. SEO・アクセシビリティ・パフォーマンス調整
-- [ ] 9. デプロイ ← **リポジトリ側の準備は完了。Render への接続は坂本の操作待ち**
+- [x] 9. デプロイ（Render Static Site / `neun-on.com` で稼働中）
 
 > **引き継ぎ中です。** ここから先の進め方は [docs/HANDOFF.md](docs/HANDOFF.md) を読んでください。
 > Render のアカウントを持っている側で公開作業を進めます。
@@ -133,22 +133,20 @@ lib/
 ### フォームの送信先
 
 静的書き出し（`output: 'export'`）のためサーバー側でメールを送る API Route を持てない。
-送信は Formspree のエンドポイントをブラウザから直接叩く構成にしている。
+送信は専用 Cloudflare Worker を通し、Turnstile検証後に Resend から通知・自動返信する。
 ブラウザに値を渡す必要があるため、環境変数は `NEXT_PUBLIC_` 接頭辞つき
 （要件定義書 11. の `CONTACT_FORM_ENDPOINT` に対応）。
 企業用と学生用でフォームを分ける指示（6.8）に合わせ、エンドポイントも2つ用意する。
 
 ```
-NEXT_PUBLIC_CONTACT_FORM_ENDPOINT=https://formspree.io/f/xxxxxxxx
-NEXT_PUBLIC_ENTRY_FORM_ENDPOINT=https://formspree.io/f/yyyyyyyy
+NEXT_PUBLIC_CONTACT_FORM_ENDPOINT=https://neunon-form-api.keisakamoto.workers.dev/contact
+NEXT_PUBLIC_ENTRY_FORM_ENDPOINT=https://neunon-form-api.keisakamoto.workers.dev/entry
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=<Turnstile site key>
 ```
 
 未設定の間は送信ボタンが押せない状態になり、画面に案内が出る。
-通知先メールアドレスは Formspree 側のフォーム設定で指定する。
-
-スパム対策は honeypot（Formspree の `_gotcha`）と、
-表示から送信までが極端に速い場合の拒否で対応している
-（6.8 は「reCAPTCHA v3 もしくは honeypot」を許容）。
+通知先と送信元はWorkerのSecret/環境変数で管理する。詳細は
+[docs/FORM_SETUP.md](docs/FORM_SETUP.md)。スパム対策はTurnstile、honeypot、入力時間検査。
 
 ### 求人票の契約形態・報酬が未確定の間
 
@@ -261,7 +259,7 @@ Render の Static Site で配信する。手順とチェックリストは [docs
 | 9 | 事業詳細のFAQ・進め方・想定期間 | 要件定義書に記載がないため実装側で作成した暫定内容。`content/services/*.json` の `faq` / `steps` / `engagement` を確認いただきたい |
 | 10 | 実績の事業への割り当て | `content/works/*.json` の `services` タグは実装側の判断。事業詳細ページに出す実績の対応付けを確認いただきたい |
 | 11 | 実績の「背景」「得られた示唆」 | 要件定義書 6.4 の3段構成に必要だが原文がないため、記載済みのアプローチから実装側で起草した。事実確認をお願いしたい |
-| 12 | 人材パネルのデータ | `content/talent/talents.json` は全件ダミー。実データへの差し替え前に、本人の掲載同意（6.5）の取得が必要 |
+| 12 | 人材パネルのデータ | **解決済み。** Microsoft Listsの「サイト掲載可=可」だけを自動同期し、公開項目のみを生成 |
 | 13 | 稼働状況の区分 | **解決済み。** `availabilityStatus`（受付中／調整中／満稼働）を発注者確認のうえ採用 |
 | 14 | 実績の記載粒度 | **解決済み。** 要件定義書 12.1（案件の具体的な数値は抽象化）に照らし、発注者判断で3箇所を修正済み — 「青果物流」→「食品領域の物流」、「約2.5倍」→傾向の記述、評価段階数の記述を削除 |
 | 15 | 求人票の契約形態・報酬額 | 未確定。画面は「準備中」、構造化データは該当プロパティを出力しない。顧問弁護士・社労士への確認後に `content/jobs/*.json` を埋める |
@@ -269,14 +267,14 @@ Render の Static Site で配信する。手順とチェックリストは [docs
 | 17 | 選考フローの詳細 | 4段階の名称は要件定義書 8.2 のとおり。各段階の所要時間・期間は暫定値 |
 | 18 | 求人の掲載日 | JobPosting の必須項目のため `datePosted` を追加し、暫定で 2026-09-01 としている。公開時に実際の掲載日へ更新すること |
 | 19 | メンバーインタビュー | 実施可否が未確定。12.1 により社内メンバーの個人名は本人同意なしに掲載できないため、`/recruit/voice` は準備中の表示とし noindex にしている |
-| 20 | プライバシーポリシー | **公開前に必ずリーガルチェックを受けること。** 記載は 12.2 の必須項目を満たすよう実装側で起草した。本文中の【要確認】（保管期間、解析サービス名、個人情報の問い合わせ窓口アドレス）は会社として決める必要がある |
+| 20 | プライバシーポリシー | 現行基盤（Cloudflare Workers / Turnstile / Resend）と窓口を反映済み。**公開文書としてリーガルチェックは必要** |
 | 21 | サイト利用規約 | 同上。公開前にリーガルチェックが必要 |
-| 22 | フォームの送信先 | Formspree のフォームを2つ作成し、エンドポイントを環境変数に設定する必要がある。通知先アドレスは Formspree 側で指定する（要件定義書 14. の「代表メールアドレスの新設」と合わせて決定） |
+| 22 | フォームの送信先 | **解決済み。** Cloudflare Worker + Turnstile + Resendを本番化し、企業・学生の実送信と到達を確認済み |
 | 23 | お知らせの本文 | 一覧・詳細ページを作るにあたり本文が必要だったため、確認済みの事実の範囲で実装側が起草した。原稿受領後に差し替えること |
-| 24 | CSP の強制 | 配信状態での検証ができていないため `Content-Security-Policy-Report-Only` にしてある。デプロイ後に違反0件を確認してから強制に切り替えること（docs/DEPLOY.md 5.1） |
-| 25 | Render への接続 | 坂本の Render アカウントで行う。private リポジトリのため、**Render を操作する人の GitHub アカウントが `neunon` organization のメンバーである必要がある**。詳細は docs/HANDOFF.md 2章 |
+| 24 | CSP の強制 | **解決済み。** 公開ページは強制CSPを配信済み。CMSの例外は `/admin/*` に限定 |
+| 25 | Render への接続 | **解決済み。** `neunon-web` Static Siteとmain自動デプロイが稼働中 |
 | 27 | リポジトリの置き場所 | **解決済み。** 会社の資産として `neunon` organization へ移管済み（`neunon/neunon-web`）。Render 接続前に済ませたので再接続は不要 |
-| 26 | Render の 404 とディレクトリ配信 | 実配信でしか確定できないため未確認。初回デプロイ直後に `/about/` が表示されるか、存在しないURLで404ページが出るかを確認し、必要ならリライトルールを追加する（docs/DEPLOY.md 4章） |
+| 26 | Render の 404 とディレクトリ配信 | **解決済み。** 本番で下層ページと404を確認済み |
 
 その他の未確定事項は `neunon-site-requirements.md` の「14. 未確定事項一覧」を参照。
 

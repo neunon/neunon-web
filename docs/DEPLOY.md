@@ -195,18 +195,15 @@ curl -I https://<公開URL>/_next/static/chunks/<ファイル名>.js | grep -i c
 - [ ] リッチリザルトテスト（Google）で `Organization` / `JobPosting` / `BreadcrumbList` が認識される
 - [ ] OGP をカードで確認（Slack や X に公開URLを貼って画像が出るか）
 
-#### CSP を強制に切り替える
+#### CSP の運用
 
-`render.yaml` の CSP は、いま **`Content-Security-Policy-Report-Only`** にしてある。
-配信した状態での検証ができていないため、いきなり強制するとサイトが
-表示されなくなる可能性があるため。Report-Only なら違反はコンソールに出るだけで表示は壊れない。
+`render.yaml` の公開ページは **`Content-Security-Policy`** で強制済み。
+CMSの必要最小限の例外は `/admin` と `/admin/*` の別ポリシーに限定している。
 
 - [ ] 各ページ種別（トップ / 事業詳細 / 実績 / 人材 / 採用 / フォーム）を開き、
       ブラウザのコンソールに `Content Security Policy` の違反が **1件も出ない**ことを確認する
-- [ ] フォームを実際に送信し、Formspree への通信がブロックされないことを確認する
-- [ ] 上記が確認できたら `render.yaml` のヘッダ名を
-      `Content-Security-Policy-Report-Only` → `Content-Security-Policy` に変更して再デプロイ
-- [ ] 変更後にもう一度、全ページ種別が正常に表示されることを確認する
+- [x] 企業・学生フォームを本番Workerへ実送信し、Resendからの到達を確認する
+- [x] 公開ページの強制CSPと本番表示を確認する
 
 ### 5.2 人の手でしか確認できないこと
 
