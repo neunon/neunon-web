@@ -160,6 +160,11 @@ services:
         # Browser-verified requirement: Decap/AJV compiles config with new Function.
         # This exception applies ONLY to /admin. Never add it to publicCsp.
         value: &adminCsp "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://avatars.githubusercontent.com https://raw.githubusercontent.com; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; frame-src 'none'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+      # Render treats the trailing-slash index route separately from /admin and
+      # /admin/*. Keep this exact path so the public CSP is not applied instead.
+      - path: /admin/
+        name: Content-Security-Policy
+        value: *adminCsp
       - path: /admin/*
         name: Content-Security-Policy
         value: *adminCsp
