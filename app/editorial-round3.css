@@ -3233,7 +3233,7 @@
 .nc-works-column .nc-work-tile > span {
   display: block;
   padding-bottom: 10px;
-  border-bottom: 1px solid #b8b8b5;
+  border-bottom: 2px solid #242424;
   color: #242424;
   font-family: 'Neue Haas Grotesk Text Pro', 'Helvetica Neue', Arial, sans-serif;
   font-size: 13.5px;
@@ -3249,7 +3249,7 @@
 .nc-works-column .nc-work-tile h2 {
   margin-top: 27px;
   color: #17202a;
-  font-size: clamp(14.5px, 1.05vw, 16.5px);
+  font-size: clamp(13.5px, 0.95vw, 15px);
   font-weight: 500 !important;
   line-height: 1.62;
   letter-spacing: -0.01em;
@@ -3287,7 +3287,7 @@
 
   .nc-works-column .nc-work-tile h2 {
     margin-top: 20px;
-    font-size: 12.5px;
+    font-size: 12px;
     line-height: 1.58;
   }
 
