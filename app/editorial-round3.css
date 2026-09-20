@@ -3206,15 +3206,15 @@
 .nc-works-column .nc-work-tile,
 .nc-works-column .nc-work-tile:nth-child(even) {
   position: relative;
-  min-height: 138px;
-  padding: 20px 22px 22px;
+  min-height: 154px;
+  padding: 27px 29px 29px;
   overflow: hidden;
   border: 1px solid var(--nc-line-strong);
   border-radius: 8px;
   background: #fff;
   box-shadow: none;
   backdrop-filter: none;
-  transition: border-color 200ms ease, background 320ms var(--ease-brand);
+  transition: none;
 }
 
 .nc-works-column .nc-work-tile::after {
@@ -3224,12 +3224,15 @@
 
 .nc-works-column .nc-work-tile:hover,
 .nc-works-column .nc-work-tile:focus {
-  border-color: #9cafc1;
-  background:
-    linear-gradient(90deg, rgba(232, 240, 248, 0.72), transparent 42%),
-    #fff;
+  border-color: var(--nc-line-strong);
+  background: #fff;
   box-shadow: none;
   transform: none;
+}
+
+.nc-works-column .nc-work-tile:focus-visible {
+  outline: 2px solid #173f78;
+  outline-offset: 2px;
 }
 
 .nc-works-column .nc-work-tile > span {
@@ -3237,7 +3240,7 @@
   padding-bottom: 0;
   border-bottom: 0;
   color: #242424;
-  font-family: 'Neue Haas Grotesk Text Pro', 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.035em;
@@ -3260,7 +3263,8 @@
 .nc-works-column .nc-work-tile h2 {
   margin-top: 18px;
   color: #142337;
-  font-size: clamp(13.5px, 0.95vw, 15px);
+  font-family: var(--font-sans);
+  font-size: clamp(13px, 0.9vw, 14.5px);
   font-weight: 520 !important;
   line-height: 1.62;
   letter-spacing: -0.01em;
@@ -3287,8 +3291,8 @@
 
   .nc-works-column .nc-work-tile,
   .nc-works-column .nc-work-tile:nth-child(even) {
-    min-height: 126px;
-    padding: 15px 14px 17px;
+    min-height: 136px;
+    padding: 18px 16px 20px;
     border-radius: 7px;
   }
 
@@ -3303,7 +3307,7 @@
 
   .nc-works-column .nc-work-tile h2 {
     margin-top: 17px;
-    font-size: 12px;
+    font-size: 11.5px;
     line-height: 1.58;
   }
 
