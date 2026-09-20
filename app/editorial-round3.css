@@ -3175,14 +3175,12 @@
    ============================================================ */
 
 .nc-works-stage {
-  background: #f4f4f2;
+  background: #fff;
 }
 
 .nc-works-marquee {
   width: min(1040px, 100%);
   padding: 30px 28px 26px;
-  border-top: 1px solid #d7d7d3;
-  border-bottom: 1px solid #d7d7d3;
 }
 
 /* The old vertical fades read as a translucent white rule above the note. */
@@ -3255,7 +3253,7 @@
   margin-top: 27px;
   color: #17202a;
   font-size: clamp(14.5px, 1.05vw, 16.5px);
-  font-weight: 450 !important;
+  font-weight: 500 !important;
   line-height: 1.62;
   letter-spacing: -0.01em;
 }
