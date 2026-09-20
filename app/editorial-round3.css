@@ -3175,11 +3175,14 @@
    ============================================================ */
 
 .nc-works-stage {
-  background: #fff;
+  background: #f4f4f2;
 }
 
 .nc-works-marquee {
   width: min(1040px, 100%);
+  padding: 30px 28px 26px;
+  border-top: 1px solid #d7d7d3;
+  border-bottom: 1px solid #d7d7d3;
 }
 
 /* The old vertical fades read as a translucent white rule above the note. */
@@ -3205,15 +3208,15 @@
 .nc-works-column .nc-work-tile,
 .nc-works-column .nc-work-tile:nth-child(even) {
   position: relative;
-  min-height: 136px;
-  padding: 20px 22px 22px;
+  min-height: 146px;
+  padding: 23px 24px 25px;
   overflow: hidden;
-  border: 1px solid #dedede;
-  border-radius: 16px;
+  border: 1px solid rgba(24, 24, 22, 0.14);
+  border-radius: 18px;
   background: #fff;
-  box-shadow: none;
+  box-shadow: 0 7px 22px rgba(20, 27, 34, 0.045);
   backdrop-filter: none;
-  transition: border-color 160ms ease;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
 }
 
 .nc-works-column .nc-work-tile::after {
@@ -3223,9 +3226,9 @@
 
 .nc-works-column .nc-work-tile:hover,
 .nc-works-column .nc-work-tile:focus {
-  border-color: #969696;
+  border-color: #8d8d89;
   background: #fff;
-  box-shadow: none;
+  box-shadow: 0 9px 26px rgba(20, 27, 34, 0.07);
   transform: none;
 }
 
@@ -3235,26 +3238,26 @@
   gap: 10px;
   color: #242424;
   font-family: 'Neue Haas Grotesk Text Pro', 'Helvetica Neue', Arial, sans-serif;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 13.5px;
+  font-weight: 550;
   letter-spacing: 0.02em;
 }
 
 .nc-works-column .nc-work-tile > span::before {
   content: '';
-  width: 18px;
+  width: 24px;
   height: 1px;
   flex: 0 0 auto;
-  background: #8c8c8c;
+  background: #242424;
 }
 
 .nc-works-column .nc-work-tile h2 {
-  margin-top: 25px;
+  margin-top: 27px;
   color: #17202a;
-  font-size: clamp(14px, 1vw, 16px);
-  font-weight: 430 !important;
-  line-height: 1.58;
-  letter-spacing: -0.015em;
+  font-size: clamp(14.5px, 1.05vw, 16.5px);
+  font-weight: 450 !important;
+  line-height: 1.62;
+  letter-spacing: -0.01em;
 }
 
 .nc-works-disclaimer {
@@ -3270,6 +3273,10 @@
   .nc-works-columns.is-mobile {
     height: 600px;
     gap: 10px;
+  }
+
+  .nc-works-marquee {
+    padding: 20px 12px 18px;
   }
 
   .nc-works-column .nc-work-tile,
