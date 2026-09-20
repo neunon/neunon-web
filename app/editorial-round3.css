@@ -2869,6 +2869,11 @@
   padding-bottom: 18px;
 }
 
+/* Keep the card border inside the column's clipping edge on fractional grid widths. */
+.nc-works-column {
+  padding-right: 1px;
+}
+
 .nc-works-column .nc-work-tile,
 .nc-works-column .nc-work-tile:nth-child(even) {
   min-height: 158px;
