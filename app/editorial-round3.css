@@ -3192,29 +3192,29 @@
 
 .nc-works-columns {
   height: 640px;
-  gap: 18px;
+  gap: 14px;
   /* Fade the moving content, not a white overlay: the note below stays crisp. */
   -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 86%, transparent);
   mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 86%, transparent);
 }
 
 .nc-works-column .nc-works-group {
-  gap: 18px;
-  padding-bottom: 18px;
+  gap: 14px;
+  padding-bottom: 14px;
 }
 
 .nc-works-column .nc-work-tile,
 .nc-works-column .nc-work-tile:nth-child(even) {
   position: relative;
-  min-height: 142px;
-  padding: 22px 23px 24px;
+  min-height: 138px;
+  padding: 20px 22px 22px;
   overflow: hidden;
-  border: 1px solid rgba(24, 24, 22, 0.14);
-  border-radius: 13px;
+  border: 1px solid var(--nc-line-strong);
+  border-radius: 8px;
   background: #fff;
   box-shadow: none;
   backdrop-filter: none;
-  transition: border-color 160ms ease;
+  transition: border-color 200ms ease, background 320ms var(--ease-brand);
 }
 
 .nc-works-column .nc-work-tile::after {
@@ -3224,8 +3224,10 @@
 
 .nc-works-column .nc-work-tile:hover,
 .nc-works-column .nc-work-tile:focus {
-  border-color: #8d8d89;
-  background: #fff;
+  border-color: #9cafc1;
+  background:
+    linear-gradient(90deg, rgba(232, 240, 248, 0.72), transparent 42%),
+    #fff;
   box-shadow: none;
   transform: none;
 }
@@ -3236,9 +3238,9 @@
   border-bottom: 0;
   color: #242424;
   font-family: 'Neue Haas Grotesk Text Pro', 'Helvetica Neue', Arial, sans-serif;
-  font-size: 13.5px;
-  font-weight: 550;
-  letter-spacing: 0.02em;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.035em;
 }
 
 .nc-works-column .nc-work-tile > span::before {
@@ -3249,17 +3251,17 @@
 .nc-works-column .nc-work-tile > span::after {
   content: '';
   display: block;
-  width: 36px;
+  width: 52px;
   height: 1px;
   margin-top: 10px;
-  background: #242424;
+  background: #173f78;
 }
 
 .nc-works-column .nc-work-tile h2 {
-  margin-top: 20px;
-  color: #17202a;
+  margin-top: 18px;
+  color: #142337;
   font-size: clamp(13.5px, 0.95vw, 15px);
-  font-weight: 500 !important;
+  font-weight: 520 !important;
   line-height: 1.62;
   letter-spacing: -0.01em;
 }
@@ -3287,7 +3289,7 @@
   .nc-works-column .nc-work-tile:nth-child(even) {
     min-height: 126px;
     padding: 15px 14px 17px;
-    border-radius: 11px;
+    border-radius: 7px;
   }
 
   .nc-works-column .nc-work-tile > span {
@@ -3295,7 +3297,7 @@
   }
 
   .nc-works-column .nc-work-tile > span::after {
-    width: 28px;
+    width: 38px;
     margin-top: 8px;
   }
 
