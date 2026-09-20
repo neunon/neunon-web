@@ -3206,11 +3206,11 @@
 .nc-works-column .nc-work-tile,
 .nc-works-column .nc-work-tile:nth-child(even) {
   position: relative;
-  min-height: 146px;
-  padding: 23px 24px 25px;
+  min-height: 142px;
+  padding: 22px 23px 24px;
   overflow: hidden;
   border: 1px solid rgba(24, 24, 22, 0.14);
-  border-radius: 18px;
+  border-radius: 13px;
   background: #fff;
   box-shadow: none;
   backdrop-filter: none;
@@ -3232,8 +3232,8 @@
 
 .nc-works-column .nc-work-tile > span {
   display: block;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #242424;
+  padding-bottom: 0;
+  border-bottom: 0;
   color: #242424;
   font-family: 'Neue Haas Grotesk Text Pro', 'Helvetica Neue', Arial, sans-serif;
   font-size: 13.5px;
@@ -3246,8 +3246,17 @@
   display: none;
 }
 
+.nc-works-column .nc-work-tile > span::after {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 1px;
+  margin-top: 10px;
+  background: #242424;
+}
+
 .nc-works-column .nc-work-tile h2 {
-  margin-top: 27px;
+  margin-top: 20px;
   color: #17202a;
   font-size: clamp(13.5px, 0.95vw, 15px);
   font-weight: 500 !important;
@@ -3278,15 +3287,20 @@
   .nc-works-column .nc-work-tile:nth-child(even) {
     min-height: 126px;
     padding: 15px 14px 17px;
-    border-radius: 14px;
+    border-radius: 11px;
   }
 
   .nc-works-column .nc-work-tile > span {
     font-size: 11.5px;
   }
 
+  .nc-works-column .nc-work-tile > span::after {
+    width: 28px;
+    margin-top: 8px;
+  }
+
   .nc-works-column .nc-work-tile h2 {
-    margin-top: 20px;
+    margin-top: 17px;
     font-size: 12px;
     line-height: 1.58;
   }
