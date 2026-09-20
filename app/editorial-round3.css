@@ -1095,7 +1095,7 @@
 
 .nc-home-services .nc-industry-word {
   position: absolute;
-  left: 37%;
+  right: -18px;
   bottom: -50px;
   z-index: 1;
   color: rgba(36, 68, 105, 0.07);
@@ -1216,10 +1216,10 @@
   }
 
   .nc-home-services .nc-industry-word {
-    left: 50%;
+    right: -12px;
     bottom: -16px;
     font-size: clamp(72px, 21vw, 82px);
-    transform: translateX(-50%);
+    transform: none;
   }
 
   .nc-hero .nc-hero-proof {
@@ -3175,7 +3175,7 @@
    ============================================================ */
 
 .nc-works-stage {
-  background: #f2f4f6;
+  background: #fff;
 }
 
 .nc-works-marquee {
@@ -3208,48 +3208,36 @@
   min-height: 136px;
   padding: 20px 22px 22px;
   overflow: hidden;
-  border: 1px solid rgba(42, 58, 75, 0.09);
+  border: 1px solid #dedede;
   border-radius: 16px;
-  background: #fbfcfd;
-  box-shadow: 0 3px 12px rgba(22, 35, 49, 0.025);
+  background: #fff;
+  box-shadow: none;
   backdrop-filter: none;
-  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+  transition: border-color 160ms ease;
 }
 
 .nc-works-column .nc-work-tile::after {
-  content: '';
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 2px;
-  background: #173f78;
-  opacity: 0;
-  transform: scaleY(0.35);
-  transition: opacity 180ms ease, transform 180ms ease;
+  content: none;
+  display: none;
 }
 
 .nc-works-column .nc-work-tile:hover,
 .nc-works-column .nc-work-tile:focus {
-  border-color: #aeb9c4;
+  border-color: #969696;
   background: #fff;
   box-shadow: none;
-  transform: translateY(-1px);
-}
-
-.nc-works-column .nc-work-tile:hover::after,
-.nc-works-column .nc-work-tile:focus::after {
-  opacity: 1;
-  transform: scaleY(1);
+  transform: none;
 }
 
 .nc-works-column .nc-work-tile > span {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #294d77;
+  color: #242424;
   font-family: 'Neue Haas Grotesk Text Pro', 'Helvetica Neue', Arial, sans-serif;
   font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
 .nc-works-column .nc-work-tile > span::before {
@@ -3257,14 +3245,14 @@
   width: 18px;
   height: 1px;
   flex: 0 0 auto;
-  background: #5d7898;
+  background: #8c8c8c;
 }
 
 .nc-works-column .nc-work-tile h2 {
   margin-top: 25px;
   color: #17202a;
   font-size: clamp(14px, 1vw, 16px);
-  font-weight: 560 !important;
+  font-weight: 430 !important;
   line-height: 1.58;
   letter-spacing: -0.015em;
 }
