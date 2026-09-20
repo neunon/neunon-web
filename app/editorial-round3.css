@@ -3239,14 +3239,14 @@
   display: inline-flex;
   width: fit-content;
   align-items: center;
-  padding: 5px 11px;
-  border: 1px solid #171717;
+  padding: 5px 10px;
+  border: 1px solid var(--nc-line-strong);
   border-radius: 999px;
-  background: #171717;
-  color: #fff;
+  background: #fff;
+  color: var(--color-g700);
   font-family: var(--font-sans);
-  font-size: 11.5px;
-  font-weight: 600;
+  font-size: 10.5px;
+  font-weight: 400;
   line-height: 1.4;
   letter-spacing: 0;
 }
@@ -3298,7 +3298,7 @@
   }
 
   .nc-works-column .nc-work-tile > span {
-    padding: 3px 7px;
+    padding: 5px 10px;
     font-size: 10.5px;
   }
 
