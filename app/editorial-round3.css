@@ -3236,14 +3236,19 @@
 }
 
 .nc-works-column .nc-work-tile > span {
-  display: block;
-  padding-bottom: 0;
-  border-bottom: 0;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  padding: 4px 9px;
+  border: 1px solid #d9dde2;
+  border-radius: 4px;
+  background: #f3f4f5;
   color: #242424;
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 11.5px;
   font-weight: 600;
-  letter-spacing: 0.035em;
+  line-height: 1.4;
+  letter-spacing: 0;
 }
 
 .nc-works-column .nc-work-tile > span::before {
@@ -3252,16 +3257,12 @@
 }
 
 .nc-works-column .nc-work-tile > span::after {
-  content: '';
-  display: block;
-  width: 52px;
-  height: 1px;
-  margin-top: 10px;
-  background: #173f78;
+  content: none;
+  display: none;
 }
 
 .nc-works-column .nc-work-tile h2 {
-  margin-top: 18px;
+  margin-top: 21px;
   color: #142337;
   font-family: var(--font-sans);
   font-size: clamp(13px, 0.9vw, 14.5px);
@@ -3297,12 +3298,8 @@
   }
 
   .nc-works-column .nc-work-tile > span {
-    font-size: 11.5px;
-  }
-
-  .nc-works-column .nc-work-tile > span::after {
-    width: 38px;
-    margin-top: 8px;
+    padding: 3px 7px;
+    font-size: 10.5px;
   }
 
   .nc-works-column .nc-work-tile h2 {
