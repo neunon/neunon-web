@@ -3192,25 +3192,25 @@
 
 .nc-works-columns {
   height: 640px;
-  gap: 14px;
+  gap: 18px;
   /* Fade the moving content, not a white overlay: the note below stays crisp. */
   -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 86%, transparent);
   mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 86%, transparent);
 }
 
 .nc-works-column .nc-works-group {
-  gap: 14px;
-  padding-bottom: 14px;
+  gap: 18px;
+  padding-bottom: 18px;
 }
 
 .nc-works-column .nc-work-tile,
 .nc-works-column .nc-work-tile:nth-child(even) {
   position: relative;
-  min-height: 154px;
-  padding: 27px 29px 29px;
+  min-height: 150px;
+  padding: 23px 20px 25px;
   overflow: hidden;
-  border: 1px solid var(--nc-line-strong);
-  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  border-radius: 12px;
   background: #fff;
   box-shadow: none;
   backdrop-filter: none;
@@ -3224,7 +3224,7 @@
 
 .nc-works-column .nc-work-tile:hover,
 .nc-works-column .nc-work-tile:focus {
-  border-color: var(--nc-line-strong);
+  border-color: #dcdcdc;
   background: #fff;
   box-shadow: none;
   transform: none;
@@ -3239,11 +3239,11 @@
   display: inline-flex;
   width: fit-content;
   align-items: center;
-  padding: 4px 9px;
-  border: 1px solid #d9dde2;
-  border-radius: 4px;
-  background: #f3f4f5;
-  color: #242424;
+  padding: 5px 11px;
+  border: 1px solid #171717;
+  border-radius: 999px;
+  background: #171717;
+  color: #fff;
   font-family: var(--font-sans);
   font-size: 11.5px;
   font-weight: 600;
@@ -3293,8 +3293,8 @@
   .nc-works-column .nc-work-tile,
   .nc-works-column .nc-work-tile:nth-child(even) {
     min-height: 136px;
-    padding: 18px 16px 20px;
-    border-radius: 7px;
+    padding: 16px 12px 18px;
+    border-radius: 10px;
   }
 
   .nc-works-column .nc-work-tile > span {
