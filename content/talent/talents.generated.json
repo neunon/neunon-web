@@ -5,7 +5,7 @@
     "role": "associate",
     "universityCategory": "早稲田大学 / 創造理工学部",
     "grade": 3,
-    "weeklyAvailability": 16,
+    "weeklyAvailability": "16.25",
     "skills": [
       "PowerPoint",
       "Word",
@@ -67,7 +67,7 @@
     "role": "lead",
     "universityCategory": "東京理科大学 / 創域理工学部",
     "grade": 3,
-    "weeklyAvailability": null,
+    "weeklyAvailability": "25-30",
     "skills": [
       "Excel",
       "Word",
@@ -170,7 +170,7 @@
     "role": "associate",
     "universityCategory": "芝浦工業大学",
     "grade": 3,
-    "weeklyAvailability": null,
+    "weeklyAvailability": "10-15",
     "skills": [
       "Excel",
       "PowerPoint",
@@ -228,7 +228,7 @@
     "role": "associate",
     "universityCategory": "東京理科大学 / 創域理工学部",
     "grade": 3,
-    "weeklyAvailability": 13,
+    "weeklyAvailability": "13",
     "skills": [],
     "primarySkills": [],
     "serviceAreas": [],
@@ -242,7 +242,7 @@
     "role": "associate",
     "universityCategory": "東京理科大学 / 創域理工学部",
     "grade": 3,
-    "weeklyAvailability": 15,
+    "weeklyAvailability": "15",
     "skills": [],
     "primarySkills": [],
     "serviceAreas": [
