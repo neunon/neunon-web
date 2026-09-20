@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import { roleLabels, type PublicTalent, type TalentFacets } from '@/lib/talent';
+import { formatWeeklyAvailability, roleLabels, type PublicTalent, type TalentFacets } from '@/lib/talent';
 import { areaCategories, skillCategories, type TalentCategory } from '@/lib/talentTaxonomy';
 
 export function TalentPanel({ talents, facets }: { talents: PublicTalent[]; facets: TalentFacets }) {
@@ -88,7 +88,7 @@ export function TalentPanel({ talents, facets }: { talents: PublicTalent[]; face
                 </div>
                 <h2 className="nc-talent-name"><Link href={`/talent/${talent.id}`}>{talent.displayName}</Link></h2>
                 <p className="nc-talent-meta">{talent.universityCategory}　/　{talent.grade}年</p>
-                <p className="nc-talent-availability">想定稼働時間 <strong>{talent.weeklyAvailability ? `週${talent.weeklyAvailability}時間` : '個別相談'}</strong></p>
+                <p className="nc-talent-availability">想定稼働時間 <strong>{formatWeeklyAvailability(talent.weeklyAvailability)}</strong></p>
                 <TalentTags label="主なスキル" primary={talent.primarySkills} all={talent.skills} />
                 <TalentTags label="主な対応領域" primary={talent.primaryAreas} all={talent.serviceAreas} />
                 <div className="nc-talent-actions">

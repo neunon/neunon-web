@@ -134,7 +134,14 @@ function loadLocalTalents(): PublicTalent[] {
 
 function loadGeneratedTalents(): PublicTalent[] | undefined {
   if (!fs.existsSync(generatedTalentsPath)) return undefined;
-  return JSON.parse(fs.readFileSync(generatedTalentsPath, 'utf-8')) as PublicTalent[];
+  const talents = JSON.parse(fs.readFileSync(generatedTalentsPath, 'utf-8')) as PublicTalent[];
+  return talents.map((talent) => ({
+    ...talent,
+    weeklyAvailability:
+      talent.weeklyAvailability === null || talent.weeklyAvailability === undefined
+        ? null
+        : String(talent.weeklyAvailability).trim() || null,
+  }));
 }
 
 async function loadGraphTalents(config: GraphConfig): Promise<PublicTalent[]> {
@@ -164,12 +171,8 @@ async function loadGraphTalents(config: GraphConfig): Promise<PublicTalent[]> {
       const primarySkills = skills.slice(0, 3);
       const primaryAreas = serviceAreas.slice(0, 2);
       const experienceCount = Math.max(0, Math.trunc(toNumber(field(fields, '案件経験数'))));
-      const weeklyAvailability = Math.max(
-        0,
-        Math.trunc(
-          toNumber(field(fields, '週稼働可能時間')) || toNumber(field(fields, '週稼働時間')),
-        ),
-      );
+      const weeklyAvailability =
+        toText(field(fields, '週稼働可能時間')) || toText(field(fields, '週稼働時間'));
 
       return {
         id: `t-${studentNumber}`,

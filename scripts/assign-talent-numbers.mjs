@@ -129,10 +129,8 @@ const publicTalents = items
     const skills = strings(field(fields, 'スキル'));
     const serviceAreas = strings(field(fields, '対応領域'));
     const experienceCount = Math.max(0, Math.trunc(number(field(fields, '案件経験数'))));
-    const weeklyAvailability = Math.max(
-      0,
-      Math.trunc(number(field(fields, '週稼働可能時間')) || number(field(fields, '週稼働時間'))),
-    );
+    const weeklyAvailability =
+      text(field(fields, '週稼働可能時間')) || text(field(fields, '週稼働時間'));
 
     return {
       id: `t-${studentNumber}`,

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
-import { roleLabels } from '@/lib/talent';
+import { formatWeeklyAvailability, roleLabels } from '@/lib/talent';
 import { getPublicTalent, getPublicTalents } from '@/lib/talent.server';
 
 type Props = { params: Promise<{ id: string }> };
@@ -46,7 +46,7 @@ export default async function TalentDetailPage({ params }: Props) {
     { label: '区分', value: roleLabels[talent.role] },
     { label: '大学・学部', value: talent.universityCategory },
     { label: '学年', value: `${talent.grade}年` },
-    { label: '想定稼働時間 / 週', value: talent.weeklyAvailability ? `${talent.weeklyAvailability}時間` : '個別相談' },
+    { label: '想定稼働時間 / 週', value: formatWeeklyAvailability(talent.weeklyAvailability, false) },
     {
       label: 'スキル',
       value: (

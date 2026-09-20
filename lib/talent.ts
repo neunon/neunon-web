@@ -17,8 +17,8 @@ export type PublicTalent = {
   /** Microsoft Lists の大学名と、学部・研究科の先頭部分 */
   universityCategory: string;
   grade: number;
-  /** Microsoft Lists の週稼働可能時間。未入力は null */
-  weeklyAvailability: number | null;
+  /** Microsoft Lists の週稼働可能時間。範囲・注記を含む文字列も許容する */
+  weeklyAvailability: string | number | null;
   skills: string[];
   primarySkills: string[];
   serviceAreas: string[];
@@ -41,6 +41,20 @@ export const roleLabels: Record<TalentRole, string> = {
   lead: 'リード学生',
   associate: 'アソシエイト学生',
 };
+
+/**
+ * 週稼働時間は Microsoft Lists の入力表現を尊重する。
+ * 「10」「10-15」「10〜20時間」「週10時間程度」のいずれも表示できる。
+ */
+export function formatWeeklyAvailability(
+  value: PublicTalent['weeklyAvailability'],
+  includeWeek = true,
+): string {
+  const text = value === null || value === undefined ? '' : String(value).trim();
+  if (!text) return '個別相談';
+  if (/[週時]|応相談|相談/.test(text)) return text;
+  return `${includeWeek ? '週' : ''}${text}時間`;
+}
 
 export function getTalentFacets(talents: PublicTalent[]): TalentFacets {
   const collect = (pick: (talent: PublicTalent) => string[]) =>
