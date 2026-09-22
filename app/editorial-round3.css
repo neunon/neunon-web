@@ -3332,3 +3332,9 @@
     mask-image: none;
   }
 }
+
+/* The primary hero CTA stays a light button on hover; global button hover
+   styles otherwise turn its label white against the pale hover surface. */
+.nc-hero .nc-acts .btn:not(.btn-ghost):hover {
+  color: var(--color-ink);
+}
