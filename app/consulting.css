@@ -1,0 +1,623 @@
+/* ============================================================
+   コンサルティング事業詳細 /services/consulting/
+   ------------------------------------------------------------
+   構成の出典は「コンサルティング事業_紹介資料.pptx」(2026-09-25 受領)。
+   パッケージ型支援 (.nc-package-page) がネイビー基調なのに対し、
+   こちらはブランドトークンの gentian blue 系でまとめている。
+   globals.css の最後に読み込むため、汎用ルールより後勝ちになる。
+   ============================================================ */
+
+.nc-consulting-page {
+  --consulting-deep: #071c32;
+  --consulting-blue: #125b84;
+  --consulting-soft: #4f88a6;
+  --consulting-line: #d9e0e7;
+  --consulting-wash: #edf4f8;
+}
+
+/* ---------- hero ---------- */
+
+.nc-consulting-page .nc-phero {
+  position: relative;
+  overflow: hidden;
+  padding: 62px 0 84px;
+  background:
+    radial-gradient(circle at 84% 18%, rgba(79, 136, 166, 0.34), transparent 33%),
+    linear-gradient(135deg, #051524, #071c32 58%, #10486b);
+  color: #fff;
+}
+
+.nc-consulting-page .nc-phero::after {
+  content: 'CONSULTING';
+  position: absolute;
+  right: -20px;
+  bottom: -54px;
+  color: rgba(255, 255, 255, 0.036);
+  font: 600 clamp(86px, 13.5vw, 196px) / 1 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.075em;
+  pointer-events: none;
+}
+
+.nc-consulting-page .nc-phero .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.nc-consulting-page .nc-crumbs,
+.nc-consulting-page .nc-crumbs a,
+.nc-consulting-page .nc-crumbs [aria-current='page'] {
+  color: rgba(236, 244, 250, 0.58);
+}
+
+.nc-consulting-page .nc-eyebrow {
+  color: #8fb6cd;
+}
+
+.nc-consulting-page .nc-ptitle {
+  max-width: 8em;
+  color: #fff;
+  font-size: clamp(50px, 7.6vw, 96px);
+  letter-spacing: -0.06em;
+}
+
+.nc-consulting-page .nc-lead {
+  max-width: 45em;
+  color: rgba(236, 244, 250, 0.78);
+  font-size: 16px;
+  line-height: 2.05;
+}
+
+/* ---------- 共通パーツ ---------- */
+
+.nc-consulting-no {
+  display: block;
+  color: var(--consulting-soft);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.nc-consulting-section-head {
+  margin-bottom: 52px;
+  padding-top: 24px;
+  border-top: 1px solid #aeb9c6;
+}
+
+.nc-consulting-section-head > span {
+  display: block;
+  margin-bottom: 18px;
+  color: var(--consulting-blue);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.nc-consulting-section-head h2 {
+  max-width: 16em;
+  margin: 0;
+  font-size: clamp(30px, 4.4vw, 58px);
+  font-weight: 520;
+  line-height: 1.38;
+  letter-spacing: -0.05em;
+}
+
+.nc-consulting-section-head > p {
+  max-width: 44em;
+  margin: 26px 0 0;
+  color: #5b6877;
+  font-size: 14px;
+  line-height: 2.05;
+}
+
+.nc-consulting-section-head.is-dark {
+  border-top-color: rgba(255, 255, 255, 0.22);
+}
+
+.nc-consulting-section-head.is-dark > span {
+  color: #8fb6cd;
+}
+
+.nc-consulting-section-head.is-dark h2 {
+  color: #fff;
+}
+
+.nc-consulting-section-head.is-dark > p {
+  color: rgba(233, 241, 247, 0.74);
+}
+
+/* 目次より上の導入文。h2 直後に置く前提で余白を詰める */
+.nc-consulting-note {
+  max-width: 44em;
+  margin: 26px 0 34px;
+  color: #5b6877;
+  font-size: 14px;
+  line-height: 2.05;
+}
+
+.nc-consulting-sub {
+  margin: 44px 0 18px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- 目指す姿 ---------- */
+
+.nc-consulting-vision {
+  padding: 96px 0 92px;
+}
+
+.nc-consulting-values {
+  margin: 0;
+  border-top: 1px solid var(--consulting-line);
+}
+
+.nc-consulting-values > div {
+  display: grid;
+  grid-template-columns: minmax(180px, 250px) minmax(0, 1fr);
+  gap: clamp(20px, 4vw, 64px);
+  align-items: baseline;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--consulting-line);
+}
+
+.nc-consulting-values dt {
+  color: #0d2f49;
+  font-size: clamp(17px, 1.8vw, 22px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.nc-consulting-values dt .nc-consulting-no {
+  margin-bottom: 8px;
+}
+
+.nc-consulting-values dd {
+  margin: 0;
+  color: #4f5c6b;
+  font-size: 14px;
+  line-height: 2.05;
+}
+
+/* ---------- 問題解決の考え方 ---------- */
+
+.nc-consulting-principles {
+  padding: 96px 0 100px;
+  background: linear-gradient(140deg, #06192c, #0b3558 72%, #12496d);
+  color: #fff;
+}
+
+.nc-consulting-principle-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.nc-consulting-principle-grid article {
+  padding: 34px 28px 38px;
+  background: #081f37;
+}
+
+.nc-consulting-principle-grid .nc-consulting-no {
+  color: #8fb6cd;
+}
+
+.nc-consulting-principle-grid h3 {
+  margin: 16px 0 14px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.nc-consulting-principle-grid p {
+  margin: 0;
+  color: rgba(224, 235, 244, 0.78);
+  font-size: 13px;
+  line-height: 1.95;
+}
+
+/* ---------- 本文エリア ---------- */
+
+.nc-consulting-doc {
+  padding-top: 92px;
+}
+
+/* ---------- 主な支援テーマ ---------- */
+
+.nc-consulting-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--consulting-line);
+  border: 1px solid var(--consulting-line);
+}
+
+.nc-consulting-theme-grid article {
+  padding: 28px 26px 30px;
+  background: #fff;
+}
+
+.nc-consulting-theme-grid h3 {
+  margin: 14px 0 10px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.nc-consulting-theme-q {
+  margin: 0 0 16px !important;
+  color: var(--consulting-blue);
+  font-size: 13px;
+  line-height: 1.85;
+}
+
+.nc-consulting-theme-grid ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nc-consulting-theme-grid li {
+  position: relative;
+  padding-left: 15px;
+  color: #5b6877;
+  font-size: 13px;
+  line-height: 1.95;
+}
+
+.nc-consulting-theme-grid li::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 0;
+  width: 6px;
+  height: 1px;
+  background: var(--consulting-soft);
+}
+
+/* ---------- 支援実績 ---------- */
+
+.nc-consulting-stats {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 60px);
+  align-items: center;
+  padding: 30px 0 34px;
+  border-top: 1px solid var(--consulting-line);
+  border-bottom: 1px solid var(--consulting-line);
+}
+
+.nc-consulting-stats > div strong {
+  display: block;
+  color: #0d2f49;
+  font-size: clamp(42px, 7vw, 68px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.05em;
+}
+
+.nc-consulting-stats > div strong em {
+  margin-left: 6px;
+  font-size: 0.34em;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.nc-consulting-stats > div span {
+  display: block;
+  margin-top: 10px;
+  color: #5b6877;
+  font-size: 13px;
+}
+
+.nc-consulting-stats > p {
+  margin: 0 !important;
+  color: #6b7784;
+  font-size: 13px;
+  line-height: 1.95;
+}
+
+.nc-consulting-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nc-consulting-tags li {
+  padding: 7px 14px;
+  border: 1px solid var(--consulting-line);
+  background: var(--consulting-wash);
+  color: #33536b;
+  font-size: 12.5px;
+}
+
+.nc-consulting-examples {
+  margin: 0;
+  border-top: 1px solid var(--consulting-line);
+}
+
+.nc-consulting-examples > div {
+  display: grid;
+  grid-template-columns: minmax(190px, 270px) minmax(0, 1fr);
+  gap: clamp(18px, 4vw, 52px);
+  padding: 22px 0;
+  border-bottom: 1px solid var(--consulting-line);
+}
+
+.nc-consulting-examples dt {
+  color: #0d2f49;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nc-consulting-examples dd {
+  margin: 0;
+}
+
+.nc-consulting-examples ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nc-consulting-examples li {
+  position: relative;
+  padding-left: 15px;
+  color: #5b6877;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.nc-consulting-examples li::before {
+  content: '';
+  position: absolute;
+  top: 11px;
+  left: 0;
+  width: 6px;
+  height: 1px;
+  background: var(--consulting-soft);
+}
+
+/* ---------- 支援事例 ---------- */
+
+.nc-consulting-cases {
+  display: grid;
+  gap: 1px;
+  background: var(--consulting-line);
+  border: 1px solid var(--consulting-line);
+}
+
+.nc-consulting-cases article {
+  padding: 30px 28px 32px;
+  background: #fff;
+}
+
+.nc-consulting-cases header h3 {
+  margin: 14px 0 10px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+}
+
+.nc-consulting-cases header p {
+  max-width: 52em;
+  margin: 0 0 26px !important;
+  color: #4f5c6b;
+  font-size: 13.5px;
+  line-height: 1.95;
+}
+
+.nc-consulting-case-cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px;
+  padding-top: 24px;
+  border-top: 1px solid var(--consulting-line);
+}
+
+.nc-consulting-case-cols h4 {
+  margin: 0 0 12px;
+  color: var(--consulting-blue);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.nc-consulting-case-cols ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nc-consulting-case-cols li {
+  position: relative;
+  margin-bottom: 8px;
+  padding-left: 15px;
+  color: #5b6877;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.nc-consulting-case-cols li::before {
+  content: '';
+  position: absolute;
+  top: 11px;
+  left: 0;
+  width: 6px;
+  height: 1px;
+  background: var(--consulting-soft);
+}
+
+/* ---------- 成果物イメージ ---------- */
+
+.nc-consulting-outputs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  background: var(--consulting-line);
+  border: 1px solid var(--consulting-line);
+}
+
+.nc-consulting-outputs > div {
+  padding: 24px 24px 26px;
+  background: #fff;
+}
+
+.nc-consulting-outputs dt {
+  margin-bottom: 10px;
+  color: #0d2f49;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.nc-consulting-outputs dd {
+  margin: 0;
+  color: #5b6877;
+  font-size: 13px;
+  line-height: 1.95;
+}
+
+/* ---------- 支援形態 ---------- */
+
+.nc-consulting-formats {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--consulting-line);
+}
+
+.nc-consulting-formats > li {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: clamp(14px, 3vw, 30px);
+  padding: 26px 0;
+  border-bottom: 1px solid var(--consulting-line);
+}
+
+.nc-consulting-formats .nc-consulting-no {
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.nc-consulting-formats h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.nc-consulting-formats small {
+  display: block;
+  margin: 8px 0 12px;
+  color: var(--consulting-blue);
+  font-size: 12.5px;
+}
+
+.nc-consulting-formats p {
+  margin: 0 !important;
+  color: #5b6877;
+  font-size: 13.5px;
+  line-height: 1.95;
+}
+
+/* ---------- 価格 ---------- */
+
+.nc-consulting-reasons {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--consulting-line);
+  border: 1px solid var(--consulting-line);
+}
+
+.nc-consulting-reasons article {
+  padding: 28px 24px 30px;
+  background: var(--consulting-wash);
+}
+
+.nc-consulting-reasons h3 {
+  margin: 14px 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.nc-consulting-reasons p {
+  margin: 0 !important;
+  color: #4f5c6b;
+  font-size: 13px;
+  line-height: 1.95;
+}
+
+/* ---------- タブレット ---------- */
+
+@media (max-width: 960px) {
+  .nc-consulting-principle-grid,
+  .nc-consulting-reasons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------- モバイル ---------- */
+
+@media (max-width: 700px) {
+  .nc-consulting-vision {
+    padding: 64px 0 60px;
+  }
+
+  .nc-consulting-principles {
+    padding: 64px 0 68px;
+  }
+
+  .nc-consulting-doc {
+    padding-top: 60px;
+  }
+
+  .nc-consulting-section-head {
+    margin-bottom: 36px;
+  }
+
+  .nc-consulting-values > div,
+  .nc-consulting-examples > div,
+  .nc-consulting-stats {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .nc-consulting-principle-grid,
+  .nc-consulting-theme-grid,
+  .nc-consulting-outputs,
+  .nc-consulting-reasons,
+  .nc-consulting-case-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .nc-consulting-case-cols {
+    gap: 22px;
+  }
+
+  .nc-consulting-cases article {
+    padding: 24px 20px 26px;
+  }
+
+  .nc-consulting-theme-grid article,
+  .nc-consulting-outputs > div,
+  .nc-consulting-reasons article,
+  .nc-consulting-principle-grid article {
+    padding: 24px 20px 26px;
+  }
+
+  .nc-consulting-formats > li {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 12px;
+  }
+}

@@ -7,6 +7,8 @@
 @import './editorial.css';
 @import './editorial-round2.css';
 @import './editorial-round3.css';
+/* 事業詳細ページ固有。汎用ルールに後勝ちさせるため最後に読み込む */
+@import './consulting.css';
 
 /* 主見出しより控えめな、検索意図と事業内容をつなぐ補助文。 */
 .nc-hero .nc-business-summary {
@@ -114,7 +116,8 @@ body {
 :where(.nc-eyebrow, .nc-glabel, .nc-work-ind, .nc-svc-n, .nc-dd-num, .nc-path-n,
   .nc-step-n, .nc-fhead, .nc-toc-title, .nc-about-kicker, .nc-org span,
   .nc-record-label, .nc-hero-eyebrow, .nc-prob-k, .nc-flowlabel, .nc-work-index,
-  .nc-consulting-kicker, .nc-tag, .nc-side-head, .nc-form-step, .nc-filter-label,
+  .nc-consulting-no, .nc-consulting-section-head > span,
+  .nc-tag, .nc-side-head, .nc-form-step, .nc-filter-label,
   .nc-talent-index, .nc-talent-tags > span, .nc-talent-selection span,
   .nc-flowlabel, .nc-prob-k) {
   font-family: 'Neue Haas Grotesk Text Pro', 'Neue Haas Grotesk', 'Helvetica Neue', sans-serif;
@@ -123,7 +126,7 @@ body {
 }
 
 :where(.nc-lead, .shead > p, .nc-section-lead, .nc-workcard p, .nc-rcard p,
-  .nc-phero p, .nc-consulting-lead, .nc-rlead) {
+  .nc-phero p, .nc-consulting-section-head > p, .nc-rlead) {
   text-wrap: pretty;
   word-break: auto-phrase;
 }

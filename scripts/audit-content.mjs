@@ -69,6 +69,41 @@ export function validateContent(root = process.cwd()) {
       stringList(item.effects, where + '.menu[' + i + '].effects', 2);
       if (item.effects?.length !== 2) fail(where, 'メニュー欄の効果は2行です');
     });
+    // コンサルティングのみ、紹介資料に沿った拡張ブロックを持つ（ConsultingServiceDetail が描画）
+    if (id === 'consulting') {
+      const c = data.consulting;
+      const at = where + '.consulting';
+      if (!object(c)) {
+        fail(at, 'コンサルティング詳細ブロックが必要です');
+      } else {
+        keys(c.vision, ['title'], at + '.vision');
+        objects(c.vision?.values, ['no', 'en', 'body'], at + '.vision.values', 4);
+        keys(c.principles, ['lead'], at + '.principles');
+        objects(c.principles?.items, ['no', 'title', 'body'], at + '.principles.items', 4);
+        keys(c.themes, ['lead'], at + '.themes');
+        objects(c.themes?.items, ['no', 'title', 'question'], at + '.themes.items', 1)
+          .forEach((t, i) => stringList(t.items, at + '.themes.items[' + i + '].items'));
+        keys(c.formats, ['lead'], at + '.formats');
+        objects(c.formats?.items, ['no', 'title', 'role', 'body'], at + '.formats.items', 1);
+        keys(c.cases, ['lead'], at + '.cases');
+        objects(c.cases?.items, ['no', 'title', 'summary'], at + '.cases.items', 1)
+          .forEach((item, i) => {
+            for (const field of ['issue', 'approach', 'insight']) {
+              stringList(item[field], at + '.cases.items[' + i + '].' + field);
+            }
+          });
+        keys(c.outputs, ['lead'], at + '.outputs');
+        objects(c.outputs?.items, ['title', 'body'], at + '.outputs.items', 1);
+        keys(c.record, ['lead', 'note'], at + '.record');
+        objects(c.record?.stats, ['value', 'unit', 'label'], at + '.record.stats', 1);
+        stringList(c.record?.industries, at + '.record.industries');
+        objects(c.record?.examples, ['client'], at + '.record.examples', 1)
+          .forEach((e, i) => stringList(e.items, at + '.record.examples[' + i + '].items'));
+        keys(c.price, ['lead'], at + '.price');
+        objects(c.price?.reasons, ['no', 'title', 'body'], at + '.price.reasons', 3);
+      }
+    }
+
     objects(data.steps, ['no', 'title', 'body'], where + '.steps');
     objects(data.engagement, ['label', 'value'], where + '.engagement');
     objects(data.pricing, ['label', 'price'], where + '.pricing', id === 'package' ? 6 : 0);

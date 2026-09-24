@@ -30,6 +30,50 @@ export type ServiceStep = { no: string; title: string; body: string };
 export type PriceRow = { label: string; price: string };
 export type FaqItem = { q: string; a: string };
 
+/**
+ * コンサルティング事業だけが持つ拡張ブロック。
+ * 出典は「コンサルティング事業_紹介資料.pptx」(2026-09-25 受領) のスライド5〜15。
+ * 他の2事業は使わないため Service 上では任意フィールドにしている。
+ */
+export type ConsultingValue = { no: string; en: string; body: string };
+export type ConsultingPrinciple = { no: string; title: string; body: string };
+export type ConsultingTheme = {
+  no: string;
+  title: string;
+  question: string;
+  items: string[];
+};
+export type ConsultingFormat = { no: string; title: string; role: string; body: string };
+export type ConsultingCase = {
+  no: string;
+  title: string;
+  summary: string;
+  issue: string[];
+  approach: string[];
+  insight: string[];
+};
+export type ConsultingOutput = { title: string; body: string };
+export type ConsultingStat = { value: string; unit: string; label: string };
+export type ConsultingRecordExample = { client: string; items: string[] };
+export type ConsultingPriceReason = { no: string; title: string; body: string };
+
+export type ConsultingDetail = {
+  vision: { title: string; values: ConsultingValue[] };
+  principles: { lead: string; items: ConsultingPrinciple[] };
+  themes: { lead: string; items: ConsultingTheme[] };
+  formats: { lead: string; items: ConsultingFormat[] };
+  cases: { lead: string; items: ConsultingCase[] };
+  outputs: { lead: string; items: ConsultingOutput[] };
+  record: {
+    lead: string;
+    stats: ConsultingStat[];
+    industries: string[];
+    examples: ConsultingRecordExample[];
+    note: string;
+  };
+  price: { lead: string; reasons: ConsultingPriceReason[] };
+};
+
 export type Service = {
   id: string;
   order: number;
@@ -50,6 +94,8 @@ export type Service = {
   showPricing: boolean;
   pricingNote: string;
   faq: FaqItem[];
+  /** コンサルティング事業のみ。ConsultingServiceDetail が描画する */
+  consulting?: ConsultingDetail;
 };
 
 /**
