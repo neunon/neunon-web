@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { Service } from '@/lib/content';
 import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
@@ -10,11 +11,12 @@ import { FormatDiagram, PriceChart } from '@/components/services/ConsultingDiagr
  *   目指す姿(S5) → 問題解決の考え方(S7) → 主な支援テーマ(S8) → 支援実績(S6)
  *   → 事例(S10-12) → 支援形態(S9) → 価格(S15)
  *
- * 見せ方はパッケージ型支援（PackageServiceDetail）と同じ体系に揃えている:
- *   全幅セクションを明暗交互に重ね、各セクションは
- *   <header class="nc-consulting-section-head"> の英字ラベル＋見出し＋補足で始める。
+ * 見せ方はパッケージ型支援（PackageServiceDetail）と同じ体系:
+ *   全幅セクションを明暗交互に重ね、各セクションは英字ラベル＋見出し＋補足で始める。
+ * 見出しは資料の言い方をそのまま使う。言い換えて調子をつけない。
+ * 支援実績だけはトップページの実績パネル（.nc-service-evidence）と同じ作りにしている。
  *
- * 内容は service.consulting に持たせているため、文言修正は
+ * 内容は service.consulting にあるため、文言修正は
  * content/services/01-consulting.json だけで完結する。
  */
 export function ConsultingServiceDetail({ service }: { service: Service }) {
@@ -58,14 +60,11 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
               <span>Where it helps</span>
               <h2 id="consulting-use-title">こういう課題に使えます</h2>
             </header>
-            <div className="nc-consulting-use-grid">
-              {service.useCases.map((useCase, index) => (
-                <article key={useCase}>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <p>{useCase}</p>
-                </article>
+            <ul className="nc-consulting-use-list">
+              {service.useCases.map((useCase) => (
+                <li key={useCase}>{useCase}</li>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
 
@@ -94,7 +93,7 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
           <div className="wrap">
             <header className="nc-consulting-section-head">
               <span>Support themes</span>
-              <h2 id="consulting-themes-title">意思決定のテーマから、支援を組み立てる。</h2>
+              <h2 id="consulting-themes-title">主な支援テーマ</h2>
               <p>{detail.themes.lead}</p>
             </header>
             <div className="nc-consulting-theme-grid">
@@ -116,50 +115,57 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
           </div>
         </section>
 
-        {/* ---------- 支援実績 ---------- */}
+        {/* ---------- 支援実績（トップページの実績パネルと同じ作り） ---------- */}
         <section className="section nc-consulting-record" aria-labelledby="consulting-record-title">
           <div className="wrap">
-            <header className="nc-consulting-section-head">
-              <span>Track record</span>
-              <h2 id="consulting-record-title">支援実績</h2>
-              <p>{detail.record.lead}</p>
-            </header>
-
-            <div className="nc-consulting-record-top">
-              {detail.record.stats.map((stat) => (
-                <div className="nc-consulting-stat" key={stat.label}>
-                  <strong>
-                    {stat.value}
-                    <em>{stat.unit}</em>
-                  </strong>
-                  <span>{stat.label}</span>
+            <div className="nc-consulting-evidence">
+              <div className="nc-consulting-evidence-head">
+                <span>Track record</span>
+                <div>
+                  <h2 id="consulting-record-title">{detail.record.heading}</h2>
+                  <p>{detail.record.lead}</p>
                 </div>
-              ))}
-              <div className="nc-consulting-industries">
-                <small>支援業界</small>
-                <ul>
+              </div>
+
+              <div className="nc-consulting-evidence-body">
+                {detail.record.stats.map((stat) => (
+                  <div className="nc-consulting-stat" key={stat.label}>
+                    <p className="nc-consulting-stat-t">{stat.label}</p>
+                    <p className="nc-consulting-stat-num">
+                      {stat.value}
+                      <em>{stat.unit}</em>
+                    </p>
+                    <p>{detail.record.note}</p>
+                  </div>
+                ))}
+
+                <dl className="nc-consulting-examples">
+                  {detail.record.examples.map((example) => (
+                    <div key={example.client}>
+                      <dt>{example.client}</dt>
+                      <dd>{example.items.join('／')}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              <div className="nc-consulting-evidence-foot">
+                <div className="nc-consulting-industry-copy">
+                  <span>Industry</span>
+                  <h3>業界</h3>
+                  <p>{detail.record.industryLead}</p>
+                  <Link href="/works" className="nc-industry-link">
+                    支援実績を見る
+                    <i aria-hidden="true" />
+                  </Link>
+                </div>
+                <ul className="nc-consulting-inds" aria-label="支援業界">
                   {detail.record.industries.map((industry) => (
                     <li key={industry}>{industry}</li>
                   ))}
                 </ul>
               </div>
             </div>
-
-            <dl className="nc-consulting-examples">
-              {detail.record.examples.map((example) => (
-                <div key={example.client}>
-                  <dt>{example.client}</dt>
-                  <dd>
-                    <ul>
-                      {example.items.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </dd>
-                </div>
-              ))}
-            </dl>
-            <p className="nc-consulting-footnote">{detail.record.note}</p>
           </div>
         </section>
 
@@ -168,7 +174,7 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
           <div className="wrap">
             <header className="nc-consulting-section-head">
               <span>Selected cases</span>
-              <h2 id="consulting-cases-title">課題から示唆まで、実際の流れ。</h2>
+              <h2 id="consulting-cases-title">支援事例</h2>
               <p>{detail.cases.lead}</p>
             </header>
             <div className="nc-consulting-case-list">
@@ -203,12 +209,12 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
           </div>
         </section>
 
-        {/* ---------- 支援形態（図） ---------- */}
+        {/* ---------- 支援形態 ---------- */}
         <section className="section nc-consulting-formats" aria-labelledby="consulting-formats-title">
           <div className="wrap">
             <header className="nc-consulting-section-head">
               <span>Engagement models</span>
-              <h2 id="consulting-formats-title">誰が担うかは、案件に合わせて設計する。</h2>
+              <h2 id="consulting-formats-title">支援形態</h2>
               <p>{detail.formats.lead}</p>
             </header>
 
@@ -220,7 +226,14 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
                   <span>{format.no}</span>
                   <div>
                     <h3>{format.title}</h3>
-                    <small>{format.role}</small>
+                    <p className="nc-consulting-chain">
+                      {format.chain.map((node, i) => (
+                        <span key={node}>
+                          {i > 0 ? <i aria-hidden="true">→</i> : null}
+                          {node}
+                        </span>
+                      ))}
+                    </p>
                     <p>{format.body}</p>
                   </div>
                 </li>
@@ -229,12 +242,12 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
           </div>
         </section>
 
-        {/* ---------- 価格（図） ---------- */}
+        {/* ---------- 価格 ---------- */}
         <section className="section nc-consulting-price" aria-labelledby="consulting-price-title">
           <div className="wrap">
             <header className="nc-consulting-section-head">
-              <span>Why it costs less</span>
-              <h2 id="consulting-price-title">なぜ、この価格で提供できるのか。</h2>
+              <span>Price</span>
+              <h2 id="consulting-price-title">価格</h2>
               <p>{detail.price.lead}</p>
             </header>
 

@@ -84,7 +84,8 @@ export function validateContent(root = process.cwd()) {
         objects(c.themes?.items, ['no', 'title', 'question'], at + '.themes.items', 1)
           .forEach((t, i) => stringList(t.items, at + '.themes.items[' + i + '].items'));
         keys(c.formats, ['lead'], at + '.formats');
-        objects(c.formats?.items, ['no', 'title', 'role', 'body', 'from'], at + '.formats.items', 1);
+        objects(c.formats?.items, ['no', 'title', 'role', 'body', 'from'], at + '.formats.items', 1)
+          .forEach((item, i) => stringList(item.chain, at + '.formats.items[' + i + '].chain', 2));
         keys(c.formats?.diagram, ['client'], at + '.formats.diagram');
         objects(c.formats?.diagram?.actors, ['id', 'label'], at + '.formats.diagram.actors', 3);
         keys(c.cases, ['lead'], at + '.cases');
@@ -94,7 +95,7 @@ export function validateContent(root = process.cwd()) {
               stringList(item[field], at + '.cases.items[' + i + '].' + field);
             }
           });
-        keys(c.record, ['lead', 'note'], at + '.record');
+        keys(c.record, ['heading', 'lead', 'industryLead', 'note'], at + '.record');
         objects(c.record?.stats, ['value', 'unit', 'label'], at + '.record.stats', 1);
         stringList(c.record?.industries, at + '.record.industries');
         objects(c.record?.examples, ['client'], at + '.record.examples', 1)

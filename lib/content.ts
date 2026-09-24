@@ -50,6 +50,8 @@ export type ConsultingFormat = {
   body: string;
   /** 支援形態図のどの主体から伸びる線か */
   from: 'pro' | 'student' | 'partner';
+  /** 図を出せない幅のときに経路を文字で示す */
+  chain: string[];
 };
 export type ConsultingFormatDiagram = {
   client: string;
@@ -87,7 +89,9 @@ export type ConsultingDetail = {
   formats: { lead: string; items: ConsultingFormat[]; diagram: ConsultingFormatDiagram };
   cases: { lead: string; items: ConsultingCase[] };
   record: {
+    heading: string;
     lead: string;
+    industryLead: string;
     stats: ConsultingStat[];
     industries: string[];
     examples: ConsultingRecordExample[];
