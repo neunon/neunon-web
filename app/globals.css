@@ -116,7 +116,7 @@ body {
 :where(.nc-eyebrow, .nc-glabel, .nc-work-ind, .nc-svc-n, .nc-dd-num, .nc-path-n,
   .nc-step-n, .nc-fhead, .nc-toc-title, .nc-about-kicker, .nc-org span,
   .nc-record-label, .nc-hero-eyebrow, .nc-prob-k, .nc-flowlabel, .nc-work-index,
-  .nc-consulting-no, .nc-consulting-section-head > span,
+  .nc-consulting-kicker, .nc-consulting-section-head > span,
   .nc-tag, .nc-side-head, .nc-form-step, .nc-filter-label,
   .nc-talent-index, .nc-talent-tags > span, .nc-talent-selection span,
   .nc-flowlabel, .nc-prob-k) {

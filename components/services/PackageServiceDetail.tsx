@@ -210,7 +210,7 @@ export function PackageServiceDetail({ service }: { service: Service }) {
               <h2 id="package-process-title">お問い合わせから納品まで。</h2>
             </header>
             <ol>
-              {service.steps.map((step) => (
+              {(service.steps ?? []).map((step) => (
                 <li key={step.no}>
                   <span>{step.no.replace('STEP ', '')}</span>
                   <div>

@@ -1,18 +1,22 @@
 /* ============================================================
    コンサルティング事業詳細 /services/consulting/
    ------------------------------------------------------------
-   構成の出典は「コンサルティング事業_紹介資料.pptx」(2026-09-25 受領)。
-   パッケージ型支援 (.nc-package-page) がネイビー基調なのに対し、
-   こちらはブランドトークンの gentian blue 系でまとめている。
+   デザインの基準はパッケージ型支援ページ (.nc-package-page)。
+   全幅セクションを明暗交互に重ね、各セクションは英字ラベル＋見出し＋補足の
+   ヘッダーで始める、という同じ組み立てにしている。
+   色だけブランドトークンの gentian blue 系に振り、2事業を見分けられるようにした。
    globals.css の最後に読み込むため、汎用ルールより後勝ちになる。
    ============================================================ */
 
 .nc-consulting-page {
-  --consulting-deep: #071c32;
-  --consulting-blue: #125b84;
-  --consulting-soft: #4f88a6;
-  --consulting-line: #d9e0e7;
-  --consulting-wash: #edf4f8;
+  --cs-deep: #071c32;
+  --cs-blue: #125b84;
+  --cs-soft: #4f88a6;
+  --cs-pale: #8fb6cd;
+  --cs-line: #d7dde4;
+  --cs-wash: #f2f5f8;
+  --cs-mist: #eef3f7;
+  --cs-muted: #c3d0dc;
 }
 
 /* ---------- hero ---------- */
@@ -50,7 +54,7 @@
 }
 
 .nc-consulting-page .nc-eyebrow {
-  color: #8fb6cd;
+  color: var(--cs-pale);
 }
 
 .nc-consulting-page .nc-ptitle {
@@ -67,121 +71,163 @@
   line-height: 2.05;
 }
 
-/* ---------- 共通パーツ ---------- */
+/* ---------- セクション共通 ---------- */
 
-.nc-consulting-no {
+.nc-consulting-kicker,
+.nc-consulting-section-head > span {
   display: block;
-  color: var(--consulting-soft);
+  color: var(--cs-blue);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.nc-consulting-section-head {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 70px;
+  margin-bottom: 58px;
+  padding-top: 25px;
+  border-top: 1px solid #aeb9c6;
+}
+
+.nc-consulting-section-head > span {
+  grid-column: 1 / -1;
+  margin-bottom: -41px;
+}
+
+.nc-consulting-opening h2,
+.nc-consulting-section-head h2 {
+  max-width: 14em;
+  margin: 0;
+  font-size: clamp(32px, 4.6vw, 62px);
+  font-weight: 520;
+  line-height: 1.36;
+  letter-spacing: -0.052em;
+}
+
+.nc-consulting-section-head > p {
+  align-self: end;
+  max-width: 40em;
+  margin: 0;
+  color: #5b6877;
+  font-size: 14px;
+  line-height: 2.05;
+}
+
+.nc-consulting-section-head.is-light {
+  border-color: rgba(202, 218, 235, 0.34);
+}
+
+.nc-consulting-section-head.is-light > span {
+  color: var(--cs-pale);
+}
+
+.nc-consulting-section-head.is-light h2 {
+  color: #fff;
+}
+
+.nc-consulting-section-head.is-light > p {
+  color: rgba(229, 237, 246, 0.68);
+}
+
+.nc-consulting-footnote {
+  margin: 30px 0 0;
+  color: #6b7784;
+  font-size: 12.5px;
+  line-height: 1.95;
+}
+
+/* ---------- 目指す姿 ---------- */
+
+.nc-consulting-opening {
+  padding: 108px 0 104px;
+}
+
+.nc-consulting-opening .wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: clamp(70px, 10vw, 150px);
+  align-items: end;
+}
+
+.nc-consulting-opening-copy > p {
+  max-width: 42em;
+  margin-top: 35px;
+  color: #4f5c6b;
+  font-size: 15px;
+  line-height: 2.15;
+}
+
+.nc-consulting-opening-copy .nc-consulting-kicker {
+  margin-bottom: 20px;
+}
+
+.nc-consulting-values {
+  margin: 0;
+  border-top: 1px solid #aeb9c6;
+}
+
+.nc-consulting-values > div {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 18px;
+  align-items: baseline;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--cs-line);
+}
+
+.nc-consulting-values dt {
+  color: var(--cs-blue);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.nc-consulting-values dd {
+  margin: 0;
+  color: #142437;
+  font-size: 13.5px;
+  line-height: 1.95;
+}
+
+/* ---------- こういう課題に使えます ---------- */
+
+.nc-consulting-use {
+  background: var(--cs-wash);
+}
+
+.nc-consulting-use-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--cs-line);
+  border: 1px solid var(--cs-line);
+}
+
+.nc-consulting-use-grid article {
+  padding: 26px 26px 30px;
+  background: var(--cs-wash);
+}
+
+.nc-consulting-use-grid article > span {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--cs-blue);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.06em;
 }
 
-.nc-consulting-section-head {
-  margin-bottom: 52px;
-  padding-top: 24px;
-  border-top: 1px solid #aeb9c6;
-}
-
-.nc-consulting-section-head > span {
-  display: block;
-  margin-bottom: 18px;
-  color: var(--consulting-blue);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-}
-
-.nc-consulting-section-head h2 {
-  max-width: 16em;
+.nc-consulting-use-grid article > p {
   margin: 0;
-  font-size: clamp(30px, 4.4vw, 58px);
-  font-weight: 520;
-  line-height: 1.38;
-  letter-spacing: -0.05em;
+  color: #152337;
+  font-size: 14.5px;
+  line-height: 1.9;
 }
 
-.nc-consulting-section-head > p {
-  max-width: 44em;
-  margin: 26px 0 0;
-  color: #5b6877;
-  font-size: 14px;
-  line-height: 2.05;
-}
-
-.nc-consulting-section-head.is-dark {
-  border-top-color: rgba(255, 255, 255, 0.22);
-}
-
-.nc-consulting-section-head.is-dark > span {
-  color: #8fb6cd;
-}
-
-.nc-consulting-section-head.is-dark h2 {
-  color: #fff;
-}
-
-.nc-consulting-section-head.is-dark > p {
-  color: rgba(233, 241, 247, 0.74);
-}
-
-/* 目次より上の導入文。h2 直後に置く前提で余白を詰める */
-.nc-consulting-note {
-  max-width: 44em;
-  margin: 26px 0 34px;
-  color: #5b6877;
-  font-size: 14px;
-  line-height: 2.05;
-}
-
-.nc-consulting-sub {
-  margin: 44px 0 18px;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-}
-
-/* ---------- 目指す姿 ---------- */
-
-.nc-consulting-vision {
-  padding: 96px 0 92px;
-}
-
-.nc-consulting-values {
-  margin: 0;
-  border-top: 1px solid var(--consulting-line);
-}
-
-.nc-consulting-values > div {
-  display: grid;
-  grid-template-columns: minmax(180px, 250px) minmax(0, 1fr);
-  gap: clamp(20px, 4vw, 64px);
-  align-items: baseline;
-  padding: 26px 0;
-  border-bottom: 1px solid var(--consulting-line);
-}
-
-.nc-consulting-values dt {
-  color: #0d2f49;
-  font-size: clamp(17px, 1.8vw, 22px);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.nc-consulting-values dt .nc-consulting-no {
-  margin-bottom: 8px;
-}
-
-.nc-consulting-values dd {
-  margin: 0;
-  color: #4f5c6b;
-  font-size: 14px;
-  line-height: 2.05;
-}
-
-/* ---------- 問題解決の考え方 ---------- */
+/* ---------- 問題解決の考え方（暗転） ---------- */
 
 .nc-consulting-principles {
-  padding: 96px 0 100px;
   background: linear-gradient(140deg, #06192c, #0b3558 72%, #12496d);
   color: #fff;
 }
@@ -191,15 +237,20 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1px;
   background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .nc-consulting-principle-grid article {
-  padding: 34px 28px 38px;
+  padding: 32px 26px 36px;
   background: #081f37;
 }
 
-.nc-consulting-principle-grid .nc-consulting-no {
-  color: #8fb6cd;
+.nc-consulting-principle-grid article > span {
+  display: block;
+  color: var(--cs-pale);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
 }
 
 .nc-consulting-principle-grid h3 {
@@ -212,44 +263,56 @@
 
 .nc-consulting-principle-grid p {
   margin: 0;
-  color: rgba(224, 235, 244, 0.78);
+  color: rgba(224, 235, 244, 0.76);
   font-size: 13px;
   line-height: 1.95;
-}
-
-/* ---------- 本文エリア ---------- */
-
-.nc-consulting-doc {
-  padding-top: 92px;
 }
 
 /* ---------- 主な支援テーマ ---------- */
 
 .nc-consulting-theme-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
-  background: var(--consulting-line);
-  border: 1px solid var(--consulting-line);
+  background: var(--cs-line);
+  border: 1px solid var(--cs-line);
 }
 
 .nc-consulting-theme-grid article {
+  display: flex;
+  flex-direction: column;
   padding: 28px 26px 30px;
   background: #fff;
 }
 
-.nc-consulting-theme-grid h3 {
-  margin: 14px 0 10px;
+.nc-consulting-theme-meta {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--cs-line);
+}
+
+.nc-consulting-theme-meta > span {
+  color: var(--cs-soft);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.nc-consulting-theme-meta h3 {
+  margin: 0;
   font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.02em;
 }
 
 .nc-consulting-theme-q {
-  margin: 0 0 16px !important;
-  color: var(--consulting-blue);
-  font-size: 13px;
-  line-height: 1.85;
+  margin: 16px 0 18px;
+  color: var(--cs-blue);
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.8;
 }
 
 .nc-consulting-theme-grid ul {
@@ -273,52 +336,56 @@
   left: 0;
   width: 6px;
   height: 1px;
-  background: var(--consulting-soft);
+  background: var(--cs-soft);
 }
 
 /* ---------- 支援実績 ---------- */
 
-.nc-consulting-stats {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: clamp(24px, 5vw, 60px);
-  align-items: center;
-  padding: 30px 0 34px;
-  border-top: 1px solid var(--consulting-line);
-  border-bottom: 1px solid var(--consulting-line);
+.nc-consulting-record {
+  background: var(--cs-wash);
 }
 
-.nc-consulting-stats > div strong {
+.nc-consulting-record-top {
+  display: grid;
+  grid-template-columns: minmax(200px, 260px) minmax(0, 1fr);
+  gap: clamp(30px, 6vw, 80px);
+  align-items: center;
+  padding-bottom: 38px;
+  border-bottom: 1px solid #aeb9c6;
+}
+
+.nc-consulting-stat strong {
   display: block;
   color: #0d2f49;
-  font-size: clamp(42px, 7vw, 68px);
+  font-size: clamp(48px, 7vw, 76px);
   font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.05em;
+  line-height: 1;
+  letter-spacing: -0.055em;
 }
 
-.nc-consulting-stats > div strong em {
+.nc-consulting-stat strong em {
   margin-left: 6px;
-  font-size: 0.34em;
+  font-size: 0.32em;
   font-style: normal;
   font-weight: 500;
 }
 
-.nc-consulting-stats > div span {
+.nc-consulting-stat span {
   display: block;
-  margin-top: 10px;
+  margin-top: 12px;
   color: #5b6877;
   font-size: 13px;
 }
 
-.nc-consulting-stats > p {
-  margin: 0 !important;
-  color: #6b7784;
-  font-size: 13px;
-  line-height: 1.95;
+.nc-consulting-industries small {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--cs-blue);
+  font-size: 11px;
+  letter-spacing: 0.06em;
 }
 
-.nc-consulting-tags {
+.nc-consulting-industries ul {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -327,17 +394,16 @@
   list-style: none;
 }
 
-.nc-consulting-tags li {
-  padding: 7px 14px;
-  border: 1px solid var(--consulting-line);
-  background: var(--consulting-wash);
+.nc-consulting-industries li {
+  padding: 7px 15px;
+  border: 1px solid var(--cs-line);
+  background: #fff;
   color: #33536b;
   font-size: 12.5px;
 }
 
 .nc-consulting-examples {
   margin: 0;
-  border-top: 1px solid var(--consulting-line);
 }
 
 .nc-consulting-examples > div {
@@ -345,7 +411,7 @@
   grid-template-columns: minmax(190px, 270px) minmax(0, 1fr);
   gap: clamp(18px, 4vw, 52px);
   padding: 22px 0;
-  border-bottom: 1px solid var(--consulting-line);
+  border-bottom: 1px solid var(--cs-line);
 }
 
 .nc-consulting-examples dt {
@@ -361,7 +427,7 @@
 .nc-consulting-examples ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 18px;
+  gap: 4px 20px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -382,34 +448,49 @@
   left: 0;
   width: 6px;
   height: 1px;
-  background: var(--consulting-soft);
+  background: var(--cs-soft);
 }
 
 /* ---------- 支援事例 ---------- */
 
-.nc-consulting-cases {
+.nc-consulting-case-list {
   display: grid;
   gap: 1px;
-  background: var(--consulting-line);
-  border: 1px solid var(--consulting-line);
+  background: var(--cs-line);
+  border: 1px solid var(--cs-line);
 }
 
-.nc-consulting-cases article {
-  padding: 30px 28px 32px;
+.nc-consulting-case-list > article {
+  padding: 34px 32px 36px;
   background: #fff;
 }
 
-.nc-consulting-cases header h3 {
-  margin: 14px 0 10px;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 1.6;
-  letter-spacing: -0.02em;
+.nc-consulting-case-list > article > header {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 14px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--cs-line);
 }
 
-.nc-consulting-cases header p {
+.nc-consulting-case-list > article > header > span {
+  color: var(--cs-soft);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.nc-consulting-case-list h3 {
+  margin: 0 0 12px;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: -0.025em;
+}
+
+.nc-consulting-case-list > article > header p {
   max-width: 52em;
-  margin: 0 0 26px !important;
+  margin: 0;
   color: #4f5c6b;
   font-size: 13.5px;
   line-height: 1.95;
@@ -418,14 +499,15 @@
 .nc-consulting-case-cols {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 26px;
-  padding-top: 24px;
-  border-top: 1px solid var(--consulting-line);
+  gap: 30px;
+  margin-top: 26px;
 }
 
 .nc-consulting-case-cols h4 {
-  margin: 0 0 12px;
-  color: var(--consulting-blue);
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--cs-line);
+  color: var(--cs-blue);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -439,7 +521,7 @@
 
 .nc-consulting-case-cols li {
   position: relative;
-  margin-bottom: 8px;
+  margin-bottom: 9px;
   padding-left: 15px;
   color: #5b6877;
   font-size: 13px;
@@ -453,116 +535,341 @@
   left: 0;
   width: 6px;
   height: 1px;
-  background: var(--consulting-soft);
+  background: var(--cs-soft);
 }
 
-/* ---------- 成果物イメージ ---------- */
+/* ---------- 図の共通枠 ---------- */
 
-.nc-consulting-outputs {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
+.nc-consulting-figure {
   margin: 0;
-  background: var(--consulting-line);
-  border: 1px solid var(--consulting-line);
 }
 
-.nc-consulting-outputs > div {
-  padding: 24px 24px 26px;
+/* 狭い画面では図が潰れるため、枠の中だけ横に流す */
+.nc-consulting-figure-scroll {
+  overflow-x: auto;
+  padding: 26px 24px;
+  border: 1px solid var(--cs-line);
   background: #fff;
+  -webkit-overflow-scrolling: touch;
 }
 
-.nc-consulting-outputs dt {
-  margin-bottom: 10px;
-  color: #0d2f49;
-  font-size: 15px;
+.nc-consulting-svg {
+  display: block;
+  width: 100%;
+  min-width: 620px;
+  height: auto;
+}
+
+.nc-consulting-figure figcaption {
+  margin-top: 16px;
+  color: #6b7784;
+  font-size: 12.5px;
+  line-height: 1.9;
+}
+
+/* ---------- 支援形態の図 ---------- */
+
+.nc-consulting-formats {
+  background: var(--cs-mist);
+}
+
+.nc-dg-client rect {
+  fill: var(--cs-deep);
+}
+
+.nc-dg-client-label {
+  fill: #fff;
+  font-size: 16px;
   font-weight: 600;
 }
 
-.nc-consulting-outputs dd {
-  margin: 0;
-  color: #5b6877;
-  font-size: 13px;
-  line-height: 1.95;
+.nc-dg-actor rect {
+  fill: #fff;
+  stroke: var(--cs-blue);
+  stroke-width: 1.4;
 }
 
-/* ---------- 支援形態 ---------- */
+.nc-dg-actor.is-partner rect {
+  stroke: var(--cs-soft);
+  stroke-dasharray: 5 4;
+}
 
-.nc-consulting-formats {
-  margin: 0;
+.nc-dg-actor-label {
+  fill: #0d2f49;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nc-dg-note {
+  fill: #7d8b99;
+  font-size: 11px;
+}
+
+.nc-dg-client .nc-dg-note {
+  fill: rgba(224, 235, 244, 0.72);
+}
+
+.nc-dg-link {
+  color: var(--cs-blue);
+}
+
+.nc-dg-link path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+}
+
+.nc-dg-link.is-student {
+  color: var(--cs-soft);
+}
+
+.nc-dg-link.is-partner {
+  color: #93a4b4;
+}
+
+.nc-dg-link.is-partner path,
+.nc-dg-link.is-supervise path {
+  stroke-dasharray: 5 4;
+}
+
+.nc-dg-link.is-supervise {
+  color: #93a4b4;
+}
+
+.nc-dg-route-label {
+  fill: #0d2f49;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.nc-consulting-format-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 46px 0 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--consulting-line);
+  background: var(--cs-line);
+  border: 1px solid var(--cs-line);
 }
 
-.nc-consulting-formats > li {
+.nc-consulting-format-list > li {
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
-  gap: clamp(14px, 3vw, 30px);
-  padding: 26px 0;
-  border-bottom: 1px solid var(--consulting-line);
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 14px;
+  padding: 26px 24px 28px;
+  background: var(--cs-mist);
 }
 
-.nc-consulting-formats .nc-consulting-no {
+.nc-consulting-format-list > li > span {
+  color: var(--cs-blue);
   font-size: 17px;
+  font-weight: 600;
   line-height: 1.5;
 }
 
-.nc-consulting-formats h3 {
+.nc-consulting-format-list h3 {
   margin: 0;
   font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.02em;
 }
 
-.nc-consulting-formats small {
+.nc-consulting-format-list small {
   display: block;
   margin: 8px 0 12px;
-  color: var(--consulting-blue);
+  color: var(--cs-blue);
   font-size: 12.5px;
 }
 
-.nc-consulting-formats p {
-  margin: 0 !important;
+.nc-consulting-format-list p {
+  margin: 0;
   color: #5b6877;
   font-size: 13.5px;
   line-height: 1.95;
 }
 
-/* ---------- 価格 ---------- */
+/* ---------- 価格の図 ---------- */
 
-.nc-consulting-reasons {
+.nc-consulting-price-body {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--consulting-line);
-  border: 1px solid var(--consulting-line);
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(40px, 6vw, 80px);
+  align-items: start;
 }
 
-.nc-consulting-reasons article {
-  padding: 28px 24px 30px;
-  background: var(--consulting-wash);
+.nc-consulting-price-chart > h3 {
+  margin: 0 0 18px;
+  color: var(--cs-blue);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.nc-dg-axis {
+  stroke: #9aa7b4;
+  stroke-width: 1;
+}
+
+.nc-dg-guide {
+  stroke: #b7c3ce;
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+
+.nc-dg-gap {
+  color: var(--cs-blue);
+}
+
+.nc-dg-gap line {
+  stroke: currentColor;
+  stroke-width: 1.2;
+}
+
+.nc-dg-leader {
+  fill: none;
+  stroke: #b7c3ce;
+  stroke-width: 1;
+}
+
+.nc-dg-seg.is-muted {
+  fill: var(--cs-muted);
+}
+
+.nc-dg-seg.is-pro {
+  fill: var(--cs-blue);
+}
+
+.nc-dg-seg.is-student {
+  fill: var(--cs-soft);
+}
+
+.nc-dg-cat {
+  fill: #0d2f49;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nc-dg-seg-label {
+  fill: #5b6877;
+  font-size: 12px;
+}
+
+.nc-consulting-gap-note {
+  margin: 18px 0 0;
+  padding: 12px 18px;
+  background: var(--cs-deep);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.nc-consulting-reasons {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid #aeb9c6;
+}
+
+.nc-consulting-reasons > li {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 14px;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--cs-line);
+}
+
+.nc-consulting-reasons > li > span {
+  color: var(--cs-soft);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
 }
 
 .nc-consulting-reasons h3 {
-  margin: 14px 0 12px;
-  font-size: 16px;
+  margin: 0 0 12px;
+  font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.02em;
 }
 
 .nc-consulting-reasons p {
-  margin: 0 !important;
-  color: #4f5c6b;
-  font-size: 13px;
+  margin: 0;
+  color: #5b6877;
+  font-size: 13.5px;
   line-height: 1.95;
+}
+
+/* ---------- よくある質問 ---------- */
+
+.nc-consulting-faq {
+  background: var(--cs-wash);
+}
+
+.nc-consulting-faq-list {
+  border-top: 1px solid #aeb9c6;
+}
+
+.nc-consulting-faq-list details {
+  border-bottom: 1px solid var(--cs-line);
+}
+
+.nc-consulting-faq-list summary {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 12px;
+  padding: 24px 0;
+  color: #0d2f49;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.nc-consulting-faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.nc-consulting-faq-list summary span {
+  color: var(--cs-blue);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+.nc-consulting-faq-list details > p {
+  max-width: 54em;
+  margin: 0 0 26px;
+  padding-left: 76px;
+  color: #4f5c6b;
+  font-size: 14px;
+  line-height: 2.05;
 }
 
 /* ---------- タブレット ---------- */
 
-@media (max-width: 960px) {
-  .nc-consulting-principle-grid,
-  .nc-consulting-reasons {
+@media (max-width: 1000px) {
+  .nc-consulting-section-head {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+
+  .nc-consulting-section-head > span {
+    margin-bottom: 0;
+  }
+
+  .nc-consulting-opening .wrap,
+  .nc-consulting-price-body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+  }
+
+  .nc-consulting-theme-grid,
+  .nc-consulting-use-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .nc-consulting-principle-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -570,54 +877,63 @@
 /* ---------- モバイル ---------- */
 
 @media (max-width: 700px) {
-  .nc-consulting-vision {
+  .nc-consulting-opening {
     padding: 64px 0 60px;
-  }
-
-  .nc-consulting-principles {
-    padding: 64px 0 68px;
-  }
-
-  .nc-consulting-doc {
-    padding-top: 60px;
   }
 
   .nc-consulting-section-head {
     margin-bottom: 36px;
   }
 
-  .nc-consulting-values > div,
-  .nc-consulting-examples > div,
-  .nc-consulting-stats {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 12px;
-  }
-
-  .nc-consulting-principle-grid,
+  .nc-consulting-use-grid,
   .nc-consulting-theme-grid,
-  .nc-consulting-outputs,
-  .nc-consulting-reasons,
-  .nc-consulting-case-cols {
+  .nc-consulting-principle-grid,
+  .nc-consulting-format-list,
+  .nc-consulting-case-cols,
+  .nc-consulting-record-top,
+  .nc-consulting-examples > div {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .nc-consulting-record-top,
+  .nc-consulting-examples > div {
+    gap: 14px;
+  }
+
   .nc-consulting-case-cols {
-    gap: 22px;
+    gap: 24px;
   }
 
-  .nc-consulting-cases article {
-    padding: 24px 20px 26px;
+  .nc-consulting-case-list > article {
+    padding: 26px 20px 28px;
   }
 
-  .nc-consulting-theme-grid article,
-  .nc-consulting-outputs > div,
-  .nc-consulting-reasons article,
-  .nc-consulting-principle-grid article {
-    padding: 24px 20px 26px;
-  }
-
-  .nc-consulting-formats > li {
+  .nc-consulting-case-list > article > header {
     grid-template-columns: 34px minmax(0, 1fr);
-    gap: 12px;
+  }
+
+  .nc-consulting-use-grid article,
+  .nc-consulting-theme-grid article,
+  .nc-consulting-principle-grid article,
+  .nc-consulting-format-list > li {
+    padding: 24px 20px 26px;
+  }
+
+  .nc-consulting-values > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .nc-consulting-figure-scroll {
+    padding: 18px 16px;
+  }
+
+  .nc-consulting-faq-list summary {
+    grid-template-columns: 48px minmax(0, 1fr);
+    font-size: 15px;
+  }
+
+  .nc-consulting-faq-list details > p {
+    padding-left: 0;
   }
 }

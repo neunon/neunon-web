@@ -43,7 +43,31 @@ export type ConsultingTheme = {
   question: string;
   items: string[];
 };
-export type ConsultingFormat = { no: string; title: string; role: string; body: string };
+export type ConsultingFormat = {
+  no: string;
+  title: string;
+  role: string;
+  body: string;
+  /** 支援形態図のどの主体から伸びる線か */
+  from: 'pro' | 'student' | 'partner';
+};
+export type ConsultingFormatDiagram = {
+  client: string;
+  clientNote?: string;
+  actors: { id: 'pro' | 'student' | 'partner'; label: string; note?: string }[];
+};
+export type ConsultingPriceSegment = {
+  label: string;
+  value: number;
+  tone: 'muted' | 'pro' | 'student';
+};
+export type ConsultingPriceChart = {
+  caption: string;
+  annotation: string;
+  note: string;
+  /** segments は積み上げの上から下の順 */
+  columns: { label: string; segments: ConsultingPriceSegment[] }[];
+};
 export type ConsultingCase = {
   no: string;
   title: string;
@@ -52,7 +76,6 @@ export type ConsultingCase = {
   approach: string[];
   insight: string[];
 };
-export type ConsultingOutput = { title: string; body: string };
 export type ConsultingStat = { value: string; unit: string; label: string };
 export type ConsultingRecordExample = { client: string; items: string[] };
 export type ConsultingPriceReason = { no: string; title: string; body: string };
@@ -61,9 +84,8 @@ export type ConsultingDetail = {
   vision: { title: string; values: ConsultingValue[] };
   principles: { lead: string; items: ConsultingPrinciple[] };
   themes: { lead: string; items: ConsultingTheme[] };
-  formats: { lead: string; items: ConsultingFormat[] };
+  formats: { lead: string; items: ConsultingFormat[]; diagram: ConsultingFormatDiagram };
   cases: { lead: string; items: ConsultingCase[] };
-  outputs: { lead: string; items: ConsultingOutput[] };
   record: {
     lead: string;
     stats: ConsultingStat[];
@@ -71,7 +93,7 @@ export type ConsultingDetail = {
     examples: ConsultingRecordExample[];
     note: string;
   };
-  price: { lead: string; reasons: ConsultingPriceReason[] };
+  price: { lead: string; reasons: ConsultingPriceReason[]; chart: ConsultingPriceChart };
 };
 
 export type Service = {
@@ -87,8 +109,9 @@ export type Service = {
   lead: string;
   useCases: string[];
   menu: ServiceMenuItem[];
-  steps: ServiceStep[];
-  engagement: { label: string; value: string }[];
+  /** コンサルティングは専用ページで扱わないため任意 */
+  steps?: ServiceStep[];
+  engagement?: { label: string; value: string }[];
   /** 要件定義書 6.3.1: 掲載するのはパッケージ型支援のみ */
   pricing: PriceRow[];
   showPricing: boolean;

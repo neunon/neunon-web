@@ -84,7 +84,9 @@ export function validateContent(root = process.cwd()) {
         objects(c.themes?.items, ['no', 'title', 'question'], at + '.themes.items', 1)
           .forEach((t, i) => stringList(t.items, at + '.themes.items[' + i + '].items'));
         keys(c.formats, ['lead'], at + '.formats');
-        objects(c.formats?.items, ['no', 'title', 'role', 'body'], at + '.formats.items', 1);
+        objects(c.formats?.items, ['no', 'title', 'role', 'body', 'from'], at + '.formats.items', 1);
+        keys(c.formats?.diagram, ['client'], at + '.formats.diagram');
+        objects(c.formats?.diagram?.actors, ['id', 'label'], at + '.formats.diagram.actors', 3);
         keys(c.cases, ['lead'], at + '.cases');
         objects(c.cases?.items, ['no', 'title', 'summary'], at + '.cases.items', 1)
           .forEach((item, i) => {
@@ -92,8 +94,6 @@ export function validateContent(root = process.cwd()) {
               stringList(item[field], at + '.cases.items[' + i + '].' + field);
             }
           });
-        keys(c.outputs, ['lead'], at + '.outputs');
-        objects(c.outputs?.items, ['title', 'body'], at + '.outputs.items', 1);
         keys(c.record, ['lead', 'note'], at + '.record');
         objects(c.record?.stats, ['value', 'unit', 'label'], at + '.record.stats', 1);
         stringList(c.record?.industries, at + '.record.industries');
@@ -101,11 +101,28 @@ export function validateContent(root = process.cwd()) {
           .forEach((e, i) => stringList(e.items, at + '.record.examples[' + i + '].items'));
         keys(c.price, ['lead'], at + '.price');
         objects(c.price?.reasons, ['no', 'title', 'body'], at + '.price.reasons', 3);
+        keys(c.price?.chart, ['caption', 'annotation', 'note'], at + '.price.chart');
+        objects(c.price?.chart?.columns, ['label'], at + '.price.chart.columns', 2)
+          .forEach((col, i) => {
+            const segs = objects(col.segments, ['label', 'tone'], at + '.price.chart.columns[' + i + '].segments', 2);
+            segs.forEach((seg, j) => {
+              if (!Number.isFinite(seg.value) || seg.value <= 0) {
+                fail(at + '.price.chart.columns[' + i + '].segments[' + j + '].value', '正の数値が必要です');
+              }
+            });
+          });
       }
     }
 
-    objects(data.steps, ['no', 'title', 'body'], where + '.steps');
-    objects(data.engagement, ['label', 'value'], where + '.engagement');
+    if (id === 'consulting') {
+      // 専用ページでは「進め方」「想定期間・体制」を扱わない。残っていたら消し忘れ
+      for (const field of ['steps', 'engagement']) {
+        if (data[field] != null) fail(where + '.' + field, 'コンサルティングでは使いません。削除してください');
+      }
+    } else {
+      objects(data.steps, ['no', 'title', 'body'], where + '.steps');
+      objects(data.engagement, ['label', 'value'], where + '.engagement');
+    }
     objects(data.pricing, ['label', 'price'], where + '.pricing', id === 'package' ? 6 : 0);
     objects(data.faq, ['q', 'a'], where + '.faq');
   }

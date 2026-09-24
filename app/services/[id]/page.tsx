@@ -125,7 +125,7 @@ export default async function ServiceDetailPage({ params }: Props) {
             <section aria-labelledby="steps">
               <h2 id="steps">進め方</h2>
               <ol className="nc-steps">
-                {service.steps.map((step, index) => (
+                {(service.steps ?? []).map((step) => (
                   <li className="nc-step" key={step.no}>
                     <div className="nc-step-n">{step.no.replace('STEP', 'Step')}</div>
                     <div className="nc-step-c">
@@ -165,7 +165,7 @@ export default async function ServiceDetailPage({ params }: Props) {
             <section aria-labelledby="engagement">
               <h2 id="engagement">想定期間・体制</h2>
               <dl className="nc-deflist">
-                {service.engagement.map((row) => (
+                {(service.engagement ?? []).map((row) => (
                   <div key={row.label}>
                     <dt>{row.label}</dt>
                     <dd>{row.value}</dd>
