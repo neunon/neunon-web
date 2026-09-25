@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
 import { notFound } from 'next/navigation';
 import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
@@ -17,12 +18,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const archiveIndex = getWorks().findIndex((work) => work.slug === slug) + 1;
   const archiveNo = String(Math.max(archiveIndex, 0)).padStart(2, '0');
 
-  return {
-    title: `支援実績（非公開）｜${archiveNo}`,
-    description: `守秘義務に配慮し、匿名化一覧へ統合した旧実績ページです（管理番号${archiveNo}）。`,
-    alternates: { canonical: '/works' },
-    robots: { index: false, follow: false },
-  };
+  return createPageMetadata(
+    {
+      title: `支援実績（非公開）｜${archiveNo}`,
+      description: `守秘義務に配慮し、匿名化一覧へ統合した旧実績ページです（管理番号${archiveNo}）。`,
+    },
+    `/works/${slug}/`,
+    { canonicalPath: '/works/', robots: { index: false, follow: false } },
+  );
 }
 
 /** 旧実績URLの互換用。案件単位の詳細は公開せず、匿名化した一覧へ誘導する。 */

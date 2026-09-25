@@ -1,14 +1,19 @@
 import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { selectionSteps } from '@/lib/recruit';
 
-export const metadata: Metadata = {
-  title: 'エントリー完了',
-  description: 'エントリーを受け付けました。',
-  alternates: { canonical: '/entry/thanks' },
-  robots: { index: false, follow: false },
-};
+export const metadata: Metadata = createPageMetadata(
+  {
+    title: 'エントリー完了',
+    description: 'エントリーを受け付けました。',
+  },
+  '/entry/thanks/',
+  {
+    robots: { index: false, follow: false },
+  },
+);
 
 /** エントリー完了ページ（要件定義書 6.8 共通要件） */
 export default function EntryThanksPage() {

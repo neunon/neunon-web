@@ -7,18 +7,10 @@ import { Process } from '@/components/home/Process';
 import { Careers } from '@/components/home/Careers';
 import { News } from '@/components/home/News';
 import { Cta } from '@/components/home/Cta';
-import { site } from '@/lib/site';
+import { jsonLd, webSiteNode } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = pageMetadata('home', '/');
-
-const websiteJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'Neunon Consulting',
-  alternateName: '株式会社Neunon Consulting',
-  url: new URL('/', site.url).href,
-};
 
 /**
  * トップページ。
@@ -28,10 +20,8 @@ const websiteJsonLd = {
 export default function HomePage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd).replace(/</g, '\\u003c') }}
-      />
+      {/* サイト名の判定に使われる WebSite はトップページにだけ出す */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(webSiteNode())} />
       <Hero />
       <Problem />
       <Services />

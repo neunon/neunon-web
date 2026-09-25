@@ -1,16 +1,19 @@
 import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { FormShell } from '@/components/forms/FormShell';
 import { entryFields, formEndpoints } from '@/lib/forms';
 import { selectionSteps } from '@/lib/recruit';
 
-export const metadata: Metadata = {
-  title: 'エントリー',
-  description:
-    '学生向けのエントリーフォーム。学部・学科不問、実務未経験でも可。志望動機はきれいにまとめる必要はありません。',
-  alternates: { canonical: '/entry' },
-};
+export const metadata: Metadata = createPageMetadata(
+  {
+    title: 'エントリー',
+    description:
+      'Neunon Consultingの学生アソシエイトへのエントリーフォーム。学部・学科不問、実務未経験でも応募できます。フルリモート・時間帯自由で、企業の実案件に携われます。志望動機はきれいにまとめる必要はありません。',
+  },
+  '/entry/',
+);
 
 /**
  * 学生向けエントリー（要件定義書 6.8）。

@@ -188,3 +188,7 @@ services:
       - path: /*.png
         name: Cache-Control
         value: public, max-age=86400, must-revalidate
+      # 写真は WebP で配信している（ヒーロー画像は LCP 要素）。PNG と同じ扱いにする
+      - path: /*.webp
+        name: Cache-Control
+        value: public, max-age=86400, must-revalidate

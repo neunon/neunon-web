@@ -181,14 +181,20 @@ grep -rl "consentPublish" out/ | wc -l
 
 ### 画像とフォント
 
-サイトに `<img>` は1つもなく、どのページも LCP 要素はテキスト。
-画像は OGP とアイコンだけで、いずれも受領したロゴ1枚から
-`npm run images` で生成している（文字はレンダリングせず合成のみ。
-実行環境のフォントに依存させないため）。
+デザイン刷新後、トップのヒーロー写真（LCP 要素）とヘッダー・フッターのロゴが
+`<img>` で入っている。写真は WebP、ロゴは表示幅の約3倍に縮小したものを配信する。
+元データは `assets/` に置き、`public/` には配信用に最適化したものだけを入れる
+（`public/` の中身はすべて公開されるため）。
+OGP とアイコンは受領したロゴ1枚から `npm run images` で生成している
+（文字はレンダリングせず合成のみ。実行環境のフォントに依存させないため）。
 
 | ファイル | 用途 | サイズ |
 |---|---|---|
 | `neunon-logo.png`（リポジトリ直下） | 受領した元データ。ブランド資産として保管 | 725 KB |
+| `assets/brand-logo-transparent.png` | ヘッダーロゴ（透過）の元データ。配信しない | 169 KB |
+| `assets/home-hero-city.png` | ヒーロー写真の元データ。配信しない | 2.3 MB |
+| `public/brand-logo-transparent.png` | ヘッダー・フッターのロゴ 378x189（`npm run images` で生成） | 10 KB |
+| `public/home-hero-city.webp` | ヒーロー写真 | 104 KB |
 | `public/neunon-logo.png` | 構造化データの logo | 11 KB |
 | `public/ogp.png` | OGP 1200x630 | 22 KB |
 | `app/icon.png` / `app/apple-icon.png` | ファビコン | 5 KB / 1 KB |

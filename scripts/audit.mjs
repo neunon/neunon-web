@@ -37,6 +37,31 @@ function route(file) {
 /** 404 ページの出力先。title/description の重複チェックからは除く */
 const isNotFound = (r) => r === '/404' || r === '/_not-found';
 
+/**
+ * 検索結果での表示幅。全角1・半角0.5で数える（lib/seo.ts の displayWidth と同じ）。
+ * 日本語の検索結果では、タイトルは全角30字前後、説明文はPCで全角60〜120字前後で省略される。
+ */
+function displayWidth(text) {
+  let width = 0;
+  for (const char of text) width += /[ -~｡-ﾟ]/.test(char) ? 0.5 : 1;
+  return width;
+}
+const TITLE_MAX_WIDTH = 32;
+const DESCRIPTION_MIN_WIDTH = 50;
+const DESCRIPTION_MAX_WIDTH = 130;
+
+/** HTML の文字参照を戻す（meta の content 属性の比較・幅計算用） */
+const decode = (text) => text
+  .replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'")
+  .replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+
+/** JSON-LD を @graph も含めてノードの配列に平らにする */
+function flattenJsonLd(data) {
+  if (Array.isArray(data)) return data.flatMap(flattenJsonLd);
+  if (data && typeof data === 'object') return Array.isArray(data['@graph']) ? data['@graph'] : [data];
+  return [];
+}
+
 /** 機密・個人情報に関する禁止語（要件定義書 6.6 / 12.1） */
 const FORBIDDEN = [
   { word: '偏差値', why: '学歴要件の非掲載（6.6）' },
@@ -51,6 +76,8 @@ const FORBIDDEN = [
 async function main() {
   const files = await htmlFiles(OUT);
   const issues = [];
+  /** 公開は止めないが確認してほしい項目（CMS で編集できる文言の長さなど） */
+  const warnings = [];
   const titles = new Map();
   const descriptions = new Map();
   const content = validateContent();
@@ -113,6 +140,26 @@ async function main() {
       } catch { add('canonicalが絶対URLでない'); }
     }
     if (listed.has(r) && noindex) add('公開対象ページがnoindexになっている');
+
+    // --- 検索結果での見え方（index 対象ページのみ） ---
+    if (!noindex && !isNotFound(r)) {
+      const warn = (msg) => warnings.push({ route: r, msg });
+      if (title && displayWidth(decode(title)) > TITLE_MAX_WIDTH) {
+        warn(`title が長く検索結果で省略される（全角換算 ${displayWidth(decode(title))}字）`);
+      }
+      if (desc) {
+        const width = displayWidth(decode(desc));
+        if (width < DESCRIPTION_MIN_WIDTH) warn(`description が短い（全角換算 ${width}字）`);
+        if (width > DESCRIPTION_MAX_WIDTH) warn(`description が長い（全角換算 ${width}字）`);
+      }
+    }
+
+    // --- SNS 共有時の URL が canonical と一致しているか ---
+    if (!isNotFound(r)) {
+      const ogUrl = html.match(/<meta property="og:url" content="([^"]+)"/)?.[1];
+      const canonicalHref = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+      if (ogUrl !== canonicalHref) add('og:url が canonical と一致しない');
+    }
     if (r === '/' || r.startsWith('/services/') || r.startsWith('/news/')) {
       const ogTitle = html.match(/<meta property="og:title" content="([^"]*)"/)?.[1];
       const ogDescription = html.match(/<meta property="og:description" content="([^"]*)"/)?.[1];
@@ -187,8 +234,24 @@ async function main() {
         add('構造化データ（JSON-LD）が JSON として不正');
       }
     }
-    if (r === '/' && !structured.some(data => data['@type'] === 'WebSite' && data.name === 'Neunon Consulting' && data.url === new URL('/', base).href)) {
+    const nodes = structured.flatMap(flattenJsonLd);
+    const hasType = (type) => nodes.some((node) => node['@type'] === type);
+    if (r === '/' && !nodes.some(data => data['@type'] === 'WebSite' && data.name === 'Neunon Consulting' && data.url === new URL('/', base).href)) {
       add('トップのWebSite構造化データがない、または不正');
+    }
+    if (r !== '/admin' && !hasType('Organization')) add('Organization の構造化データがない');
+    if (/^\/services\/[^/]+$/.test(r)) {
+      if (!hasType('Service')) add('事業詳細に Service の構造化データがない');
+      if (/<h2[^>]*>よくある質問<\/h2>/.test(html) && !hasType('FAQPage')) add('よくある質問があるのに FAQPage がない');
+    }
+    if (/^\/news\/[^/]+$/.test(r) && !hasType('NewsArticle')) add('お知らせ詳細に NewsArticle の構造化データがない');
+    // 構造化データ内のサイト内リンクは canonical と同じ形（同一オリジン・末尾スラッシュ）にする
+    for (const node of nodes.filter((n) => n['@type'] === 'BreadcrumbList')) {
+      for (const item of node.itemListElement ?? []) {
+        if (!item.item) continue;
+        const url = new URL(item.item);
+        if (url.origin !== base.origin || !url.pathname.endsWith('/')) add(`パンくずの URL が canonical 形式でない: ${item.item}`);
+      }
     }
   }
   for (const r of listed) if (!seen.has(r)) issues.push({ route: r, msg: 'sitemapのURLに対応するHTMLがない' });
@@ -196,6 +259,11 @@ async function main() {
   // --- 結果 ---
   console.log(`検査対象: ${files.length} ページ`);
   console.log(`固有の title: ${titles.size} / 固有の description: ${descriptions.size}`);
+  if (warnings.length > 0) {
+    console.log(`
+確認推奨 ${warnings.length} 件（公開は止めない）:`);
+    for (const { route: r, msg } of warnings) console.log(`  ${r}  ${msg}`);
+  }
   if (issues.length === 0) {
     console.log('\n指摘なし');
     return;

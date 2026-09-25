@@ -1,4 +1,4 @@
-import type { Service } from '@/lib/content';
+import { getDisplayedFaq, type Service } from '@/lib/content';
 import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 
@@ -65,7 +65,7 @@ const packageBenefits = [
 ];
 
 export function PackageServiceDetail({ service }: { service: Service }) {
-  const faq = service.faq.filter((item) => !item.q.includes('価格'));
+  const faq = getDisplayedFaq(service);
 
   return (
     <div className="nc-package-page">
