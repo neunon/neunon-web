@@ -1,5 +1,4 @@
 import { StructureDiagram } from '@/components/shared/StructureDiagram';
-import { ReferencePrice } from './ReferencePrice';
 
 /**
  * トップページ セクション3: 提供価値（要件定義書 6.1）
@@ -20,7 +19,6 @@ export function Structure() {
           </p>
         </div>
         <StructureDiagram />
-        <ReferencePrice />
       </div>
     </section>
   );

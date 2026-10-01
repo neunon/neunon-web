@@ -9,6 +9,7 @@
 @import './editorial-round3.css';
 /* 事業詳細ページ固有。汎用ルールに後勝ちさせるため最後に読み込む */
 @import './consulting.css';
+@import './monochrome-refresh.css';
 
 /* 主見出しより控えめな、検索意図と事業内容をつなぐ補助文。 */
 .nc-hero .nc-business-summary {
