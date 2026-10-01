@@ -223,6 +223,20 @@
     "certifications": []
   },
   {
+    "id": "t-81315",
+    "displayName": "No.81315",
+    "role": "associate",
+    "universityCategory": "東京科学大学",
+    "grade": 1,
+    "weeklyAvailability": "10-15",
+    "skills": [],
+    "primarySkills": [],
+    "serviceAreas": [],
+    "primaryAreas": [],
+    "recordSummary": "実務参加に向けて準備中",
+    "certifications": []
+  },
+  {
     "id": "t-84792",
     "displayName": "No.84792",
     "role": "associate",
@@ -245,12 +259,36 @@
     "weeklyAvailability": "15",
     "skills": [],
     "primarySkills": [],
-    "serviceAreas": [
-      "経営戦略"
-    ],
-    "primaryAreas": [
-      "経営戦略"
-    ],
+    "serviceAreas": [],
+    "primaryAreas": [],
+    "recordSummary": "実務参加に向けて準備中",
+    "certifications": []
+  },
+  {
+    "id": "t-93781",
+    "displayName": "No.93781",
+    "role": "associate",
+    "universityCategory": "早稲田大学 / 法学部",
+    "grade": 1,
+    "weeklyAvailability": "16",
+    "skills": [],
+    "primarySkills": [],
+    "serviceAreas": [],
+    "primaryAreas": [],
+    "recordSummary": "実務参加に向けて準備中",
+    "certifications": []
+  },
+  {
+    "id": "t-97854",
+    "displayName": "No.97854",
+    "role": "associate",
+    "universityCategory": "明治大学 / 総合数理学部",
+    "grade": 2,
+    "weeklyAvailability": "10-15",
+    "skills": [],
+    "primarySkills": [],
+    "serviceAreas": [],
+    "primaryAreas": [],
     "recordSummary": "実務参加に向けて準備中",
     "certifications": []
   }
