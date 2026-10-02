@@ -24,7 +24,7 @@ function ServiceAchievement({ serviceId }: { serviceId: string }) {
 
   return (
     <div className="nc-svc-achievement">
-      <div className="nc-svc-achievement-copy">
+      <div className={`nc-svc-achievement-copy ${serviceId === 'package' ? 'is-text-value' : ''}`}>
         <span>{achievement.label}</span>
         <strong>
           {achievement.prefix ? (

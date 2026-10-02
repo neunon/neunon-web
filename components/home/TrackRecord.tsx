@@ -13,7 +13,6 @@ export function TrackRecord() {
     <aside className="nc-service-evidence" aria-labelledby="industry-heading">
       <div className="nc-evidence-foot">
         <div className="nc-industry-copy">
-          <span>Industry</span>
           <h4 id="industry-heading">業界</h4>
           <p>業界固有の前提を捉えながら、幅広い領域の実務を支援しています。</p>
         </div>

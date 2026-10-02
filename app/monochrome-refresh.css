@@ -22,13 +22,13 @@
   --nc-line-strong: #c9c9c7;
   --nc-blue-line: #bcbcbc;
   --nc-metallic: #1c1c1c;
-  --nc-bright: #a79adb;
-  --nc-accent-purple: #65578c;
-  --nc-accent-purple-soft: #f0edf8;
+  --nc-bright: #8a819b;
+  --nc-accent-purple: #51495f;
+  --nc-accent-purple-soft: #f3f2f5;
 }
 
 ::selection {
-  background: #dcd5ef;
+  background: #ddd9e4;
   color: #161616;
 }
 
@@ -747,7 +747,7 @@ body .btn {
   animation-direction: reverse;
 }
 
-.nc-works-row:hover .nc-works-ring {
+.nc-works-row:has(.nc-work-orbit-card:hover) .nc-works-ring {
   animation-play-state: paused;
 }
 
@@ -1686,8 +1686,8 @@ body .btn {
 
 .nc-home-services .nc-inds {
   display: grid;
-  width: min(100%, 1180px);
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  width: min(100%, 1040px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   align-self: center;
   gap: 3px;
   margin-top: 48px;
@@ -1723,6 +1723,10 @@ body .btn {
   content: none;
 }
 
+.nc-home-services .nc-ind:nth-child(9) {
+  grid-column: 2;
+}
+
 .nc-home-services .nc-industry-link {
   margin-top: 34px;
   color: #514565;
@@ -1733,6 +1737,10 @@ body .btn {
 @media (max-width: 900px) {
   .nc-home-services .nc-inds {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .nc-home-services .nc-ind:nth-child(9) {
+    grid-column: auto;
   }
 
   .nc-home-services .nc-ind,
@@ -1761,5 +1769,435 @@ body .btn {
     min-height: 80px;
     padding: 11px 8px;
     font-size: 14px;
+  }
+}
+
+/* Refinements from the next design review. */
+.nc-work-orbit-face.is-back {
+  border-color: #e1e0e0;
+  background: #fdfdfd;
+}
+
+.nc-home-services .nc-service-showcase .nc-svc-achievement-copy {
+  width: max-content;
+  max-width: 100%;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+}
+
+.nc-home-services .nc-service-showcase .nc-svc-achievement-copy > span {
+  width: 100%;
+  font-size: 11px;
+  font-weight: 650;
+  text-align: center;
+}
+
+.nc-home-services .nc-service-showcase .nc-svc-achievement-copy strong {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 5px;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(42px, 4vw, 62px);
+  font-weight: 640;
+  line-height: 1.04;
+  letter-spacing: -.055em;
+}
+
+.nc-home-services .nc-service-showcase .nc-svc-achievement-copy.is-text-value strong {
+  font-size: clamp(34px, 3.2vw, 48px);
+  letter-spacing: -.045em;
+}
+
+.nc-home-services .nc-service-showcase .nc-svc-achievement-copy small {
+  margin-left: 2px;
+  font-size: 16px;
+  letter-spacing: 0;
+}
+
+.nc-home-services .nc-service-showcase .nc-achievement-prefix {
+  margin-right: 2px;
+  font-size: 17px;
+  vertical-align: baseline;
+}
+
+.nc-home-services .nc-evidence-foot {
+  background: #fff;
+}
+
+.nc-home-services .nc-industry-copy > span {
+  display: none;
+}
+
+.nc-home-services .nc-inds {
+  border-color: #e4e4e4;
+  background: #e8e8e8;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .07);
+}
+
+.nc-home-services .nc-industry-link {
+  color: #2d2d2d;
+}
+
+/* Growth flows from one compact outcome to the next. */
+.nc-growth-map {
+  max-width: none;
+  row-gap: 0;
+  padding-top: 32px;
+}
+
+.nc-growth-outcomes {
+  width: min(100%, 880px);
+  max-width: none;
+  grid-template-columns: minmax(0, 1fr) 58px minmax(0, 1fr);
+  align-items: center;
+  gap: 13px;
+  margin-inline: auto;
+}
+
+.nc-growth-map .nc-growth-arrow {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+  margin: 0;
+  border: 1.4px solid #2d2d2d;
+  border-radius: 50%;
+  background: #fff;
+  color: #242424;
+}
+
+.nc-growth-map .nc-growth-arrow::before,
+.nc-growth-map .nc-growth-arrow::after {
+  content: none;
+}
+
+.nc-growth-map .nc-growth-arrow svg {
+  position: static;
+  display: block;
+  width: 19px;
+  height: 19px;
+}
+
+.nc-growth-outcomes article {
+  min-width: 0;
+  min-height: 182px;
+}
+
+/* Talent search follows the selected/available tag pattern, without a lavender surface. */
+.section > .wrap > .nc-notice {
+  display: block;
+  max-width: 72em;
+  margin-bottom: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.section > .wrap > .nc-notice p:first-child {
+  margin-bottom: 5px;
+}
+
+.section > .wrap > .nc-notice b {
+  color: #555;
+  font-size: 11px;
+  letter-spacing: .04em;
+}
+
+.section > .wrap > .nc-notice p {
+  color: #737373;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.nc-talent-search {
+  border-color: #e5e5e5;
+  background: #fff;
+  color: #252525;
+}
+
+.nc-talent-search input {
+  border-color: #e0e0e0;
+  background: #f7f7f7;
+  color: #252525;
+}
+
+.nc-talent-search input:focus-visible {
+  outline: 2px solid #6b6378;
+  outline-offset: 2px;
+}
+
+.nc-talent-search svg {
+  position: absolute;
+  top: 13px;
+  right: 14px;
+  color: #67626e;
+  pointer-events: none;
+}
+
+.nc-active-filters {
+  min-height: 78px;
+  border-color: #e5e5e5;
+  background: #f7f7f7;
+}
+
+.nc-active-filters > div {
+  align-items: center;
+}
+
+.nc-active-filters > div > p {
+  margin: 7px 0;
+  color: #898989;
+  font-size: 12px;
+}
+
+.nc-active-filters .nc-fchip.is-on {
+  border: 1px solid #e4e4e4;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
+  color: #282828;
+}
+
+.nc-talent-quick {
+  border-color: #e5e5e5;
+  background: #fff;
+}
+
+.nc-talent-quick .nc-filter {
+  border-color: #ededed;
+}
+
+.nc-talent-quick .nc-fchip,
+.nc-talent-advanced .nc-fchip {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #e9eaec;
+  color: #303030;
+}
+
+.nc-talent-quick .nc-fchip:hover,
+.nc-talent-advanced .nc-fchip:hover {
+  border-color: #a7a4ad;
+  background: #e2e1e5;
+  color: #252525;
+}
+
+.nc-filter-more {
+  color: #484450;
+}
+
+.nc-talent-advanced > section {
+  border-color: #e5e5e5;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+::view-transition-old(nc-moving-chip),
+::view-transition-new(nc-moving-chip) {
+  animation-duration: .48s;
+  animation-timing-function: cubic-bezier(.22, 1, .36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(nc-moving-chip),
+  ::view-transition-new(nc-moving-chip) {
+    animation-duration: .01ms;
+  }
+}
+
+.nc-talentgrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.nc-talentcard,
+.nc-talentcard:hover {
+  padding: 22px;
+  border-color: #e5e5e5;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .045);
+}
+
+.nc-talentcard:hover {
+  border-color: #b9b7bd;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .07);
+}
+
+.nc-talentcard.is-selected {
+  border-color: #56505f;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px #56505f;
+}
+
+.nc-talent-head {
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.nc-talent-role,
+.nc-talent-role.is-lead {
+  border-color: #e5e5e5;
+  background: #f5f5f5;
+  color: #414141;
+}
+
+.nc-talentcard .nc-talent-select {
+  display: grid;
+  width: 41px;
+  height: 41px;
+  place-items: center;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 1px solid #dedede;
+  border-radius: 50%;
+  background: #f5f5f5;
+  color: #343434;
+}
+
+.nc-talentcard .nc-talent-select:hover {
+  border-color: #777;
+  background: #ededed;
+}
+
+.nc-talentcard .nc-talent-select[aria-pressed=true] {
+  border-color: #3d3943;
+  background: #3d3943;
+  color: #fff;
+}
+
+.nc-talent-name {
+  font-size: clamp(21px, 1.8vw, 25px);
+  font-weight: 650;
+}
+
+.nc-talent-meta {
+  min-height: 2.5em;
+  margin-bottom: 19px;
+  color: #6c6c6c;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.nc-talent-summary {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  min-height: 109px;
+  padding: 17px 14px;
+  border-radius: 14px;
+  background: #f6f6f6;
+}
+
+.nc-talent-summary > div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding-inline: 7px;
+}
+
+.nc-talent-summary > div + div {
+  padding-left: 14px;
+  border-left: 1px solid #ddd;
+}
+
+.nc-talent-summary span {
+  color: #757575;
+  font-size: 10px;
+}
+
+.nc-talent-summary strong {
+  color: #292929;
+  font-size: 12px;
+  font-weight: 620;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.nc-talent-tags {
+  margin-top: 17px;
+}
+
+.nc-talentcard .nc-tag {
+  border: 0;
+  border-radius: 7px;
+  background: #efefef;
+  color: #414141;
+  font-size: 10px;
+}
+
+.nc-talent-actions {
+  padding-top: 23px;
+}
+
+.nc-talent-details {
+  display: flex;
+  width: 100%;
+  min-height: 45px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 999px;
+  background: #1f1f1f;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 620;
+  transition: background .25s ease;
+}
+
+.nc-talent-details:hover,
+.nc-talent-details:focus-visible {
+  background: #4b4555;
+  color: #fff;
+}
+
+.nc-talent-selection {
+  background: #27252b;
+}
+
+@media (max-width: 1100px) {
+  .nc-talentgrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .nc-growth-outcomes {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) 38px minmax(0, 1fr);
+    gap: 7px;
+  }
+
+  .nc-growth-map .nc-growth-arrow {
+    width: 38px;
+    height: 38px;
+  }
+
+  .nc-growth-map .nc-growth-arrow svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .nc-home-services .nc-service-showcase .nc-svc-achievement-copy strong {
+    font-size: 34px;
+  }
+
+  .nc-home-services .nc-service-showcase .nc-svc-achievement-copy.is-text-value strong {
+    font-size: 30px;
+  }
+
+  .nc-home-services .nc-service-showcase .nc-svc-achievement-copy small {
+    font-size: 10px;
+  }
+
+  .nc-talentgrid {
+    grid-template-columns: 1fr;
   }
 }

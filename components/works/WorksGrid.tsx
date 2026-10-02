@@ -28,10 +28,7 @@ export function WorksGrid({ works }: { works: AnonymousWork[] }) {
                       <span>{work.industry}</span>
                       <h2>{work.title}</h2>
                     </div>
-                    <div className="nc-work-orbit-face is-back" aria-hidden="true">
-                      <span>{work.industry}</span>
-                      <p>{work.title}</p>
-                    </div>
+                    <div className="nc-work-orbit-face is-back" aria-hidden="true" />
                   </article>
                 );
               })}
