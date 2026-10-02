@@ -749,6 +749,7 @@ a {
 .nc-structure-section {
   border-top: 1px solid #e6e6e4;
   border-bottom: 0;
+  background: #fcfcfc;
 }
 .nc-recruit .nc-rcard h3 {
   padding-bottom: 0;
