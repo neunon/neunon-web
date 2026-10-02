@@ -22,15 +22,16 @@ export default function NewsPage() {
         crumbs={[{ label: 'お知らせ' }]}
       />
 
-      <div className="section">
+      <div className="section nc-news-page">
         <div className="wrap">
           <ul className="nc-news">
-            {news.map((item, index) => (
+            {news.map((item) => (
               <li key={item.slug}>
                 <Link href={`/news/${item.slug}`}>
                   <time dateTime={item.date}>{item.date.replace(/-/g, '.')}</time>
                   <span className="nc-news-cat">{item.category}</span>
                   <span className="nc-news-title">{item.title}</span>
+                  <span className="nc-news-arrow" aria-hidden="true">↗</span>
                 </Link>
               </li>
             ))}

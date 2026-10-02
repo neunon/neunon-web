@@ -3,7 +3,6 @@ import { Hero } from '@/components/home/Hero';
 import { Problem } from '@/components/home/Problem';
 import { Structure } from '@/components/home/Structure';
 import { Services } from '@/components/home/Services';
-import { Process } from '@/components/home/Process';
 import { Careers } from '@/components/home/Careers';
 import { News } from '@/components/home/News';
 import { Cta } from '@/components/home/Cta';
@@ -36,7 +35,6 @@ export default function HomePage() {
       <Problem />
       <Services />
       <Structure />
-      <Process />
       <Careers />
       <News />
       <Cta />

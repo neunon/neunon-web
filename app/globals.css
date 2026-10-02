@@ -733,3 +733,301 @@ a {
     gap: 6px;
   }
 }
+
+/* October UI refinement: lines mark section boundaries, not individual content blocks. */
+.nc-home-services .nc-service-showcase .nc-svc + .nc-svc,
+.nc-home-services .nc-service-evidence {
+  border-block: 0;
+  border-top: 0;
+}
+.nc-home-services .nc-service-showcase .nc-svc::after {
+  display: none;
+}
+.nc-home-services .nc-evidence-foot {
+  background: #fff;
+}
+.nc-structure-section {
+  border-top: 1px solid #e6e6e4;
+  border-bottom: 0;
+  background: #fcfcfc;
+}
+.nc-recruit .nc-rcard h3 {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+/* Only the three service-detail links use the expanding circle-to-pill action. */
+.nc-home-services .nc-service-detail-link {
+  position: relative;
+  display: inline-flex;
+  width: max-content;
+  max-width: 100%;
+  align-self: flex-start;
+  min-height: 54px;
+  align-items: center;
+  gap: 12px;
+  margin-top: 27px;
+  padding: 0 17px 0 0;
+  color: #171717;
+  font-size: 14px;
+  font-weight: 650;
+  isolation: isolate;
+  transition: color .34s ease, transform .34s ease;
+}
+.nc-home-services .nc-service-detail-link::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0 auto 0 0;
+  width: 54px;
+  border-radius: 999px;
+  background: #171717;
+  transition: width .42s cubic-bezier(.22, 1, .36, 1);
+}
+.nc-service-detail-arrow {
+  display: grid;
+  width: 54px;
+  flex: 0 0 54px;
+  place-items: center;
+  color: #fff;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1;
+  transition: transform .34s ease;
+}
+.nc-service-detail-label { white-space: nowrap; }
+.nc-home-services .nc-service-detail-link:hover,
+.nc-home-services .nc-service-detail-link:focus-visible {
+  color: #fff;
+  transform: translateY(-3px);
+}
+.nc-home-services .nc-service-detail-link:hover::before,
+.nc-home-services .nc-service-detail-link:focus-visible::before { width: 100%; }
+.nc-home-services .nc-service-detail-link:hover .nc-service-detail-arrow,
+.nc-home-services .nc-service-detail-link:focus-visible .nc-service-detail-arrow { transform: translateX(4px); }
+
+.nc-more,
+.nc-home-services .nc-industry-link,
+.nc-recruit .nc-jobcard {
+  transition: transform .28s ease, box-shadow .28s ease, color .28s ease;
+}
+.nc-more:hover,
+.nc-more:focus-visible,
+.nc-home-services .nc-industry-link:hover,
+.nc-recruit .nc-jobcard:hover { transform: translateY(-3px); }
+
+/* Lift is deliberately quiet: movement and a soft contact shadow only. */
+body .btn,
+.nc-contact-btn,
+.nc-mobile-cta,
+.nc-home-services .nc-svc-side,
+.nc-recruit .nc-rcard,
+.nc-recruit .nc-path li,
+.nc-talentcard {
+  transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease,
+    background-color .28s ease, color .28s ease;
+}
+body .btn:hover,
+body .btn:focus-visible,
+.nc-contact-btn:hover,
+.nc-mobile-cta:hover,
+.nc-home-services .nc-svc:hover .nc-svc-side,
+.nc-recruit .nc-rcard:hover,
+.nc-recruit .nc-path li:hover,
+.nc-talentcard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(23, 23, 23, .09);
+}
+.nc-rhero .btn:not(.btn-ghost),
+.nc-rhero .btn:not(.btn-ghost):hover {
+  border-color: #fff;
+  background: #fff;
+  color: #171820;
+}
+.nc-rhero .btn:not(.btn-ghost)::after { background: #ececf0; }
+.nc-rhero .btn-ghost,
+.nc-rhero .btn-ghost:hover {
+  border-color: rgba(255,255,255,.72);
+  background: transparent;
+  color: #fff;
+}
+.nc-rhero .btn-ghost::after { background: rgba(255,255,255,.18); }
+
+/* News: small editorial cards, shared by the home page and the archive. */
+.nc-home-news,
+.nc-news-page { background: #f7f7f6; }
+.nc-home-news { background: #fcfcfc; }
+.nc-home-news .nc-news,
+.nc-news-page .nc-news {
+  display: grid;
+  gap: 12px;
+  border: 0;
+}
+.nc-home-news .nc-news li,
+.nc-news-page .nc-news li { border: 0; }
+.nc-home-news .nc-news a,
+.nc-news-page .nc-news a {
+  display: grid;
+  grid-template-columns: 108px 104px minmax(0, 1fr) 30px;
+  align-items: center;
+  gap: 20px;
+  min-height: 88px;
+  padding: 20px 28px;
+  border: 1px solid #e5e5e3;
+  border-radius: 16px;
+  background: #fff;
+  color: #202020;
+  transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+.nc-home-news .nc-news a:hover,
+.nc-home-news .nc-news a:focus-visible,
+.nc-news-page .nc-news a:hover,
+.nc-news-page .nc-news a:focus-visible {
+  padding-left: 28px;
+  transform: translateY(-4px);
+  border-color: #c9c9c7;
+  box-shadow: 0 10px 24px rgba(23,23,23,.07);
+}
+.nc-home-news .nc-news-cat,
+.nc-news-page .nc-news-cat {
+  padding: 6px 10px;
+  border-color: #e1e1df;
+  border-radius: 999px;
+  background: #f8f8f7;
+  color: #484848;
+  font-size: 10px;
+  letter-spacing: .05em;
+  text-align: center;
+}
+.nc-home-news .nc-news-title,
+.nc-news-page .nc-news-title { font-size: 15px; font-weight: 580; line-height: 1.65; }
+.nc-home-news .nc-news a::after,
+.nc-news-page .nc-news a::after { content: none; }
+.nc-news-arrow { color: #444; font-size: 21px; text-align: right; }
+
+/* Recruitment: spaced cards and one consistent vertical selection timeline. */
+.nc-recruit .nc-rcards,
+.nc-recruit .nc-path {
+  gap: 16px;
+  border: 0;
+  background: transparent;
+}
+.nc-recruit .nc-rcard,
+.nc-recruit .nc-path li {
+  border: 1px solid #e3e3e1;
+  border-radius: 16px;
+  background: #fff;
+}
+.nc-recruit .nc-path li { border-top: 1px solid #e3e3e1; }
+.nc-recruit .nc-rvision {
+  border: 1px solid #e6e6e4;
+  border-radius: 16px;
+  background: #f7f7f6;
+}
+.nc-recruit .nc-selection-steps {
+  display: grid;
+  width: min(100%, 950px);
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-inline: auto;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+}
+.nc-recruit .nc-selection-steps .nc-step {
+  display: grid;
+  min-height: 0;
+  grid-template-columns: 60px minmax(0, 1fr);
+  column-gap: 30px;
+  align-items: start;
+  padding: 0 0 34px;
+  border: 0;
+}
+.nc-recruit .nc-selection-steps .nc-step::before {
+  content: '';
+  position: relative;
+  top: auto;
+  left: auto;
+  display: grid;
+  width: 58px;
+  height: 58px;
+  grid-row: 1 / span 2;
+  place-items: center;
+  border: 1px solid #e3e3e1;
+  border-radius: 6px;
+  background: #f7f7f6;
+  box-shadow: none;
+}
+.nc-recruit .nc-selection-steps .nc-step::after {
+  content: '';
+  position: absolute;
+  top: 67px;
+  bottom: 8px;
+  left: 29px;
+  width: 1px;
+  background: #dededc;
+}
+.nc-recruit .nc-selection-steps .nc-step:last-child::after { display: none; }
+.nc-recruit .nc-selection-steps .nc-step-n {
+  position: absolute;
+  z-index: 1;
+  top: 18px;
+  left: 0;
+  width: 58px;
+  color: #222;
+  display: grid;
+  place-items: center;
+  color: #343434;
+}
+.nc-recruit .nc-selection-steps .nc-step-c { grid-column: 2; }
+.nc-recruit .nc-selection-steps .nc-step-c h2,
+.nc-recruit .nc-selection-steps .nc-step-c h3 {
+  min-height: 0;
+  margin: 0 0 6px;
+  color: #1d1d1d;
+  font-size: 18px;
+  line-height: 1.5;
+}
+.nc-recruit .nc-selection-steps .nc-step-c p { color: #626262; font-size: 14px; line-height: 1.8; }
+.nc-recruit .nc-selection-steps .nc-step-s {
+  grid-column: 2;
+  margin: 10px 0 0;
+  padding: 0;
+  color: #686868;
+  font-size: 11px;
+}
+@media (max-width: 700px) {
+  .nc-home-news .nc-news a,
+  .nc-news-page .nc-news a {
+    grid-template-columns: 1fr auto 24px;
+    gap: 8px 12px;
+    padding: 18px;
+  }
+  .nc-home-news .nc-news a:hover,
+  .nc-news-page .nc-news a:hover { padding-left: 18px; }
+  .nc-home-news .nc-news-title,
+  .nc-news-page .nc-news-title { grid-column: 1 / 3; grid-row: 2; }
+  .nc-news-arrow { grid-column: 3; grid-row: 1 / 3; }
+  .nc-recruit .nc-selection-steps .nc-step { grid-template-columns: 48px minmax(0, 1fr); column-gap: 18px; padding-bottom: 28px; }
+  .nc-recruit .nc-selection-steps .nc-step::before,
+  .nc-recruit .nc-selection-steps .nc-step-n { width: 46px; }
+  .nc-recruit .nc-selection-steps .nc-step::before { height: 48px; }
+  .nc-recruit .nc-selection-steps .nc-step-n { top: 15px; font-size: 10px; }
+  .nc-recruit .nc-selection-steps .nc-step::after { top: 56px; left: 23px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nc-home-services .nc-service-detail-link,
+  .nc-home-services .nc-service-detail-link::before,
+  .nc-service-detail-arrow { transition-duration: .01ms; }
+}
+
+/* Restrained accent trial outside the monochrome growth diagram. */
+.nc-home-services .nc-evidence-foot { background: #fff; }
+.nc-home-services .nc-inds { background: #e9e5f7; border-color: #e9e5f7; }
+.nc-home-services .nc-industry-link { color: #2d2d2d; }
+.nc-home-news .nc-news-cat,
+.nc-news-page .nc-news-cat { background: #f5f2fc; border-color: #ded7f1; color: #51466d; }
+
+/* The old CTA pseudo-lines no longer serve as section separators. */
+.nc-cta.nc-home-wide::before,
+.nc-cta.nc-home-wide h2::after { content: none; display: none; }

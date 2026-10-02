@@ -1,14 +1,12 @@
 import type { Metadata } from 'next';
 import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
-import { anonymousWorks } from '@/lib/anonymous-works';
+import { SelectionTimeline } from '@/components/recruit/SelectionTimeline';
 import {
   conditions,
   gakuchika,
   idealCandidate,
   recruitHero,
-  recruitIndustries,
-  selectionSteps,
   termsPendingNote,
 } from '@/lib/recruit';
 
@@ -22,12 +20,9 @@ export const metadata: Metadata = pageMetadata('recruit', '/recruit/');
  * 学歴要件はサイトに出さない（6.6 の「重要」）。
  *
  * セクション順は 6.6 の指定どおり:
- *   1 ヒーロー / 2 ここで何ができるか / 3 実際の案件例 / 4 役割とキャリアパス
- *   5 求める人物像 / 6 メンバーインタビュー / 7 選考フロー / 8 CTA
+ *   ヒーロー / できること / キャリアパス / 求める人物像 / 選考フロー / CTA
  */
 export default function RecruitPage() {
-  const works = anonymousWorks.slice(0, 6);
-
   return (
     <div className="nc-recruit">
       {/* 1 ヒーロー */}
@@ -107,38 +102,6 @@ export default function RecruitPage() {
         </div>
       </section>
 
-      {/* 3 実際の案件例 */}
-      <section className="section section-alt" aria-labelledby="r-cases">
-        <div className="wrap">
-          <div className="shead">
-            <h2 id="r-cases">実際に担当する案件</h2>
-            <p>調査・分析に限らず、事業づくりや制作を含む新しい企業支援にも挑戦できます。守秘義務のため、公開事例では企業名を伏せています。</p>
-          </div>
-
-          <div className="nc-inds">
-            {recruitIndustries.map((industry) => (
-              <span className="nc-ind" key={industry}>
-                {industry}
-              </span>
-            ))}
-          </div>
-
-          <ul className="nc-rcases">
-            {works.map((work) => (
-              <li key={`${work.industry}-${work.title}`}>
-                <span className="nc-work-ind">{work.industry}</span>
-                <h3>{work.title}</h3>
-              </li>
-            ))}
-          </ul>
-
-          <Link href="/works" className="nc-more">
-            <i aria-hidden="true" />
-            支援実績をすべて見る
-          </Link>
-        </div>
-      </section>
-
       {/* 4 役割とキャリアパス */}
       <section className="section" aria-labelledby="r-path">
         <div className="wrap">
@@ -189,7 +152,7 @@ export default function RecruitPage() {
           </div>
 
           <div className="nc-rcards nc-rcards-4">
-            {idealCandidate.map((item, index) => (
+            {idealCandidate.map((item) => (
               <div className="nc-rcard" key={item.title}>
                 <h3>{item.title}</h3>
                 <p>{item.body}</p>
@@ -225,18 +188,7 @@ export default function RecruitPage() {
             <p>選考からオンボーディング、稼働開始まで7つのステップで進めます。</p>
           </div>
 
-          <ol className="nc-steps nc-selection-steps">
-            {selectionSteps.map((step, index) => (
-              <li className="nc-step" key={step.no}>
-                <div className="nc-step-n">Step {step.no}</div>
-                <div className="nc-step-c">
-                  <h3>{step.title}</h3>
-                  <p>{step.body}</p>
-                </div>
-                <div className="nc-step-s">{step.span}</div>
-              </li>
-            ))}
-          </ol>
+          <SelectionTimeline />
 
           <Link href="/recruit/flow" className="nc-more">
             <i aria-hidden="true" />

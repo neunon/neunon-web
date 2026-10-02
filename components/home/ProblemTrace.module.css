@@ -1,0 +1,275 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
+
+.section {
+  --accent: #8a7cf0;
+  position: relative;
+  padding: 120px 0 128px;
+  background: #fcfcfc;
+  color: #111;
+  font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  width: min(1200px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
+  gap: 70px;
+  align-items: end;
+  margin-bottom: 128px;
+}
+
+.heading {
+  color: #111;
+  font-size: clamp(34px, 3.1vw, 44px);
+  font-weight: 500 !important;
+  line-height: 1.4;
+  letter-spacing: -.035em;
+}
+
+.intro {
+  max-width: 560px;
+  color: #6e6e6e;
+  font-size: 14px;
+  line-height: 2.1;
+}
+
+.diagram {
+  display: flex;
+  flex-direction: column;
+}
+
+.sources {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.source {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 145px;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 25px;
+  border: 0;
+  background: transparent;
+  color: #111;
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  transition: opacity .4s ease;
+}
+
+.source:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.source:not(.activeSource) { opacity: .3; }
+
+.sourceTitle {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.5;
+  transition: font-weight .4s ease, transform .5s cubic-bezier(.2,.7,.2,1), color .4s ease;
+}
+
+.sourceBody {
+  margin-top: 8px;
+  color: #6e6e6e;
+  font-size: 12px;
+  line-height: 1.7;
+  transition: color .4s ease;
+}
+
+.activeSource .sourceTitle { font-weight: 700; transform: translateY(-2px); }
+.activeSource .sourceBody { color: #111; }
+
+.sourceDot,
+.targetDot {
+  position: absolute;
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #c4c4c4;
+  transition: background-color .4s ease;
+}
+
+.sourceDot {
+  bottom: -3px;
+  left: calc(50% - 3px);
+}
+
+.activeSource .sourceDot,
+.litDot { background: var(--accent); }
+
+.lineSpace { height: 216px; }
+
+.outcomes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.outcome {
+  position: relative;
+  min-width: 0;
+  padding: 31px 26px 0;
+  text-align: center;
+}
+
+.targetDot {
+  top: -3.5px;
+  left: calc(50% - 3.5px);
+  width: 7px;
+  height: 7px;
+}
+
+.outcome h3 {
+  color: #111;
+  font-size: 36px;
+  font-weight: 500 !important;
+  line-height: 1.5;
+}
+
+.outcome p {
+  margin-top: 7px;
+  color: #6e6e6e;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.effect {
+  position: relative;
+  height: 28px;
+  margin-top: 10px;
+  color: #111;
+  font-size: 14px;
+  line-height: 28px;
+}
+
+.effectItem {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .5s ease, transform .6s cubic-bezier(.2,.7,.2,1);
+}
+
+.visibleEffect { opacity: 1; transform: translateY(0); }
+.lines {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.baseLine,
+.traceLine,
+.particle {
+  fill: none;
+  stroke-dasharray: 1;
+}
+
+.baseLine {
+  stroke: #dcdcdc;
+  stroke-width: 1px;
+  stroke-dashoffset: 1;
+}
+
+.entered .baseLine { animation: drawBase 1.6s cubic-bezier(.65,0,.35,1) both; }
+
+.traceLine {
+  stroke: var(--accent);
+  stroke-width: 1.5px;
+  stroke-dashoffset: 1;
+  opacity: 0;
+  transition: stroke-dashoffset 1s cubic-bezier(.65,0,.35,1), opacity .18s ease;
+}
+
+.activeTrace { stroke-dashoffset: 0; opacity: 1; }
+
+.particle {
+  stroke: var(--accent);
+  stroke-width: 3px;
+  stroke-linecap: round;
+  stroke-dasharray: .05 1.2;
+  opacity: 0;
+  filter: drop-shadow(0 0 5px var(--accent));
+  transition: opacity .2s ease;
+}
+
+.activeParticle { opacity: 1; transition-delay: .5s; animation: travel 1.8s cubic-bezier(.45,0,.55,1) .5s infinite backwards; }
+
+.ripple {
+  fill: var(--accent);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.activeRipple { animation: ripple 1.8s cubic-bezier(.2,.6,.3,1) 1.35s infinite; }
+
+@keyframes drawBase { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes travel { from { stroke-dashoffset: .05; } to { stroke-dashoffset: -1; } }
+@keyframes ripple { from { opacity: .7; transform: scale(1); } to { opacity: 0; transform: scale(5); } }
+
+.mobileEffects { display: none; }
+
+@media (max-width: 767px) {
+  .section { padding: 72px 0 84px; }
+  .inner { width: min(100% - 36px, 560px); }
+  .header { grid-template-columns: 1fr; gap: 26px; margin-bottom: 52px; }
+  .heading { font-size: clamp(29px, 7vw, 38px); }
+  .intro { font-size: 13px; line-height: 1.9; }
+  .outcomes { order: -1; gap: 16px; margin-bottom: 54px; }
+  .outcome { padding: 0; text-align: left; }
+  .outcome h3 { font-size: clamp(17px, 4.3vw, 22px); }
+  .outcome p { margin-top: 6px; font-size: 11px; line-height: 1.7; }
+  .effect,
+  .targetDot,
+  .sourceDot,
+  .lineSpace,
+  .lines { display: none; }
+  .sources { grid-template-columns: 1fr; }
+  .source {
+    min-height: 0;
+    align-items: flex-start;
+    padding: 23px 0 25px;
+    border-bottom: 1px solid #e6e6e6;
+    text-align: left;
+  }
+  .sourceTitle { font-size: 19px; }
+  .sourceBody { margin-top: 3px; font-size: 12px; }
+  .mobileEffects { display: grid; gap: 4px; margin-top: 18px; color: #6e6e6e; font-size: 13px; line-height: 1.7; }
+  .mobileEffects b { font-weight: 500; }
+  .source:not(.activeSource) { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .source,
+  .sourceDot,
+  .targetDot,
+  .sourceTitle,
+  .sourceBody,
+  .effectItem,
+  .traceLine,
+  .particle { transition: none; animation: none; }
+  .baseLine,
+  .entered .baseLine { stroke-dashoffset: 0; animation: none; }
+  .particle { display: none; }
+  .ripple { display: none; }
+}

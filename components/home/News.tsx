@@ -16,7 +16,7 @@ export function News() {
   const hasPlaceholder = news.some((item) => item.placeholder);
 
   return (
-    <section className="section section-alt nc-home-wide" aria-labelledby="news-heading">
+    <section className="section section-alt nc-home-wide nc-home-news" aria-labelledby="news-heading">
       <div className="wrap">
         <div className="nc-news-head shead">
           <div>
@@ -29,12 +29,13 @@ export function News() {
         </div>
 
         <ul className="nc-news">
-          {news.map((item, index) => (
+          {news.map((item) => (
             <li key={item.slug}>
               <Link href={`/news/${item.slug}`}>
                 <time dateTime={item.date}>{item.date.replace(/-/g, '.')}</time>
                 <span className="nc-news-cat">{item.category}</span>
                 <span className="nc-news-title">{item.title}</span>
+                <span className="nc-news-arrow" aria-hidden="true">↗</span>
               </Link>
             </li>
           ))}

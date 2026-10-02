@@ -10,7 +10,21 @@
 
 ## 1. いま進行中のこと
 
-**CMS編集範囲の拡大とLP/コンテンツページの作成基盤を追加。会社情報セクションは簡素化。公開・マージ判断待ち。**
+**トップ「管理・育成体制」の組織図を再構築。公開・マージ判断待ち。**
+
+2026-10-02 公開状況: GitHub側 main はPR #4マージ済みの `f5e5bfa`。ローカル `hp/ui-recruit-refinement` に `origin/main` をマージして同期済み。通常のGit接続はWindows SChannelで失敗するが、`git -c http.sslBackend=openssl` ならfetch/ls-remote成功。pushはGit Credential Managerにログイン情報がなく失敗（helperを無効にすると `could not read Username`）。ユーザーには `git credential-manager github login --browser --username ke1989` の実行を案内し、ログイン後にpush/PR/マージを再開する。GitHub連携の書き込み権限も403で不可。
+
+2026-10-02 追加調整: 新リード学生（新チーム・次のチーム）の役割タグをリード学生と同じ「管理／ディレクション／育成」に変更し、新チームのバッジを「昇格＆組成」に変更。バッジと見出しの重なりを避けた。トップのお知らせだけ背景を隣接セクションと同じ #fcfcfc に変更し、ニュース一覧ページの背景は維持。`npm run typecheck` と `npm run build:deploy`（42ページ、指摘なし）通過。公開依頼あり。GitHub への直接接続はネットワーク許可後も Windows の資格情報エラーで不可。GitHub連携の create-tree も403 Resource not accessible by integration で書き込み不可。GitHub mainはPR #4をマージ済みの `f5e5bfad`、そのtreeはローカル作業起点 `a443a94` と一致。`a443a94..HEAD` の15ファイル差分をGitHubへ反映する必要がある。
+
+2026-10-02 最新: `components/shared/StructureDiagram.tsx` を4チームのカード型組織図に置換し、専用CSS Moduleを追加。見出し・説明文は維持。コンサルタント→4チームの実測ベジェ線と流れる光、2つの昇格曲線、新チームのリング・波紋・回転する境界光を実装。1024px未満は2列＋短い縦線、640px未満は1列、動きを減らす設定では静止表示。英字ラベル・番号・下段の旧フローは置いていない。背景は#fcfcfc。`npm run typecheck`、`npm run build:deploy`（42ページ、指摘なし）、`git diff --check`通過。ブラウザーで1440/900/390pxの表示・線接続・横はみ出しなしを確認。GitHub fetchは接続不可。
+
+2026-10-02 再調整: 次世代の力セクションから WHY STUDENTS、4 ELEMENTS→2 OUTCOMES、横罫線、01〜04、効果文前の番号を削除。見出しと効果文の間隔を縮め、同じ和文フォント・14pxに統一。紫経路の切替は旧線を短くフェードアウトし、新線の描画後に光粒・波紋を追わせるよう変更。業界タイルは白のまま、タイル間の3pxの隙間だけ淡紫に変更。`npm run typecheck`、`npm run build:deploy`（42ページ、指摘なし）、`git diff --check` 通過。GitHubへのfetchはネットワーク接続不可。
+
+2026-10-02 最新: 同セクションの8本を実測座標に基づくS字ベジェ曲線に変更。表示時のベース線描画、選択線の紫トレース、流れる粒、終点波紋、効果テキストのクロスフェードを追加。FOR STUDENTS/COMPANIESを削除し番号表示を控えめにした。自動切替は3600ms、縮小動作設定では粒・波紋と自動再生を止める。業界背景・業界リンク・ニュースタグに淡い紫を試験導入し、ニュースタグを中央寄せ、トップCTA左側の装飾線を削除。デスクトップ1440pxとモバイル390pxで8曲線・線なしの縦並び・横はみ出しなしを確認。現ブランチ上で未公開。
+
+2026-10-02 追記: `hp/ui-recruit-refinement` に、4要素から学生・企業の成長へ各2本ずつ接続する線図を追加。セクション専用の Client Component と CSS Module に限定し、点を実測してSVGの8本を引く。2400ms自動再生は表示中のPCだけ、操作中・動きを減らす設定・モバイルでは停止。モバイルは成長2列→要素4件縦並び＋効果文。CMSの既存データを維持して冒頭文のみ指定に合わせた。提供形態の詳細ボタンは文字幅に縮めた。ローカルPC 1440/900pxで線の接続誤差0、操作後の自動再生、モバイル390pxで線非表示・並び替え・横はみ出しなしを確認。`npm run typecheck`、`npm run build:deploy` は通過（ニュース仮原稿警告3件は既存）。
+
+2026-10-02 追加: `hp/ui-recruit-refinement` でトップの不要な工程セクションを外し、提供形態の詳細リンクを丸から横長ピルへ広がる専用ボタンにした。AIプロダクト下・業界周辺の不要な横罫線を除き、ホバー時の控えめな浮き上がりを導入。お知らせを余白のあるカード型に変更。採用ヒーローのボタン配色を揃え、「実際に担当する案件」を削除、選考フローをトップと詳細の両方で縦型タイムラインに変更。`npm run typecheck`、`npm run build:deploy` を通過（42ページ、指摘なし）。ニュース仮原稿警告3件は既存。
 
 作業ブランチ: `hp/cms-page-builder`。`hp/monochrome-ui-refresh` から分岐しているため、その未マージのUI・コンサルティング改修を含む。親ブランチは `hp/consulting-page` から分岐し、
 2026-10-02 時点の `origin/main`（人材データ同期2件）を取り込み済み。
