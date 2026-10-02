@@ -175,15 +175,15 @@ body .btn {
   background: var(--nc-bright);
 }
 
-/* Shared inner-page hero: a framed white field with a quiet dot texture. */
+/* Shared inner-page hero: a dark architectural grid inside a quiet light frame. */
 .nc-phero,
 .nc-package-page .nc-phero,
 .nc-consulting-page .nc-phero,
 .nc-rhero {
   padding: clamp(26px, 4vw, 56px) 0;
   border: 0;
-  background: #f7f7f6;
-  color: #1a1a1a;
+  background: #f5f5f4;
+  color: #fff;
 }
 
 .nc-phero::after,
@@ -200,15 +200,23 @@ body .btn {
 .nc-rhero .wrap {
   position: relative;
   display: flex;
+  width: min(calc(100% - 80px), 1180px);
+  max-width: none;
   min-height: clamp(310px, 32vw, 430px);
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
-  padding: clamp(32px, 6vw, 76px);
-  border: 1px solid #dededc;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, .035);
+  padding: clamp(32px, 4vw, 52px);
+  border: 1px solid #191a25;
+  border-radius: 14px;
+  background-color: #10111c;
+  background-image:
+    linear-gradient(90deg, rgba(4, 5, 12, .76) 2px, transparent 2px),
+    linear-gradient(rgba(4, 5, 12, .76) 2px, transparent 2px),
+    radial-gradient(ellipse 52% 76% at 52% 50%, #252343 0%, #161726 48%, #0c0d16 100%);
+  background-position: center;
+  background-size: 47px 47px, 47px 47px, cover;
+  box-shadow: 0 18px 42px rgba(12, 13, 22, .12);
   isolation: isolate;
 }
 
@@ -219,37 +227,20 @@ body .btn {
   z-index: -1;
   inset: 0;
   pointer-events: none;
-  background-image: radial-gradient(circle, #d0d0ce .8px, transparent 1px);
-  background-size: 16px 16px;
-  -webkit-mask-image: radial-gradient(ellipse 42% 64% at 71% 48%, #000, transparent 82%);
-  mask-image: radial-gradient(ellipse 42% 64% at 71% 48%, #000, transparent 82%);
-}
-
-.nc-phero .nc-crumbs {
-  margin-bottom: clamp(30px, 4vw, 52px);
-}
-
-.nc-phero .nc-crumbs,
-.nc-package-page .nc-crumbs,
-.nc-consulting-page .nc-crumbs,
-.nc-package-page .nc-crumbs a,
-.nc-consulting-page .nc-crumbs a,
-.nc-package-page .nc-crumbs [aria-current='page'],
-.nc-consulting-page .nc-crumbs [aria-current='page'] {
-  color: #696969;
+  background: radial-gradient(ellipse 70% 90% at 52% 50%, transparent 34%, rgba(2, 3, 9, .4) 100%);
 }
 
 .nc-phero .nc-eyebrow,
 .nc-package-page .nc-eyebrow,
 .nc-consulting-page .nc-eyebrow {
-  color: #555;
+  color: #d0d0dc;
 }
 
 .nc-phero .nc-ptitle,
 .nc-package-page .nc-ptitle,
 .nc-consulting-page .nc-ptitle {
   max-width: 14em;
-  color: #191919;
+  color: #fff;
   font-size: clamp(38px, 5.8vw, 76px);
   line-height: 1.16;
 }
@@ -259,18 +250,34 @@ body .btn {
 .nc-consulting-page .nc-lead {
   max-width: 50em;
   margin-top: 22px;
-  color: #555;
+  color: #c8c9d3;
   font-size: clamp(13px, 1.2vw, 15px);
 }
 
 .nc-rhero h1 {
-  color: #1b1b1b;
+  color: #fff;
   font-size: clamp(38px, 6vw, 76px);
 }
 
 .nc-rhero .nc-thin,
 .nc-rhero .nc-rlead {
-  color: #555;
+  color: #c8c9d3;
+}
+
+.nc-rhero .nc-rsub {
+  color: #f0f0f5;
+}
+
+.nc-rhero .btn:not(.btn-ghost) {
+  border-color: #fff;
+  background: #fff;
+  color: #171820;
+}
+
+.nc-rhero .btn-ghost {
+  border-color: rgba(255, 255, 255, .75);
+  background: transparent;
+  color: #fff;
 }
 
 /* Home hero keeps its existing photograph, presented without a blue cast. */
