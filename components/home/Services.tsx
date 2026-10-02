@@ -65,7 +65,6 @@ export function Services() {
             return (
             <article className="nc-svc" key={service.id}>
               <div className="nc-svc-copy">
-                <span className="nc-svc-n">{service.number}</span>
                 <h3>{service.title}</h3>
                 <p>{service.summary}</p>
                 <ul>

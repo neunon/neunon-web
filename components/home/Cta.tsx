@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
 
 /**
  * トップページ セクション9: CTA（要件定義書 6.1）
@@ -14,12 +14,8 @@ export function Cta() {
           内容が固まっていない段階でのご相談も歓迎です。
         </p>
         <div className="nc-acts nc-cta-acts">
-          <Link href="/contact" className="btn">
-            お問い合わせ
-          </Link>
-          <Link href="/works" className="btn btn-ghost">
-            支援実績を見る
-          </Link>
+          <InteractiveHoverLink href="/contact" text="お問い合わせ" className="is-light" />
+          <InteractiveHoverLink href="/works" text="支援実績を見る" className="is-outline-light" />
         </div>
       </div>
     </div>

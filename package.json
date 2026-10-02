@@ -16,6 +16,7 @@
     "test:cms": "node --test scripts/test/*.test.mjs cms-auth-worker/test/*.test.mjs"
   },
   "dependencies": {
+    "lucide-react": "^1.49.0",
     "next": "^16.3.4",
     "react": "19.1.1",
     "react-dom": "19.1.1"

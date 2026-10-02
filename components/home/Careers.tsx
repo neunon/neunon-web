@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
 
 /**
  * トップページ セクション7: 学生の方へ（要件定義書 6.1）
@@ -27,12 +27,8 @@ export function Careers() {
             フルリモート、時間帯は自由。学部・学科は問いません。
           </p>
           <div className="nc-acts nc-stu-acts">
-            <Link href="/recruit" className="btn">
-              採用情報を見る
-            </Link>
-            <Link href="/entry" className="btn btn-ghost">
-              エントリー
-            </Link>
+            <InteractiveHoverLink href="/recruit" text="採用情報を見る" />
+            <InteractiveHoverLink href="/entry" text="エントリー" className="is-outline" />
           </div>
         </div>
 
