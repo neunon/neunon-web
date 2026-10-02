@@ -16,16 +16,15 @@ export function TrackRecord() {
           <span>Industry</span>
           <h4 id="industry-heading">業界</h4>
           <p>業界固有の前提を捉えながら、幅広い領域の実務を支援しています。</p>
-          <Link href="/works" className="nc-industry-link">
-            支援実績を見る
-            <i aria-hidden="true" />
-          </Link>
         </div>
 
         <div className="nc-inds" aria-label="支援業界">
           {publicIndustries.map((industry) => <span className="nc-ind" key={industry}>{industry}</span>)}
         </div>
-        <span className="nc-industry-word" aria-hidden="true">Industry</span>
+        <Link href="/works" className="nc-industry-link">
+          支援実績を見る
+          <i aria-hidden="true" />
+        </Link>
       </div>
     </aside>
   );

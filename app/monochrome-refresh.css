@@ -1637,3 +1637,129 @@ body .btn {
     padding: 23px;
   }
 }
+
+/* A single, joined industry wall rather than a numbered directory. */
+.nc-home-services .nc-service-evidence {
+  border: 0;
+  border-block: 1px solid #e6e5e7;
+}
+
+.nc-home-services .nc-evidence-foot {
+  display: flex;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: clamp(64px, 7vw, 100px) clamp(22px, 5vw, 72px) 72px;
+  background: #f8f8f8;
+}
+
+.nc-home-services .nc-industry-copy {
+  width: 100%;
+  text-align: center;
+}
+
+.nc-home-services .nc-industry-copy > span {
+  margin-bottom: 13px;
+  color: var(--nc-accent-purple);
+  font-size: 11px;
+  letter-spacing: .16em;
+}
+
+.nc-home-services .nc-industry-copy h4 {
+  margin: 0;
+  color: #252429;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 620;
+  letter-spacing: -.04em;
+}
+
+.nc-home-services .nc-industry-copy p {
+  max-width: none;
+  margin: 14px 0 0;
+  color: #77747b;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.nc-home-services .nc-inds {
+  display: grid;
+  width: min(100%, 1180px);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-self: center;
+  gap: 3px;
+  margin-top: 48px;
+  padding: 3px;
+  overflow: hidden;
+  border: 1px solid #e6e4e9;
+  border-radius: 18px;
+  background: #e8e7ea;
+  box-shadow: 0 10px 25px rgba(30, 25, 38, .055);
+  counter-reset: none;
+}
+
+.nc-home-services .nc-ind,
+.nc-home-services .nc-ind:nth-child(even),
+.nc-home-services .nc-ind:hover {
+  display: grid;
+  min-height: 126px;
+  grid-template-columns: 1fr;
+  place-items: center;
+  gap: 0;
+  padding: 14px 10px;
+  border: 0;
+  border-radius: 13px;
+  background: #fff;
+  color: #252429;
+  font-size: clamp(15px, 1.45vw, 19px);
+  font-weight: 590;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.nc-home-services .nc-ind::before {
+  content: none;
+}
+
+.nc-home-services .nc-industry-link {
+  margin-top: 34px;
+  color: #514565;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .nc-home-services .nc-inds {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .nc-home-services .nc-ind,
+  .nc-home-services .nc-ind:nth-child(even),
+  .nc-home-services .nc-ind:hover {
+    min-height: 90px;
+  }
+}
+
+@media (max-width: 700px) {
+  .nc-home-services .nc-service-evidence {
+    margin-inline: -20px;
+  }
+
+  .nc-home-services .nc-evidence-foot {
+    padding: 62px 20px 66px;
+  }
+
+  .nc-home-services .nc-inds {
+    margin-top: 34px;
+  }
+
+  .nc-home-services .nc-ind,
+  .nc-home-services .nc-ind:nth-child(even),
+  .nc-home-services .nc-ind:hover {
+    min-height: 80px;
+    padding: 11px 8px;
+    font-size: 14px;
+  }
+}
