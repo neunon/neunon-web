@@ -113,6 +113,7 @@ export function TalentPanel({ talents, facets }: { talents: PublicTalent[]; face
 }
 
 function TalentTags({ label, primary, all }: { label: string; primary: string[]; all: string[] }) {
+  if (all.length === 0) return null;
   const count = Math.max(0, all.length - primary.length);
   return <div className="nc-talent-tags"><span>{label}</span><div className="nc-tags">{primary.map((item) => <span className="nc-tag" key={item}>{item}</span>)}{count > 0 ? <span className="nc-tag nc-tag-more">+{count}</span> : null}</div></div>;
 }

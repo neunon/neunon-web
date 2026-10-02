@@ -24,8 +24,14 @@ export function WorksGrid({ works }: { works: AnonymousWork[] }) {
                     aria-hidden={duplicate || undefined}
                     style={{ '--nc-angle': `${(index * 360) / faceCount}deg` } as CSSProperties}
                   >
-                    <span>{work.industry}</span>
-                    <h2>{work.title}</h2>
+                    <div className="nc-work-orbit-face is-front">
+                      <span>{work.industry}</span>
+                      <h2>{work.title}</h2>
+                    </div>
+                    <div className="nc-work-orbit-face is-back" aria-hidden="true">
+                      <span>{work.industry}</span>
+                      <p>{work.title}</p>
+                    </div>
                   </article>
                 );
               })}
