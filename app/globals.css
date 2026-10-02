@@ -1020,9 +1020,9 @@ body .btn:focus-visible,
 }
 
 /* Restrained accent trial outside the monochrome growth diagram. */
-.nc-home-services .nc-evidence-foot { background: #f7f5fd; }
-.nc-home-services .nc-inds { background: #e9e5f7; border-color: #e3def3; }
-.nc-home-services .nc-industry-link { color: #5b4b8a; }
+.nc-home-services .nc-evidence-foot { background: #fff; }
+.nc-home-services .nc-inds { background: #e9e5f7; border-color: #e9e5f7; }
+.nc-home-services .nc-industry-link { color: #2d2d2d; }
 .nc-home-news .nc-news-cat,
 .nc-news-page .nc-news-cat { background: #f5f2fc; border-color: #ded7f1; color: #51466d; }
 

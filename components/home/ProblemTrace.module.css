@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+JP:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
 
 .section {
   --accent: #8a7cf0;
@@ -21,23 +21,7 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
   gap: 70px;
   align-items: end;
-  margin-bottom: 196px;
-}
-
-.eyebrow,
-.traceHint,
-.number,
-.effectNumber {
-  font-family: 'IBM Plex Mono', 'Courier New', monospace;
-  font-weight: 400;
-}
-
-.eyebrow {
-  display: block;
-  margin-bottom: 28px;
-  color: #8a8a8a;
-  font-size: 11px;
-  letter-spacing: .24em;
+  margin-bottom: 128px;
 }
 
 .heading {
@@ -64,26 +48,16 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid #e6e6e6;
-}
-
-.traceHint {
-  position: absolute;
-  left: 0;
-  bottom: calc(100% + 14px);
-  color: #767676;
-  font-size: 11px;
-  letter-spacing: .07em;
 }
 
 .source {
   position: relative;
   display: flex;
   min-width: 0;
-  min-height: 168px;
+  min-height: 145px;
   flex-direction: column;
   align-items: center;
-  padding: 29px 12px 25px;
+  padding: 16px 12px 25px;
   border: 0;
   background: transparent;
   color: #111;
@@ -99,14 +73,6 @@
 }
 
 .source:not(.activeSource) { opacity: .3; }
-
-.number {
-  margin-bottom: 12px;
-  color: #767676;
-  font-size: 11px;
-  line-height: 1.4;
-  transition: color .4s ease;
-}
 
 .sourceTitle {
   font-size: 24px;
@@ -124,7 +90,6 @@
 }
 
 .activeSource .sourceTitle { font-weight: 700; transform: translateY(-2px); }
-.activeSource .number,
 .activeSource .sourceBody { color: #111; }
 
 .sourceDot,
@@ -184,9 +149,9 @@
 .effect {
   position: relative;
   height: 28px;
-  margin-top: 28px;
+  margin-top: 10px;
   color: #111;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 28px;
 }
 
@@ -196,15 +161,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 13px;
   opacity: 0;
   transform: translateY(10px);
   transition: opacity .5s ease, transform .6s cubic-bezier(.2,.7,.2,1);
 }
 
 .visibleEffect { opacity: 1; transform: translateY(0); }
-.effectNumber { color: #767676; font-size: 11px; }
-
 .lines {
   position: absolute;
   z-index: 0;
@@ -234,10 +196,11 @@
   stroke: var(--accent);
   stroke-width: 1.5px;
   stroke-dashoffset: 1;
-  transition: stroke-dashoffset 1s cubic-bezier(.65,0,.35,1);
+  opacity: 0;
+  transition: stroke-dashoffset 1s cubic-bezier(.65,0,.35,1), opacity .18s ease;
 }
 
-.activeTrace { stroke-dashoffset: 0; }
+.activeTrace { stroke-dashoffset: 0; opacity: 1; }
 
 .particle {
   stroke: var(--accent);
@@ -246,10 +209,10 @@
   stroke-dasharray: .05 1.2;
   opacity: 0;
   filter: drop-shadow(0 0 5px var(--accent));
-  transition: opacity .4s ease;
+  transition: opacity .2s ease;
 }
 
-.activeParticle { opacity: 1; animation: travel 1.8s cubic-bezier(.45,0,.55,1) infinite; }
+.activeParticle { opacity: 1; transition-delay: .5s; animation: travel 1.8s cubic-bezier(.45,0,.55,1) .5s infinite backwards; }
 
 .ripple {
   fill: var(--accent);
@@ -258,7 +221,7 @@
   transform-origin: center;
 }
 
-.activeRipple { animation: ripple 1.8s cubic-bezier(.2,.6,.3,1) 1.2s infinite; }
+.activeRipple { animation: ripple 1.8s cubic-bezier(.2,.6,.3,1) 1.35s infinite; }
 
 @keyframes drawBase { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes travel { from { stroke-dashoffset: .05; } to { stroke-dashoffset: -1; } }
@@ -270,7 +233,6 @@
   .section { padding: 72px 0 84px; }
   .inner { width: min(100% - 36px, 560px); }
   .header { grid-template-columns: 1fr; gap: 26px; margin-bottom: 52px; }
-  .eyebrow { margin-bottom: 18px; }
   .heading { font-size: clamp(29px, 7vw, 38px); }
   .intro { font-size: 13px; line-height: 1.9; }
   .outcomes { order: -1; gap: 16px; margin-bottom: 54px; }
@@ -280,7 +242,6 @@
   .effect,
   .targetDot,
   .sourceDot,
-  .traceHint,
   .lineSpace,
   .lines { display: none; }
   .sources { grid-template-columns: 1fr; }
@@ -293,7 +254,6 @@
   }
   .sourceTitle { font-size: 19px; }
   .sourceBody { margin-top: 3px; font-size: 12px; }
-  .number { margin-bottom: 7px; }
   .mobileEffects { display: grid; gap: 4px; margin-top: 18px; color: #6e6e6e; font-size: 13px; line-height: 1.7; }
   .mobileEffects b { font-weight: 500; }
   .source:not(.activeSource) { opacity: 1; }
@@ -303,7 +263,6 @@
   .source,
   .sourceDot,
   .targetDot,
-  .number,
   .sourceTitle,
   .sourceBody,
   .effectItem,

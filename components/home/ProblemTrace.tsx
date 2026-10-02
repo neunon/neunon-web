@@ -114,7 +114,6 @@ export function ProblemTrace({ content }: { content: HomeProblem }) {
       <div className={styles.inner}>
         <header className={styles.header}>
           <div>
-            <span className={styles.eyebrow}>WHY STUDENTS</span>
             <h2 id="problem-heading" className={styles.heading}>
               {titleParts.length === 2 ? <>{titleParts[0]}、<br />{titleParts[1]}</> : content.title}
             </h2>
@@ -124,7 +123,6 @@ export function ProblemTrace({ content }: { content: HomeProblem }) {
 
         <div className={styles.diagram}>
           <div className={styles.sources}>
-            <span className={styles.traceHint} aria-hidden="true">4 ELEMENTS → 2 OUTCOMES</span>
             {content.opportunities.map((item, index) => (
               <button
                 className={`${styles.source} ${active === index ? styles.activeSource : ''}`}
@@ -159,7 +157,6 @@ export function ProblemTrace({ content }: { content: HomeProblem }) {
                 }}
                 onClick={() => setActive(index)}
               >
-                <span className={styles.number}>{String(index + 1).padStart(2, '0')}</span>
                 <span className={styles.sourceTitle}>{item.title}</span>
                 <span className={styles.sourceBody}>{item.body.join('・')}</span>
                 <span ref={(node) => { sourceDotsRef.current[index] = node; }} className={styles.sourceDot} aria-hidden="true" />
@@ -182,7 +179,7 @@ export function ProblemTrace({ content }: { content: HomeProblem }) {
                 <span className="sr-only-text">{active === null ? '' : effects[active]?.student}</span>
                 {effects.map((item, index) => (
                   <span key={index} className={`${styles.effectItem} ${active === index ? styles.visibleEffect : ''}`} aria-hidden="true">
-                    <span className={styles.effectNumber}>{String(index + 1).padStart(2, '0')}</span>{item.student}
+                    {item.student}
                   </span>
                 ))}
               </div>
@@ -195,7 +192,7 @@ export function ProblemTrace({ content }: { content: HomeProblem }) {
                 <span className="sr-only-text">{active === null ? '' : effects[active]?.company}</span>
                 {effects.map((item, index) => (
                   <span key={index} className={`${styles.effectItem} ${active === index ? styles.visibleEffect : ''}`} aria-hidden="true">
-                    <span className={styles.effectNumber}>{String(index + 1).padStart(2, '0')}</span>{item.company}
+                    {item.company}
                   </span>
                 ))}
               </div>
@@ -217,7 +214,7 @@ export function ProblemTrace({ content }: { content: HomeProblem }) {
             );
           }))}
           {geometry.targets.map((target, index) => (
-            <circle key={index} cx={target.x} cy={target.y} r="3.5" className={`${styles.ripple} ${active !== null ? styles.activeRipple : ''}`} />
+            <circle key={`${index}-${active}`} cx={target.x} cy={target.y} r="3.5" className={`${styles.ripple} ${active !== null ? styles.activeRipple : ''}`} />
           ))}
         </svg>
       ) : null}
