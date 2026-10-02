@@ -1,7 +1,26 @@
 import Link from 'next/link';
-import { breadcrumbNode, jsonLd, type Crumb } from '@/lib/schema';
+import { site } from '@/lib/site';
 
-export type { Crumb };
+export type Crumb = { label: string; href?: string };
+
+/**
+ * パンくずの構造化データ（要件定義書 10.2）。
+ * 画面に出しているパンくずと同じ内容を BreadcrumbList として出力する。
+ */
+function breadcrumbJsonLd(crumbs: Crumb[]) {
+  const items = [{ label: 'ホーム', href: '/' }, ...crumbs];
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.label,
+      // 最後の項目は現在地なので item を付けない
+      ...(crumb.href && index < items.length - 1 ? { item: `${site.url}${crumb.href}` } : {}),
+    })),
+  };
+}
 
 /**
  * 下層ページ共通のページ見出し。
@@ -12,18 +31,12 @@ export function PageHero({
   title,
   lead,
   crumbs = [],
-  schemaCrumbs,
 }: {
   /** 業種や区分など、情報を持つ場合だけ渡す。装飾目的の英字ラベルは置かない */
   eyebrow?: string;
   title: string;
   lead?: string;
   crumbs?: Crumb[];
-  /**
-   * 構造化データ（BreadcrumbList）だけ画面と違う並びにしたい場合に渡す。
-   * 例: お知らせ詳細は画面ではカテゴリを出すが、構造化データの現在地は記事名にする。
-   */
-  schemaCrumbs?: Crumb[];
 }) {
   return (
     <div className="nc-phero">
@@ -32,7 +45,7 @@ export function PageHero({
           <>
             <script
               type="application/ld+json"
-              dangerouslySetInnerHTML={jsonLd(breadcrumbNode(schemaCrumbs ?? crumbs))}
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(crumbs)) }}
             />
             <nav className="nc-crumbs" aria-label="パンくずリスト">
               <ol>

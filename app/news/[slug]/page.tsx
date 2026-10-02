@@ -40,7 +40,6 @@ export default async function NewsDetailPage({ params }: Props) {
         eyebrow={`${item.date.replace(/-/g, '.')}　${item.category}`}
         title={item.title}
         crumbs={[{ label: 'お知らせ', href: '/news' }, { label: item.category }]}
-        schemaCrumbs={[{ label: 'お知らせ', href: '/news' }, { label: item.title }]}
       />
 
       <div className="section">

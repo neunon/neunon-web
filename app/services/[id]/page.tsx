@@ -6,8 +6,7 @@ import { PriceFlow } from '@/components/shared/PriceFlow';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { PackageServiceDetail } from '@/components/services/PackageServiceDetail';
 import { TableOfContents, type TocItem } from '@/components/toc/TableOfContents';
-import { getDisplayedFaq, getService, getServices } from '@/lib/content';
-import { faqNode, jsonLd, serviceNode } from '@/lib/schema';
+import { getService, getServices } from '@/lib/content';
 import { createPageMetadata } from '@/lib/seo';
 
 type Props = { params: Promise<{ id: string }> };
@@ -45,25 +44,8 @@ export default async function ServiceDetailPage({ params }: Props) {
   const service = getService(id);
   if (!service) notFound();
 
-  // 提供サービスと、画面に表示している「よくある質問」の構造化データ
-  const faq = getDisplayedFaq(service);
-  const structuredData = (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={jsonLd(
-        serviceNode(service, faq),
-        ...(faq.length > 0 ? [faqNode(faq, `/services/${service.id}/`)] : []),
-      )}
-    />
-  );
-
   if (service.id === 'package') {
-    return (
-      <>
-        {structuredData}
-        <PackageServiceDetail service={service} />
-      </>
-    );
+    return <PackageServiceDetail service={service} />;
   }
 
   const toc: TocItem[] = [
@@ -82,7 +64,6 @@ export default async function ServiceDetailPage({ params }: Props) {
 
   return (
     <>
-      {structuredData}
       <PageHero
         title={service.title}
         lead={service.lead}
@@ -219,7 +200,7 @@ export default async function ServiceDetailPage({ params }: Props) {
             <section aria-labelledby="faq">
               <h2 id="faq">よくある質問</h2>
               <dl className="nc-faq">
-                {faq.map((item) => (
+                {service.faq.map((item) => (
                   <div key={item.q}>
                     <dt>{item.q}</dt>
                     <dd>{item.a}</dd>

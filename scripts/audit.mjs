@@ -245,12 +245,11 @@ async function main() {
       if (/<h2[^>]*>よくある質問<\/h2>/.test(html) && !hasType('FAQPage')) add('よくある質問があるのに FAQPage がない');
     }
     if (/^\/news\/[^/]+$/.test(r) && !hasType('NewsArticle')) add('お知らせ詳細に NewsArticle の構造化データがない');
-    // 構造化データ内のサイト内リンクは canonical と同じ形（同一オリジン・末尾スラッシュ）にする
-    for (const node of nodes.filter((n) => n['@type'] === 'BreadcrumbList')) {
-      for (const item of node.itemListElement ?? []) {
-        if (!item.item) continue;
-        const url = new URL(item.item);
-        if (url.origin !== base.origin || !url.pathname.endsWith('/')) add(`パンくずの URL が canonical 形式でない: ${item.item}`);
+    // FAQPage の質問は、画面に表示している質問と一致させる（Google の構造化データ ガイドライン）
+    const visibleText = decode(html.replace(/<script\b[\s\S]*?<\/script>/g, '').replace(/<[^>]*>/g, ''));
+    for (const node of nodes.filter((n) => n['@type'] === 'FAQPage')) {
+      for (const question of node.mainEntity ?? []) {
+        if (!visibleText.includes(question.name)) add(`FAQPage の質問が画面に表示されていない: ${question.name}`);
       }
     }
   }

@@ -99,15 +99,6 @@ export function getService(id: string): Service | undefined {
   return getServices().find((service) => service.id === id);
 }
 
-/**
- * 事業詳細ページに表示する「よくある質問」。
- * パッケージ型支援は価格の質問を参考価格ブロックで扱うため一覧から外している。
- * 構造化データ（FAQPage）も画面と同じ質問だけを出すため、両方がこの関数を使う。
- */
-export function getDisplayedFaq(service: Service): FaqItem[] {
-  return service.id === 'package' ? service.faq.filter((item) => !item.q.includes('価格')) : service.faq;
-}
-
 export function getWorks(): Work[] {
   return readJsonDir<Work>('works').sort((a, b) => a.order - b.order);
 }

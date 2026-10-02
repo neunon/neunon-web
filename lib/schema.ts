@@ -5,8 +5,10 @@ import type { FaqItem, NewsItem, Service } from './content';
  * 構造化データ（JSON-LD）の組み立て（要件定義書 10.2）。
  *
  * 各ノードに @id を付け、ページをまたいで同じ実体として参照させる。
- *   - 事業者（Organization）と サイト（WebSite）は全ページ共通の実体
- *   - 各ページの Service / NewsArticle / BreadcrumbList はそれを参照する
+ *   - 事業者（Organization）は全ページ共通の実体
+ *   - 事業詳細の Service、お知らせの NewsArticle はそれを参照する
+ * トップの WebSite（app/page.tsx）とパンくず（components/shared/PageHero.tsx）は
+ * 既存の実装のまま。
  * 同じ @id を持つノードは、検索エンジン側で1つの実体として統合される。
  *
  * 画面に表示していない情報は入れない（Google の構造化データ ガイドライン）。
@@ -28,7 +30,6 @@ export function assetUrl(pathname: string): string {
 
 const home = absoluteUrl('/');
 export const ORGANIZATION_ID = `${home}#organization`;
-export const WEBSITE_ID = `${home}#website`;
 
 /**
  * 電話番号を国際表記にする（070-4360-2752 → +81-70-4360-2752）。
@@ -85,39 +86,13 @@ export function organizationNode(): Node {
 }
 
 /**
- * サイト自体。検索結果に表示されるサイト名の判定に使われる。
- * Google の推奨どおりトップページにだけ出力する。
+ * 事業詳細ページに表示している「よくある質問」。
+ * パッケージ型支援は価格の質問を参考価格ブロックで扱うため、画面の一覧から外している
+ * （components/services/PackageServiceDetail.tsx）。FAQPage も画面と同じ質問だけを出す。
+ * 画面と食い違うと scripts/audit.mjs が公開を止める。
  */
-export function webSiteNode(): Node {
-  return {
-    '@type': 'WebSite',
-    '@id': WEBSITE_ID,
-    name: site.shortName,
-    alternateName: [site.name, site.nameEn],
-    url: home,
-    inLanguage: 'ja',
-    publisher: { '@id': ORGANIZATION_ID },
-  };
-}
-
-export type Crumb = { label: string; href?: string };
-
-/**
- * パンくず。画面のパンくずと同じ内容にする。
- * 現在地（最後の項目）は item を省略する（Google の仕様で、最後の項目は現在のページとみなされる）。
- * リンク先は canonical と同じ末尾スラッシュ付きの URL にそろえる。
- */
-export function breadcrumbNode(crumbs: Crumb[]): Node {
-  const items: Crumb[] = [{ label: 'ホーム', href: '/' }, ...crumbs];
-  return {
-    '@type': 'BreadcrumbList',
-    itemListElement: items.map((crumb, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      name: crumb.label,
-      ...(crumb.href && index < items.length - 1 ? { item: absoluteUrl(crumb.href) } : {}),
-    })),
-  };
+export function displayedFaq(service: Service): FaqItem[] {
+  return service.id === 'package' ? service.faq.filter((item) => !item.q.includes('価格')) : service.faq;
 }
 
 /** 事業詳細ページの提供サービス。提供者は自社の Organization を参照する */
