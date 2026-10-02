@@ -856,6 +856,7 @@ body .btn:focus-visible,
 /* News: small editorial cards, shared by the home page and the archive. */
 .nc-home-news,
 .nc-news-page { background: #f7f7f6; }
+.nc-home-news { background: #fcfcfc; }
 .nc-home-news .nc-news,
 .nc-news-page .nc-news {
   display: grid;

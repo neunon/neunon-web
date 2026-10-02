@@ -60,6 +60,7 @@
 .associates .avatar + .avatar { margin-left: -8px; }
 .promotingAssociate { background: #f3f1fe !important; color: #5b4b8a !important; box-shadow: 0 0 0 1px var(--accent); }
 .newTeam { overflow: hidden; border: 0; background: transparent; box-shadow: 0 16px 40px -18px rgba(91,75,138,.28); isolation: isolate; }
+.newTeam .teamHeading { margin-top: 12px; }
 .newTeam::before { content: ''; position: absolute; z-index: -2; top: 50%; left: 50%; width: 600px; height: 600px; background: conic-gradient(from 0deg, transparent 0 270deg, var(--accent) 345deg, transparent 360deg), #e4e4e7; transform: translate(-50%, -50%); }
 .entered .newTeam::before { animation: spin 4s linear infinite; }
 .newTeam::after { content: ''; position: absolute; z-index: -1; inset: 1px; border-radius: 16px; background: #fff; }

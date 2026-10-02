@@ -6,8 +6,8 @@ import styles from './StructureDiagram.module.css';
 const teams = [
   { title: 'リード学生', tags: ['管理', 'ディレクション', '育成'], kind: 'current' },
   { title: 'リード学生', tags: ['管理', 'ディレクション', '育成'], kind: 'current' },
-  { title: '新リード学生', tags: ['チーム組成', '管理'], kind: 'new' },
-  { title: '新リード学生', tags: ['チーム組成', '管理'], kind: 'future' },
+  { title: '新リード学生', tags: ['管理', 'ディレクション', '育成'], kind: 'new' },
+  { title: '新リード学生', tags: ['管理', 'ディレクション', '育成'], kind: 'future' },
 ] as const;
 type Point = { x: number; y: number };
 type Geometry = { width: number; height: number; root: Point; tops: Point[]; promotions: [Point, Point][]; newLead: Point };
@@ -83,7 +83,7 @@ export function StructureDiagram({ headingLevel: _headingLevel = 3 }: { headingL
     <div className={styles.mobileStem} aria-hidden="true" />
     <div className={styles.teams}>
       {teams.map((team, index) => <section key={index} ref={(node) => { teamRefs.current[index] = node; }} className={`${styles.card} ${styles.team} ${team.kind === 'new' ? styles.newTeam : ''} ${team.kind === 'future' ? styles.futureTeam : ''}`} aria-label={`${team.title}${team.kind === 'new' ? '（昇格による新チーム）' : team.kind === 'future' ? '（次のチーム）' : ''}`}>
-        {team.kind === 'new' && <span className={styles.promotionBadge}>昇格</span>}
+        {team.kind === 'new' && <span className={styles.promotionBadge}>昇格＆組成</span>}
         <div className={styles.teamHeading}><Avatar size="lead" className={team.kind === 'new' ? styles.promotedLead : team.kind === 'future' ? styles.emptyLead : ''} avatarRef={(node) => { leadRefs.current[index] = node; }} /><h3>{team.title}</h3></div>
         <div className={styles.tags}>{team.tags.map((tag) => <span className={`${styles.tag} ${team.kind === 'future' ? styles.emptyTag : ''}`} key={tag}>{tag}</span>)}</div>
         <div className={styles.divider} />
