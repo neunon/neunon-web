@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+JP:wght@100..900&display=swap');
+
 .section {
-  --accent: #5b4b8a;
+  --accent: #8a7cf0;
   position: relative;
   padding: 120px 0 128px;
   background: #fcfcfc;
@@ -25,8 +27,7 @@
 .eyebrow,
 .traceHint,
 .number,
-.outcomeLabel,
-.effect > span {
+.effectNumber {
   font-family: 'IBM Plex Mono', 'Courier New', monospace;
   font-weight: 400;
 }
@@ -41,15 +42,15 @@
 
 .heading {
   color: #111;
-  font-size: clamp(34px, 3vw, 40px);
+  font-size: clamp(34px, 3.1vw, 44px);
   font-weight: 500 !important;
-  line-height: 1.45;
+  line-height: 1.4;
   letter-spacing: -.035em;
 }
 
 .intro {
   max-width: 560px;
-  color: #737373;
+  color: #6e6e6e;
   font-size: 14px;
   line-height: 2.1;
 }
@@ -68,11 +69,11 @@
 
 .traceHint {
   position: absolute;
-  right: 0;
-  bottom: calc(100% + 12px);
-  color: #a3a3a3;
-  font-size: 10px;
-  letter-spacing: .13em;
+  left: 0;
+  bottom: calc(100% + 14px);
+  color: #767676;
+  font-size: 11px;
+  letter-spacing: .07em;
 }
 
 .source {
@@ -89,7 +90,7 @@
   font: inherit;
   text-align: center;
   cursor: pointer;
-  transition: opacity .35s ease;
+  transition: opacity .4s ease;
 }
 
 .source:focus-visible {
@@ -97,27 +98,34 @@
   outline-offset: -1px;
 }
 
-.manual .source:not(.activeSource) { opacity: .32; }
+.source:not(.activeSource) { opacity: .3; }
 
 .number {
   margin-bottom: 12px;
-  color: #8a8a8a;
+  color: #767676;
   font-size: 11px;
   line-height: 1.4;
+  transition: color .4s ease;
 }
 
 .sourceTitle {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 500;
   line-height: 1.5;
+  transition: font-weight .4s ease, transform .5s cubic-bezier(.2,.7,.2,1), color .4s ease;
 }
 
 .sourceBody {
   margin-top: 8px;
-  color: #737373;
+  color: #6e6e6e;
   font-size: 12px;
   line-height: 1.7;
+  transition: color .4s ease;
 }
+
+.activeSource .sourceTitle { font-weight: 700; transform: translateY(-2px); }
+.activeSource .number,
+.activeSource .sourceBody { color: #111; }
 
 .sourceDot,
 .targetDot {
@@ -127,7 +135,7 @@
   height: 6px;
   border-radius: 50%;
   background: #c4c4c4;
-  transition: background-color .35s ease;
+  transition: background-color .4s ease;
 }
 
 .sourceDot {
@@ -153,44 +161,49 @@
 }
 
 .targetDot {
-  top: -3px;
-  left: calc(50% - 3px);
-}
-
-.outcomeLabel {
-  color: #8a8a8a;
-  font-size: 11px;
-  letter-spacing: .16em;
+  top: -3.5px;
+  left: calc(50% - 3.5px);
+  width: 7px;
+  height: 7px;
 }
 
 .outcome h3 {
-  margin-top: 10px;
   color: #111;
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 500 !important;
   line-height: 1.5;
 }
 
 .outcome p {
   margin-top: 7px;
-  color: #737373;
+  color: #6e6e6e;
   font-size: 14px;
   line-height: 1.8;
 }
 
 .effect {
+  position: relative;
+  height: 28px;
+  margin-top: 28px;
+  color: #111;
+  font-size: 15px;
+  line-height: 28px;
+}
+
+.effectItem {
+  position: absolute;
+  inset: 0;
   display: flex;
-  min-height: 24px;
   align-items: center;
   justify-content: center;
   gap: 13px;
-  margin-top: 28px;
-  color: var(--accent);
-  font-size: 14px;
-  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .5s ease, transform .6s cubic-bezier(.2,.7,.2,1);
 }
 
-.effect > span { font-size: 11px; }
+.visibleEffect { opacity: 1; transform: translateY(0); }
+.effectNumber { color: #767676; font-size: 11px; }
 
 .lines {
   position: absolute;
@@ -202,18 +215,54 @@
   pointer-events: none;
 }
 
-.line,
-.activeLine {
+.baseLine,
+.traceLine,
+.particle {
   fill: none;
-  stroke: #dcdcdc;
-  stroke-width: 1px;
-  transition: stroke .35s ease, stroke-width .35s ease;
+  stroke-dasharray: 1;
 }
 
-.activeLine {
+.baseLine {
+  stroke: #dcdcdc;
+  stroke-width: 1px;
+  stroke-dashoffset: 1;
+}
+
+.entered .baseLine { animation: drawBase 1.6s cubic-bezier(.65,0,.35,1) both; }
+
+.traceLine {
   stroke: var(--accent);
   stroke-width: 1.5px;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1s cubic-bezier(.65,0,.35,1);
 }
+
+.activeTrace { stroke-dashoffset: 0; }
+
+.particle {
+  stroke: var(--accent);
+  stroke-width: 3px;
+  stroke-linecap: round;
+  stroke-dasharray: .05 1.2;
+  opacity: 0;
+  filter: drop-shadow(0 0 5px var(--accent));
+  transition: opacity .4s ease;
+}
+
+.activeParticle { opacity: 1; animation: travel 1.8s cubic-bezier(.45,0,.55,1) infinite; }
+
+.ripple {
+  fill: var(--accent);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.activeRipple { animation: ripple 1.8s cubic-bezier(.2,.6,.3,1) 1.2s infinite; }
+
+@keyframes drawBase { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes travel { from { stroke-dashoffset: .05; } to { stroke-dashoffset: -1; } }
+@keyframes ripple { from { opacity: .7; transform: scale(1); } to { opacity: 0; transform: scale(5); } }
 
 .mobileEffects { display: none; }
 
@@ -226,8 +275,7 @@
   .intro { font-size: 13px; line-height: 1.9; }
   .outcomes { order: -1; gap: 16px; margin-bottom: 54px; }
   .outcome { padding: 0; text-align: left; }
-  .outcomeLabel { font-size: 9px; letter-spacing: .09em; }
-  .outcome h3 { margin-top: 7px; font-size: clamp(17px, 4.3vw, 22px); }
+  .outcome h3 { font-size: clamp(17px, 4.3vw, 22px); }
   .outcome p { margin-top: 6px; font-size: 11px; line-height: 1.7; }
   .effect,
   .targetDot,
@@ -246,15 +294,23 @@
   .sourceTitle { font-size: 19px; }
   .sourceBody { margin-top: 3px; font-size: 12px; }
   .number { margin-bottom: 7px; }
-  .mobileEffects { display: grid; gap: 4px; margin-top: 18px; color: var(--accent); font-size: 13px; line-height: 1.7; }
+  .mobileEffects { display: grid; gap: 4px; margin-top: 18px; color: #6e6e6e; font-size: 13px; line-height: 1.7; }
   .mobileEffects b { font-weight: 500; }
-  .manual .source:not(.activeSource) { opacity: 1; }
+  .source:not(.activeSource) { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .source,
   .sourceDot,
   .targetDot,
-  .line,
-  .activeLine { transition: none; }
+  .number,
+  .sourceTitle,
+  .sourceBody,
+  .effectItem,
+  .traceLine,
+  .particle { transition: none; animation: none; }
+  .baseLine,
+  .entered .baseLine { stroke-dashoffset: 0; animation: none; }
+  .particle { display: none; }
+  .ripple { display: none; }
 }

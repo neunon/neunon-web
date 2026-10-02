@@ -88,12 +88,13 @@ export function ProblemTrace({ content }: { content: HomeProblem }) {
     reduced.addEventListener('change', syncMedia);
     const intersection = new IntersectionObserver((entries) => {
       visibleRef.current = entries[0]?.isIntersecting ?? false;
+      if (visibleRef.current) section.classList.add(styles.entered);
     }, { threshold: 0.1 });
     intersection.observe(section);
     const timer = window.setInterval(() => {
       if (!visibleRef.current || !desktopRef.current || reducedRef.current || manualRef.current) return;
       setActive((current) => current === null ? 0 : (current + 1) % content.opportunities.length);
-    }, 2400);
+    }, 3600);
     return () => {
       window.clearInterval(timer);
       intersection.disconnect();
@@ -103,7 +104,10 @@ export function ProblemTrace({ content }: { content: HomeProblem }) {
   }, [content.opportunities.length]);
 
   const titleParts = content.title.split('、');
-  const effect = active === null ? null : effects[active];
+  const pathFor = (source: Point, target: Point) => {
+    const midY = (source.y + target.y) / 2;
+    return `M ${source.x} ${source.y} C ${source.x} ${midY}, ${target.x} ${midY}, ${target.x} ${target.y}`;
+  };
 
   return (
     <section ref={sectionRef} className={`${styles.section} nc-home-wide`} aria-labelledby="problem-heading">
@@ -120,7 +124,7 @@ export function ProblemTrace({ content }: { content: HomeProblem }) {
 
         <div className={styles.diagram}>
           <div className={styles.sources}>
-            <span className={styles.traceHint} aria-hidden="true">HOVER TO TRACE</span>
+            <span className={styles.traceHint} aria-hidden="true">4 ELEMENTS → 2 OUTCOMES</span>
             {content.opportunities.map((item, index) => (
               <button
                 className={`${styles.source} ${active === index ? styles.activeSource : ''}`}
@@ -172,20 +176,28 @@ export function ProblemTrace({ content }: { content: HomeProblem }) {
           <div className={styles.outcomes}>
             <article className={styles.outcome}>
               <span ref={(node) => { targetDotsRef.current[0] = node; }} className={`${styles.targetDot} ${active !== null ? styles.litDot : ''}`} aria-hidden="true" />
-              <span className={styles.outcomeLabel}>FOR STUDENTS</span>
               <h3>{content.studentTitle}</h3>
               <p>{content.studentBody}</p>
               <div className={styles.effect} aria-live="polite" aria-atomic="true">
-                {effect ? <><span>{String(active! + 1).padStart(2, '0')}</span>{effect.student}</> : null}
+                <span className="sr-only-text">{active === null ? '' : effects[active]?.student}</span>
+                {effects.map((item, index) => (
+                  <span key={index} className={`${styles.effectItem} ${active === index ? styles.visibleEffect : ''}`} aria-hidden="true">
+                    <span className={styles.effectNumber}>{String(index + 1).padStart(2, '0')}</span>{item.student}
+                  </span>
+                ))}
               </div>
             </article>
             <article className={styles.outcome}>
               <span ref={(node) => { targetDotsRef.current[1] = node; }} className={`${styles.targetDot} ${active !== null ? styles.litDot : ''}`} aria-hidden="true" />
-              <span className={styles.outcomeLabel}>FOR COMPANIES</span>
               <h3>{content.businessTitle}</h3>
               <p>{content.businessBody}</p>
               <div className={styles.effect} aria-live="polite" aria-atomic="true">
-                {effect ? <><span>{String(active! + 1).padStart(2, '0')}</span>{effect.company}</> : null}
+                <span className="sr-only-text">{active === null ? '' : effects[active]?.company}</span>
+                {effects.map((item, index) => (
+                  <span key={index} className={`${styles.effectItem} ${active === index ? styles.visibleEffect : ''}`} aria-hidden="true">
+                    <span className={styles.effectNumber}>{String(index + 1).padStart(2, '0')}</span>{item.company}
+                  </span>
+                ))}
               </div>
             </article>
           </div>
@@ -193,13 +205,20 @@ export function ProblemTrace({ content }: { content: HomeProblem }) {
       </div>
       {geometry ? (
         <svg className={styles.lines} viewBox={`0 0 ${geometry.width} ${geometry.height}`} preserveAspectRatio="none" aria-hidden="true">
-          {geometry.sources.flatMap((source, index) => geometry.targets.map((target, targetIndex) => (
-            <line
-              key={`${index}-${targetIndex}`}
-              x1={source.x} y1={source.y} x2={target.x} y2={target.y}
-              className={active === index ? styles.activeLine : styles.line}
-            />
-          )))}
+          {geometry.sources.flatMap((source, index) => geometry.targets.map((target, targetIndex) => {
+            const d = pathFor(source, target);
+            const selected = active === index;
+            return (
+              <g key={`${index}-${targetIndex}`}>
+                <path d={d} pathLength="1" className={styles.baseLine} style={{ animationDelay: `${0.1 + (index * 2 + targetIndex) * 0.06}s` }} />
+                <path d={d} pathLength="1" className={`${styles.traceLine} ${selected ? styles.activeTrace : ''}`} />
+                <path d={d} pathLength="1" className={`${styles.particle} ${selected ? styles.activeParticle : ''}`} />
+              </g>
+            );
+          }))}
+          {geometry.targets.map((target, index) => (
+            <circle key={index} cx={target.x} cy={target.y} r="3.5" className={`${styles.ripple} ${active !== null ? styles.activeRipple : ''}`} />
+          ))}
         </svg>
       ) : null}
     </section>
