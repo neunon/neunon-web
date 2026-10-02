@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { getHomeCopy } from '@/lib/seo';
+import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
 
 /**
  * トップページ セクション1: ヒーロー（要件定義書 6.1）
@@ -22,9 +22,6 @@ export function Hero() {
         />
       </div>
       <div className="wrap">
-        <span className="nc-eyebrow rise" data-d="0">
-          {copy.eyebrow}
-        </span>
         <h1 className="rise" data-d="1">
           {copy.titleLine1}<br />{copy.titleLine2}
         </h1>
@@ -33,12 +30,8 @@ export function Hero() {
         </p>
         <p className="nc-business-summary rise" data-d="2">{copy.businessSummary}</p>
         <div className="nc-acts rise" data-d="3">
-          <Link href="/services" className="btn">
-            {copy.companyCtaLabel}
-          </Link>
-          <Link href="/recruit" className="btn btn-ghost">
-            {copy.studentCtaLabel}
-          </Link>
+          <InteractiveHoverLink href="/services" text={copy.companyCtaLabel} className="is-light" />
+          <InteractiveHoverLink href="/recruit" text={copy.studentCtaLabel} className="is-outline-light" />
         </div>
         <div className="nc-hero-proof rise" data-d="3" aria-label="Neunon Consultingの特長">
           <div><span>QUALITY</span><strong>高品質な成果物</strong></div>

@@ -125,25 +125,6 @@
   text-underline-offset: 3px;
 }
 
-/* ---------- consulting detail ---------- */
-.nc-consulting-intro { padding:48px!important; border:0!important; background:var(--color-ink); color:#fff; }
-.nc-consulting-kicker { display:block; margin-bottom:20px; color:#9fb0c7; font-size:10px; letter-spacing:.055em; }
-.nc-consulting-intro h2 { max-width:12em; border:0!important; color:#fff; font-size:clamp(28px,4vw,46px)!important; line-height:1.45!important; }
-.nc-consulting-lead { max-width:43em!important; color:#d5d9df!important; line-height:2.05!important; }
-.nc-consulting-pillars { display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:40px; background:#424850; }
-.nc-consulting-pillars article { padding:30px; background:#16191d; }
-.nc-consulting-pillars article > span { color:#91a9ca; font-size:10px; }
-.nc-consulting-pillars h3 { margin:14px 0 12px!important; color:#fff; font-size:18px!important; }
-.nc-consulting-pillars p { color:#bfc5cd!important; font-size:13px!important; }
-.nc-consulting-value { margin-top:1px; padding:28px 30px; background:var(--color-navy); }
-.nc-consulting-value strong { display:block; font-size:16px; font-weight:600; }
-.nc-consulting-value p { margin:8px 0 0!important; color:#dce3ed!important; font-size:12.5px!important; }
-
-@media (max-width:700px) {
-  .nc-consulting-intro { margin-inline:-20px; padding:38px 20px!important; }
-  .nc-consulting-pillars { grid-template-columns:1fr; }
-}
-
 /* ---------- 引用・準備中・署名 ---------- */
 
 .nc-quote {

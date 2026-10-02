@@ -30,6 +30,76 @@ export type ServiceStep = { no: string; title: string; body: string };
 export type PriceRow = { label: string; price: string };
 export type FaqItem = { q: string; a: string };
 
+/**
+ * コンサルティング事業だけが持つ拡張ブロック。
+ * 出典は「コンサルティング事業_紹介資料.pptx」(2026-09-25 受領) のスライド5〜15。
+ * 他の2事業は使わないため Service 上では任意フィールドにしている。
+ */
+export type ConsultingValue = { no: string; en: string; body: string };
+export type ConsultingPrinciple = { no: string; title: string; body: string };
+export type ConsultingTheme = {
+  no: string;
+  title: string;
+  question: string;
+  items: string[];
+};
+export type ConsultingFormat = {
+  no: string;
+  title: string;
+  role: string;
+  body: string;
+  /** 支援形態図のどの主体から伸びる線か */
+  from: 'pro' | 'student' | 'partner';
+  /** 図を出せない幅のときに経路を文字で示す */
+  chain: string[];
+};
+export type ConsultingFormatDiagram = {
+  client: string;
+  clientNote?: string;
+  actors: { id: 'pro' | 'student' | 'partner'; label: string; note?: string }[];
+};
+export type ConsultingPriceSegment = {
+  label: string;
+  value: number;
+  tone: 'muted' | 'pro' | 'student';
+};
+export type ConsultingPriceChart = {
+  caption: string;
+  annotation: string;
+  note: string;
+  /** segments は積み上げの上から下の順 */
+  columns: { label: string; segments: ConsultingPriceSegment[] }[];
+};
+export type ConsultingCase = {
+  no: string;
+  title: string;
+  summary: string;
+  issue: string[];
+  approach: string[];
+  insight: string[];
+};
+export type ConsultingStat = { value: string; unit: string; label: string };
+export type ConsultingRecordExample = { client: string; items: string[] };
+export type ConsultingPriceReason = { no: string; title: string; body: string };
+
+export type ConsultingDetail = {
+  vision: { title: string; values: ConsultingValue[] };
+  principles: { lead: string; items: ConsultingPrinciple[] };
+  themes: { lead: string; items: ConsultingTheme[] };
+  formats: { lead: string; items: ConsultingFormat[]; diagram: ConsultingFormatDiagram };
+  cases: { lead: string; items: ConsultingCase[] };
+  record: {
+    heading: string;
+    lead: string;
+    industryLead: string;
+    stats: ConsultingStat[];
+    industries: string[];
+    examples: ConsultingRecordExample[];
+    note: string;
+  };
+  price: { lead: string; reasons: ConsultingPriceReason[]; chart: ConsultingPriceChart };
+};
+
 export type Service = {
   id: string;
   order: number;
@@ -43,13 +113,16 @@ export type Service = {
   lead: string;
   useCases: string[];
   menu: ServiceMenuItem[];
-  steps: ServiceStep[];
-  engagement: { label: string; value: string }[];
+  /** コンサルティングは専用ページで扱わないため任意 */
+  steps?: ServiceStep[];
+  engagement?: { label: string; value: string }[];
   /** 要件定義書 6.3.1: 掲載するのはパッケージ型支援のみ */
   pricing: PriceRow[];
   showPricing: boolean;
   pricingNote: string;
   faq: FaqItem[];
+  /** コンサルティング事業のみ。ConsultingServiceDetail が描画する */
+  consulting?: ConsultingDetail;
 };
 
 /**
@@ -80,6 +153,7 @@ export type NewsItem = {
   body: string[];
   /** 発注者からの原稿待ちのダミー記事（要件定義書 14. 未解決） */
   placeholder?: boolean;
+  published?: boolean;
 };
 
 function readJsonDir<T>(dir: string): T[] {
@@ -109,7 +183,7 @@ export function getWorksByService(serviceId: string): Work[] {
 }
 
 export function getNews(): NewsItem[] {
-  return readJsonDir<NewsItem>('news').sort((a, b) => b.date.localeCompare(a.date));
+  return readJsonDir<NewsItem>('news').filter((item) => item.published !== false).sort((a, b) => b.date.localeCompare(a.date));
 }
 
 /** トップページのお知らせセクション用（最新3件・要件定義書 6.1 セクション8） */

@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useId, useRef, useState } from 'react';
 import { Logo } from './Logo';
 import { contactNav, globalNav } from '@/lib/site';
+import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
 
 /**
  * グローバルヘッダー（要件定義書 5.4）
@@ -145,9 +146,7 @@ export function Header() {
           </ul>
         </nav>
 
-        <Link href={contactNav.href} className="btn nc-contact-btn">
-          {contactNav.label}
-        </Link>
+        <InteractiveHoverLink href={contactNav.href} text={contactNav.label} className="nc-contact-btn" />
 
         <button
           type="button"
@@ -182,9 +181,7 @@ export function Header() {
               </li>
             ))}
           </ul>
-          <Link href={contactNav.href} className="btn nc-mobile-cta">
-            {contactNav.label}
-          </Link>
+          <InteractiveHoverLink href={contactNav.href} text={contactNav.label} className="nc-mobile-cta" />
         </nav>
       </div>
     </header>

@@ -25,25 +25,12 @@ export default function EntryPage() {
         crumbs={[{ label: '採用情報', href: '/recruit' }, { label: 'エントリー' }]}
       />
 
-      <div className="section">
+      <div className="section nc-entry-page">
         <div className="wrap nc-formwrap">
           <div className="nc-formside">
-            <div className="nc-notice">
-              <p>
-                <b>企業のご担当者様はこちら</b>
-              </p>
-              <p>
-                お仕事のご相談は
-                <Link href="/contact" className="nc-inline-link">
-                  お問い合わせフォーム
-                </Link>
-                からお願いします。
-              </p>
-              <Link href="/contact" className="btn nc-contact-entry">
-                企業のお問い合わせへ
-              </Link>
-            </div>
-
+            <span className="nc-contact-kicker">ENTRY</span>
+            <h2>ご応募はこちらから</h2>
+            <p className="nc-contact-intro">実務未経験でも構いません。まずは現在の関心や、挑戦してみたいことをお聞かせください。</p>
             <h2 className="nc-side-head">送信後の流れ</h2>
             <ol className="nc-sidesteps">
               {selectionSteps.map((step) => (
@@ -61,9 +48,18 @@ export default function EntryPage() {
               <i aria-hidden="true" />
               選考フローの詳細へ
             </Link>
+            <div className="nc-notice">
+              <p><b>企業のご担当者様はこちら</b></p>
+              <p>お仕事のご相談は<Link href="/contact" className="nc-inline-link">お問い合わせフォーム</Link>からお願いします。</p>
+              <Link href="/contact" className="btn nc-contact-entry">企業のお問い合わせへ</Link>
+            </div>
           </div>
 
           <div className="nc-formmain">
+            <div className="nc-contact-formhead">
+              <h2>学生エントリーフォーム</h2>
+              <p>必要事項をご入力ください。確認画面で内容を確かめてから送信できます。</p>
+            </div>
             <FormShell
               fields={entryFields}
               endpoint={formEndpoints.entry}

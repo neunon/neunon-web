@@ -41,9 +41,26 @@ export function validateContent(root = process.cwd()) {
     keys(seo?.[key], ['title', 'description'], 'seo.' + key);
     description(seo?.[key]?.description, 'seo.' + key);
   }
-  keys(read('content/pages/home.json'), [
+  const home = read('content/pages/home.json');
+  keys(home, [
     'eyebrow', 'titleLine1', 'titleLine2', 'lead', 'businessSummary', 'companyCtaLabel', 'studentCtaLabel',
   ], 'home');
+  const problem = home?.problem;
+  keys(problem, ['title', 'intro', 'studentTitle', 'studentBody', 'businessTitle', 'businessBody'], 'home.problem');
+  if (typeof problem?.visible !== 'boolean') fail('home.problem.visible', 'booleanが必要です');
+  objects(problem?.opportunities, ['title'], 'home.problem.opportunities').forEach((item, i) =>
+    stringList(item.body, `home.problem.opportunities[${i}].body`));
+
+  const about = read('content/pages/about.json');
+  keys(about, ['heroLead'], 'about');
+  keys(about?.mission, ['title', 'body'], 'about.mission');
+  keys(about?.people, ['title', 'introTitle'], 'about.people');
+  for (const [where, value] of [['about.mission.visible', about?.mission?.visible], ['about.people.visible', about?.people?.visible], ['about.companyVisible', about?.companyVisible]]) {
+    if (typeof value !== 'boolean') fail(where, 'booleanが必要です');
+  }
+  stringList(about?.people?.introParagraphs, 'about.people.introParagraphs');
+  objects(about?.people?.points, ['title'], 'about.people.points').forEach((item, i) =>
+    stringList(item.paragraphs, `about.people.points[${i}].paragraphs`));
 
   for (const [file, id, order] of [
     ['01-consulting', 'consulting', 1], ['02-package', 'package', 2], ['03-ai', 'ai', 3],
@@ -69,8 +86,61 @@ export function validateContent(root = process.cwd()) {
       stringList(item.effects, where + '.menu[' + i + '].effects', 2);
       if (item.effects?.length !== 2) fail(where, 'メニュー欄の効果は2行です');
     });
-    objects(data.steps, ['no', 'title', 'body'], where + '.steps');
-    objects(data.engagement, ['label', 'value'], where + '.engagement');
+    // コンサルティングのみ、紹介資料に沿った拡張ブロックを持つ（ConsultingServiceDetail が描画）
+    if (id === 'consulting') {
+      const c = data.consulting;
+      const at = where + '.consulting';
+      if (!object(c)) {
+        fail(at, 'コンサルティング詳細ブロックが必要です');
+      } else {
+        keys(c.vision, ['title'], at + '.vision');
+        objects(c.vision?.values, ['no', 'en', 'body'], at + '.vision.values', 4);
+        keys(c.principles, ['lead'], at + '.principles');
+        objects(c.principles?.items, ['no', 'title', 'body'], at + '.principles.items', 4);
+        keys(c.themes, ['lead'], at + '.themes');
+        objects(c.themes?.items, ['no', 'title', 'question'], at + '.themes.items', 1)
+          .forEach((t, i) => stringList(t.items, at + '.themes.items[' + i + '].items'));
+        keys(c.formats, ['lead'], at + '.formats');
+        objects(c.formats?.items, ['no', 'title', 'role', 'body', 'from'], at + '.formats.items', 1)
+          .forEach((item, i) => stringList(item.chain, at + '.formats.items[' + i + '].chain', 2));
+        keys(c.formats?.diagram, ['client'], at + '.formats.diagram');
+        objects(c.formats?.diagram?.actors, ['id', 'label'], at + '.formats.diagram.actors', 3);
+        keys(c.cases, ['lead'], at + '.cases');
+        objects(c.cases?.items, ['no', 'title', 'summary'], at + '.cases.items', 1)
+          .forEach((item, i) => {
+            for (const field of ['issue', 'approach', 'insight']) {
+              stringList(item[field], at + '.cases.items[' + i + '].' + field);
+            }
+          });
+        keys(c.record, ['heading', 'lead', 'industryLead', 'note'], at + '.record');
+        objects(c.record?.stats, ['value', 'unit', 'label'], at + '.record.stats', 1);
+        stringList(c.record?.industries, at + '.record.industries');
+        objects(c.record?.examples, ['client'], at + '.record.examples', 1)
+          .forEach((e, i) => stringList(e.items, at + '.record.examples[' + i + '].items'));
+        keys(c.price, ['lead'], at + '.price');
+        objects(c.price?.reasons, ['no', 'title', 'body'], at + '.price.reasons', 3);
+        keys(c.price?.chart, ['caption', 'annotation', 'note'], at + '.price.chart');
+        objects(c.price?.chart?.columns, ['label'], at + '.price.chart.columns', 2)
+          .forEach((col, i) => {
+            const segs = objects(col.segments, ['label', 'tone'], at + '.price.chart.columns[' + i + '].segments', 2);
+            segs.forEach((seg, j) => {
+              if (!Number.isFinite(seg.value) || seg.value <= 0) {
+                fail(at + '.price.chart.columns[' + i + '].segments[' + j + '].value', '正の数値が必要です');
+              }
+            });
+          });
+      }
+    }
+
+    if (id === 'consulting') {
+      // 専用ページでは「進め方」「想定期間・体制」を扱わない。残っていたら消し忘れ
+      for (const field of ['steps', 'engagement']) {
+        if (data[field] != null) fail(where + '.' + field, 'コンサルティングでは使いません。削除してください');
+      }
+    } else {
+      objects(data.steps, ['no', 'title', 'body'], where + '.steps');
+      objects(data.engagement, ['label', 'value'], where + '.engagement');
+    }
     objects(data.pricing, ['label', 'price'], where + '.pricing', id === 'package' ? 6 : 0);
     objects(data.faq, ['q', 'a'], where + '.faq');
   }
@@ -89,8 +159,53 @@ export function validateContent(root = process.cwd()) {
     if (!validDate(data.date)) fail(where, '掲載日が不正です');
     stringList(data.body, where + '.body');
     if (data.placeholder != null && typeof data.placeholder !== 'boolean') fail(where, 'placeholderはbooleanです');
+    if (data.published != null && typeof data.published !== 'boolean') fail(where, 'publishedはbooleanです');
     if (data.placeholder === true) warnings.push(where + ': 仮原稿の印が残っています。従来どおり公開されるため原稿確認が必要です');
     description(data.excerpt, where);
+  }
+  const landingFiles = fs.readdirSync(path.join(root, 'content/landing')).filter(f => f.endsWith('.json'));
+  const landingSlugs = new Set();
+  const safeHref = value => typeof value === 'string' && /^\/(?!\/)[A-Za-z0-9/_#-]*$/.test(value);
+  for (const file of landingFiles) {
+    const where = 'content/landing/' + file;
+    const page = read(where);
+    if (!object(page)) continue;
+    keys(page, ['slug', 'title', 'lead', 'seoTitle', 'seoDescription'], where);
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(page.slug || '') || file !== `${page.slug}.json`) fail(where, 'slugとファイル名が一致するURL用IDが必要です');
+    if (landingSlugs.has(page.slug)) fail(where, 'slugが重複しています');
+    landingSlugs.add(page.slug);
+    if (typeof page.published !== 'boolean') fail(where + '.published', 'booleanが必要です');
+    if (page.updatedAt && !validDate(page.updatedAt)) fail(where + '.updatedAt', '有効なYYYY-MM-DDが必要です');
+    description(page.seoDescription, where);
+    if (!Array.isArray(page.sections)) { fail(where + '.sections', '配列が必要です'); continue; }
+    if (page.published && !page.sections.some(s => s?.visible)) fail(where, '公開ページには表示するセクションが必要です');
+    page.sections.forEach((section, i) => {
+      const at = `${where}.sections[${i}]`;
+      if (!object(section)) { fail(at, 'オブジェクトが必要です'); return; }
+      if (!['text', 'cards', 'imageText', 'faq', 'cta'].includes(section.type)) fail(at + '.type', '未対応のセクション形式です');
+      if (!['white', 'soft', 'dark'].includes(section.tone)) fail(at + '.tone', '未対応の背景です');
+      if (typeof section.visible !== 'boolean') fail(at + '.visible', 'booleanが必要です');
+      string(section.title, at + '.title');
+      if (section.type === 'text' || section.type === 'imageText') stringList(section.paragraphs, at + '.paragraphs');
+      if (section.type === 'cards') {
+        objects(section.cards, ['title', 'body'], at + '.cards').forEach((card, j) => {
+          if (typeof card.visible !== 'boolean') fail(`${at}.cards[${j}].visible`, 'booleanが必要です');
+          if (card.href && !safeHref(card.href)) fail(`${at}.cards[${j}].href`, 'サイト内のパスのみ指定できます');
+        });
+      }
+      if (section.type === 'imageText') {
+        if (typeof section.image !== 'string' || !/^\/uploads\/[A-Za-z0-9/_-]+\.(?:png|jpe?g|webp|avif)$/i.test(section.image)) fail(at + '.image', '/uploads/ 配下の画像のみ指定できます');
+        string(section.imageAlt, at + '.imageAlt');
+        if (!['left', 'right'].includes(section.imageSide)) fail(at + '.imageSide', 'leftまたはrightが必要です');
+      }
+      if (section.type === 'faq') objects(section.questions, ['question', 'answer'], at + '.questions').forEach((question, j) => {
+        if (typeof question.visible !== 'boolean') fail(`${at}.questions[${j}].visible`, 'booleanが必要です');
+      });
+      if (section.type === 'cta') {
+        keys(section, ['body', 'label', 'href'], at);
+        if (!safeHref(section.href)) fail(at + '.href', 'サイト内のパスのみ指定できます');
+      }
+    });
   }
   return { errors, warnings };
 }

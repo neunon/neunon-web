@@ -24,7 +24,7 @@ function ServiceAchievement({ serviceId }: { serviceId: string }) {
 
   return (
     <div className="nc-svc-achievement">
-      <div className="nc-svc-achievement-copy">
+      <div className={`nc-svc-achievement-copy ${serviceId === 'package' ? 'is-text-value' : ''}`}>
         <span>{achievement.label}</span>
         <strong>
           {achievement.prefix ? (
@@ -65,7 +65,6 @@ export function Services() {
             return (
             <article className="nc-svc" key={service.id}>
               <div className="nc-svc-copy">
-                <span className="nc-svc-n">{service.number}</span>
                 <h3>{service.title}</h3>
                 <p>{service.summary}</p>
                 <ul>

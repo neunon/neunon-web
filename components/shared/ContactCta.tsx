@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
 
 /**
  * 下層ページ末尾の問い合わせCTA。
@@ -22,13 +22,9 @@ export function ContactCta({
         <h2>{title}</h2>
         <p>{body}</p>
         <div className="nc-acts nc-cta-acts">
-          <Link href={primary?.href ?? '/contact'} className="btn">
-            {primary?.label ?? 'お問い合わせ'}
-          </Link>
+          <InteractiveHoverLink href={primary?.href ?? '/contact'} text={primary?.label ?? 'お問い合わせ'} className="is-light" />
           {secondary ? (
-            <Link href={secondary.href} className="btn btn-ghost">
-              {secondary.label}
-            </Link>
+            <InteractiveHoverLink href={secondary.href} text={secondary.label} className="is-outline-light" />
           ) : null}
         </div>
       </div>
