@@ -759,11 +759,14 @@ a {
 .nc-home-services .nc-service-detail-link {
   position: relative;
   display: inline-flex;
+  width: max-content;
+  max-width: 100%;
+  align-self: flex-start;
   min-height: 54px;
   align-items: center;
-  gap: 22px;
+  gap: 12px;
   margin-top: 27px;
-  padding: 0 22px 0 0;
+  padding: 0 17px 0 0;
   color: #171717;
   font-size: 14px;
   font-weight: 650;
