@@ -1,13 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { Bookmark, Search } from 'lucide-react';
+import { Check, Plus, Search, X } from 'lucide-react';
 import { useMemo, useState, type CSSProperties, type MouseEvent } from 'react';
 import { flushSync } from 'react-dom';
 import { formatWeeklyAvailability, roleLabels, type PublicTalent, type TalentFacets } from '@/lib/talent';
 import { areaCategories, skillCategories, type TalentCategory } from '@/lib/talentTaxonomy';
 
 export function TalentPanel({ talents, facets }: { talents: PublicTalent[]; facets: TalentFacets }) {
+  const [searchInput, setSearchInput] = useState('');
   const [keyword, setKeyword] = useState('');
   const [skills, setSkills] = useState<string[]>([]);
   const [areas, setAreas] = useState<string[]>([]);
@@ -16,10 +17,10 @@ export function TalentPanel({ talents, facets }: { talents: PublicTalent[]; face
   const [movingChip, setMovingChip] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
-    const needle = keyword.trim().toLocaleLowerCase('ja');
+    const terms = keyword.trim().toLocaleLowerCase('ja').split(/[\s\u3000]+/).filter(Boolean);
     return talents.filter((talent) => {
       const haystack = [talent.displayName, talent.universityCategory, talent.recordSummary, ...talent.skills, ...talent.serviceAreas].join(' ').toLocaleLowerCase('ja');
-      return (!needle || haystack.includes(needle)) && skills.every((skill) => talent.skills.includes(skill)) && areas.every((area) => talent.serviceAreas.includes(area));
+      return terms.every((term) => haystack.includes(term)) && skills.every((skill) => talent.skills.includes(skill)) && areas.every((area) => talent.serviceAreas.includes(area));
     });
   }, [areas, keyword, skills, talents]);
 
@@ -57,13 +58,14 @@ export function TalentPanel({ talents, facets }: { talents: PublicTalent[]; face
 
   return (
     <>
-      <div className="nc-talent-search">
+      <form className="nc-talent-search" role="search" onSubmit={(event) => { event.preventDefault(); setKeyword(searchInput.trim()); }}>
         <label htmlFor="talent-keyword">キーワードから探す</label>
-        <div>
-          <input id="talent-keyword" type="search" value={keyword} placeholder="例：Python、市場調査、財務モデル" onChange={(event) => setKeyword(event.target.value)} />
-          <Search aria-hidden="true" size={18} strokeWidth={1.8} />
+        <div className="nc-talent-search-pill">
+          <button type="submit" className="nc-search-submit" aria-label="検索する"><Search aria-hidden="true" size={19} strokeWidth={1.8} /></button>
+          <input id="talent-keyword" type="text" value={searchInput} placeholder="大学名・スキルなどを複数語で検索" onChange={(event) => setSearchInput(event.target.value)} />
+          {searchInput || keyword ? <button type="button" className="nc-search-clear" aria-label="検索語を消去" onClick={() => { setSearchInput(''); setKeyword(''); }}><X aria-hidden="true" size={17} strokeWidth={1.8} /></button> : null}
         </div>
-      </div>
+      </form>
 
       <div className="nc-active-filters" aria-label="選択中の条件">
         <span>選択中の条件</span>
@@ -95,7 +97,8 @@ export function TalentPanel({ talents, facets }: { talents: PublicTalent[]; face
 
       <div className="nc-result-bar">
         <p className="nc-result-count" aria-live="polite"><strong>{filtered.length}</strong> 名を表示</p>
-        {hasFilter ? <button type="button" className="nc-reset" onClick={() => { setKeyword(''); setSkills([]); setAreas([]); }}>条件をクリア</button> : null}
+        <p className="nc-selection-hint"><Plus aria-hidden="true" size={13} />カード右上の＋で相談候補に追加できます</p>
+        {hasFilter ? <button type="button" className="nc-reset" onClick={() => { setSearchInput(''); setKeyword(''); setSkills([]); setAreas([]); }}>条件をクリア</button> : null}
       </div>
 
       {filtered.length === 0 ? (
@@ -108,10 +111,10 @@ export function TalentPanel({ talents, facets }: { talents: PublicTalent[]; face
               <li className={`nc-talentcard ${isSelected ? 'is-selected' : ''}`} key={talent.id}>
                 <div className="nc-talent-head">
                   <span className={`nc-talent-role is-${talent.role}`}>{roleLabels[talent.role]}</span>
-                  <button type="button" className="nc-talent-select" aria-label={`${talent.displayName}を${isSelected ? '相談候補から外す' : '相談候補に追加'}`} aria-pressed={isSelected} onClick={() => toggleTalent(talent.id)}><Bookmark aria-hidden="true" size={19} strokeWidth={1.8} fill={isSelected ? 'currentColor' : 'none'} /></button>
+                  <button type="button" className="nc-talent-select" aria-label={`${talent.displayName}を${isSelected ? '相談候補から外す' : '相談候補に追加'}`} aria-pressed={isSelected} onClick={() => toggleTalent(talent.id)}>{isSelected ? <Check aria-hidden="true" size={20} strokeWidth={2} /> : <Plus aria-hidden="true" size={20} strokeWidth={1.8} />}</button>
                 </div>
                 <h2 className="nc-talent-name"><Link href={`/talent/${talent.id}`}>{talent.displayName}</Link></h2>
-                <p className="nc-talent-meta">{talent.universityCategory}　/　{talent.grade}年</p>
+                <p className="nc-talent-meta"><span>{talent.universityCategory}</span><span aria-hidden="true">/</span><span>{talent.grade}年</span></p>
                 <div className="nc-talent-summary">
                   <div><span>想定稼働時間 / 週</span><strong>{formatWeeklyAvailability(talent.weeklyAvailability)}</strong></div>
                   <div><span>過去実績</span><strong>{talent.recordSummary || 'お問い合わせでご案内'}</strong></div>

@@ -2201,3 +2201,442 @@ body .btn {
     grid-template-columns: 1fr;
   }
 }
+
+/* Follow-up: a committed, multi-word search lives apart from the facet panel. */
+.nc-talent-search {
+  display: flex;
+  width: min(100%, 640px);
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  margin: 0 auto 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.nc-talent-search label {
+  padding-left: 18px;
+  color: #555;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.nc-talent-search .nc-talent-search-pill {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border: 1px solid #dedede;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .035);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.nc-talent-search .nc-talent-search-pill:focus-within {
+  border-color: #555;
+  box-shadow: 0 0 0 3px rgba(30, 30, 30, .08);
+}
+
+.nc-talent-search input {
+  min-width: 0;
+  flex: 1;
+  padding: 8px 4px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 14px;
+}
+
+.nc-talent-search input:focus-visible {
+  outline: 0;
+}
+
+.nc-talent-search .nc-search-submit,
+.nc-talent-search .nc-search-clear {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #444;
+  cursor: pointer;
+}
+
+.nc-talent-search .nc-search-submit:hover,
+.nc-talent-search .nc-search-clear:hover {
+  background: #f1f1f1;
+}
+
+.nc-talent-search .nc-search-submit svg,
+.nc-talent-search .nc-search-clear svg {
+  position: static;
+  pointer-events: none;
+}
+
+.nc-active-filters {
+  align-items: center;
+  border-top: 1px solid #e5e5e5;
+  border-radius: 16px 16px 0 0;
+}
+
+.nc-active-filters > span {
+  align-self: center;
+  padding-top: 0;
+}
+
+.nc-talent-quick {
+  border-radius: 0 0 16px 16px;
+}
+
+.nc-result-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 18px;
+}
+
+.nc-result-bar .nc-selection-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  color: #777;
+  font-size: 11px;
+}
+
+.nc-result-bar .nc-reset {
+  margin-left: auto;
+}
+
+.nc-talent-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.nc-talentcard .nc-talent-select {
+  background: #fff;
+}
+
+/* The original downward flow stays above the two outcome cards. */
+.nc-growth-map {
+  row-gap: 18px;
+}
+
+.nc-growth-map .nc-growth-arrow {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto;
+}
+
+.nc-growth-outcomes {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+}
+
+.nc-growth-outcomes .nc-outcome-copy::before {
+  content: none;
+}
+
+/* New industry labels fill cells in reading order from top left. */
+.nc-home-services .nc-ind:nth-child(9) {
+  grid-column: auto;
+}
+
+/* Company: restrained editorial sections instead of an organization chart. */
+.nc-about-page .nc-doc {
+  gap: clamp(34px, 5vw, 72px);
+}
+
+.nc-about-page .nc-doc-body > section {
+  margin-bottom: 72px;
+  padding-bottom: 72px;
+}
+
+.nc-about-page .nc-about-mission {
+  padding: clamp(36px, 5vw, 70px);
+  border: 1px solid #252525;
+  border-radius: 24px;
+  background: #202020;
+}
+
+.nc-about-page .nc-about-mission h2 {
+  max-width: none;
+  font-size: clamp(32px, 4vw, 50px);
+  font-weight: 620;
+}
+
+.nc-about-page .nc-about-mission h2::after {
+  background: #bdbdbd;
+}
+
+.nc-about-page .nc-about-mission blockquote {
+  max-width: 44em;
+  margin: 0;
+  border-top: 0;
+  color: #e6e6e6;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 2;
+}
+
+.nc-about-page .nc-about-people-intro {
+  max-width: 62em;
+  margin: 36px 0 38px;
+  padding: 0;
+  border: 0;
+}
+
+.nc-about-page .nc-about-people-intro h3 {
+  margin-bottom: 22px;
+  font-size: clamp(19px, 2vw, 24px);
+}
+
+.nc-about-page .nc-about-people-points {
+  display: grid;
+  gap: 16px;
+  border: 0;
+}
+
+.nc-about-page .nc-about-people-points article {
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 22px;
+  padding: 32px;
+  border: 1px solid #e5e5e5;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.nc-about-page .nc-about-people-points article > span {
+  color: #777;
+  font-size: 14px;
+}
+
+.nc-about-page .nc-about-people-points h3 {
+  margin: 0 0 14px;
+  font-size: clamp(19px, 2vw, 24px);
+}
+
+.nc-about-page .nc-about-company .nc-company {
+  padding: 18px clamp(20px, 3vw, 42px);
+  border: 1px solid #e5e5e5;
+  border-radius: 20px;
+  background: #fafafa;
+}
+
+.nc-about-page .nc-about-company .nc-company > div {
+  grid-template-columns: minmax(110px, .25fr) 1fr;
+  gap: 20px;
+  padding: 22px 0;
+}
+
+/* Contact: airy information column and a contained form card. */
+.nc-contact-page {
+  background: #f8f8f8;
+}
+
+.nc-contact-page .nc-formwrap {
+  max-width: 1180px;
+  grid-template-columns: minmax(280px, .9fr) minmax(0, 1.1fr);
+  gap: clamp(36px, 6vw, 90px);
+  align-items: start;
+}
+
+.nc-contact-page .nc-formside {
+  padding: 24px 0;
+  background: transparent;
+}
+
+.nc-contact-kicker {
+  color: #777;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .18em;
+}
+
+.nc-contact-page .nc-formside h2 {
+  margin: 16px 0 12px;
+  font-size: clamp(27px, 3vw, 38px);
+  font-weight: 620;
+  letter-spacing: -.04em;
+}
+
+.nc-contact-intro {
+  max-width: 34em;
+  margin: 0 0 34px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.nc-contact-page .nc-contactinfo {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.nc-contact-page .nc-contactinfo > div {
+  display: flex;
+  min-height: 0;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border: 0;
+}
+
+.nc-contact-page .nc-contactinfo dt {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid #e1e1e1;
+  border-radius: 13px;
+  background: #f1f1f1;
+  color: #555;
+}
+
+.nc-contact-page .nc-contactinfo dt span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.nc-contact-page .nc-contactinfo dd {
+  margin: 0;
+  color: #444;
+  font-size: 14px;
+}
+
+.nc-contact-page .nc-contactinfo dd a {
+  color: #333;
+}
+
+.nc-contact-page .nc-contactinfo dd small {
+  display: block;
+  color: #777;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.nc-contact-page .nc-formside .nc-notice {
+  display: block;
+  margin-top: 42px;
+  padding: 22px 0 0;
+  border: 0;
+  border-top: 1px solid #ddd;
+  border-radius: 0;
+  background: transparent;
+}
+
+.nc-contact-page .nc-formside .nc-notice b,
+.nc-contact-page .nc-formside .nc-notice p,
+.nc-contact-page .nc-formside .nc-inline-link {
+  color: #555;
+}
+
+.nc-contact-page .nc-formside .nc-notice .nc-contact-entry {
+  margin-top: 16px;
+  border-color: #222;
+  background: #222;
+  color: #fff;
+  box-shadow: none;
+}
+
+.nc-contact-page .nc-formmain {
+  padding: clamp(28px, 4vw, 54px);
+  border: 1px solid #e2e2e2;
+  border-radius: 24px;
+  background: #fff;
+}
+
+.nc-contact-formhead {
+  margin-bottom: 30px;
+  padding-bottom: 25px;
+  border-bottom: 1px dashed #ccc;
+}
+
+.nc-contact-formhead h2 {
+  margin: 0 0 8px;
+  font-size: clamp(24px, 2.3vw, 30px);
+  font-weight: 620;
+}
+
+.nc-contact-formhead p {
+  margin: 0;
+  color: #777;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.nc-contact-page .nc-form-step {
+  border: 0;
+  color: #888;
+  font-size: 11px;
+  letter-spacing: .08em;
+}
+
+.nc-contact-page .nc-field input,
+.nc-contact-page .nc-field textarea,
+.nc-contact-page .nc-field select {
+  width: 100%;
+  padding: 14px 17px;
+  border: 1px solid #e0e0e0;
+  border-radius: 14px;
+  background: #f8f8f8;
+}
+
+.nc-contact-page .nc-field input:focus-visible,
+.nc-contact-page .nc-field textarea:focus-visible,
+.nc-contact-page .nc-field select:focus-visible {
+  outline: 2px solid #666;
+  outline-offset: 2px;
+  border-color: #777;
+}
+
+.nc-contact-page .nc-field textarea {
+  min-height: 160px;
+}
+
+@media (max-width: 900px) {
+  .nc-contact-page .nc-formwrap {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 700px) {
+  .nc-growth-outcomes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .nc-about-page .nc-about-people-points article {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 24px;
+  }
+
+  .nc-contact-page .nc-formmain {
+    padding: 26px 20px;
+  }
+
+  .nc-result-bar {
+    flex-wrap: wrap;
+    gap: 5px 12px;
+  }
+
+  .nc-result-bar .nc-selection-hint {
+    width: 100%;
+    order: 2;
+  }
+}

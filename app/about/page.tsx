@@ -4,7 +4,6 @@ import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { TableOfContents, type TocItem } from '@/components/toc/TableOfContents';
 import { CompanyTable } from '@/components/about/CompanyTable';
-import { OrganizationDiagram } from '@/components/about/OrganizationDiagram';
 import { site } from '@/lib/site';
 
 export const metadata: Metadata = pageMetadata('about', '/about/');
@@ -12,7 +11,6 @@ export const metadata: Metadata = pageMetadata('about', '/about/');
 const toc: TocItem[] = [
   { id: 'mission', label: 'ミッション' },
   { id: 'develop-people', label: '人材育成に対する考え' },
-  { id: 'structure', label: '組織体制' },
   { id: 'company', label: '会社情報' },
 ];
 
@@ -21,7 +19,7 @@ export default function AboutPage() {
     <>
       <PageHero
         title="企業情報"
-        lead="株式会社Neunon Consultingの理念、学生組織による実行基盤、会社情報をご紹介します。"
+        lead="株式会社Neunon Consultingの理念、人材育成に対する考え、会社情報をご紹介します。"
         crumbs={[{ label: '企業情報' }]}
       />
 
@@ -74,19 +72,8 @@ export default function AboutPage() {
               </div>
             </section>
 
-            <section id="structure" className="nc-about-structure" aria-labelledby="structure-title">
-              <span className="nc-about-kicker">03 — Organization</span>
-              <h2 id="structure-title">学生組織による実行基盤</h2>
-              <p className="nc-section-lead">
-                プロフェッショナルの品質管理のもと、リード学生とアソシエイト学生が複層的に動く体制です。この構造そのものが当社の提供価値です。
-                <br />
-                アソシエイト学生がリード学生へ昇格し、新しいチームを組成する循環によって、対応できる案件量が拡大していきます。
-              </p>
-              <OrganizationDiagram />
-            </section>
-
             <section id="company" className="nc-about-company" aria-labelledby="company-title">
-              <span className="nc-about-kicker">04 — Company</span>
+              <span className="nc-about-kicker">03 — Company</span>
               <h2 id="company-title">会社情報</h2>
               <CompanyTable />
             </section>

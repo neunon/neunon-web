@@ -50,6 +50,11 @@ export function Problem() {
           ))}
         </div>
         <div className="nc-growth-map" aria-label="4つの力から生まれる価値">
+          <div className="nc-growth-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="m5 9 7 7 7-7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
           <div className="nc-growth-outcomes">
             <article className="nc-outcome nc-outcome-student">
               <div className="nc-outcome-visual" aria-hidden="true" />
@@ -58,11 +63,6 @@ export function Problem() {
                 <p>実務経験を通じて、<span className="nc-outcome-nowrap">考え、発想し、判断する力を育てる</span></p>
               </div>
             </article>
-            <div className="nc-growth-arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="m9 5 7 7-7 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
             <article className="nc-outcome nc-outcome-business">
               <div className="nc-outcome-visual" aria-hidden="true" />
               <div className="nc-outcome-copy">
