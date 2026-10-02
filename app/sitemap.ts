@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { getNews, getServices } from '@/lib/content';
 import { site } from '@/lib/site';
 import { isIsoDate } from '@/lib/seo';
+import { getLandingPages } from '@/lib/landing';
 
 /**
  * sitemap.xml の自動生成（要件定義書 10.2）。
@@ -50,6 +51,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ...(isIsoDate(item.date) ? { lastModified: item.date } : {}),
       changeFrequency: 'yearly' as const,
       priority: 0.4,
+    })),
+    ...getLandingPages().map((page) => ({
+      url: new URL(`/lp/${page.slug}/`, site.url).href,
+      ...(isIsoDate(page.updatedAt) ? { lastModified: page.updatedAt } : {}),
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
     })),
   ];
 }

@@ -143,6 +143,12 @@ services:
       - path: /news/*
         name: Content-Security-Policy
         value: *publicCsp
+      - path: /lp
+        name: Content-Security-Policy
+        value: *publicCsp
+      - path: /lp/*
+        name: Content-Security-Policy
+        value: *publicCsp
       - path: /privacy
         name: Content-Security-Policy
         value: *publicCsp

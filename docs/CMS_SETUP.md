@@ -9,11 +9,17 @@
 | 編集対象 | 保存先 | 補足 |
 |---|---|---|
 | 主要7ページのSEO title/description | content/site/seo.json | URL・canonicalは編集不可 |
-| トップHeroコピー・短い事業説明・CTA文言 | content/pages/home.json | リンク先・レイアウトはコード管理 |
+| トップHeroコピー・短い事業説明・CTA文言・「次世代の力」の文章と4項目 | content/pages/home.json | セクションの表示切替、4項目の追加・削除・並べ替えが可能 |
+| 企業情報ページの理念・人材育成の文章 | content/pages/about.json | ミッション・人材育成・会社情報の表示切替。論点の追加・削除・並べ替えが可能 |
 | 3事業の説明・メニュー・FAQ・参考価格 | content/services/*.json | ID/順序/価格公開フラグは固定 |
-| ニュース | content/news/*.json | 本文は段落ごとのプレーンテキスト。削除UIなし |
+| LP・コンテンツページ | content/landing/*.json | `/lp/{slug}/`。追加・削除・下書き・公開、セクションとカードの追加・削除・並べ替え・非表示が可能 |
+| ニュース | content/news/*.json | 本文は段落ごとのプレーンテキスト。公開切替・削除が可能 |
 
-学生マスタ・人材の個人情報、採用情報、電話番号、会社基本情報、Privacy、Terms、フォーム、secrets、schema、robots/noindexはCMSに出しません。CMSの制限はGitHub自体の権限を制限するものではありません。
+学生マスタ・人材の個人情報、採用情報、電話番号、会社基本情報、Privacy、Terms、フォーム、secrets、schema、robots/noindexはCMSに出しません。CMSの制限はGitHub自体の権限を制限するものではありません。既存の固定ページ全体を自由に削除・追加できる汎用ページビルダーではなく、新規ページはLP用テンプレート内で作成します。
+
+LPのセクションは「文章」「カード一覧」「画像＋文章」「よくある質問」「行動ボタン」の5種類です。上下順はCMSで変更できます。任意HTML・JavaScriptは入力できず、ボタンはサイト内リンク、画像は `/uploads/` に限定してビルド時に監査します。公開スイッチがオフのLPは生成・サイトマップ掲載されません。セクション／カード／質問ごとの表示スイッチでも隠せます。画像を使う際は代替テキストを記入してください。
+
+公開後のページ削除やslug変更は旧URLを消し、外部リンクや検索結果を壊し得ます。原則は先に非公開化し、必要なら別途リダイレクトをコードで設定してください。既存ニュースも同様です。新LPは本文中からリンクしない限りサイト内ナビには自動掲載されません。公開後は導線も確認してください。
 
 パッケージの「想定顧客」「契約形態」は保管用で現行画面には出ません。「5つの変化」は引き続きコード管理です。参考価格の先頭6件がトップ・事業一覧に表示され、パッケージ詳細の価格欄は保留したままです。価格・納期に関するFAQは現行ルールにより詳細ページで除外されます。
 
@@ -85,6 +91,6 @@ CMS未設定では「認証の初期設定待ち」を表示しログインを�
 - 認証漏洩時: OAuth SecretをローテーションしWorker secretを更新。認可を失効しアクセス履歴を確認。
 - 本文JSON不正時は監査がビルドを失敗させる。既存の正常デプロイを維持し、JSONを修正して再実行。
 
-将来Insightsを追加する場合は、専用JSON schema・loader・collection・slug監査・metadata/sitemap・CSPルート・プレビューを一緒に追加します。今回はLP/記事の量産、analytics、リッチテキスト機能は追加していません。
+将来Insightsなど独立した記事体系を追加する場合は、専用JSON schema・loader・collection・slug監査・metadata/sitemap・CSPルート・プレビューを一緒に追加します。今回のLPは固定の5種類の安全な部品で構成し、analyticsやリッチテキスト機能は追加していません。ローカルでのOAuthログイン／下書き公開は本番認証とGitHub権限が必要で、コード検査だけでは確認できません。
 
 参考: [Decap GitHub backend](https://decapcms.org/docs/github-backend/)、[OAuth proxy](https://decapcms.org/docs/backends-overview/#using-github-with-an-oauth-proxy)、[GitHub OAuth](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps)、[Render headers](https://render.com/docs/static-site-headers)。

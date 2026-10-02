@@ -153,6 +153,7 @@ export type NewsItem = {
   body: string[];
   /** 発注者からの原稿待ちのダミー記事（要件定義書 14. 未解決） */
   placeholder?: boolean;
+  published?: boolean;
 };
 
 function readJsonDir<T>(dir: string): T[] {
@@ -182,7 +183,7 @@ export function getWorksByService(serviceId: string): Work[] {
 }
 
 export function getNews(): NewsItem[] {
-  return readJsonDir<NewsItem>('news').sort((a, b) => b.date.localeCompare(a.date));
+  return readJsonDir<NewsItem>('news').filter((item) => item.published !== false).sort((a, b) => b.date.localeCompare(a.date));
 }
 
 /** トップページのお知らせセクション用（最新3件・要件定義書 6.1 セクション8） */
