@@ -5,7 +5,7 @@ import { PageHero } from '@/components/shared/PageHero';
 import { FormShell } from '@/components/forms/FormShell';
 import { contactFields, formEndpoints } from '@/lib/forms';
 import { site } from '@/lib/site';
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 
 export const metadata: Metadata = pageMetadata('contact', '/contact/');
 
@@ -43,12 +43,6 @@ export default function ContactPage() {
                     {site.tel}
                   </a>
                   <small>内容の整理のため、フォームからのご連絡を推奨しています。</small>
-                </dd>
-              </div>
-              <div>
-                <dt><MapPin aria-hidden="true" size={19} strokeWidth={1.7} /><span>所在地</span></dt>
-                <dd>
-                  {site.address.head}
                 </dd>
               </div>
             </dl>

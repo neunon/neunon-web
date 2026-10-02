@@ -19,16 +19,18 @@ export default function CompanyPage() {
         crumbs={[{ label: '企業情報', href: '/about' }, { label: '会社情報' }]}
       />
 
-      <div className="section">
-        <div className="wrap nc-doc-narrow">
-          <section aria-labelledby="company-profile">
-            <h2 id="company-profile" className="nc-sub-head">
-              会社概要
-            </h2>
-            <CompanyTable />
-            <p className="nc-note">
-              お問い合わせはフォームからお願いしています。お電話でのご相談も承っていますが、内容の整理のためフォームを推奨しています。
-            </p>
+      <div className="section nc-company-page">
+        <div className="wrap">
+          <section className="nc-company-profile" aria-labelledby="company-profile">
+            <div className="nc-company-profile-intro">
+              <span className="nc-company-profile-kicker">COMPANY PROFILE</span>
+              <h2 id="company-profile">会社概要</h2>
+              <p>株式会社Neunon Consultingの基本情報をご案内します。</p>
+            </div>
+            <div className="nc-company-profile-details">
+              <CompanyTable />
+              <p className="nc-note">お問い合わせはフォームからお願いしています。お電話でのご相談も承っていますが、内容の整理のためフォームを推奨しています。</p>
+            </div>
           </section>
         </div>
       </div>

@@ -2202,6 +2202,278 @@ body .btn {
   }
 }
 
+/* Keep the four premises and their two outcomes in one visual column. */
+.nc-problem-section .nc-potential-grid {
+  width: min(100%, 1120px);
+  gap: 12px;
+  margin-inline: auto;
+}
+
+.nc-problem-section .nc-potential-grid .nc-prob {
+  min-height: 210px;
+  padding: 23px;
+  border-color: #e1e1e1;
+}
+
+.nc-problem-section .nc-potential-grid .nc-prob:hover {
+  border-color: #aaa;
+}
+
+.nc-growth-map {
+  width: min(100%, 1120px);
+  max-width: none;
+  row-gap: 20px;
+  margin-inline: auto;
+  padding-top: 22px;
+}
+
+.nc-growth-map .nc-growth-arrow {
+  width: 52px;
+  height: 52px;
+}
+
+.nc-growth-outcomes {
+  width: min(100%, 1040px);
+  gap: 18px;
+}
+
+.nc-growth-outcomes article {
+  min-height: 208px;
+  border-color: #dedede;
+  border-radius: 18px;
+}
+
+.nc-growth-outcomes .nc-outcome-copy {
+  padding: 26px 16px 26px 30px;
+}
+
+/* Company profile uses a quiet editorial hierarchy, not a boxed data dump. */
+.nc-company-page {
+  background: #fafafa;
+}
+
+.nc-company-profile {
+  display: grid;
+  width: min(100%, 1160px);
+  grid-template-columns: minmax(230px, .68fr) minmax(0, 1.32fr);
+  gap: clamp(32px, 6vw, 96px);
+  margin-inline: auto;
+  padding-top: clamp(22px, 3vw, 40px);
+  border-top: 1px solid #dcdcdc;
+}
+
+.nc-company-profile-kicker {
+  color: #666;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: .16em;
+}
+
+.nc-company-profile-intro h2 {
+  margin: 18px 0 14px;
+  color: #181818;
+  font-size: clamp(30px, 3.4vw, 44px);
+  font-weight: 630;
+  letter-spacing: -.045em;
+}
+
+.nc-company-profile-intro p {
+  max-width: 22em;
+  margin: 0;
+  color: #555;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.nc-company-profile .nc-company {
+  margin: 0;
+  border-top: 1px solid #ccc;
+}
+
+.nc-company-profile .nc-company > div {
+  grid-template-columns: minmax(100px, .34fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: baseline;
+  padding: 21px 0;
+  border-color: #ddd;
+}
+
+.nc-company-profile .nc-company dt {
+  color: #666;
+  font-size: 12px;
+}
+
+.nc-company-profile .nc-company dd {
+  color: #222;
+  font-size: 15px;
+  font-weight: 540;
+}
+
+.nc-company-profile .nc-note {
+  max-width: 58em;
+  margin-top: 24px;
+  color: #666;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+/* Student entry matches the company-contact form without losing its flow. */
+.nc-entry-page {
+  background: #f8f8f8;
+}
+
+.nc-entry-page .nc-formwrap {
+  max-width: 1180px;
+  grid-template-columns: minmax(280px, .9fr) minmax(0, 1.1fr);
+  gap: clamp(36px, 6vw, 90px);
+  align-items: start;
+}
+
+.nc-entry-page .nc-formside {
+  padding: 24px 0;
+  background: transparent;
+}
+
+.nc-entry-page .nc-formside > h2:first-of-type {
+  margin: 16px 0 12px;
+  color: #202020;
+  font-size: clamp(27px, 3vw, 38px);
+  font-weight: 620;
+  letter-spacing: -.04em;
+}
+
+.nc-entry-page .nc-side-head {
+  margin: 32px 0 14px;
+  color: #555;
+  font-size: 12px;
+  letter-spacing: .04em;
+}
+
+.nc-entry-page .nc-sidesteps {
+  border-color: #ddd;
+}
+
+.nc-entry-page .nc-sidesteps li {
+  grid-template-columns: 64px minmax(0, 1fr);
+  column-gap: 14px;
+  padding: 17px 0;
+  border-color: #ddd;
+}
+
+.nc-entry-page .nc-path-n {
+  grid-row: span 2;
+  align-self: center;
+  color: #777;
+  font-size: 11px;
+}
+
+.nc-entry-page .nc-sidestep-t {
+  color: #222;
+  font-size: 14px;
+}
+
+.nc-entry-page .nc-sidestep-s {
+  color: #666;
+  font-size: 12px;
+}
+
+.nc-entry-page .nc-rnote {
+  margin-top: 22px;
+  color: #555;
+}
+
+.nc-entry-page .nc-formside .nc-notice {
+  display: block;
+  margin-top: 42px;
+  padding: 22px 0 0;
+  border: 0;
+  border-top: 1px solid #ddd;
+  border-radius: 0;
+  background: transparent;
+}
+
+.nc-entry-page .nc-formside .nc-notice b,
+.nc-entry-page .nc-formside .nc-notice p,
+.nc-entry-page .nc-formside .nc-inline-link {
+  color: #555;
+}
+
+.nc-entry-page .nc-formside .nc-notice .nc-contact-entry {
+  margin-top: 16px;
+  border-color: #222;
+  background: #222;
+  color: #fff;
+  box-shadow: none;
+}
+
+.nc-entry-page .nc-formmain {
+  padding: clamp(28px, 4vw, 54px);
+  border: 1px solid #e2e2e2;
+  border-radius: 24px;
+  background: #fff;
+}
+
+.nc-entry-page .nc-form-step {
+  border: 0;
+  color: #888;
+  font-size: 11px;
+  letter-spacing: .08em;
+}
+
+.nc-entry-page .nc-field input,
+.nc-entry-page .nc-field textarea,
+.nc-entry-page .nc-field select {
+  width: 100%;
+  padding: 14px 17px;
+  border: 1px solid #e0e0e0;
+  border-radius: 14px;
+  background: #f8f8f8;
+}
+
+.nc-entry-page .nc-field input:focus-visible,
+.nc-entry-page .nc-field textarea:focus-visible,
+.nc-entry-page .nc-field select:focus-visible {
+  outline: 2px solid #666;
+  outline-offset: 2px;
+  border-color: #777;
+}
+
+@media (max-width: 900px) {
+  .nc-company-profile,
+  .nc-entry-page .nc-formwrap {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 700px) {
+  .nc-problem-section .nc-potential-grid {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .nc-problem-section .nc-potential-grid .nc-prob {
+    min-height: 170px;
+    padding: 18px;
+  }
+
+  .nc-growth-outcomes {
+    gap: 10px;
+  }
+
+  .nc-growth-outcomes article {
+    min-height: 0;
+  }
+
+  .nc-company-profile .nc-company > div {
+    grid-template-columns: 100px minmax(0, 1fr);
+  }
+
+  .nc-entry-page .nc-formmain {
+    padding: 26px 20px;
+  }
+}
+
 /* Follow-up: a committed, multi-word search lives apart from the facet panel. */
 .nc-talent-search {
   display: flex;
@@ -2638,5 +2910,26 @@ body .btn {
   .nc-result-bar .nc-selection-hint {
     width: 100%;
     order: 2;
+  }
+}
+
+/* Final spacing overrides for the unified growth sequence. */
+.nc-growth-map {
+  row-gap: 20px;
+}
+
+.nc-growth-map .nc-growth-arrow {
+  width: 52px;
+  height: 52px;
+}
+
+.nc-growth-outcomes {
+  width: min(100%, 1040px);
+  gap: 18px;
+}
+
+@media (max-width: 700px) {
+  .nc-growth-outcomes {
+    gap: 10px;
   }
 }
