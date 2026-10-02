@@ -72,9 +72,9 @@ export function Services() {
                     <li key={highlight}>{highlight}</li>
                   ))}
                 </ul>
-                <Link href={`/services/${service.id}`} className="nc-more">
-                  <i aria-hidden="true" />
-                  詳しく見る
+                <Link href={`/services/${service.id}`} className="nc-service-detail-link">
+                  <span className="nc-service-detail-arrow" aria-hidden="true">→</span>
+                  <span className="nc-service-detail-label">詳しく見る</span>
                   <span className="sr-only-text">（{service.title}）</span>
                 </Link>
               </div>

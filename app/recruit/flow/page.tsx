@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
-import { selectionSteps, termsPendingNote } from '@/lib/recruit';
+import { SelectionTimeline } from '@/components/recruit/SelectionTimeline';
+import { termsPendingNote } from '@/lib/recruit';
 
 export const metadata: Metadata = {
   title: '選考フロー',
@@ -49,18 +50,7 @@ export default function FlowPage() {
 
       <div className="section">
         <div className="wrap nc-doc-narrow">
-          <ol className="nc-steps nc-selection-steps">
-            {selectionSteps.map((step, index) => (
-              <li className="nc-step" key={step.no}>
-                <div className="nc-step-n">Step {step.no}</div>
-                <div className="nc-step-c">
-                  <h2>{step.title}</h2>
-                  <p>{step.body}</p>
-                </div>
-                <div className="nc-step-s">{step.span}</div>
-              </li>
-            ))}
-          </ol>
+          <SelectionTimeline headingLevel={2} />
 
           <p className="nc-rnote">
             選考結果のご連絡まではおおむね1〜3週間です。契約手続きとオンボーディングの日程は、学業の状況に応じて調整します。
