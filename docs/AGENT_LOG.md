@@ -12,6 +12,8 @@
 
 **トップ「管理・育成体制」の組織図を再構築。公開・マージ判断待ち。**
 
+2026-10-02 公開状況: GitHub側 main はPR #4マージ済みの `f5e5bfa`。ローカル `hp/ui-recruit-refinement` に `origin/main` をマージして同期済み。通常のGit接続はWindows SChannelで失敗するが、`git -c http.sslBackend=openssl` ならfetch/ls-remote成功。pushはGit Credential Managerにログイン情報がなく失敗（helperを無効にすると `could not read Username`）。ユーザーには `git credential-manager github login --browser --username ke1989` の実行を案内し、ログイン後にpush/PR/マージを再開する。GitHub連携の書き込み権限も403で不可。
+
 2026-10-02 追加調整: 新リード学生（新チーム・次のチーム）の役割タグをリード学生と同じ「管理／ディレクション／育成」に変更し、新チームのバッジを「昇格＆組成」に変更。バッジと見出しの重なりを避けた。トップのお知らせだけ背景を隣接セクションと同じ #fcfcfc に変更し、ニュース一覧ページの背景は維持。`npm run typecheck` と `npm run build:deploy`（42ページ、指摘なし）通過。公開依頼あり。GitHub への直接接続はネットワーク許可後も Windows の資格情報エラーで不可。GitHub連携の create-tree も403 Resource not accessible by integration で書き込み不可。GitHub mainはPR #4をマージ済みの `f5e5bfad`、そのtreeはローカル作業起点 `a443a94` と一致。`a443a94..HEAD` の15ファイル差分をGitHubへ反映する必要がある。
 
 2026-10-02 最新: `components/shared/StructureDiagram.tsx` を4チームのカード型組織図に置換し、専用CSS Moduleを追加。見出し・説明文は維持。コンサルタント→4チームの実測ベジェ線と流れる光、2つの昇格曲線、新チームのリング・波紋・回転する境界光を実装。1024px未満は2列＋短い縦線、640px未満は1列、動きを減らす設定では静止表示。英字ラベル・番号・下段の旧フローは置いていない。背景は#fcfcfc。`npm run typecheck`、`npm run build:deploy`（42ページ、指摘なし）、`git diff --check`通過。ブラウザーで1440/900/390pxの表示・線接続・横はみ出しなしを確認。GitHub fetchは接続不可。
