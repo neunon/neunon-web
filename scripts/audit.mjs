@@ -78,7 +78,7 @@ async function main() {
     seen.add(r);
     const noindex = /<meta[^>]+name="robots"[^>]+content="[^"]*\bnoindex\b/.test(html);
     if (noindex && listed.has(r)) add('noindexページがsitemapに含まれる');
-    if (r === '/admin') {
+    if (r === '/admin' || r.startsWith('/admin/')) {
       if (!noindex || !/<meta[^>]+name="robots"[^>]+content="[^"]*\bnofollow\b/.test(html)) add('adminにnoindex,nofollowがない');
       if (listed.has(r)) add('adminがsitemapに含まれる');
       continue; // 外部CMSアプリの動的DOMは公開サイトのH1/ランドマーク監査対象外。

@@ -20,5 +20,11 @@ for (const name of await fs.readdir(dist)) {
   await fs.copyFile(path.join(dist, name), path.join(target, 'vendor', name));
 }
 await fs.writeFile(path.join(target, 'config.yml'), JSON.stringify(createCmsConfig(new URL(authUrl).origin), null, 2) + '\n');
-await fs.writeFile(path.join(target, 'status.json'), JSON.stringify({ configured: Boolean(raw) }) + '\n');
+const formEndpoint = process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT?.trim();
+const formApiOrigin = formEndpoint ? new URL(formEndpoint).origin : null;
+await fs.writeFile(path.join(target, 'status.json'), JSON.stringify({
+  configured: Boolean(raw),
+  authOrigin: raw ? new URL(raw).origin : null,
+  formApiOrigin: formApiOrigin?.startsWith('https://') ? formApiOrigin : null,
+}) + '\n');
 console.log(raw ? 'CMS assets ready (OAuth login requires deployed Worker).' : 'CMS assets ready; OAuth disabled until CMS_AUTH_BASE_URL is set.');

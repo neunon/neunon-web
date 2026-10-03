@@ -6,6 +6,11 @@ compatibility_date = "2026-09-10"
 ALLOWED_ORIGINS = "https://neun-on.com,https://www.neun-on.com"
 NOTIFICATION_EMAIL = "keisakamoto@neun-on.com"
 FROM_EMAIL = "Neunon Website <website@neun-on.com>"
+INBOX_ALLOWED_USERS = "ke1989"
+
+# Before deploying this version, create a D1 database and private R2 bucket,
+# apply worker/schema.sql, then add their bindings in Cloudflare Dashboard:
+# SUBMISSIONS (D1) and ATTACHMENTS (R2). Never expose the R2 bucket publicly.
 
 # Dashboard または `wrangler secret put` で登録する値:
 # RESEND_API_KEY
