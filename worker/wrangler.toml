@@ -8,9 +8,16 @@ NOTIFICATION_EMAIL = "keisakamoto@neun-on.com"
 FROM_EMAIL = "Neunon Website <website@neun-on.com>"
 INBOX_ALLOWED_USERS = "ke1989"
 
-# Before deploying this version, create a D1 database and private R2 bucket,
-# apply worker/schema.sql, then add their bindings in Cloudflare Dashboard:
-# SUBMISSIONS (D1) and ATTACHMENTS (R2). Never expose the R2 bucket publicly.
+[[d1_databases]]
+binding = "SUBMISSIONS"
+database_name = "neunon-submissions"
+database_id = "0682a980-b595-4ccb-a676-8273e2e55878"
+
+[[r2_buckets]]
+binding = "ATTACHMENTS"
+bucket_name = "neunon-submission-files"
+
+# ATTACHMENTS is a private bucket. Never enable its public URL.
 
 # Dashboard または `wrangler secret put` で登録する値:
 # RESEND_API_KEY

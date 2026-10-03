@@ -10,7 +10,7 @@
 
 ## 1. いま進行中のこと
 
-**フォーム送信履歴の管理機能（`hp/form-inbox`）を実装中。本番未反映。** PR #5 は 2026-10-02 に main へマージ・公開済み。企業お問い合わせと学生エントリーの項目をD1、添付を非公開R2に保存し、`/admin/submissions.html` にGitHub OAuthログイン後の一覧・詳細・添付ダウンロードを追加した。閲覧は `INBOX_ALLOWED_USERS` とrepo push権限の両方で制限する。保存期限は発注者の希望で設定しない。旧メール通知は継続。`npm run test:worker`（7件）、`npm run typecheck`、`npm run audit:html` は通過。追加した静的管理画面を含む `build:deploy` はHTML監査で出たadmin専用ページの例外を直したため、最後に再実行すること。Cloudflareダッシュボードはサインイン画面で、発注者のログイン待ち。D1/R2作成・バインド、Workerデプロイ、実送信テスト前にmainへマージしないこと。フォームWorkerをバインディングなしで先行デプロイすると送信が503になる。設定手順は `docs/FORM_SETUP.md`。
+**フォーム送信履歴の管理機能（`hp/form-inbox`）を実装中。本番未反映。** PR #5 は 2026-10-02 に main へマージ・公開済み。企業お問い合わせと学生エントリーの項目をD1、添付を非公開R2に保存し、`/admin/submissions.html` にGitHub OAuthログイン後の一覧・詳細・添付ダウンロードを追加した。閲覧は `INBOX_ALLOWED_USERS` とrepo push権限の両方で制限する。保存期限は発注者の希望で設定しない。旧メール通知は継続。`npm run test:worker`（7件）、`npm run typecheck`、`npm run build:deploy`（43ページ・監査指摘なし）は通過。Cloudflareで `neunon-submissions` D1（ID `0682a980-b595-4ccb-a676-8273e2e55878`）に `worker/schema.sql` のテーブルとインデックスを作成済み。`neunon-submission-files` R2バケットも作成し、公開アクセス無効を確認した。既存Workerに `SUBMISSIONS` D1と `ATTACHMENTS` R2のバインディング追加済み（本番バージョン `187aa758`）。次は新Workerコードのデプロイ、実送信テスト、RenderへのCMSページ反映。設定手順は `docs/FORM_SETUP.md`。
 
 **トップ「管理・育成体制」の組織図を再構築。公開・マージ判断待ち。**
 
