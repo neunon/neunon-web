@@ -1,15 +1,20 @@
 import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { gakuchika } from '@/lib/recruit';
 
-export const metadata: Metadata = {
-  title: 'メンバーインタビュー',
-  description: '在籍メンバーへのインタビュー。準備中です。',
-  alternates: { canonical: '/recruit/voice' },
-  // 内容が入るまで検索結果に出さない
-  robots: { index: false, follow: true },
-};
+export const metadata: Metadata = createPageMetadata(
+  {
+    title: 'メンバーインタビュー',
+    description: '在籍メンバーへのインタビュー。準備中です。',
+  },
+  '/recruit/voice/',
+  {
+    // 内容が入るまで検索結果に出さない
+    robots: { index: false, follow: true },
+  },
+);
 
 /**
  * メンバーインタビュー（要件定義書 4. のサイトマップ / 6.6 の6番）

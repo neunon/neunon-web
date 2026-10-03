@@ -1,13 +1,17 @@
 import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { site } from '@/lib/site';
 
-export const metadata: Metadata = {
-  title: 'サイト利用規約',
-  description: `${site.name}のウェブサイトのご利用にあたっての条件。`,
-  alternates: { canonical: '/terms' },
-};
+export const metadata: Metadata = createPageMetadata(
+  {
+    title: 'サイト利用規約',
+    description:
+      `${site.name}が運営するウェブサイトの利用規約。適用範囲、著作権・商標、禁止事項、免責事項、準拠法など、本サイトをご利用いただく際の条件を定めています。`,
+  },
+  '/terms/',
+);
 
 /**
  * サイト利用規約（要件定義書 4. のサイトマップ）

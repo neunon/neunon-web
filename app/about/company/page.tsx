@@ -1,14 +1,18 @@
 import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
 import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { CompanyTable } from '@/components/about/CompanyTable';
 import { site } from '@/lib/site';
 
-export const metadata: Metadata = {
-  title: '会社情報',
-  description: `${site.name} の会社情報。社名、設立、代表者、所在地、事業内容、従業員数。`,
-  alternates: { canonical: '/about/company' },
-};
+export const metadata: Metadata = createPageMetadata(
+  {
+    title: '会社情報',
+    description:
+      `${site.name}の会社概要。${site.founded}設立、所在地は${site.address.head}。${site.representative}。経営コンサルティング・戦略コンサルティングを事業としています。電話番号・メールアドレスも掲載しています。`,
+  },
+  '/about/company/',
+);
 
 /** 会社情報（登記情報） */
 export default function CompanyPage() {

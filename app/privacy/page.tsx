@@ -1,15 +1,19 @@
 import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { TableOfContents, type TocItem } from '@/components/toc/TableOfContents';
 import { contactFields, entryFields } from '@/lib/forms';
 import { site } from '@/lib/site';
 
-export const metadata: Metadata = {
-  title: 'プライバシーポリシー',
-  description: `${site.name}における個人情報の取り扱いについて。取得する項目、利用目的、第三者提供の有無、保管期間と削除請求の方法、問い合わせ窓口。`,
-  alternates: { canonical: '/privacy' },
-};
+export const metadata: Metadata = createPageMetadata(
+  {
+    title: 'プライバシーポリシー',
+    description:
+      `${site.name}における個人情報の取り扱いについて。取得する項目、利用目的、第三者提供の有無、保管期間と削除請求の方法、問い合わせ窓口。`,
+  },
+  '/privacy/',
+);
 
 /**
  * プライバシーポリシー（要件定義書 7. で「必須」/ 記載内容は 12.2）
