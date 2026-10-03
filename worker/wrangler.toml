@@ -8,6 +8,9 @@ NOTIFICATION_EMAIL = "keisakamoto@neun-on.com"
 FROM_EMAIL = "Neunon Website <website@neun-on.com>"
 INBOX_ALLOWED_USERS = "ke1989"
 
+[secrets]
+required = ["RESEND_API_KEY", "TURNSTILE_SECRET"]
+
 [[d1_databases]]
 binding = "SUBMISSIONS"
 database_name = "neunon-submissions"
