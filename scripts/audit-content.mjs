@@ -144,6 +144,19 @@ export function validateContent(root = process.cwd()) {
     objects(data.pricing, ['label', 'price'], where + '.pricing', id === 'package' ? 6 : 0);
     objects(data.faq, ['q', 'a'], where + '.faq');
   }
+  const workDir = path.join(root, 'content/works');
+  const workSlugs = new Set();
+  for (const file of fs.readdirSync(workDir).filter(f => f.endsWith('.json'))) {
+    const where = 'content/works/' + file;
+    const work = read(where);
+    if (!object(work)) continue;
+    keys(work, ['slug', 'industry', 'title', 'background', 'challenge', 'approach', 'insight'], where);
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(work.slug || '')) fail(where, 'slugが不正です');
+    if (workSlugs.has(work.slug)) fail(where, 'slugが重複しています');
+    workSlugs.add(work.slug);
+    if (!Number.isInteger(work.order) || work.order < 1) fail(where + '.order', '1以上の整数が必要です');
+    if (!Array.isArray(work.services) || !work.services.length || work.services.some(s => !['consulting', 'package', 'ai'].includes(s))) fail(where + '.services', '関連事業を1つ以上選択してください');
+  }
   const slugs = new Set();
   let newsFiles = [];
   try { newsFiles = fs.readdirSync(path.join(root, 'content/news')).filter(f => f.endsWith('.json')); }
@@ -182,7 +195,7 @@ export function validateContent(root = process.cwd()) {
     page.sections.forEach((section, i) => {
       const at = `${where}.sections[${i}]`;
       if (!object(section)) { fail(at, 'オブジェクトが必要です'); return; }
-      if (!['text', 'cards', 'imageText', 'faq', 'cta'].includes(section.type)) fail(at + '.type', '未対応のセクション形式です');
+      if (!['text', 'cards', 'imageText', 'faq', 'cta', 'steps', 'stats'].includes(section.type)) fail(at + '.type', '未対応のセクション形式です');
       if (!['white', 'soft', 'dark'].includes(section.tone)) fail(at + '.tone', '未対応の背景です');
       if (typeof section.visible !== 'boolean') fail(at + '.visible', 'booleanが必要です');
       string(section.title, at + '.title');
@@ -205,6 +218,12 @@ export function validateContent(root = process.cwd()) {
         keys(section, ['body', 'label', 'href'], at);
         if (!safeHref(section.href)) fail(at + '.href', 'サイト内のパスのみ指定できます');
       }
+      if (section.type === 'steps') objects(section.steps, ['title', 'body'], at + '.steps').forEach((step, j) => {
+        if (typeof step.visible !== 'boolean') fail(`${at}.steps[${j}].visible`, 'booleanが必要です');
+      });
+      if (section.type === 'stats') objects(section.items, ['value', 'label'], at + '.items').forEach((item, j) => {
+        if (typeof item.visible !== 'boolean') fail(`${at}.items[${j}].visible`, 'booleanが必要です');
+      });
     });
   }
   return { errors, warnings };

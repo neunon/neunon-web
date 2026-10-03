@@ -71,6 +71,14 @@ const landingSections = {
     { name: 'cta', label: '行動ボタン', widget: 'object', fields: [
       ...sectionBase, text('body', '説明'), string('label', 'ボタン文言'), safeLink('href', 'リンク先'),
     ] },
+    { name: 'steps', label: '手順・流れ', widget: 'object', fields: [
+      ...sectionBase, text('lead', '導入文', { required: false }),
+      list('steps', '手順', [bool('visible', '表示'), string('title', '見出し'), text('body', '説明')], { min: 1 }),
+    ] },
+    { name: 'stats', label: '数字・実績', widget: 'object', fields: [
+      ...sectionBase, text('lead', '導入文', { required: false }),
+      list('items', '数値', [bool('visible', '表示'), string('value', '数値・表記'), string('label', '説明')], { min: 1 }),
+    ] },
   ],
 };
 const serviceFiles = [
@@ -174,6 +182,18 @@ export function createCmsConfig(authBaseUrl) {
         ] }],
       },
       { name: 'services', label: '事業', format: 'json', editor: { preview: false }, files: serviceFiles },
+      {
+        name: 'works', label: '支援実績', folder: 'content/works', extension: 'json', format: 'json',
+        create: true, delete: true, identifier_field: 'title', slug: '{{fields.slug}}',
+        summary: '{{title}}', editor: { preview: false },
+        fields: [
+          string('slug', '管理用ID', { pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', '半角英小文字・数字・ハイフンのみ'], hint: '公開後に変更すると旧実績URLが消えます。' }),
+          { name: 'order', label: '表示順', widget: 'number', value_type: 'int', min: 1 },
+          string('industry', '業界'), string('title', '業務内容'),
+          text('background', '背景'), text('challenge', '課題'), text('approach', '対応内容'), text('insight', '成果・示唆'),
+          { name: 'services', label: '関連事業', widget: 'select', multiple: true, options: ['consulting', 'package', 'ai'], min: 1 },
+        ],
+      },
       {
         name: 'landing', label: 'LP・コンテンツページ', folder: 'content/landing', extension: 'json', format: 'json',
         create: true, delete: true, identifier_field: 'title', slug: '{{fields.slug}}',
