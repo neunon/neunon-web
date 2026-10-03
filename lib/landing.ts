@@ -9,7 +9,9 @@ export type LandingSection =
   | { type: 'cards'; visible: boolean; eyebrow?: string; title: string; lead?: string; cards: LandingCard[]; tone: 'white' | 'soft' | 'dark' }
   | { type: 'imageText'; visible: boolean; eyebrow?: string; title: string; paragraphs: string[]; image: string; imageAlt: string; imageSide: 'left' | 'right'; tone: 'white' | 'soft' | 'dark' }
   | { type: 'faq'; visible: boolean; eyebrow?: string; title: string; questions: LandingFaq[]; tone: 'white' | 'soft' | 'dark' }
-  | { type: 'cta'; visible: boolean; eyebrow?: string; title: string; body: string; label: string; href: string; tone: 'white' | 'soft' | 'dark' };
+  | { type: 'cta'; visible: boolean; eyebrow?: string; title: string; body: string; label: string; href: string; tone: 'white' | 'soft' | 'dark' }
+  | { type: 'steps'; visible: boolean; eyebrow?: string; title: string; lead?: string; steps: { visible: boolean; title: string; body: string }[]; tone: 'white' | 'soft' | 'dark' }
+  | { type: 'stats'; visible: boolean; eyebrow?: string; title: string; lead?: string; items: { visible: boolean; value: string; label: string }[]; tone: 'white' | 'soft' | 'dark' };
 
 export type LandingPage = {
   slug: string;

@@ -16,11 +16,19 @@ test('CMS uses review workflow and exposes only approved collections', () => {
   assert.equal(config.publish_mode, 'editorial_workflow');
   assert.equal(config.backend.repo, 'neunon/neunon-web');
   assert.equal(config.backend.branch, 'main');
-  assert.deepEqual(config.collections.map(c => c.name), ['seo', 'pages', 'aboutPage', 'services', 'landing', 'news']);
+  assert.deepEqual(config.collections.map(c => c.name), ['seo', 'pages', 'aboutPage', 'services', 'works', 'landing', 'news']);
   const landing = config.collections.find(c => c.name === 'landing');
   assert.equal(landing.create, true);
   assert.equal(landing.delete, true);
-  assert.deepEqual(landing.fields.find(f => f.name === 'sections').types.map(t => t.name), ['text', 'cards', 'imageText', 'faq', 'cta']);
+  assert.deepEqual(landing.fields.find(f => f.name === 'sections').types.map(t => t.name), ['text', 'cards', 'imageText', 'faq', 'cta', 'steps', 'stats']);
+  const works = config.collections.find(c => c.name === 'works');
+  assert.equal(works.create, true);
+  assert.equal(works.delete, true);
+  for (const file of fs.readdirSync('content/works')) {
+    const source = JSON.parse(fs.readFileSync(path.join('content/works', file), 'utf8'));
+    const declared = new Set(works.fields.map(f => f.name));
+    for (const key of Object.keys(source)) assert.ok(declared.has(key), 'unrepresented work key: ' + key);
+  }
   for (const file of config.collections.find(c => c.name === 'services').files) {
     const source = JSON.parse(fs.readFileSync(file.file, 'utf8'));
     const declared = new Set(file.fields.map(f => f.name));
@@ -58,4 +66,14 @@ test('new LP content supports drafts and rejects unsafe links', () => {
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }
+});
+
+test('admin home links to editor and authenticated inbox without exposing CMS on the home page', () => {
+  const home = fs.readFileSync('public/admin/index.html', 'utf8');
+  const editor = fs.readFileSync('public/admin/editor.html', 'utf8');
+  assert.match(home, /href="\/admin\/editor\.html"/);
+  assert.match(home, /href="\/admin\/submissions\.html"/);
+  assert.doesNotMatch(home, /bootstrap\.js/);
+  assert.match(editor, /bootstrap\.js/);
+  assert.match(editor, /cms-config-url/);
 });

@@ -4,21 +4,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <!-- Decap 3.16.2 uses AJV's runtime schema compiler (new Function). Admin only. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://avatars.githubusercontent.com https://raw.githubusercontent.com; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; frame-src 'none'; form-action 'self'; base-uri 'self'; object-src 'none'">
-  <meta name="description" content="Neunon Consulting コンテンツ管理画面。">
-  <title>コンテンツ管理｜Neunon Consulting</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self'; img-src 'self'; connect-src 'none'; frame-src 'none'; form-action 'self'; base-uri 'none'; object-src 'none'">
+  <meta name="description" content="Neunon Consulting 管理サイト。">
+  <title>管理サイト｜Neunon Consulting</title>
   <link rel="icon" href="/icon.png">
   <link rel="stylesheet" href="/admin/admin.css">
-  <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url">
 </head>
-<body>
-  <main id="cms-status" role="status">
-    <h1>コンテンツ管理</h1>
-    <p>管理画面を読み込んでいます。</p>
-    <noscript>管理画面にはJavaScriptが必要です。</noscript>
+<body class="nc-admin-home">
+  <header class="nc-admin-header"><a href="/" aria-label="公開サイトへ">Neunon Consulting</a><span>管理サイト</span></header>
+  <main class="nc-admin-shell">
+    <div class="nc-admin-intro"><p class="nc-admin-kicker">ADMIN</p><h1>管理サイト</h1><p>目的に合わせて作業を選んでください。編集・受信内容の閲覧には、各メンバー自身のGitHubアカウントでログインします。</p></div>
+    <nav aria-label="管理メニュー" class="nc-admin-menu">
+          <a class="nc-admin-card" href="/admin/editor.html"><span class="nc-admin-card-index">01</span><strong>サイトの内容を編集</strong><span>既存ページの文章・事業・支援実績・SEOを編集</span><span class="nc-admin-card-arrow" aria-hidden="true">↗</span></a>
+      <a class="nc-admin-card" href="/admin/editor.html#/collections/landing"><span class="nc-admin-card-index">02</span><strong>ページを追加・管理</strong><span>LPやコンテンツページを作成し、セクションを追加・並べ替え・非公開に</span><span class="nc-admin-card-arrow" aria-hidden="true">↗</span></a>
+      <a class="nc-admin-card" href="/admin/editor.html#/collections/news"><span class="nc-admin-card-index">03</span><strong>お知らせを管理</strong><span>記事の追加・編集・公開切替・削除</span><span class="nc-admin-card-arrow" aria-hidden="true">↗</span></a>
+      <a class="nc-admin-card" href="/admin/editor.html#/collections/works"><span class="nc-admin-card-index">04</span><strong>支援実績を管理</strong><span>業界・業務内容・対応内容を追加・編集・削除</span><span class="nc-admin-card-arrow" aria-hidden="true">↗</span></a>
+      <a class="nc-admin-card" href="/admin/submissions.html"><span class="nc-admin-card-index">05</span><strong>お問い合わせを確認</strong><span>企業のお問い合わせと学生エントリーの本文・添付を確認</span><span class="nc-admin-card-arrow" aria-hidden="true">↗</span></a>
+    </nav>
+    <section class="nc-admin-guide" aria-labelledby="guide-title"><h2 id="guide-title">管理できる範囲</h2><p>新しいページは「ページを追加・管理」から作成できます。既存の固定ページは、安全のため構造やURLの削除を許可していません。公開後のURL変更や削除はリンク切れにつながるため、先に非公開を検討してください。</p><a href="/sitemap.xml">公開サイトのサイトマップを見る <span aria-hidden="true">↗</span></a></section>
   </main>
-  <a class="nc-inbox-link" href="/admin/submissions.html">お問い合わせ・エントリーの履歴</a>
-  <script src="/admin/bootstrap.js" defer></script>
 </body>
 </html>

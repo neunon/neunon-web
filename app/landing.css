@@ -28,4 +28,14 @@
 .nc-landing-cta a { display: inline-block; margin-top: 18px; padding: 14px 26px; border: 1px solid currentColor; border-radius: 999px; color: inherit; font-size: 14px; font-weight: 630; }
 .nc-landing-cta a:hover, .nc-landing-cta a:focus-visible { background: #222; color: #fff; }
 .nc-landing-section.is-dark .nc-landing-cta a:hover, .nc-landing-section.is-dark .nc-landing-cta a:focus-visible { background: #fff; color: #222; }
+.nc-landing-steps { max-width: 900px; margin: 0; padding: 0; list-style: none; border-top: 1px solid #dedede; }
+.nc-landing-steps li { display: grid; grid-template-columns: 62px 1fr; gap: 18px; padding: 26px 0; border-bottom: 1px solid #dedede; }
+.nc-landing-steps li > span { color: #777; font: 500 12px/1.8 ui-monospace, monospace; }
+.nc-landing-steps h3 { margin: 0 0 8px; font-size: 19px; }
+.nc-landing-steps p { margin: 0; color: #555; font-size: 14px; line-height: 1.9; white-space: pre-line; }
+.nc-landing-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 22px; margin: 0; }
+.nc-landing-stats div { padding: 22px 0; border-top: 1px solid #dedede; }
+.nc-landing-stats dt { color: #777; font-size: 13px; }
+.nc-landing-stats dd { margin: 12px 0 0; font-size: clamp(28px, 3vw, 42px); font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+.nc-landing-section.is-dark .nc-landing-steps p, .nc-landing-section.is-dark .nc-landing-stats dt { color: #d0d0d0; }
 @media (max-width: 700px) { .nc-landing-cards { grid-template-columns: 1fr; } .nc-landing-image-text { grid-template-columns: 1fr; } .nc-landing-image-text.is-left img, .nc-landing-image-text.is-left .nc-landing-prose { grid-column: auto; grid-row: auto; } }

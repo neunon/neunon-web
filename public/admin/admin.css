@@ -2,3 +2,26 @@
 #cms-status h1 { font-size: 26px; }
 .nc-inbox-link { position: fixed; right: 20px; bottom: 20px; z-index: 99999; padding: 10px 16px; border: 1px solid #d4d4d8; border-radius: 8px; background: #fff; color: #18181b; font: 14px/1.5 system-ui, sans-serif; box-shadow: 0 4px 20px #0001; }
 .nc-inbox-link:focus-visible { outline: 2px solid #5b4b8a; outline-offset: 2px; }
+.nc-admin-home { margin: 0; min-height: 100vh; background: #fcfcfc; color: #18181b; font-family: 'Noto Sans JP', system-ui, sans-serif; }
+.nc-admin-home * { box-sizing: border-box; }
+.nc-admin-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; max-width: 1180px; margin: auto; padding: 28px 32px; border-bottom: 1px solid #e4e4e7; font-size: 13px; color: #71717a; }
+.nc-admin-header a { color: #18181b; text-decoration: none; font-weight: 600; }
+.nc-admin-shell { max-width: 1180px; margin: auto; padding: 74px 32px 110px; }
+.nc-admin-kicker { margin: 0 0 18px; color: #71717a; font-size: 11px; letter-spacing: .22em; }
+.nc-admin-intro h1 { margin: 0 0 20px; font-size: clamp(32px, 4vw, 52px); letter-spacing: -.04em; font-weight: 600; }
+.nc-admin-intro > p:last-child { margin: 0; max-width: 700px; color: #71717a; font-size: 15px; line-height: 1.9; }
+.nc-admin-menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 58px; }
+.nc-admin-card { position: relative; display: flex; flex-direction: column; gap: 12px; min-height: 198px; padding: 30px 32px; border: 1px solid #e4e4e7; border-radius: 14px; background: #fff; color: #18181b; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.nc-admin-card:hover { transform: translateY(-3px); border-color: #c4c4ce; box-shadow: 0 12px 28px #18181b0c; }
+.nc-admin-card-index { color: #a1a1aa; font-size: 12px; }
+.nc-admin-card strong { font-size: 21px; font-weight: 600; }
+.nc-admin-card > span:nth-last-child(2) { max-width: 390px; color: #71717a; font-size: 13px; line-height: 1.7; }
+.nc-admin-card-arrow { position: absolute; top: 26px; right: 30px; font-size: 20px; }
+.nc-admin-guide { margin-top: 64px; padding-top: 30px; border-top: 1px solid #e4e4e7; }
+.nc-admin-guide h2 { font-size: 17px; }
+.nc-admin-guide p { max-width: 790px; color: #71717a; font-size: 13px; line-height: 1.9; }
+.nc-admin-guide a { color: #18181b; font-size: 13px; }
+.nc-admin-home :focus-visible, .nc-admin-shortcuts :focus-visible { outline: 2px solid #5b4b8a; outline-offset: 3px; }
+.nc-admin-shortcuts { position: fixed; right: 20px; bottom: 20px; z-index: 99999; display: flex; gap: 8px; }
+.nc-admin-shortcuts a { padding: 10px 14px; border: 1px solid #d4d4d8; border-radius: 8px; background: #fff; color: #18181b; font: 13px/1.5 system-ui, sans-serif; text-decoration: none; box-shadow: 0 4px 20px #0001; }
+@media (max-width: 680px) { .nc-admin-header { padding: 22px; } .nc-admin-shell { padding: 50px 22px 80px; } .nc-admin-menu { grid-template-columns: 1fr; margin-top: 40px; } .nc-admin-card { min-height: 170px; padding: 25px; } .nc-admin-shortcuts { right: 8px; bottom: 8px; } }

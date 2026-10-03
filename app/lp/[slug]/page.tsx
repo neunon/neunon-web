@@ -64,6 +64,22 @@ function Section({ section }: { section: LandingSection }) {
         {section.type === 'cta' ? (
           <div className="nc-landing-cta"><p>{section.body}</p><Link href={section.href}>{section.label}<span aria-hidden="true"> ↗</span></Link></div>
         ) : null}
+        {section.type === 'steps' ? (
+          <>
+            {section.lead ? <p className="nc-landing-lead">{section.lead}</p> : null}
+            <ol className="nc-landing-steps">{section.steps.filter((step) => step.visible).map((step, i) => (
+              <li key={i}><span>{String(i + 1).padStart(2, '0')}</span><div><h3>{step.title}</h3><p>{step.body}</p></div></li>
+            ))}</ol>
+          </>
+        ) : null}
+        {section.type === 'stats' ? (
+          <>
+            {section.lead ? <p className="nc-landing-lead">{section.lead}</p> : null}
+            <dl className="nc-landing-stats">{section.items.filter((item) => item.visible).map((item, i) => (
+              <div key={i}><dt>{item.label}</dt><dd>{item.value}</dd></div>
+            ))}</dl>
+          </>
+        ) : null}
       </div>
     </section>
   );
