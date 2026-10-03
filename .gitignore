@@ -35,6 +35,8 @@ yarn-error.log*
 /public/admin/status.json
 **/.wrangler/
 **/.dev.vars
+/.npm-cache/
+/.wrangler-config/
 
 # editor
 .vscode/
