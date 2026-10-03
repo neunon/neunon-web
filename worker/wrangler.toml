@@ -6,6 +6,21 @@ compatibility_date = "2026-09-10"
 ALLOWED_ORIGINS = "https://neun-on.com,https://www.neun-on.com"
 NOTIFICATION_EMAIL = "keisakamoto@neun-on.com"
 FROM_EMAIL = "Neunon Website <website@neun-on.com>"
+INBOX_ALLOWED_USERS = "ke1989"
+
+[secrets]
+required = ["RESEND_API_KEY", "TURNSTILE_SECRET"]
+
+[[d1_databases]]
+binding = "SUBMISSIONS"
+database_name = "neunon-submissions"
+database_id = "0682a980-b595-4ccb-a676-8273e2e55878"
+
+[[r2_buckets]]
+binding = "ATTACHMENTS"
+bucket_name = "neunon-submission-files"
+
+# ATTACHMENTS is a private bucket. Never enable its public URL.
 
 # Dashboard または `wrangler secret put` で登録する値:
 # RESEND_API_KEY
