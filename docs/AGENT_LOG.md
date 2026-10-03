@@ -4,13 +4,13 @@
 > 追記ではなく**上書き**する。長い履歴は残さない。最新の状態だけが価値を持つ。
 > 書き方は `AGENTS.md`「二人体制のルール」を参照。
 
-最終更新: 2026-10-03 / 更新者: Codex
+最終更新: 2026-10-04 / 更新者: Codex
 
 ---
 
 ## 1. いま進行中のこと
 
-**フォーム送信履歴の管理機能（`hp/form-inbox`、PR #6）はWorkerのみ本番反映済み。サイト側の管理画面は未公開。** 企業お問い合わせと学生エントリーの項目をD1、添付を非公開R2に保存し、`/admin/submissions.html` にGitHub OAuthログイン後の一覧・詳細・添付ダウンロードを追加した。閲覧は `INBOX_ALLOWED_USERS` とrepo push権限の両方で制限する。保存期限は発注者の希望で設定しない。旧メール通知は継続。`npm run test:worker`（7件）、`npm run typecheck`、`npm run build:deploy`（43ページ・監査指摘なし）は通過。Cloudflareで `neunon-submissions` D1（ID `0682a980-b595-4ccb-a676-8273e2e55878`）にテーブルとインデックスを作成済み。非公開R2 `neunon-submission-files` も作成済み。Worker `neunon-form-api` を2026-10-03にWranglerでバージョン `4b78a25d-5440-448f-ae4e-9b287b704b1f` へデプロイ。未認証の `/submissions` は401、空の `/contact` は503ではなく400を返すことを本番で確認。次はPR #6の人間によるマージ判断、Render公開、管理画面OAuth/一覧・添付の実地テスト。実送信テストは未実施。設定手順は `docs/FORM_SETUP.md`。
+**フォーム送信履歴の管理機能（PR #6）は本番公開済み。** 2026-10-03に発注者の承認を得てPR #6をmainへマージ（`12b4d41`）。Renderの再公開後、`https://neun-on.com/admin/submissions.html` が200で応答し、GitHub OAuthログイン後の受信一覧（現時点では空）をブラウザーで確認済み。企業お問い合わせと学生エントリーの項目をD1、添付を非公開R2に保存する。閲覧は `INBOX_ALLOWED_USERS` とrepo push権限の両方で制限する。保存期限は発注者の希望で設定しない。旧メール通知は継続。`npm run test:worker`（7件）、`npm run typecheck`、`npm run build:deploy`（43ページ・監査指摘なし）は通過。CloudflareのD1 `neunon-submissions`（ID `0682a980-b595-4ccb-a676-8273e2e55878`）にスキーマ適用済み、非公開R2 `neunon-submission-files` を作成済み。Worker `neunon-form-api` の本番バージョンは `4b78a25d-5440-448f-ae4e-9b287b704b1f`。未認証の `/submissions` は401、空の `/contact` は503ではなく400を返すことを確認。**実送信による保存・メール到着・添付ダウンロードの本番確認は未実施。** テスト記録が無期限に残り通知メールも送られるため、発注者とテスト方法を決めてから実施する。従来のメール履歴は自動移行されない。設定手順は `docs/FORM_SETUP.md`。
 
 **トップ「管理・育成体制」の組織図を再構築。公開・マージ判断待ち。**
 
