@@ -4,13 +4,13 @@
 > 追記ではなく**上書き**する。長い履歴は残さない。最新の状態だけが価値を持つ。
 > 書き方は `AGENTS.md`「二人体制のルール」を参照。
 
-最終更新: 2026-10-03 / 更新者: Codex
+最終更新: 2026-10-04 / 更新者: Codex
 
 ---
 
 ## 1. いま進行中のこと
 
-**フォーム送信履歴の管理機能（`hp/form-inbox`、PR #6）はWorkerのみ本番反映済み。サイト側の管理画面は未公開。** 企業お問い合わせと学生エントリーの項目をD1、添付を非公開R2に保存し、`/admin/submissions.html` にGitHub OAuthログイン後の一覧・詳細・添付ダウンロードを追加した。閲覧は `INBOX_ALLOWED_USERS` とrepo push権限の両方で制限する。保存期限は発注者の希望で設定しない。旧メール通知は継続。`npm run test:worker`（7件）、`npm run typecheck`、`npm run build:deploy`（43ページ・監査指摘なし）は通過。Cloudflareで `neunon-submissions` D1（ID `0682a980-b595-4ccb-a676-8273e2e55878`）にテーブルとインデックスを作成済み。非公開R2 `neunon-submission-files` も作成済み。Worker `neunon-form-api` を2026-10-03にWranglerでバージョン `4b78a25d-5440-448f-ae4e-9b287b704b1f` へデプロイ。未認証の `/submissions` は401、空の `/contact` は503ではなく400を返すことを本番で確認。次はPR #6の人間によるマージ判断、Render公開、管理画面OAuth/一覧・添付の実地テスト。実送信テストは未実施。設定手順は `docs/FORM_SETUP.md`。
+**権限追加準備（`hp/inbox-member-access`）。** 発注者は `sumikota22-commits` にサイト編集とお問い合わせ閲覧の両方を許可すると指定。GitHubプロフィールの存在を確認済み。GitHubリポジトリへのWrite権限付与はsudo再認証待ち。フォームWorkerの `INBOX_ALLOWED_USERS` に同ユーザーを追加する変更を準備したが、本番Workerへの反映は未実施。両方の設定が完了するまで当人は受信内容を閲覧できない。PR #6はmainへマージ済みで、サイト管理画面とWorkerは本番公開済み。管理トップ拡張PR #8と公開状況ログPR #7は別途オープン中。実フォーム送信・添付の本番テストは未実施。設定手順は `docs/FORM_SETUP.md`。
 
 **トップ「管理・育成体制」の組織図を再構築。公開・マージ判断待ち。**
 
