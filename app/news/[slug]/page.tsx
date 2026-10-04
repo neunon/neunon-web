@@ -5,6 +5,7 @@ import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { getNews, getNewsItem } from '@/lib/content';
 import { createPageMetadata } from '@/lib/seo';
+import { jsonLd, newsArticleNode } from '@/lib/schema';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -19,11 +20,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const item = getNewsItem(slug);
   if (!item) return {};
 
-  const metadata = createPageMetadata({ title: item.title, description: item.excerpt }, `/news/${item.slug}/`);
-  return {
-    ...metadata,
-    openGraph: { ...metadata.openGraph, type: 'article', publishedTime: item.date },
-  };
+  return createPageMetadata({ title: item.title, description: item.excerpt }, `/news/${item.slug}/`, {
+    article: { publishedTime: `${item.date}T00:00:00+09:00`, section: item.category },
+  });
 }
 
 /** お知らせ詳細（要件定義書 4. のサイトマップ） */
@@ -36,6 +35,7 @@ export default async function NewsDetailPage({ params }: Props) {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(newsArticleNode(item))} />
       <PageHero
         eyebrow={`${item.date.replace(/-/g, '.')}　${item.category}`}
         title={item.title}

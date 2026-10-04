@@ -7,6 +7,7 @@
  *   public/ogp.png          OGP画像 1200x630
  *   app/icon.png            ファビコン（Next の metadata file convention）
  *   app/apple-icon.png      ホーム画面用アイコン 180x180
+ *   public/brand-logo-transparent.png  ヘッダー・フッターのロゴ（assets/ の元データから縮小）
  *
  * 文字はレンダリングせず、受領したロゴの切り出しと合成だけで作る。
  * 実行環境のフォントに依存させないため。
@@ -18,6 +19,10 @@ import path from 'node:path';
 import fs from 'node:fs/promises';
 
 const SRC = 'neunon-logo.png';
+
+/** ヘッダーロゴの元データと出力幅。幅を変えたら Logo.tsx の width/height 属性も揃えること */
+const LOGO_SRC = 'assets/brand-logo-transparent.png';
+const LOGO_WIDTH = 378;
 
 /** ブランドトークン（app/globals.css と揃える） */
 const WHITE = '#ffffff';
@@ -157,8 +162,23 @@ async function main() {
   await (await squareIcon(512)).toFile('app/icon.png');
   await (await squareIcon(180)).toFile('app/apple-icon.png');
 
+  // --- 4. ヘッダー・フッターのロゴ --------------------------------------------
+  // 表示幅は最大 126px（app/editorial-round2.css）なのに、元データは 1774px・169KB あり、
+  // 全ページで preload されてヒーロー画像（LCP）と帯域を取り合っていた。
+  // 高精細ディスプレイを考慮して表示幅の約3倍まで縮める。元データは assets/ に保管。
+  await sharp(LOGO_SRC)
+    .resize({ width: LOGO_WIDTH, kernel: 'lanczos3' })
+    .png({ compressionLevel: 9, palette: true })
+    .toFile('public/brand-logo-transparent.png');
+
   // --- 結果 -----------------------------------------------------------------
-  const files = ['public/neunon-logo.png', 'public/ogp.png', 'app/icon.png', 'app/apple-icon.png'];
+  const files = [
+    'public/neunon-logo.png',
+    'public/ogp.png',
+    'app/icon.png',
+    'app/apple-icon.png',
+    'public/brand-logo-transparent.png',
+  ];
   const before = (await fs.stat(SRC)).size;
   console.log(`\n元 ${SRC}: ${(before / 1024).toFixed(0)} KB（ブランド資産として残す）`);
   for (const file of files) {

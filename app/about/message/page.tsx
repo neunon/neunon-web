@@ -1,15 +1,20 @@
 import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
 import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { site } from '@/lib/site';
 
-export const metadata: Metadata = {
-  title: '代表メッセージ',
-  description: `${site.name} 代表取締役社長からのメッセージ。`,
-  alternates: { canonical: '/about/message' },
-  // 原稿が未確定のうちは検索結果に出さない
-  robots: { index: false, follow: true },
-};
+export const metadata: Metadata = createPageMetadata(
+  {
+    title: '代表メッセージ',
+    description: `${site.name} 代表取締役社長からのメッセージ。`,
+  },
+  '/about/message/',
+  {
+    // 原稿が未確定のうちは検索結果に出さない
+    robots: { index: false, follow: true },
+  },
+);
 
 /**
  * 代表メッセージ（要件定義書 4. のサイトマップ）。

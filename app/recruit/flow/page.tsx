@@ -1,15 +1,18 @@
 import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { SelectionTimeline } from '@/components/recruit/SelectionTimeline';
 import { termsPendingNote } from '@/lib/recruit';
 
-export const metadata: Metadata = {
-  title: '選考フロー',
-  description:
-    '募集要項の送付から稼働開始までの7ステップ。オンラインを中心に選考と初期手続きを進めます。',
-  alternates: { canonical: '/recruit/flow' },
-};
+export const metadata: Metadata = createPageMetadata(
+  {
+    title: '選考フロー',
+    description:
+      'Neunon Consultingの学生アソシエイト選考フロー。募集要項の送付から稼働開始までの7ステップと、応募から結果連絡までの目安（1〜3週間）、よくある質問をまとめています。選考はオンライン中心です。',
+  },
+  '/recruit/flow/',
+);
 
 const faq = [
   {

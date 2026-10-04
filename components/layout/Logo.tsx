@@ -3,7 +3,7 @@ import Link from 'next/link';
 export function Logo({ href = '/', className = '' }: { href?: string | null; className?: string }) {
   const mark = (
     <span className={`nc-logo ${className}`.trim()}>
-      <img src="/brand-logo-transparent.png" alt="Neunon Consulting" width="1774" height="887" />
+      <img src="/brand-logo-transparent.png" alt="Neunon Consulting" width="378" height="189" />
     </span>
   );
 

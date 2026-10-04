@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { PageHero } from '@/components/shared/PageHero';
@@ -24,13 +25,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const talent = await getPublicTalent(id);
   if (!talent) return {};
 
-  return {
-    title: `${talent.displayName}｜人材パネル`,
-    description: `${talent.displayName}は${roleLabels[talent.role]}です。${talent.universityCategory}。対応領域: ${talent.serviceAreas.join('、') || '個別相談'}。`,
-    alternates: { canonical: `/talent/${talent.id}` },
+  return createPageMetadata(
+    {
+      title: `${talent.displayName}｜人材パネル`,
+      description: `${talent.displayName}は${roleLabels[talent.role]}です。${talent.universityCategory}。対応領域: ${talent.serviceAreas.join('、') || '個別相談'}。`,
+    },
+    `/talent/${talent.id}/`,
     // 個人単位のページを検索結果に出す必要はない（要件定義書 12.1）
-    robots: { index: false, follow: true },
-  };
+    { robots: { index: false, follow: true } },
+  );
 }
 
 /**

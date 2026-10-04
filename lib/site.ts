@@ -7,6 +7,8 @@
 export const site = {
   name: '株式会社Neunon Consulting',
   nameEn: 'Neunon Consulting, Inc.',
+  /** 検索結果のタイトル末尾など、社名を短く示す場面で使う */
+  shortName: 'Neunon Consulting',
   // 要確認: 独自ドメインの取得状況（要件定義書 10.3 / 14）
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://neun-on.com',
   domain: 'neun-on.com',
@@ -16,14 +18,22 @@ export const site = {
   mission:
     '企業の成長・再建・立上げに伴う多様な課題に対し、画一的なフレームワークに頼らず、個々の状況に応じた柔軟かつ実践的な支援を提供すると共に、実務支援を通じて次世代ビジネス人材を育成し、社会的価値の創出を目指します',
   founded: '2026年1月27日',
+  foundingDate: '2026-01-27',
   representative: '代表取締役社長　坂本 慧',
   employees: '5名',
+  employeeCount: 5,
   address: {
     head: '東京都江東区南砂6-7-36-306',
+    // 構造化データ用に分解したもの。head を変えたらこちらも揃えること
+    region: '東京都',
+    locality: '江東区',
+    street: '南砂6-7-36-306',
   },
   tel: '070-4360-2752',
   // 代表問い合わせ先
   email: 'keisakamoto@neun-on.com',
+  /** 構造化データ（Organization.knowsAbout）に使う専門領域。サイト上で扱っている領域に限る */
+  expertise: ['経営コンサルティング', '市場調査', '競合分析', '企業調査', '新規事業開発', 'データ分析', '業務効率化', 'AI活用'],
 } as const;
 
 /**

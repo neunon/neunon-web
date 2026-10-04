@@ -1,15 +1,20 @@
 import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { site } from '@/lib/site';
 
-export const metadata: Metadata = {
-  title: '送信完了',
-  description: 'お問い合わせを受け付けました。',
-  alternates: { canonical: '/contact/thanks' },
-  // 完了ページを検索結果に出す必要はない
-  robots: { index: false, follow: false },
-};
+export const metadata: Metadata = createPageMetadata(
+  {
+    title: '送信完了',
+    description: 'お問い合わせを受け付けました。',
+  },
+  '/contact/thanks/',
+  {
+    // 完了ページを検索結果に出す必要はない
+    robots: { index: false, follow: false },
+  },
+);
 
 /** 送信完了ページ（要件定義書 6.8 共通要件） */
 export default function ContactThanksPage() {
