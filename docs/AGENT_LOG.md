@@ -14,7 +14,7 @@
 
 追加修正（2026-10-07）: `/services/` に実績・人材と同じ `PageHero` を追加。3つの事業詳細では大見出しに添えていた英字・日本語の装飾ラベルを外し、独自のCTAを既存の `InteractiveHoverLink` に統一した。事例・成果物・AI業務フローの模式図を `ServiceVisuals.tsx` に追加し、コンサルティングの4つの支援体制と価格構造も視覚化。模式図に実データではないことを明記した。価格については、既存データの `showPricing` を尊重し、パッケージ型支援の公開設定済み価格のみ数値で再掲。コンサルティングとAIは価格の考え方・個別見積りを説明し、金額は創作していない。図のスタイルは `app/service-visuals.css` に限定。`origin/main` はfetch後も `53bf1bf`。
 
-追加修正の検証: `npm run typecheck`、`npm run build`、`npm run audit:html`、`npm run test:cms` は通過。ブラウザーで4つの事業URLのデスクトップ表示、375px相当のモバイル表示と横はみ出しなしを確認。ニュース仮原稿の既存警告3件のみ継続。
+追加修正の検証: `npm run typecheck`、`npm run build`、`npm run audit:html`、`npm run test:cms` は通過。ブラウザーで4つの事業URLのデスクトップ表示、375px相当のモバイル表示と横はみ出しなしを確認。ニュース仮原稿の既存警告3件のみ継続。追加修正はローカルコミット `cf6964f` に保存。pushはGit Credential Managerの認証待ちで応答が返らず中止したため未公開。認証の復旧が必要。
 
 検証: `npm run typecheck`、`npm run build`、`npm run audit:html`（43ページ、指摘なし）、`npm run test:cms`（9件すべて通過）、`git diff --check`。既存ニュース原稿の警告3件は継続。ローカルブラウザーで4ページのデスクトップ・375px相当モバイル表示を確認し、横はみ出しなし。開閉式メニューの操作も確認。AI資料の「提供中／構想中」は資料の表記を採用しているため、公開前に事業担当者へ最新状況の確認が望ましい。改修はローカルコミット `eec8be2` に保存。GitHubへのpushを再試行したが、今回も失敗（終了コード1・出力なし）。前回はGit Credential Managerに資格情報がなく失敗し、GitHub連携からのブランチ作成も403で拒否されている。未公開。
 
