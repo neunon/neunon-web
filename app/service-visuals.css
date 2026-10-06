@@ -1,0 +1,138 @@
+/* Diagram and pricing treatments shared by the three service detail pages. */
+.ep .ep-split-head h2, .ep .ep-faq h2 { margin-top: 0; }
+.ep .ep-c-hero h1, .ep .ep-p-hero h1, .ep .ep-a-hero h1 { margin-top: 0; }
+.ep .ep-c-hero .nc-interactive-hover { margin-top: 38px; }
+.ep .ep-c-vision-intro { display: block; }
+.ep .ep-c-method h2, .ep .ep-c-proof h2, .ep .ep-a-questions h2, .ep .ep-a-process-intro h2,
+.ep .ep-a-engagement h2, .ep .ep-p-benefits h2 { margin-top: 0; }
+.ep .ep-c-case-main h3 { margin-top: 0; }
+.ep .ep-c-case-detail p { font-size: 13px; }
+.ep .ep-c-format-list article { grid-template-columns: minmax(250px, .7fr) minmax(0, 1.3fr); }
+.ep .ep-c-format-list article > div:first-child > span { display: none; }
+.ep .ep-a-mode-pair h3 { margin-top: 0; }
+.ep .ep-a-mode-pair article { display: flex; flex-direction: column; justify-content: flex-end; }
+.ep .ep-a-mode-pair article > p { margin-top: 22px; }
+.ep .ep-a-mode-pair ul { margin-top: 36px; }
+.ep .ep-faq .nc-interactive-hover { margin-top: 36px; }
+
+/* Every client-case graphic is explicitly schematic, never a claimed result. */
+.ep-case-viz { max-width: 500px; margin: 35px 0 0; padding: 18px 19px 13px; border: 1px solid #e1e1e5; border-radius: 17px; background: #fafafa; }
+.ep-case-viz svg { display: block; width: 100%; height: auto; }
+.ep-case-viz figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; padding-top: 9px; color: #63636b; font-size: 10px; line-height: 1.6; }
+.ep-case-viz figcaption span { color: #9898a0; }
+.ep-viz-grid path { fill: none; stroke: #d8d8df; stroke-width: 1; }
+.ep-viz-bars rect { fill: #dddce6; }
+.ep-viz-bars rect:nth-last-child(-n+2) { fill: #aaa2ba; }
+.ep-viz-line { fill: none; stroke: #6a5b91; stroke-width: 2.5; stroke-linecap: round; }
+.ep-viz-points circle { fill: #fff; stroke: #6a5b91; stroke-width: 2; }
+.ep-viz-matrix-labels text, .ep-viz-axis-labels text { fill: #85858f; font-size: 11px; font-weight: 500; }
+.ep-viz-matrix-row rect { fill: #e8e8ed; }
+.ep-viz-matrix-row circle { fill: #6a5b91; }
+.ep-viz-matrix-row:nth-of-type(3) rect:nth-child(3) { fill: #afa6c1; }
+.ep-viz-matrix-links path { fill: none; stroke: #c7c4cf; stroke-width: 1.5; }
+.ep-viz-scatter circle { fill: #bdb7ca; }
+.ep-viz-scatter circle:nth-child(5), .ep-viz-scatter circle:nth-child(6) { fill: #675889; }
+.ep-viz-focus { fill: none; stroke: #675889; stroke-width: 1.5; stroke-dasharray: 4 4; }
+
+/* Four staffing routes, shown as a diagram rather than a decorative number list. */
+.ep-format-flow { margin: 0 0 58px; padding: 18px 28px 17px; border: 1px solid #e2e1e7; border-radius: 20px; background: #f7f7f9; }
+.ep-format-flow-rows { display: grid; }
+.ep-format-flow-row { display: grid; grid-template-columns: minmax(180px, .43fr) 1fr; align-items: center; gap: 20px; min-height: 96px; border-bottom: 1px solid #dfdfe5; }
+.ep-format-flow-row:last-child { border-bottom: 0; }
+.ep-format-flow-row > strong { font-size: 14px; font-weight: 600; }
+.ep-format-flow-nodes { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ep-format-flow-node { display: inline-flex; align-items: center; gap: 8px; }
+.ep-format-flow-node i { color: #8e82a4; font-size: 18px; font-style: normal; }
+.ep-format-flow-node b { padding: 10px 14px; border: 1px solid #e1e1e5; border-radius: 10px; background: #fff; color: #36343c; font-size: 12px; font-weight: 500; }
+.ep-format-flow-node:last-child b { border-color: #cfc7df; background: #f0edf6; }
+.ep-format-flow figcaption { padding: 15px 0 2px; border-top: 1px solid #dfdfe5; color: #73737d; font-size: 11px; }
+
+/* Price composition preserves the source's relative structure, not invoice amounts. */
+.ep-c-pricing { background: #f0eff2; }
+.ep-c-pricing-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, .8fr); gap: clamp(40px, 6vw, 90px); align-items: start; }
+.ep-price-composition { margin: 0; padding: 35px 36px 25px; border: 1px solid #e4e3e8; border-radius: 22px; background: #fff; box-shadow: 0 24px 50px -45px rgba(25,23,31,.35); }
+.ep-price-composition-plot { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; position: relative; height: 390px; }
+.ep-price-composition-column { display: flex; flex-direction: column; align-items: center; justify-content: end; gap: 16px; min-width: 0; }
+.ep-price-composition-column > strong { min-height: 35px; color: #4a4a53; font-size: 13px; font-weight: 600; text-align: center; }
+.ep-price-composition-bar { display: flex; align-items: end; justify-content: center; width: 100%; max-width: 140px; height: 315px; border-bottom: 1px solid #c6c4cd; }
+.ep-price-composition-stack { display: flex; flex-direction: column; width: 100%; min-height: 2px; overflow: hidden; border-radius: 7px 7px 0 0; }
+.ep-price-composition-stack > div { min-height: 0; }
+.ep-price-composition-stack .is-muted { background: #e0e0e5; }
+.ep-price-composition-stack .is-pro { background: #898195; }
+.ep-price-composition-stack .is-student { background: #665887; }
+.ep-price-composition-guide { position: absolute; top: 10px; right: 0; left: 0; display: flex; justify-content: center; pointer-events: none; }
+.ep-price-composition-guide span { padding: 5px 11px; border: 1px solid #e5e3eb; border-radius: 999px; background: #fff; color: #85818f; font-size: 10px; }
+.ep-price-composition-legend { display: flex; flex-wrap: wrap; gap: 10px 18px; padding-top: 22px; border-top: 1px solid #e6e5e9; }
+.ep-price-composition-legend span { display: inline-flex; align-items: center; gap: 7px; color: #6b6b73; font-size: 12px; }
+.ep-price-composition-legend i { display: block; width: 9px; height: 9px; border-radius: 2px; }
+.ep-price-composition-legend .is-muted { background: #e0e0e5; }
+.ep-price-composition-legend .is-pro { background: #898195; }
+.ep-price-composition-legend .is-student { background: #665887; }
+.ep-price-composition figcaption { margin-top: 20px; color: #898992; font-size: 11px; line-height: 1.7; }
+.ep-c-pricing-reasons { border-top: 1px solid #bfc0c5; }
+.ep-c-pricing-reasons article { padding: 23px 0 25px; border-bottom: 1px solid #cfcfd3; }
+.ep-c-pricing-reasons h3 { font-size: 20px; font-weight: 600; }
+.ep-c-pricing-reasons p { margin-top: 11px; color: #63636b; font-size: 13px; line-height: 1.95; }
+.ep-pricing-note { max-width: 62em; margin: 28px 0 26px !important; color: #6b6b73; font-size: 12px; line-height: 1.8; }
+
+/* Report-cover previews now contain four different abstract visual methods. */
+.ep .ep-p-output-cover { gap: 25px; }
+.ep .ep-p-output-cover h3 { margin-top: 15px; }
+.ep-package-preview-visual { position: relative; display: grid; place-items: center; height: 150px; margin-top: auto; padding: 18px; overflow: hidden; border: 1px solid #e2e2e8; border-radius: 10px; background: #f8f8fa; }
+.ep-package-preview-key { position: absolute; right: 10px; bottom: 7px; color: #9897a0; font-size: 9px; }
+.ep-pv-market { display: flex; align-items: end; gap: 10px; width: 80%; height: 85%; padding-bottom: 14px; border-bottom: 1px solid #c9c8d0; }
+.ep-pv-market i { flex: 1; height: 35%; background: #d4d2de; }.ep-pv-market i:nth-child(2) { height: 72%; }.ep-pv-market i:nth-child(3) { height: 55%; background: #807494; }.ep-pv-market i:nth-child(4) { height: 88%; }.ep-pv-market i:nth-child(5) { height: 64%; }
+.ep-pv-account { position: relative; width: 88%; height: 80%; }
+.ep-pv-account::before, .ep-pv-account::after { content: ''; position: absolute; left: 11%; right: 11%; height: 1px; background: #c7c3d0; transform-origin: left; }.ep-pv-account::before { top: 40%; transform: rotate(13deg); }.ep-pv-account::after { top: 66%; transform: rotate(-17deg); }
+.ep-pv-account i { position: absolute; z-index: 1; width: 22px; height: 22px; border: 3px solid #f8f8fa; border-radius: 50%; background: #d1cfda; }.ep-pv-account i:nth-child(1) { top: 27%; left: 5%; background: #6c608b; }.ep-pv-account i:nth-child(2) { top: 13%; left: 43%; }.ep-pv-account i:nth-child(3) { top: 56%; left: 38%; }.ep-pv-account i:nth-child(4) { top: 39%; right: 5%; background: #8f83a5; }
+.ep-pv-compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; width: 77%; height: 75%; }
+.ep-pv-compare i { border-radius: 3px; background: #e0dfe6; }.ep-pv-compare i:nth-child(2), .ep-pv-compare i:nth-child(6) { background: #ab9fbf; }.ep-pv-compare i:nth-child(5) { background: #6c608b; }
+.ep-pv-funnel { display: flex; flex-direction: column; align-items: center; gap: 7px; width: 80%; }
+.ep-pv-funnel i { display: block; width: 100%; height: 15px; border-radius: 3px; background: #e3e1e9; }.ep-pv-funnel i:nth-child(2) { width: 78%; background: #c6c1d1; }.ep-pv-funnel i:nth-child(3) { width: 57%; background: #9f95b4; }.ep-pv-funnel i:nth-child(4) { width: 34%; background: #655784; }
+
+/* Public package prices come from content/services/02-package.json. */
+.ep-p-pricing { background: #fff; }
+.ep-p-pricing-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 25px; border-top: 1px solid #bebec5; }
+.ep-p-pricing-row { display: flex; flex-direction: column; justify-content: space-between; gap: 18px; min-height: 123px; padding: 22px 0; border-bottom: 1px solid #dedee2; }
+.ep-p-pricing-row span { max-width: 19em; color: #55555d; font-size: 13px; line-height: 1.6; }
+.ep-p-pricing-row strong { color: #232229; font-size: clamp(24px, 2.4vw, 34px); font-weight: 600; letter-spacing: -.05em; }
+
+/* AI workflow: a concrete before/after diagram, with a human approval gate. */
+.ep-a-workflow-section { background: #eae9ed; }
+.ep-ai-workflow { display: grid; grid-template-columns: 1fr auto 1fr; gap: 22px; align-items: center; margin: 0; padding: clamp(25px, 4vw, 55px); border: 1px solid #dedde4; border-radius: 24px; background: radial-gradient(#d7d5df 1px, transparent 1px) 0 0 / 24px 24px, #f8f8f9; }
+.ep-ai-workflow-before, .ep-ai-workflow-after { min-width: 0; min-height: 315px; padding: 25px; border: 1px solid #e1e1e5; border-radius: 17px; background: #fff; box-shadow: 0 17px 35px -30px rgba(27,25,33,.35); }
+.ep-ai-workflow h3 { margin: 0 0 25px; font-size: 17px; font-weight: 600; }
+.ep-ai-workflow-before > div, .ep-ai-workflow-after > div { display: grid; gap: 9px; }
+.ep-ai-workflow-before span, .ep-ai-workflow-after span { display: block; padding: 11px 15px; border: 1px solid #e2e2e7; border-radius: 9px; background: #f9f9fa; color: #4b4b54; font-size: 13px; }
+.ep-ai-workflow-before span + span::before, .ep-ai-workflow-after span + span::before { content: '↓'; display: block; height: 0; transform: translate(0, -23px); color: #a09ba9; text-align: center; }
+.ep-ai-workflow-after .is-ai { border-color: #d7d0e4; background: #f2eff7; color: #4f426e; }
+.ep-ai-workflow-after .is-human { border-color: #b8afc9; background: #fff; color: #201e26; font-weight: 600; }
+.ep-ai-workflow-arrow { color: #655784; font-size: 30px; }
+.ep-ai-workflow figcaption { grid-column: 1 / -1; color: #6d6b73; font-size: 11px; line-height: 1.8; text-align: center; }
+.ep-a-estimate-label { display: inline-flex; margin-top: 25px !important; padding: 10px 17px; border: 1px solid #d0cadb; border-radius: 999px; background: #f7f5fa; color: #655784; font-size: 12px; font-weight: 600; }
+.ep-a-estimate-help { margin-top: 14px !important; }
+.ep-a-engagement .nc-interactive-hover { margin-top: 28px; }
+
+@media (max-width: 1050px) {
+  .ep-c-pricing-layout { grid-template-columns: 1fr; }
+  .ep-p-pricing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .ep-format-flow { padding-inline: 18px; }
+  .ep-format-flow-row { grid-template-columns: 1fr; gap: 10px; padding: 22px 0; }
+  .ep .ep-c-format-list article { grid-template-columns: 1fr; }
+  .ep-ai-workflow { grid-template-columns: 1fr; }
+  .ep-ai-workflow-arrow { text-align: center; transform: rotate(90deg); }
+  .ep-ai-workflow-before, .ep-ai-workflow-after { min-height: 0; }
+  .ep-p-pricing-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 540px) {
+  .ep-case-viz { padding: 10px 11px 9px; }
+  .ep-price-composition { padding: 18px 14px; }
+  .ep-price-composition-plot { height: 310px; gap: 15px; }
+  .ep-price-composition-bar { height: 240px; }
+  .ep-p-pricing-grid { grid-template-columns: 1fr; }
+  .ep-p-pricing-row { min-height: 0; flex-direction: row; align-items: end; gap: 20px; }
+  .ep-p-pricing-row strong { white-space: nowrap; }
+  .ep-ai-workflow { padding: 14px; }
+}

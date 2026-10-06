@@ -1,7 +1,8 @@
-import Link from 'next/link';
 import type { Service } from '@/lib/content';
 import { PageBreadcrumbs } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
+import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
+import { CaseIllustration, FormatFlow, PriceComposition } from './ServiceVisuals';
 
 export function ConsultingServiceDetail({ service }: { service: Service }) {
   const detail = service.consulting;
@@ -14,17 +15,13 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
       <section className="ep-c-hero" aria-labelledby="ep-c-title">
         <div className="ep-wrap ep-c-hero-inner">
           <div className="ep-c-hero-copy">
-            <span className="ep-overline">Consulting / 01</span>
-            <h1 id="ep-c-title">コンサルティング<span className="ep-c-hero-dot">.</span></h1>
+            <h1 id="ep-c-title">コンサルティング</h1>
             <p>{service.lead}</p>
-            <Link href="/contact/" className="ep-text-link ep-text-link-light">相談する <span aria-hidden="true">↗</span></Link>
+            <InteractiveHoverLink href="/contact/" text="相談する" className="is-outline-light" />
           </div>
-          <div className="ep-c-hero-visual" role="img" aria-label="夜の都市とビジネスの風景">
-            <span>Purpose → Insight → Action</span>
-          </div>
+          <div className="ep-c-hero-visual" role="img" aria-label="夜の都市とビジネスの風景" />
           <div className="ep-c-hero-bottom">
             <span>経営と事業の、判断を支える。</span>
-            <span>Scroll to explore <i aria-hidden="true">↓</i></span>
           </div>
         </div>
       </section>
@@ -32,7 +29,6 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
       <section className="ep-section ep-c-vision" aria-labelledby="ep-c-vision-title">
         <div className="ep-wrap">
           <div className="ep-c-vision-intro">
-            <span className="ep-overline">目指す姿</span>
             <h2 id="ep-c-vision-title">{detail.vision.title}</h2>
           </div>
           <div className="ep-c-values">
@@ -50,7 +46,6 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
         <div className="ep-wrap">
           <header className="ep-split-head">
             <div>
-              <span className="ep-overline">主な支援テーマ</span>
               <h2 id="ep-c-themes-title">経営課題を、<br />具体的な問いに。</h2>
             </div>
             <p>{detail.themes.lead}</p>
@@ -74,7 +69,6 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
       <section className="ep-section ep-c-method" aria-labelledby="ep-c-method-title">
         <div className="ep-wrap ep-c-method-inner">
           <div className="ep-c-method-heading">
-            <span className="ep-overline">問題解決の考え方</span>
             <h2 id="ep-c-method-title">{detail.principles.lead}</h2>
           </div>
           <div className="ep-c-method-steps">
@@ -92,7 +86,6 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
         <div className="ep-wrap">
           <header className="ep-split-head">
             <div>
-              <span className="ep-overline">支援事例</span>
               <h2 id="ep-c-cases-title">課題から、<br />判断材料まで。</h2>
             </div>
             <p>{detail.cases.lead}</p>
@@ -101,9 +94,9 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
             {detail.cases.items.map((item) => (
               <article key={item.no}>
                 <div className="ep-c-case-main">
-                  <span className="ep-overline">Case {item.no}</span>
                   <h3>{item.title}</h3>
                   <p>{item.summary}</p>
+                  <CaseIllustration item={item} />
                 </div>
                 <div className="ep-c-case-detail">
                   <div><span>課題</span><p>{item.issue.join('／')}</p></div>
@@ -120,7 +113,6 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
         <div className="ep-wrap">
           <div className="ep-c-proof-top">
             <div>
-              <span className="ep-overline">支援実績</span>
               <h2 id="ep-c-proof-title">{detail.record.heading}</h2>
               <p>{detail.record.lead}</p>
             </div>
@@ -137,7 +129,7 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
           <div className="ep-c-proof-bottom">
             <p>{detail.record.industryLead}</p>
             <ul>{detail.record.industries.map((industry) => <li key={industry}>{industry}</li>)}</ul>
-            <Link href="/works/" className="ep-text-link">支援実績を見る <span aria-hidden="true">↗</span></Link>
+            <InteractiveHoverLink href="/works/" text="支援実績を見る" className="is-outline" />
           </div>
         </div>
       </section>
@@ -146,29 +138,42 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
         <div className="ep-wrap">
           <header className="ep-split-head">
             <div>
-              <span className="ep-overline">支援形態</span>
               <h2 id="ep-c-formats-title">案件に合わせて、<br />体制を組む。</h2>
             </div>
             <p>{detail.formats.lead}</p>
           </header>
+          <FormatFlow items={detail.formats.items} />
           <div className="ep-c-format-list">
             {detail.formats.items.map((format) => (
               <article key={format.no}>
                 <div><span>{format.role}</span><h3>{format.title}</h3></div>
                 <p>{format.body}</p>
-                <div className="ep-c-format-chain">{format.chain.map((node, index) => (
-                  <span key={`${node}-${index}`}>{index > 0 ? <i aria-hidden="true">→</i> : null}{node}</span>
-                ))}</div>
               </article>
             ))}
           </div>
-          <p className="ep-c-pricing-note">{service.pricingNote}</p>
+        </div>
+      </section>
+
+      <section className="ep-section ep-c-pricing" aria-labelledby="ep-c-pricing-title">
+        <div className="ep-wrap">
+          <header className="ep-split-head">
+            <h2 id="ep-c-pricing-title">品質を担保し、<br />費用を抑える仕組み。</h2>
+            <p>{detail.price.lead}</p>
+          </header>
+          <div className="ep-c-pricing-layout">
+            <PriceComposition chart={detail.price.chart} />
+            <div className="ep-c-pricing-reasons">
+              {detail.price.reasons.map((reason) => <article key={reason.no}><h3>{reason.title}</h3><p>{reason.body}</p></article>)}
+            </div>
+          </div>
+          <p className="ep-pricing-note">{service.pricingNote}</p>
+          <InteractiveHoverLink href="/contact/" text="見積りを相談する" className="is-outline" />
         </div>
       </section>
 
       <section className="ep-section ep-faq" aria-labelledby="ep-c-faq-title">
         <div className="ep-wrap ep-faq-inner">
-          <div><span className="ep-overline">よくある質問</span><h2 id="ep-c-faq-title">相談の前に。</h2></div>
+          <div><h2 id="ep-c-faq-title">相談の前に。</h2></div>
           <div className="ep-faq-list">
             {service.faq.map((item) => <details key={item.q}><summary>{item.q}<span aria-hidden="true">＋</span></summary><p>{item.a}</p></details>)}
           </div>
