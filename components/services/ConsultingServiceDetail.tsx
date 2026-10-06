@@ -1,306 +1,185 @@
 import Link from 'next/link';
 import type { Service } from '@/lib/content';
-import { PageHero } from '@/components/shared/PageHero';
+import { PageBreadcrumbs } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
-import { FormatDiagram, PriceChart } from '@/components/services/ConsultingDiagrams';
 
-/**
- * コンサルティング事業詳細（要件定義書 6.3）。
- *
- * 構成の出典は「コンサルティング事業_紹介資料.pptx」(2026-09-25 受領):
- *   目指す姿(S5) → 問題解決の考え方(S7) → 主な支援テーマ(S8) → 支援実績(S6)
- *   → 事例(S10-12) → 支援形態(S9) → 価格(S15)
- *
- * 見せ方はパッケージ型支援（PackageServiceDetail）と同じ体系:
- *   全幅セクションを明暗交互に重ね、各セクションは英字ラベル＋見出し＋補足で始める。
- * 見出しは資料の言い方をそのまま使う。言い換えて調子をつけない。
- * 支援実績だけはトップページの実績パネル（.nc-service-evidence）と同じ作りにしている。
- *
- * 内容は service.consulting にあるため、文言修正は
- * content/services/01-consulting.json だけで完結する。
- */
 export function ConsultingServiceDetail({ service }: { service: Service }) {
   const detail = service.consulting;
-  // 拡張ブロックが無い場合でもページを壊さない（build 時は audit-content が検出する）
   if (!detail) return null;
 
   return (
-    <div className="nc-consulting-page">
-      <PageHero
-        eyebrow="Management consulting"
-        title={service.title}
-        lead={service.lead}
-        crumbs={[{ label: '事業内容', href: '/services' }, { label: service.title }]}
-      />
+    <div className="ep ep-consulting">
+      <PageBreadcrumbs crumbs={[{ label: '事業内容', href: '/services' }, { label: service.title }]} />
 
-      <div className="nc-consulting-content">
-        {/* ---------- 目指す姿 ---------- */}
-        <section className="nc-consulting-opening" aria-labelledby="consulting-aim-title">
-          <div className="wrap">
-            <div className="nc-consulting-opening-copy">
-              <span className="nc-consulting-kicker">Our aim</span>
-              <h2 id="consulting-aim-title">{detail.vision.title}</h2>
-              <p>{detail.themes.lead}</p>
+      <section className="ep-c-hero" aria-labelledby="ep-c-title">
+        <div className="ep-wrap ep-c-hero-inner">
+          <div className="ep-c-hero-copy">
+            <span className="ep-overline">Consulting / 01</span>
+            <h1 id="ep-c-title">コンサルティング<span className="ep-c-hero-dot">.</span></h1>
+            <p>{service.lead}</p>
+            <Link href="/contact/" className="ep-text-link ep-text-link-light">相談する <span aria-hidden="true">↗</span></Link>
+          </div>
+          <div className="ep-c-hero-visual" role="img" aria-label="夜の都市とビジネスの風景">
+            <span>Purpose → Insight → Action</span>
+          </div>
+          <div className="ep-c-hero-bottom">
+            <span>経営と事業の、判断を支える。</span>
+            <span>Scroll to explore <i aria-hidden="true">↓</i></span>
+          </div>
+        </div>
+      </section>
+
+      <section className="ep-section ep-c-vision" aria-labelledby="ep-c-vision-title">
+        <div className="ep-wrap">
+          <div className="ep-c-vision-intro">
+            <span className="ep-overline">目指す姿</span>
+            <h2 id="ep-c-vision-title">{detail.vision.title}</h2>
+          </div>
+          <div className="ep-c-values">
+            {detail.vision.values.map((value) => (
+              <article key={value.no}>
+                <span>{value.en}</span>
+                <p>{value.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="ep-section ep-c-themes" aria-labelledby="ep-c-themes-title">
+        <div className="ep-wrap">
+          <header className="ep-split-head">
+            <div>
+              <span className="ep-overline">主な支援テーマ</span>
+              <h2 id="ep-c-themes-title">経営課題を、<br />具体的な問いに。</h2>
             </div>
-            <dl className="nc-consulting-values">
-              {detail.vision.values.map((value) => (
-                <div key={value.no}>
-                  <dt>{value.en}</dt>
-                  <dd>{value.body}</dd>
-                </div>
-              ))}
-            </dl>
+            <p>{detail.themes.lead}</p>
+          </header>
+          <div className="ep-c-theme-list">
+            {detail.themes.items.map((theme) => (
+              <details key={theme.no} name="consulting-themes">
+                <summary>
+                  <span className="ep-c-theme-no">{theme.no}</span>
+                  <span className="ep-c-theme-name">{theme.title}</span>
+                  <span className="ep-c-theme-question">{theme.question}</span>
+                  <span className="ep-c-theme-plus" aria-hidden="true">＋</span>
+                </summary>
+                <ul>{theme.items.map((item) => <li key={item}>{item}</li>)}</ul>
+              </details>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ---------- こういう課題に使えます ---------- */}
-        <section className="section nc-consulting-use" aria-labelledby="consulting-use-title">
-          <div className="wrap">
-            <header className="nc-consulting-section-head">
-              <span>Where it helps</span>
-              <h2 id="consulting-use-title">こういう課題に使えます</h2>
-            </header>
-            <ul className="nc-consulting-use-list">
-              {service.useCases.map((useCase) => (
-                <li key={useCase}>{useCase}</li>
-              ))}
-            </ul>
+      <section className="ep-section ep-c-method" aria-labelledby="ep-c-method-title">
+        <div className="ep-wrap ep-c-method-inner">
+          <div className="ep-c-method-heading">
+            <span className="ep-overline">問題解決の考え方</span>
+            <h2 id="ep-c-method-title">{detail.principles.lead}</h2>
           </div>
-        </section>
+          <div className="ep-c-method-steps">
+            {detail.principles.items.map((item) => (
+              <article key={item.no}>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        {/* ---------- 問題解決の考え方（暗転） ---------- */}
-        <section className="section nc-consulting-principles" aria-labelledby="consulting-principles-title">
-          <div className="wrap">
-            <header className="nc-consulting-section-head is-light">
-              <span>How we solve</span>
-              <h2 id="consulting-principles-title">問題解決の考え方</h2>
-              <p>{detail.principles.lead}</p>
-            </header>
-            <div className="nc-consulting-principle-grid">
-              {detail.principles.items.map((item) => (
-                <article key={item.no}>
-                  <span>{item.no}</span>
+      <section className="ep-section ep-c-cases" aria-labelledby="ep-c-cases-title">
+        <div className="ep-wrap">
+          <header className="ep-split-head">
+            <div>
+              <span className="ep-overline">支援事例</span>
+              <h2 id="ep-c-cases-title">課題から、<br />判断材料まで。</h2>
+            </div>
+            <p>{detail.cases.lead}</p>
+          </header>
+          <div className="ep-c-case-list">
+            {detail.cases.items.map((item) => (
+              <article key={item.no}>
+                <div className="ep-c-case-main">
+                  <span className="ep-overline">Case {item.no}</span>
                   <h3>{item.title}</h3>
-                  <p>{item.body}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ---------- 主な支援テーマ ---------- */}
-        <section className="section nc-consulting-themes" aria-labelledby="consulting-themes-title">
-          <div className="wrap">
-            <header className="nc-consulting-section-head">
-              <span>Support themes</span>
-              <h2 id="consulting-themes-title">主な支援テーマ</h2>
-              <p>{detail.themes.lead}</p>
-            </header>
-            <div className="nc-consulting-theme-grid">
-              {detail.themes.items.map((theme) => (
-                <article key={theme.no}>
-                  <div className="nc-consulting-theme-meta">
-                    <span>{theme.no}</span>
-                    <h3>{theme.title}</h3>
-                  </div>
-                  <p className="nc-consulting-theme-q">{theme.question}</p>
-                  <ul>
-                    {theme.items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ---------- 支援実績（トップページの実績パネルと同じ作り） ---------- */}
-        <section className="section nc-consulting-record" aria-labelledby="consulting-record-title">
-          <div className="wrap">
-            <div className="nc-consulting-evidence">
-              <div className="nc-consulting-evidence-head">
-                <span>Track record</span>
-                <div>
-                  <h2 id="consulting-record-title">{detail.record.heading}</h2>
-                  <p>{detail.record.lead}</p>
+                  <p>{item.summary}</p>
                 </div>
-              </div>
-
-              <div className="nc-consulting-evidence-body">
-                {detail.record.stats.map((stat) => (
-                  <div className="nc-consulting-stat" key={stat.label}>
-                    <p className="nc-consulting-stat-t">{stat.label}</p>
-                    <p className="nc-consulting-stat-num">
-                      {stat.value}
-                      <em>{stat.unit}</em>
-                    </p>
-                    <p>{detail.record.note}</p>
-                  </div>
-                ))}
-
-                <dl className="nc-consulting-examples">
-                  {detail.record.examples.map((example) => (
-                    <div key={example.client}>
-                      <dt>{example.client}</dt>
-                      <dd>{example.items.join('／')}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-
-              <div className="nc-consulting-evidence-foot">
-                <div className="nc-consulting-industry-copy">
-                  <span>Industry</span>
-                  <h3>業界</h3>
-                  <p>{detail.record.industryLead}</p>
-                  <Link href="/works" className="nc-industry-link">
-                    支援実績を見る
-                    <i aria-hidden="true" />
-                  </Link>
+                <div className="ep-c-case-detail">
+                  <div><span>課題</span><p>{item.issue.join('／')}</p></div>
+                  <div><span>アプローチ</span><p>{item.approach.join('／')}</p></div>
+                  <div><span>示唆・アウトプット</span><p>{item.insight.join('／')}</p></div>
                 </div>
-                <ul className="nc-consulting-inds" aria-label="支援業界">
-                  {detail.record.industries.map((industry) => (
-                    <li key={industry}>{industry}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+              </article>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ---------- 支援事例 ---------- */}
-        <section className="section nc-consulting-cases" aria-labelledby="consulting-cases-title">
-          <div className="wrap">
-            <header className="nc-consulting-section-head">
-              <span>Selected cases</span>
-              <h2 id="consulting-cases-title">支援事例</h2>
-              <p>{detail.cases.lead}</p>
-            </header>
-            <div className="nc-consulting-case-list">
-              {detail.cases.items.map((item) => (
-                <article key={item.no}>
-                  <header>
-                    <span>{item.no}</span>
-                    <div>
-                      <h3>{item.title}</h3>
-                      <p>{item.summary}</p>
-                    </div>
-                  </header>
-                  <div className="nc-consulting-case-cols">
-                    {([
-                      ['課題', item.issue],
-                      ['アプローチ', item.approach],
-                      ['示唆・アウトプット', item.insight],
-                    ] as const).map(([label, lines]) => (
-                      <div key={label}>
-                        <h4>{label}</h4>
-                        <ul>
-                          {lines.map((line) => (
-                            <li key={line}>{line}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                </article>
+      <section className="ep-section ep-c-proof" aria-labelledby="ep-c-proof-title">
+        <div className="ep-wrap">
+          <div className="ep-c-proof-top">
+            <div>
+              <span className="ep-overline">支援実績</span>
+              <h2 id="ep-c-proof-title">{detail.record.heading}</h2>
+              <p>{detail.record.lead}</p>
+            </div>
+            <div className="ep-c-proof-stats">
+              {detail.record.stats.map((stat) => (
+                <div key={stat.label}>
+                  <span>{stat.label}</span>
+                  <strong>{stat.value}<small>{stat.unit}</small></strong>
+                </div>
               ))}
+              <p>{detail.record.note}</p>
             </div>
           </div>
-        </section>
-
-        {/* ---------- 支援形態 ---------- */}
-        <section className="section nc-consulting-formats" aria-labelledby="consulting-formats-title">
-          <div className="wrap">
-            <header className="nc-consulting-section-head">
-              <span>Engagement models</span>
-              <h2 id="consulting-formats-title">支援形態</h2>
-              <p>{detail.formats.lead}</p>
-            </header>
-
-            <FormatDiagram diagram={detail.formats.diagram} items={detail.formats.items} />
-
-            <ol className="nc-consulting-format-list">
-              {detail.formats.items.map((format) => (
-                <li key={format.no}>
-                  <span>{format.no}</span>
-                  <div>
-                    <h3>{format.title}</h3>
-                    <p className="nc-consulting-chain">
-                      {format.chain.map((node, i) => (
-                        <span key={node}>
-                          {i > 0 ? <i aria-hidden="true">→</i> : null}
-                          {node}
-                        </span>
-                      ))}
-                    </p>
-                    <p>{format.body}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
+          <div className="ep-c-proof-bottom">
+            <p>{detail.record.industryLead}</p>
+            <ul>{detail.record.industries.map((industry) => <li key={industry}>{industry}</li>)}</ul>
+            <Link href="/works/" className="ep-text-link">支援実績を見る <span aria-hidden="true">↗</span></Link>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ---------- 価格 ---------- */}
-        <section className="section nc-consulting-price" aria-labelledby="consulting-price-title">
-          <div className="wrap">
-            <header className="nc-consulting-section-head">
-              <span>Price</span>
-              <h2 id="consulting-price-title">価格</h2>
-              <p>{detail.price.lead}</p>
-            </header>
-
-            <div className="nc-consulting-price-body">
-              <div className="nc-consulting-price-chart">
-                <h3>{detail.price.chart.caption}</h3>
-                <PriceChart chart={detail.price.chart} />
-              </div>
-
-              <ol className="nc-consulting-reasons">
-                {detail.price.reasons.map((reason) => (
-                  <li key={reason.no}>
-                    <span>{reason.no}</span>
-                    <div>
-                      <h3>{reason.title}</h3>
-                      <p>{reason.body}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
+      <section className="ep-section ep-c-formats" aria-labelledby="ep-c-formats-title">
+        <div className="ep-wrap">
+          <header className="ep-split-head">
+            <div>
+              <span className="ep-overline">支援形態</span>
+              <h2 id="ep-c-formats-title">案件に合わせて、<br />体制を組む。</h2>
             </div>
-
-            <p className="nc-consulting-footnote">{service.pricingNote}</p>
+            <p>{detail.formats.lead}</p>
+          </header>
+          <div className="ep-c-format-list">
+            {detail.formats.items.map((format) => (
+              <article key={format.no}>
+                <div><span>{format.role}</span><h3>{format.title}</h3></div>
+                <p>{format.body}</p>
+                <div className="ep-c-format-chain">{format.chain.map((node, index) => (
+                  <span key={`${node}-${index}`}>{index > 0 ? <i aria-hidden="true">→</i> : null}{node}</span>
+                ))}</div>
+              </article>
+            ))}
           </div>
-        </section>
+          <p className="ep-c-pricing-note">{service.pricingNote}</p>
+        </div>
+      </section>
 
-        {/* ---------- よくある質問 ---------- */}
-        <section className="section nc-consulting-faq" aria-labelledby="consulting-faq-title">
-          <div className="wrap">
-            <header className="nc-consulting-section-head">
-              <span>Questions</span>
-              <h2 id="consulting-faq-title">よくある質問</h2>
-            </header>
-            <div className="nc-consulting-faq-list">
-              {service.faq.map((item, index) => (
-                <details key={item.q}>
-                  <summary>
-                    <span>Q{String(index + 1).padStart(2, '0')}</span>
-                    {item.q}
-                  </summary>
-                  <p>{item.a}</p>
-                </details>
-              ))}
-            </div>
+      <section className="ep-section ep-faq" aria-labelledby="ep-c-faq-title">
+        <div className="ep-wrap ep-faq-inner">
+          <div><span className="ep-overline">よくある質問</span><h2 id="ep-c-faq-title">相談の前に。</h2></div>
+          <div className="ep-faq-list">
+            {service.faq.map((item) => <details key={item.q}><summary>{item.q}<span aria-hidden="true">＋</span></summary><p>{item.a}</p></details>)}
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
       <ContactCta
-        title="まだ、論点が固まっていなくても大丈夫です。"
-        body="「何を判断したいのか」だけお聞かせください。必要な支援の範囲と体制は、こちらから設計してご提案します。"
-        primary={{ label: '相談する', href: '/contact' }}
-        secondary={{ label: '他の事業を見る', href: '/services' }}
+        title="何を判断したいか、からご相談ください。"
+        body="テーマや支援範囲が未整理でも構いません。課題の整理からご一緒します。"
+        primary={{ label: '相談する', href: '/contact/' }}
+        secondary={{ label: '他の事業を見る', href: '/services/' }}
       />
     </div>
   );

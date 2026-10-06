@@ -21,6 +21,17 @@ function breadcrumbJsonLd(crumbs: Crumb[]) {
   };
 }
 
+/** 専用ヒーローでも表示上のパンくずを増やさずに階層情報を保つ。 */
+export function PageBreadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
+  if (crumbs.length === 0) return null;
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(crumbs)) }}
+    />
+  );
+}
+
 /**
  * 下層ページ共通のページ見出し。
  * トップのヒーローより控えめな余白で階層ページの見出しを示す。
@@ -40,12 +51,7 @@ export function PageHero({
   return (
     <div className="nc-phero">
       <div className="wrap">
-        {crumbs.length > 0 ? (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(crumbs)) }}
-          />
-        ) : null}
+        <PageBreadcrumbs crumbs={crumbs} />
         {eyebrow ? <span className="nc-eyebrow">{eyebrow}</span> : null}
         <h1 className="nc-ptitle">
           {title}
