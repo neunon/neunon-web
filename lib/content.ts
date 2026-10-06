@@ -22,6 +22,8 @@ export type ServiceMenuItem = {
   effect?: string;
   effects?: string[];
   caption?: string;
+  /** AIプロダクトの公開状況（提案資料の表記） */
+  status?: string;
   /** AIプロダクトが元にしているパッケージ型支援のメニュー名 */
   base?: string;
 };
@@ -113,6 +115,8 @@ export type Service = {
   lead: string;
   useCases: string[];
   menu: ServiceMenuItem[];
+  /** 匿名化した成果物の見せ方（パッケージ型支援） */
+  examples?: { title: string; body: string; takeaway: string }[];
   /** コンサルティングは専用ページで扱わないため任意 */
   steps?: ServiceStep[];
   engagement?: { label: string; value: string }[];

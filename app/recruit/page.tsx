@@ -64,7 +64,7 @@ export default function RecruitPage() {
             ))}
           </ul>
 
-          <div className="nc-rcards">
+          <div className="nc-rcards nc-recruit-value-grid">
             <div className="nc-rcard">
               <h3>実務経験</h3>
               <p>
@@ -77,11 +77,9 @@ export default function RecruitPage() {
                 調べる、構造化する、示唆を出す、資料にする。この4つを、経験のあるコンサルタントの監修つきで繰り返します。知識ゼロから始められます。
               </p>
             </div>
-            <div className="nc-rcard">
-              <h3>報酬</h3>
-              <p>{termsPendingNote}</p>
-            </div>
           </div>
+
+          <p className="nc-recruit-terms-note"><strong>契約・報酬について</strong>{termsPendingNote}</p>
 
           <dl className="nc-deflist nc-rconditions">
             {conditions.map((row) => (
@@ -162,25 +160,7 @@ export default function RecruitPage() {
         </div>
       </section>
 
-      {/* 6 メンバーインタビュー */}
-      <section className="section" aria-labelledby="r-voice">
-        <div className="wrap">
-          <div className="shead">
-            <h2 id="r-voice">メンバーインタビュー</h2>
-          </div>
-          <p className="nc-pending">
-            準備中です。
-            <br />
-            <span>
-              実装メモ: 要件定義書 14. の未解決事項（メンバーインタビューの実施可否）。
-              12.1 により、社内メンバーの個人名は本人同意なしに掲載できない。
-              取材と同意が取れ次第 <code>app/recruit/voice/page.tsx</code> に反映すること。
-            </span>
-          </p>
-        </div>
-      </section>
-
-      {/* 7 選考フロー */}
+      {/* 6 選考フロー */}
       <section className="section section-alt" aria-labelledby="r-flow">
         <div className="wrap">
           <div className="shead">

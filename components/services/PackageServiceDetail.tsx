@@ -203,6 +203,28 @@ export function PackageServiceDetail({ service }: { service: Service }) {
           </div>
         </section>
 
+        {service.examples?.length ? (
+          <section className="section nc-package-examples" aria-labelledby="package-examples-title">
+            <div className="wrap">
+              <header className="nc-package-section-head">
+                <span>Output examples</span>
+                <h2 id="package-examples-title">成果物イメージ</h2>
+                <p>調査対象に合わせ、事実の整理だけでなく、判断に使う論点までまとめます。</p>
+              </header>
+              <div className="nc-package-example-grid">
+                {service.examples.map((example) => (
+                  <article key={example.title}>
+                    <span>{example.title}</span>
+                    <p>{example.body}</p>
+                    <strong>{example.takeaway}</strong>
+                  </article>
+                ))}
+              </div>
+              <p className="nc-package-example-note">守秘のため、実際の納品資料・企業名・数値は掲載していません。</p>
+            </div>
+          </section>
+        ) : null}
+
         <section className="section nc-package-process" aria-labelledby="package-process-title">
           <div className="wrap">
             <header className="nc-package-section-head">

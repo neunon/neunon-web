@@ -11,6 +11,7 @@
 @import './consulting.css';
 @import './monochrome-refresh.css';
 @import './landing.css';
+@import './service-refinement.css';
 
 /* 主見出しより控えめな、検索意図と事業内容をつなぐ補助文。 */
 .nc-hero .nc-business-summary {

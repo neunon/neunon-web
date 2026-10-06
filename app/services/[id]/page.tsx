@@ -6,6 +6,7 @@ import { PriceFlow } from '@/components/shared/PriceFlow';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { PackageServiceDetail } from '@/components/services/PackageServiceDetail';
 import { ConsultingServiceDetail } from '@/components/services/ConsultingServiceDetail';
+import { AiServiceDetail } from '@/components/services/AiServiceDetail';
 import { TableOfContents, type TocItem } from '@/components/toc/TableOfContents';
 import { getService, getServices } from '@/lib/content';
 import { createPageMetadata } from '@/lib/seo';
@@ -51,6 +52,10 @@ export default async function ServiceDetailPage({ params }: Props) {
 
   if (service.id === 'consulting' && service.consulting) {
     return <ConsultingServiceDetail service={service} />;
+  }
+
+  if (service.id === 'ai') {
+    return <AiServiceDetail service={service} />;
   }
 
   const toc: TocItem[] = [
