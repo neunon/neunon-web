@@ -1,6 +1,6 @@
 .root { color: #18181b; }
 .tabs { display: inline-flex; max-width: 100%; gap: 4px; padding: 4px; overflow-x: auto; border: 1px solid #ececee; border-radius: 14px; background: #f4f4f5; scrollbar-width: thin; scroll-snap-type: x mandatory; }
-.tabs button { flex: none; padding: 9px 16px; border: 0; border-radius: 10px; background: transparent; color: #71717a; font: 500 13px/1.5 inherit; white-space: nowrap; cursor: pointer; scroll-snap-align: start; }
+.tabs button { flex: none; padding: 9px 16px; border: 0; border-radius: 10px; background: transparent; color: #71717a; font-family: inherit; font-size: 13px; font-weight: 500; line-height: 1.5; white-space: nowrap; cursor: pointer; scroll-snap-align: start; }
 .tabs button:hover { color: #18181b; }
 .tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .tabs .selected { background: #fff; color: #18181b; box-shadow: 0 1px 2px rgba(24,24,27,.1), 0 0 0 1px rgba(24,24,27,.04); }
