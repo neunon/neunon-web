@@ -86,6 +86,11 @@ export function validateContent(root = process.cwd()) {
       stringList(item.effects, where + '.menu[' + i + '].effects', 2);
       if (item.effects?.length !== 2) fail(where, 'メニュー欄の効果は2行です');
     });
+    if (id === 'ai') {
+      stringList(data.aiDevelopmentMenu, where + '.aiDevelopmentMenu', 1);
+      stringList(data.aiDevelopmentExamples, where + '.aiDevelopmentExamples', 1);
+      objects(data.aiProductFeatures, ['title', 'body'], where + '.aiProductFeatures', 1);
+    }
     // コンサルティングのみ、紹介資料に沿った拡張ブロックを持つ（ConsultingServiceDetail が描画）
     if (id === 'consulting') {
       const c = data.consulting;

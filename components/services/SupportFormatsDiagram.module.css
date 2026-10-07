@@ -1,0 +1,52 @@
+.root { color: #18181b; }
+.tabs { display: inline-flex; max-width: 100%; gap: 4px; padding: 4px; overflow-x: auto; border: 1px solid #ececee; border-radius: 14px; background: #f4f4f5; scrollbar-width: thin; scroll-snap-type: x mandatory; }
+.tabs button { flex: none; padding: 9px 16px; border: 0; border-radius: 10px; background: transparent; color: #71717a; font-family: inherit; font-size: 13px; font-weight: 500; line-height: 1.5; white-space: nowrap; cursor: pointer; scroll-snap-align: start; }
+.tabs button:hover { color: #18181b; }
+.tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.tabs .selected { background: #fff; color: #18181b; box-shadow: 0 1px 2px rgba(24,24,27,.1), 0 0 0 1px rgba(24,24,27,.04); }
+.panel { margin-top: 22px; }
+.description { position: relative; min-height: 30px; color: #3f3f46; font-size: 15px; line-height: 1.9; }
+.description p { position: absolute; inset: 0 auto auto 0; margin: 0; opacity: 0; transform: translateY(8px); transition: opacity .4s ease, transform .5s ease; pointer-events: none; }
+.description .current { opacity: 1; transform: translateY(0); }
+.diagram { position: relative; display: flex; justify-content: space-between; gap: 15%; min-height: 536px; margin-top: 38px; padding: 34px 32px; isolation: isolate; }
+.dots { position: absolute; z-index: -1; inset: 0; background: radial-gradient(#d4d4d8 1px,transparent 1px) 0 0/22px 22px; mask-image: radial-gradient(ellipse 60% 55% at 50% 50%,#000 30%,transparent 100%); pointer-events: none; }
+.connections { position: absolute; z-index: 1; inset: 0; overflow: visible; pointer-events: none; }
+.connections path { fill: none; }
+.baseLine { stroke: #d4d4d8; stroke-width: 1; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.entered .baseLine { animation: draw 1.3s cubic-bezier(.65,0,.35,1) forwards; }
+.traceLine { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .9s cubic-bezier(.65,0,.35,1); }
+.activeLine .traceLine { stroke-dashoffset: 0; }
+.particle { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-dasharray: .06 1.3; opacity: 0; filter: drop-shadow(0 0 5px var(--accent)); animation: stream 1.8s cubic-bezier(.45,0,.55,1) infinite; transition: opacity .4s ease; }
+.reverseParticle { animation-delay: -.9s; }
+.activeLine .particle { opacity: 1; }
+.originDot { fill: #a1a1aa; }
+.targetDot { fill: var(--accent); opacity: 0; transition: opacity .4s ease; }
+.activeLine .targetDot { opacity: 1; }
+.left { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: space-between; width: min(36%,360px); gap: 76px; }
+.card { position: relative; display: flex; align-items: center; gap: 16px; min-height: 112px; padding: 14px 24px; border: 1px solid #e4e4e7; border-radius: 16px; background: #fff; box-shadow: 0 1px 2px rgba(24,24,27,.04), 0 12px 32px -18px rgba(24,24,27,.16); transition: opacity .45s, box-shadow .45s, border-color .45s; }
+.card.leader { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(138,124,240,.14), 0 16px 40px -18px rgba(91,75,138,.35); }
+.card.muted { opacity: .38; }
+.avatar { display: grid; flex: none; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: #18181b; color: #fff; }
+.avatar svg { width: 23px; height: 23px; }
+.partnerAvatar { background: #f4f4f5; color: #52525b; }
+.avatars { display: flex; flex: none; padding-left: 9px; }
+.avatars span { display: grid; place-items: center; width: 38px; height: 38px; margin-left: -9px; border: 2px solid #fff; border-radius: 50%; background: #f4f4f5; color: #52525b; }
+.avatars svg { width: 17px; height: 17px; }
+.cardCopy { display: flex; flex-direction: column; min-width: 0; gap: 3px; }
+.cardCopy > span { color: #71717a; font-size: 12px; }
+.cardCopy strong { font-size: 16px; font-weight: 600; line-height: 1.5; }
+.cardCopy small { color: #71717a; font-size: 11px; line-height: 1.4; }
+.badge { position: absolute; top: 8px; right: 9px; padding: 2px 9px; border: 1px solid #e4e0fc; border-radius: 999px; background: #f3f1fe; color: #5b4b8a; font-size: 11px; }
+.relationLabel { position: absolute; z-index: 3; top: calc(33.333% - 17px); left: calc(50% + 15px); padding: 3px 9px; border: 1px solid #e4e0fc; border-radius: 999px; background: #f3f1fe; color: #5b4b8a; font-size: 12px; white-space: nowrap; }
+.lowerRelation { top: calc(66.666% - 17px); }
+.client { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; width: min(32%,320px); min-height: 488px; border: 1px solid #27272a; border-radius: 20px; background: radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px) 0 0/18px 18px,#18181b; color: #fff; box-shadow: 0 24px 48px -24px rgba(24,24,27,.45); }
+.clientIcon { display: grid; place-items: center; width: 56px; height: 56px; border: 1px solid #3f3f46; border-radius: 50%; background: #27272a; }
+.clientIcon svg { width: 26px; height: 26px; }
+.client strong { font-size: 24px; font-weight: 600; }
+.client > span:last-child { padding: 4px 11px; border: 1px solid #3f3f46; border-radius: 999px; background: #27272a; color: #d4d4d8; font-size: 12px; }
+.mobileRelation { display: none; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes stream { from { stroke-dashoffset: .06; } to { stroke-dashoffset: -1; } }
+@media (max-width: 1023px) { .diagram { flex-direction: column; gap: 28px; min-height: 0; padding: 20px 0; }.connections { display: none; }.left { width: 100%; gap: 38px; }.card { width: 100%; }.client { width: 100%; min-height: 180px; }.relationLabel { left: 54%; top: calc(33.333% - 9px); }.lowerRelation { top: calc(66.666% - 9px); }.mobileRelation { position: absolute; right: 12px; bottom: 8px; display: block; color: #5b4b8a; font-size: 11px; }.left::before { content: ''; position: absolute; z-index: -1; top: 50px; bottom: 50px; left: 50%; width: 1px; background: #d4d4d8; } }
+@media (max-width: 639px) { .dots { display: none; }.tabs { display: flex; width: 100%; }.description { min-height: 60px; }.card { padding: 14px 16px; }.cardCopy strong { font-size: 14px; }.cardCopy small { max-width: 20em; }.badge { top: 5px; right: 6px; }.relationLabel { left: 56%; }.client { min-height: 150px; } }
+@media (prefers-reduced-motion: reduce) { .description p, .card, .traceLine, .particle, .targetDot { transition: none; }.baseLine, .entered .baseLine { animation: none; stroke-dashoffset: 0; }.particle { animation: none; opacity: 0 !important; } }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { pageMetadata } from '@/lib/seo';
 import { ContactCta } from '@/components/shared/ContactCta';
+import { PageHero } from '@/components/shared/PageHero';
 import { Services } from '@/components/home/Services';
 import { Structure } from '@/components/home/Structure';
 
@@ -14,7 +15,11 @@ export const metadata: Metadata = pageMetadata('services', '/services/');
 export default function ServicesPage() {
   return (
     <>
-      <h1 className="sr-only-text">事業内容</h1>
+      <PageHero
+        title="事業内容"
+        lead="経営課題に向き合うコンサルティングから、必要な範囲で頼める調査、実務に組み込むAIまで。目的と規模に合わせて支援の形を選べます。"
+        crumbs={[{ label: '事業内容' }]}
+      />
       <Services />
       <Structure />
 

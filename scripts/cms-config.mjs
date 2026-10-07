@@ -76,7 +76,7 @@ const landingSections = {
 const serviceFiles = [
   ['consulting', '01-consulting', 'コンサルティング', 1],
   ['package', '02-package', 'パッケージ型支援', 2],
-  ['ai', '03-ai', 'AIプロダクト', 3],
+  ['ai', '03-ai', 'AI開発・プロダクト', 3],
 ].map(([id, file, label, order]) => ({
   name: id, label, file: `content/services/${file}.json`,
   fields: [
@@ -89,6 +89,7 @@ const serviceFiles = [
     list('menu', 'メニュー', [
       string('name', 'メニュー名'),
       ...(id !== 'consulting' ? [text('body', '内容')] : []),
+      ...(id === 'ai' ? [select('status', '提供状況', ['提供中', '構想中'], '構想中')] : []),
       ...(id !== 'ai' ? [
         text('target', id === 'package' ? '想定顧客（保管用・現在非表示）' : '想定顧客'),
         text('issue', '想定課題'),
@@ -99,6 +100,14 @@ const serviceFiles = [
         text('effect', '課題別の活用イメージ：効果'),
       ] : []),
     ], { min: 1 }),
+    ...(id === 'ai' ? [
+      strings('aiDevelopmentMenu', 'AI開発メニュー', { min: 1 }),
+      strings('aiDevelopmentExamples', 'AI開発例', { min: 1 }),
+      list('aiProductFeatures', 'AIプロダクトの特徴', [string('title', '見出し'), text('body', '説明')], { min: 1 }),
+    ] : []),
+    ...(id === 'package' ? [list('examples', '成果物イメージ', [
+      string('title', '見出し'), text('body', '内容'), text('takeaway', '活用イメージ'),
+    ], { min: 1 })] : []),
     ...(id === 'consulting' ? [consultingFields] : [
     list('steps', '進め方', [string('no', 'ステップ番号'), string('title', '見出し'), text('body', '説明')], { min: 1 }),
     list('engagement', '想定期間・体制', [string('label', '項目'), text('value', '内容')], {

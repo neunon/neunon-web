@@ -1,258 +1,133 @@
 import type { Service } from '@/lib/content';
-import { PageHero } from '@/components/shared/PageHero';
+import { PageBreadcrumbs } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
+import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
+import { PackagePreviewVisual } from './ServiceVisuals';
 
-const deliverablePoints = [
-  {
-    no: '01',
-    title: '実態把握',
-    body: '市場の規模・成長性・主要プレイヤーを整理し、対象企業の事業・商品・顧客・販売チャネル・戦略を把握します。',
-  },
-  {
-    no: '02',
-    title: '分析・評価',
-    body: '収集した事実を比較・構造化し、特徴・競争力・成長余地・課題を読み解きます。',
-  },
-  {
-    no: '03',
-    title: '示唆・活用',
-    body: '分析結果を具体的な判断・優先順位・提案につなげ、営業先選定、既存顧客深耕、競合分析、M&A候補評価に活用できる形にまとめます。',
-  },
+const journey = [
+  { title: '調べる', body: '市場・企業・競合の公開情報を、目的に合わせて集める。' },
+  { title: '読み解く', body: '比較・構造化し、変化や事業上の意味を捉える。' },
+  { title: '使える形に', body: '優先順位や提案の論点まで、資料にまとめる。' },
 ];
 
-const packageBenefits = [
-  {
-    no: '01',
-    title: '調査・分析工数を削減',
-    points: [
-      '情報収集・整理にかかる作業を削減し、本来注力すべき検討・判断・実行に時間を使える',
-      '工数制約で十分に調べられなかった企業・市場等まで検討対象を広げられる',
-    ],
-  },
-  {
-    no: '02',
-    title: '新たな示唆・機会を発見',
-    points: [
-      '個別情報を横断的に分析することで、通常業務で見落としやすい論点や示唆・機会を抽出できる',
-      '新規提案・クロスセル・再攻略、成長市場、競合の脅威・勝ち筋、M&A候補等',
-    ],
-  },
-  {
-    no: '03',
-    title: '対象の変化を継続的に把握',
-    points: [
-      '一度きりの調査で終わらず、企業や市場の変化を捉え続け、機会損失を抑える',
-      '新商品、戦略変更、投資、提携、M&A、組織変更等',
-      '適切なタイミングで判断・アクションにつなげられる',
-    ],
-  },
-  {
-    no: '04',
-    title: '理解・知見を深め、判断・提案を高度化',
-    points: [
-      '企業・市場・競合・製品を多面的に把握することで、担当者自身の理解・知見が深まる',
-      '背景や構造まで踏まえた、より深く多角的な判断・提案が可能になる',
-    ],
-  },
-  {
-    no: '05',
-    title: '分析品質を標準化・組織知化',
-    points: [
-      '調査項目・分析観点を統一し、担当者ごとの深さ・着眼点のばらつきを抑制',
-      '分析結果や重要な着眼点を蓄積・更新し、個人知を組織資産として再利用できる',
-    ],
-  },
+const outcomes = [
+  { title: '調査・分析工数を削減', body: '情報収集・整理にかかる作業を減らし、検討・判断・実行に時間を使えます。' },
+  { title: '新たな示唆・機会を発見', body: '個別情報を横断的に分析し、新規提案や市場機会、競合への対策を見いだします。' },
+  { title: '対象の変化を継続的に把握', body: '新商品、戦略変更、投資、提携、組織変更を追い、判断の前提を更新します。' },
+  { title: '理解・知見を深め、判断・提案を高度化', body: '企業・市場・競合を多面的に把握し、担当者自身の理解を深めます。' },
+  { title: '分析品質を標準化・組織知化', body: '調査項目と分析観点をそろえ、重要な着眼点を組織の資産として蓄積します。' },
 ];
 
 export function PackageServiceDetail({ service }: { service: Service }) {
-  const faq = service.faq.filter((item) => !item.q.includes('価格'));
-
   return (
-    <div className="nc-package-page">
-      <PageHero
-        eyebrow="Package research support"
-        title={service.title}
-        lead={service.lead}
-        crumbs={[{ label: '事業内容', href: '/services' }, { label: service.title }]}
-      />
+    <div className="ep ep-package">
+      <PageBreadcrumbs crumbs={[{ label: '事業内容', href: '/services' }, { label: service.title }]} />
 
-      <div className="nc-package-content">
-        <section className="nc-package-opening" aria-labelledby="package-opening-title">
-          <div className="wrap">
-            <div className="nc-package-opening-copy">
-              <span className="nc-package-kicker">Small start, decision ready</span>
-              <h2 id="package-opening-title">
-                「調べる」で止めず、
-                <br />
-                判断できるところまで。
-              </h2>
-              <p>
-                公開情報を横断的に収集・分析し、市場・競争環境から対象企業の実態、
-                目的に応じた示唆までを一気通貫で支援します。
-              </p>
+      <section className="ep-p-hero" aria-labelledby="ep-p-title">
+        <div className="ep-wrap ep-p-hero-inner">
+          <div className="ep-p-hero-copy">
+            <h1 id="ep-p-title">パッケージ型<br />支援</h1>
+            <p>{service.lead}</p>
+            <div className="ep-p-hero-actions">
+              <InteractiveHoverLink href="/contact/" text="調査を相談する" />
+              <InteractiveHoverLink href="#ep-p-menu-title" text="メニューを見る" className="is-outline" />
             </div>
-            <dl className="nc-package-principles">
-              <div>
-                <dt>Minimum unit</dt>
-                <dd>1件・1案件から</dd>
+          </div>
+          <div className="ep-p-report" aria-label="成果物の構成イメージ">
+            <div className="ep-p-report-sheet ep-p-report-back" aria-hidden="true" />
+            <div className="ep-p-report-sheet ep-p-report-front">
+              <div className="ep-p-report-top"><span>Research brief</span><span>NEUNON / SAMPLE</span></div>
+              <strong>調査から、<br />判断へ。</strong>
+              <div className="ep-p-report-rule" />
+              <div className="ep-p-report-graphic" aria-hidden="true"><i /><i /><i /><i /><i /></div>
+              <div className="ep-p-report-foot"><span>市場・企業・競合</span><span>分析 / 示唆 / 資料化</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="ep-section ep-p-journey" aria-labelledby="ep-p-journey-title">
+        <div className="ep-wrap">
+          <header className="ep-split-head">
+            <div><h2 id="ep-p-journey-title">情報を集めて、<br />終わらせない。</h2></div>
+            <p>調査対象と用途を先に決め、収集から分析、社内で使える資料化までを一続きで進めます。</p>
+          </header>
+          <div className="ep-p-journey-track">
+            {journey.map((step, index) => <article key={step.title}>
+              <span>0{index + 1}</span><h3>{step.title}</h3><p>{step.body}</p>
+            </article>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="ep-section ep-p-menu" aria-labelledby="ep-p-menu-title">
+        <div className="ep-wrap">
+          <header className="ep-split-head">
+            <div><h2 id="ep-p-menu-title">必要なテーマを、<br />必要な範囲で。</h2></div>
+            <p>{service.summary} メニューを起点に、対象や観点を調整できます。</p>
+          </header>
+          <div className="ep-p-menu-list">
+            {service.menu.map((item) => <details key={item.name} name="package-menu">
+              <summary><h3>{item.name}</h3><span>{item.body}</span><i aria-hidden="true">↗</i></summary>
+              <div className="ep-p-menu-expanded">
+                <div><strong>想定する課題</strong><p>{item.issue}</p></div>
+                <div><strong>得られるもの</strong><p>{item.effect}</p></div>
               </div>
-              <div>
-                <dt>Output</dt>
-                <dd>そのまま使える資料</dd>
-              </div>
-              <div>
-                <dt>Quality</dt>
-                <dd>経験者が最終確認</dd>
-              </div>
-            </dl>
+            </details>)}
           </div>
-        </section>
+          <p className="ep-p-menu-help">どれに当てはまるか分からない場合も、調査したい対象だけお聞かせください。</p>
+        </div>
+      </section>
 
-        <section className="section nc-package-menu" aria-labelledby="package-menu-title">
-          <div className="wrap">
-            <header className="nc-package-section-head is-light">
-              <span>Research menu</span>
-              <h2 id="package-menu-title">調査テーマに合わせて、必要な型を選ぶ。</h2>
-              <p>単発の企業調査から、複数社比較、継続的な競合観測まで。目的と利用場面から組み立てます。</p>
+      {service.examples?.length ? <section className="ep-section ep-p-output" aria-labelledby="ep-p-output-title">
+        <div className="ep-wrap">
+          <header className="ep-split-head">
+            <div><h2 id="ep-p-output-title">報告の先にある、<br />次の判断まで。</h2></div>
+            <p>以下は納品資料の構成例です。実際の企業名・数値・納品物は守秘のため掲載していません。</p>
+          </header>
+          <div className="ep-p-output-grid">
+            {service.examples.map((example, index) => <article key={example.title}>
+              <div className="ep-p-output-cover"><h3>{example.title}</h3><PackagePreviewVisual index={index} /></div>
+              <div className="ep-p-output-copy"><p>{example.body}</p><strong>{example.takeaway}</strong></div>
+            </article>)}
+          </div>
+        </div>
+      </section> : null}
+
+      <section className="ep-section ep-p-benefits" aria-labelledby="ep-p-benefits-title">
+        <div className="ep-wrap">
+          <header className="ep-split-head"><h2 id="ep-p-benefits-title">調べる仕事を、<br />前に進む仕事へ。</h2><p>パッケージ型支援は、日々の業務に直接効く成果と、担当者・組織に残る知見の両方を生み出します。</p></header>
+          <div className="ep-p-benefit-groups">
+            <div className="ep-p-benefit-list"><h3>業務・成果への直接効果</h3><div>{outcomes.slice(0, 3).map((outcome, index) => <article key={outcome.title}><div className="ep-p-benefit-name"><span>0{index + 1}.</span><h4>{outcome.title}</h4></div><p>{outcome.body}</p></article>)}</div></div>
+            <div className="ep-p-benefit-list"><h3>人・組織の能力向上</h3><div>{outcomes.slice(3).map((outcome, index) => <article key={outcome.title}><div className="ep-p-benefit-name"><span>0{index + 4}.</span><h4>{outcome.title}</h4></div><p>{outcome.body}</p></article>)}</div></div>
+          </div>
+        </div>
+      </section>
+
+      {service.showPricing && service.pricing.length > 0 ? (
+        <section className="ep-section ep-p-pricing" aria-labelledby="ep-p-pricing-title">
+          <div className="ep-wrap">
+            <header className="ep-split-head">
+              <h2 id="ep-p-pricing-title">小さな単位から、<br />料金を見通せる。</h2>
+              <p>定型の調査を必要な件数から。下記は価格の目安です。対象や調査範囲に合わせてお見積りします。</p>
             </header>
-            <div className="nc-package-menu-grid">
-              {service.menu.map((item, index) => (
-                <article key={item.name}>
-                  <div className="nc-package-menu-meta">
-                    <span>{String(index + 1).padStart(2, '0')}</span>
-                    <span>{item.caption}</span>
-                  </div>
-                  <h3>{item.name}</h3>
-                  <p>{item.body}</p>
-                  <div className="nc-package-menu-effects">
-                    <span>効果</span>
-                    <ul>
-                      {(item.effects ?? []).map((effect) => (
-                        <li key={effect}>{effect}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </article>
-              ))}
+            <div className="ep-p-pricing-grid">
+              {service.pricing.map((row) => <div className="ep-p-pricing-row" key={row.label}><span>{row.label}</span><strong>{row.price}</strong></div>)}
             </div>
+            <p className="ep-pricing-note">{service.pricingNote}</p>
+            <InteractiveHoverLink href="/contact/" text="見積りを相談する" className="is-outline" />
           </div>
         </section>
+      ) : null}
 
-        <section className="section nc-package-benefits" aria-labelledby="package-benefits-title">
-          <div className="wrap">
-            <header className="nc-package-section-head">
-              <span>Five changes</span>
-              <h2 id="package-benefits-title">支援がもたらす5つの変化</h2>
-            </header>
-            <div className="nc-package-benefit-list">
-              {packageBenefits.map((benefit) => (
-                <article key={benefit.no}>
-                  <span>{benefit.no}</span>
-                  <h3>{benefit.title}</h3>
-                  <ul>
-                    {benefit.points.map((point) => (
-                      <li key={point}>{point}</li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
+      <section className="ep-section ep-faq" aria-labelledby="ep-p-faq-title">
+        <div className="ep-wrap ep-faq-inner">
+          <div><h2 id="ep-p-faq-title">依頼の前に。</h2></div>
+          <div className="ep-faq-list">{service.faq.map((item) => <details key={item.q}><summary>{item.q}<span aria-hidden="true">＋</span></summary><p>{item.a}</p></details>)}</div>
+        </div>
+      </section>
 
-        <section className="section nc-package-impact" aria-labelledby="package-impact-title">
-          <div className="wrap">
-            <header className="nc-package-section-head">
-              <span>Issue to impact</span>
-              <h2 id="package-impact-title">課題別の活用イメージ</h2>
-            </header>
-            <div className="nc-package-impact-list">
-              {service.menu.map((item, index) => (
-                <article key={item.name}>
-                  <span className="nc-package-impact-no">{String(index + 1).padStart(2, '0')}</span>
-                  <div>
-                    <small>Issue</small>
-                    <p>{item.issue}</p>
-                  </div>
-                  <i aria-hidden="true" />
-                  <div>
-                    <small>Impact</small>
-                    <p>{item.effect}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section nc-package-output" aria-labelledby="package-output-title">
-          <div className="wrap">
-            <header className="nc-package-section-head">
-              <span>Decision-ready output</span>
-              <h2 id="package-output-title">情報収集から、意思決定の材料へ。</h2>
-            </header>
-            <div className="nc-package-output-flow">
-              {deliverablePoints.map((point) => (
-                <article key={point.no}>
-                  <span>{point.no}</span>
-                  <h3>{point.title}</h3>
-                  <p>{point.body}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section nc-package-process" aria-labelledby="package-process-title">
-          <div className="wrap">
-            <header className="nc-package-section-head">
-              <span>How we work</span>
-              <h2 id="package-process-title">お問い合わせから納品まで。</h2>
-            </header>
-            <ol>
-              {(service.steps ?? []).map((step) => (
-                <li key={step.no}>
-                  <span>{step.no.replace('STEP ', '')}</span>
-                  <div>
-                    <h3>{step.title}</h3>
-                    <p>{step.body}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        {/* Reserved for the future price and delivery-time section. */}
-        <div className="nc-package-price-delivery-slot" data-reserved-section="price-and-delivery" hidden />
-
-        <section className="section nc-package-faq" aria-labelledby="package-faq-title">
-          <div className="wrap">
-            <header className="nc-package-section-head">
-              <span>Questions</span>
-              <h2 id="package-faq-title">よくある質問</h2>
-            </header>
-            <div className="nc-package-faq-list">
-              {faq.map((item, index) => (
-                <details key={item.q}>
-                  <summary>
-                    <span>Q{String(index + 1).padStart(2, '0')}</span>
-                    {item.q}
-                  </summary>
-                  <p>{item.a}</p>
-                </details>
-              ))}
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <ContactCta
-        title="まだ、依頼内容が固まっていなくても大丈夫です。"
-        body="調べたいテーマや対象企業だけでもお聞かせください。必要な調査範囲から一緒に整理します。"
-        primary={{ label: '小さな相談から始める', href: '/contact' }}
-        secondary={{ label: '他の事業を見る', href: '/services' }}
-      />
+      <ContactCta title="まずは、1件から。" body="調べたい企業やテーマをお聞かせください。対象の選定からもご相談いただけます。" primary={{ label: '調査を相談する', href: '/contact/' }} secondary={{ label: '他の事業を見る', href: '/services/' }} />
     </div>
   );
 }
