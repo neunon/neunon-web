@@ -16,7 +16,9 @@ test('CMS uses review workflow and exposes only approved collections', () => {
   assert.equal(config.publish_mode, 'editorial_workflow');
   assert.equal(config.backend.repo, 'neunon/neunon-web');
   assert.equal(config.backend.branch, 'main');
-  assert.deepEqual(config.collections.map(c => c.name), ['seo', 'pages', 'aboutPage', 'services', 'landing', 'news']);
+  assert.deepEqual(config.collections.map(c => c.name), ['seo', 'pages', 'aboutPage', 'recruitPage', 'services', 'landing', 'news']);
+  assert.ok(config.collections.find(c => c.name === 'pages').files[0].fields.some(f => f.name === 'bottomCta'));
+  assert.ok(config.collections.find(c => c.name === 'recruitPage').files[0].fields.some(f => f.name === 'hero'));
   const landing = config.collections.find(c => c.name === 'landing');
   assert.equal(landing.create, true);
   assert.equal(landing.delete, true);

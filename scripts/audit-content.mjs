@@ -46,10 +46,15 @@ export function validateContent(root = process.cwd()) {
     'eyebrow', 'titleLine1', 'titleLine2', 'lead', 'businessSummary', 'companyCtaLabel', 'studentCtaLabel',
   ], 'home');
   const problem = home?.problem;
+  keys(home?.bottomCta, ['title', 'body', 'primaryLabel', 'secondaryLabel'], 'home.bottomCta');
   keys(problem, ['title', 'intro', 'studentTitle', 'studentBody', 'businessTitle', 'businessBody'], 'home.problem');
   if (typeof problem?.visible !== 'boolean') fail('home.problem.visible', 'booleanが必要です');
   objects(problem?.opportunities, ['title'], 'home.problem.opportunities').forEach((item, i) =>
     stringList(item.body, `home.problem.opportunities[${i}].body`));
+
+  const recruit = read('content/pages/recruit.json');
+  keys(recruit?.hero, ['line1', 'line2', 'sub', 'lead'], 'recruit.hero');
+  keys(recruit, ['careerTitle', 'careerIntro'], 'recruit');
 
   const about = read('content/pages/about.json');
   keys(about, ['heroLead'], 'about');
@@ -86,6 +91,18 @@ export function validateContent(root = process.cwd()) {
       stringList(item.effects, where + '.menu[' + i + '].effects', 2);
       if (item.effects?.length !== 2) fail(where, 'メニュー欄の効果は2行です');
     });
+    if (id === 'package') {
+      const detail = data.packageDetail;
+      const at = where + '.packageDetail';
+      keys(detail, ['journeyTitle', 'journeyIntro', 'benefitsTitle', 'benefitsIntro', 'ctaTitle', 'ctaBody'], at);
+      objects(detail?.journey, ['title', 'body'], at + '.journey', 3);
+      if (detail?.journey?.length !== 3) fail(at + '.journey', '3つの手順が必要です');
+      stringList(detail?.benefitGroupTitles, at + '.benefitGroupTitles', 2);
+      if (detail?.benefitGroupTitles?.length !== 2) fail(at + '.benefitGroupTitles', '分類名は2件必要です');
+      objects(detail?.outcomes, ['title'], at + '.outcomes', 5).forEach((item, i) =>
+        stringList(item.body, at + `.outcomes[${i}].body`));
+      if (detail?.outcomes?.length !== 5) fail(at + '.outcomes', '効果は5件必要です');
+    }
     if (id === 'ai') {
       stringList(data.aiDevelopmentMenu, where + '.aiDevelopmentMenu', 1);
       stringList(data.aiDevelopmentExamples, where + '.aiDevelopmentExamples', 1);

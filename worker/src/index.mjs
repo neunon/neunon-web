@@ -251,7 +251,7 @@ export function buildNotificationText(formType, config, values, request) {
 
 export function buildAutoReply(formType, name) {
   const noun = formType === 'entry' ? 'エントリー' : 'お問い合わせ';
-  return `${name} 様\n\n${noun}を受け付けました。\n内容を確認のうえ、当日〜翌営業日を目安に担当者からご連絡いたします。\n\nこのメールにお心当たりがない場合は、keisakamoto@neun-on.com までご連絡ください。\n\n株式会社Neunon Consulting\nhttps://neun-on.com/`;
+  return `${name} 様\n\n${noun}を受け付けました。\n内容を確認のうえ、当日〜翌営業日を目安に担当者からご連絡いたします。\n\nこのメールにお心当たりがない場合は、info@neun-on.com までご連絡ください。\n\n株式会社Neunon Consulting\nhttps://neun-on.com/`;
 }
 
 export function textToHtml(text) {

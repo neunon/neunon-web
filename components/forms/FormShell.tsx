@@ -261,7 +261,7 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
       router.push(thanksPath);
     } catch {
       setSendError(
-        '送信に失敗しました。時間をおいて再度お試しいただくか、フッター記載の電話番号までご連絡ください。',
+        '送信に失敗しました。時間をおいて再度お試しいただくか、info@neun-on.com までご連絡ください。',
       );
       setSending(false);
       setTurnstileToken('');

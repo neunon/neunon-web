@@ -23,7 +23,7 @@ export const site = {
   },
   tel: '070-4360-2752',
   // 代表問い合わせ先
-  email: 'keisakamoto@neun-on.com',
+  email: 'info@neun-on.com',
 } as const;
 
 /**
@@ -70,7 +70,6 @@ export const footerNav = [
     heading: 'Company',
     items: [
       { label: '企業情報', href: '/about' },
-      { label: '代表メッセージ', href: '/about/message' },
       { label: '会社情報', href: '/about/company' },
       { label: 'お知らせ', href: '/news' },
     ],

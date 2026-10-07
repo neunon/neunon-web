@@ -105,7 +105,14 @@ const serviceFiles = [
       strings('aiDevelopmentExamples', 'AI開発例', { min: 1 }),
       list('aiProductFeatures', 'AIプロダクトの特徴', [string('title', '見出し'), text('body', '説明')], { min: 1 }),
     ] : []),
-    ...(id === 'package' ? [list('examples', '成果物イメージ', [
+    ...(id === 'package' ? [obj('packageDetail', 'パッケージ型支援ページの本文', [
+      string('journeyTitle', '依頼手順の見出し'), text('journeyIntro', '依頼手順の説明'),
+      list('journey', '依頼手順', [string('title', '見出し'), text('body', '説明')], { min: 3, max: 3 }),
+      string('benefitsTitle', '効果の見出し'), text('benefitsIntro', '効果の説明'),
+      strings('benefitGroupTitles', '効果の分類名（2件）', { min: 2, max: 2 }),
+      list('outcomes', '効果（前半3件・後半2件）', [string('title', '見出し'), strings('body', '箇条書き', { min: 1 })], { min: 5, max: 5 }),
+      string('ctaTitle', 'ページ末尾の相談見出し'), text('ctaBody', 'ページ末尾の相談文'),
+    ]), list('examples', '成果物イメージ', [
       string('title', '見出し'), text('body', '内容'), text('takeaway', '活用イメージ'),
     ], { min: 1 })] : []),
     ...(id === 'consulting' ? [consultingFields] : [
@@ -160,6 +167,7 @@ export function createCmsConfig(authBaseUrl) {
             string('eyebrow', '小見出し'), string('titleLine1', '主見出し 1行目'), string('titleLine2', '主見出し 2行目'),
             text('lead', '導入文'), text('businessSummary', '事業説明の補助文'),
             string('companyCtaLabel', '企業向けボタンの文言'), string('studentCtaLabel', '学生向けボタンの文言'),
+            obj('bottomCta', 'ページ末尾の相談案内', [string('title', '見出し'), text('body', '説明'), string('primaryLabel', '第1ボタン'), string('secondaryLabel', '第2ボタン')]),
             { name: 'problem', label: '次世代の力', widget: 'object', fields: [
               bool('visible', 'セクションを表示'), string('title', '見出し'), text('intro', '導入文'),
               list('opportunities', '4つの力', [string('title', '見出し'), strings('body', '説明文（行ごと）', { min: 1 })], { min: 1 }),
@@ -180,6 +188,13 @@ export function createCmsConfig(authBaseUrl) {
             list('points', '論点（追加・削除・並べ替え可能）', [string('title', '見出し'), strings('paragraphs', '本文（段落ごと）', { min: 1 })], { min: 1 }),
           ] },
           bool('companyVisible', '会社情報を表示'),
+        ] }],
+      },
+      {
+        name: 'recruitPage', label: '採用情報ページ', format: 'json', editor: { preview: false },
+        files: [{ name: 'recruit', label: '採用ページのコピー', file: 'content/pages/recruit.json', fields: [
+          obj('hero', 'ヒーロー', [string('line1', '見出し1行目'), string('line2', '見出し2行目'), string('sub', '補助見出し'), text('lead', '導入文')]),
+          string('careerTitle', '成長の道筋 見出し'), text('careerIntro', '成長の道筋 説明'),
         ] }],
       },
       { name: 'services', label: '事業', format: 'json', editor: { preview: false }, files: serviceFiles },

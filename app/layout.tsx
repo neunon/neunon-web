@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import './editorial-pages.css';
 import './service-visuals.css';
+import './site-polish.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { MotionLayer } from '@/components/layout/MotionLayer';
@@ -64,7 +65,7 @@ const organizationJsonLd = {
   },
   contactPoint: {
     '@type': 'ContactPoint',
-    telephone: `+81-${site.tel.slice(1).replace(/-/g, '-')}`,
+    email: site.email,
     contactType: 'sales',
     areaServed: 'JP',
     availableLanguage: ['Japanese'],

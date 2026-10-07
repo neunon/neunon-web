@@ -23,7 +23,7 @@
 
 - Workerコード: `worker/src/index.mjs`
 - Worker設定: `worker/wrangler.toml`
-- 通知先: `keisakamoto@neun-on.com`
+- 通知先: `info@neun-on.com`
 - 企業フォーム: `https://<worker-domain>/contact`
 - 学生フォーム: `https://<worker-domain>/entry`
 - 添付上限: 10MB、PDF・Word・PowerPoint・PNG・JPEG・WebP
@@ -33,7 +33,7 @@
 通常変数:
 
 - `ALLOWED_ORIGINS=https://neun-on.com,https://www.neun-on.com`
-- `NOTIFICATION_EMAIL=keisakamoto@neun-on.com`
+- `NOTIFICATION_EMAIL=info@neun-on.com`
 - `FROM_EMAIL=Neunon Website <website@neun-on.com>`
 
 暗号化して登録するSecret:

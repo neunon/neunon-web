@@ -19,9 +19,9 @@ export function Footer() {
               <br />
               {site.address.head}
               <br />
-              TEL{' '}
-              <a href={`tel:${site.tel.replace(/-/g, '')}`} className="nc-flink">
-                {site.tel}
+              MAIL{' '}
+              <a href={`mailto:${site.email}`} className="nc-flink">
+                {site.email}
               </a>
             </address>
             <p className="nc-fnote">

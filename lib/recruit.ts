@@ -10,11 +10,10 @@
  *   採られている。サイトに学歴要件を明示してはいけない。
  */
 
-export const recruitHero = {
-  lines: ['時間だけは、ある。', '使い道が、まだない。'],
-  sub: '学生のうちに、企業の実案件を。',
-  lead: '大学生のありあまる時間と、埋もれている意欲・能力を、企業支援の力へ。調査・分析・資料作成から、新規サービスやWebサイトの立ち上げまで。経験者の監修のもと、実案件で自分の可能性を広げます。',
-};
+import recruitPage from '@/content/pages/recruit.json';
+
+export const recruitHero = recruitPage.hero;
+export const recruitCareer = { title: recruitPage.careerTitle, intro: recruitPage.careerIntro };
 
 export const gakuchika = [
   '実際の企業案件を担当して、成果を出した。',

@@ -19,14 +19,6 @@ export function CompanyTable() {
     { label: '事業内容', value: '経営コンサルティング／戦略コンサルティング' },
     { label: '従業員数', value: site.employees },
     {
-      label: '電話',
-      value: (
-        <a href={`tel:${site.tel.replace(/-/g, '')}`} className="nc-inline-link">
-          {site.tel}
-        </a>
-      ),
-    },
-    {
       label: 'メール',
       value: (
         <a href={`mailto:${site.email}`} className="nc-inline-link">

@@ -41,8 +41,8 @@ export default function ContactThanksPage() {
 
           <p className="nc-note">
             数日経っても返信が届かない場合は、迷惑メールフォルダをご確認のうえ、
-            <a href={`tel:${site.tel.replace(/-/g, '')}`} className="nc-inline-link">
-              {site.tel}
+            <a href={`mailto:${site.email}`} className="nc-inline-link">
+              {site.email}
             </a>
             までご連絡ください。
           </p>

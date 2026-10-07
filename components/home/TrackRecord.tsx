@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { publicIndustries } from '@/lib/anonymous-works';
+import { IndustryGrid } from './IndustryGrid';
 
 /**
  * トップページの提供形態に付随する支援業界一覧。
@@ -17,9 +18,7 @@ export function TrackRecord() {
           <p>業界固有の前提を捉えながら、幅広い領域の実務を支援しています。</p>
         </div>
 
-        <div className="nc-inds" aria-label="支援業界">
-          {publicIndustries.map((industry) => <span className="nc-ind" key={industry}>{industry}</span>)}
-        </div>
+        <IndustryGrid industries={publicIndustries} />
         <Link href="/works" className="nc-industry-link">
           支援実績を見る
           <i aria-hidden="true" />
