@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
 import { pageMetadata } from '@/lib/seo';
-import { conditions, gakuchika, idealCandidate, recruitHero, termsPendingNote } from '@/lib/recruit';
+import { conditions, gakuchika, idealCandidate, recruitCareer, recruitHero, termsPendingNote } from '@/lib/recruit';
 import { RecruitCareerPath, RecruitSelectionRail } from '@/components/recruit/RecruitDiagrams';
 
 export const metadata: Metadata = pageMetadata('recruit', '/recruit/');
@@ -14,13 +14,14 @@ export default function RecruitPage() {
         <div className="ep-wrap ep-r-hero-inner">
           <div className="ep-r-hero-copy">
             <span className="ep-overline">採用情報</span>
-            <h1 id="ep-r-title">{recruitHero.lines[0]}<br /><em>{recruitHero.lines[1]}</em></h1>
+            <h1 id="ep-r-title">{recruitHero.line1}<br /><em>{recruitHero.line2}</em></h1>
             <p className="ep-r-hero-sub">{recruitHero.sub}</p>
             <p className="ep-r-hero-lead">{recruitHero.lead}</p>
             <InteractiveHoverLink href="/entry/" text="エントリーする" />
           </div>
-          <div className="ep-r-hero-image" role="img" aria-label="街を見つめる学生の後ろ姿">
-            <span>可能性を、実務へ。</span>
+          <div className="ep-r-hero-statement" aria-hidden="true">
+            <span>調べる。</span><span>考える。</span><span>届ける。</span>
+            <p>学生の力を、企業が使う成果へ。</p>
           </div>
         </div>
       </section>
@@ -58,11 +59,10 @@ export default function RecruitPage() {
       <section className="ep-section ep-r-path" aria-labelledby="ep-r-path-title">
         <div className="ep-wrap">
           <header className="ep-split-head">
-            <div><span className="ep-overline">成長の道筋</span><h2 id="ep-r-path-title">アソシエイトから、<br />チームを率いる側へ。</h2></div>
-            <p>実務を重ね、任される範囲を広げていきます。一人で抱え込ませず、各段階で監修と支援があります。</p>
+            <div><span className="ep-overline">成長の道筋</span><h2 id="ep-r-path-title">{recruitCareer.title}</h2></div>
+            <p>{recruitCareer.intro}</p>
           </header>
           <RecruitCareerPath />
-          <p className="ep-r-path-foot">どの段階でも、成果物は経験のあるコンサルタントが監修します。</p>
         </div>
       </section>
 

@@ -4,21 +4,9 @@ import { ContactCta } from '@/components/shared/ContactCta';
 import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
 import { PackagePreviewVisual } from './ServiceVisuals';
 
-const journey = [
-  { title: 'メニューを選ぶ', body: '新規営業先、競合、市場など、調べたいテーマに合うメニューを選びます。' },
-  { title: '対象・範囲を決める', body: '企業数や確認したい観点を伺い、実施範囲と納品内容を調整します。' },
-  { title: '分析資料を受け取る', body: '調査結果を整理し、比較や示唆を含む資料として納品します。' },
-];
-
-const outcomes = [
-  { title: '調査・分析工数を削減', body: ['情報収集・整理の作業を削減し、検討・判断・実行に時間を使える。', '工数の制約で調べられなかった企業や市場まで、検討対象を広げられる。'] },
-  { title: '新たな示唆・機会を発見', body: ['個別情報を横断して分析し、日々の業務では見落としやすい論点を抽出。', '新規提案・クロスセル・再攻略、成長市場、競合の脅威や勝ち筋を見いだす。'] },
-  { title: '対象の変化を継続的に把握', body: ['一度きりの調査で終わらず、企業や市場の変化を捉え続ける。', '新商品、戦略変更、投資、提携、M&A、組織変更を適切な判断につなげる。'] },
-  { title: '理解・知見を深め、判断・提案を高度化', body: ['企業・市場・競合・製品を多面的に把握し、担当者自身の知見を深める。', '背景や構造を踏まえた、より深く多角的な判断・提案を可能にする。'] },
-  { title: '分析品質を標準化・組織知化', body: ['調査項目・分析観点を統一し、担当者による深さや着眼点のばらつきを抑える。', '分析結果と重要な着眼点を蓄積・更新し、組織資産として再利用する。'] },
-];
-
 export function PackageServiceDetail({ service }: { service: Service }) {
+  const detail = service.packageDetail;
+  if (!detail) return null;
   return (
     <div className="ep ep-package">
       <PageBreadcrumbs crumbs={[{ label: '事業内容', href: '/services' }, { label: service.title }]} />
@@ -49,11 +37,11 @@ export function PackageServiceDetail({ service }: { service: Service }) {
       <section className="ep-section ep-p-journey" aria-labelledby="ep-p-journey-title">
         <div className="ep-wrap">
           <header className="ep-split-head">
-            <div><h2 id="ep-p-journey-title">情報を集めて、<br />終わらせない。</h2></div>
-            <p>企業1社のクローズアップから、競合比較、定期レビューまで。調査テーマごとに範囲と進め方を定型化し、必要なメニューを選んで依頼できます。</p>
+            <div><h2 id="ep-p-journey-title">{detail.journeyTitle}</h2></div>
+            <p>{detail.journeyIntro}</p>
           </header>
           <div className="ep-p-journey-track">
-            {journey.map((step, index) => <article key={step.title}>
+            {detail.journey.map((step, index) => <article key={step.title}>
               <span>0{index + 1}</span><h3>{step.title}</h3><p>{step.body}</p>
             </article>)}
           </div>
@@ -68,7 +56,7 @@ export function PackageServiceDetail({ service }: { service: Service }) {
           </header>
           <div className="ep-p-menu-list">
             {service.menu.map((item) => <details key={item.name} name="package-menu">
-              <summary><h3>{item.name}</h3><span>{item.body}</span><i aria-hidden="true" /></summary>
+              <summary><h3>{item.name}</h3><span>{item.body}</span><span className="ep-c-theme-plus" aria-hidden="true">＋</span></summary>
               <div className="ep-p-menu-expanded">
                 <div><strong>想定する課題</strong><p>{item.issue}</p></div>
                 <div><strong>得られるもの</strong><p>{item.effect}</p></div>
@@ -96,10 +84,10 @@ export function PackageServiceDetail({ service }: { service: Service }) {
 
       <section className="ep-section ep-p-benefits" aria-labelledby="ep-p-benefits-title">
         <div className="ep-wrap">
-          <header className="ep-split-head"><h2 id="ep-p-benefits-title">パッケージ型支援が<br />もたらす効果</h2><p>パッケージ型支援は、日々の業務に直接効く成果と、担当者・組織に残る知見の両方を生み出します。</p></header>
+          <header className="ep-split-head"><h2 id="ep-p-benefits-title">{detail.benefitsTitle}</h2><p>{detail.benefitsIntro}</p></header>
           <div className="ep-p-benefit-groups">
-            <div className="ep-p-benefit-list"><h3>業務・成果への直接効果</h3><div>{outcomes.slice(0, 3).map((outcome, index) => <article key={outcome.title}><div className="ep-p-benefit-name"><span>0{index + 1}.</span><h4>{outcome.title}</h4></div><ul>{outcome.body.map((line) => <li key={line}>{line}</li>)}</ul></article>)}</div></div>
-            <div className="ep-p-benefit-list"><h3>人・組織の能力向上</h3><div>{outcomes.slice(3).map((outcome, index) => <article key={outcome.title}><div className="ep-p-benefit-name"><span>0{index + 4}.</span><h4>{outcome.title}</h4></div><ul>{outcome.body.map((line) => <li key={line}>{line}</li>)}</ul></article>)}</div></div>
+            <div className="ep-p-benefit-list"><h3>{detail.benefitGroupTitles[0]}</h3><div>{detail.outcomes.slice(0, 3).map((outcome, index) => <article key={outcome.title}><div className="ep-p-benefit-name"><span>0{index + 1}.</span><h4>{outcome.title}</h4></div><ul>{outcome.body.map((line) => <li key={line}>{line}</li>)}</ul></article>)}</div></div>
+            <div className="ep-p-benefit-list"><h3>{detail.benefitGroupTitles[1]}</h3><div>{detail.outcomes.slice(3).map((outcome, index) => <article key={outcome.title}><div className="ep-p-benefit-name"><span>0{index + 4}.</span><h4>{outcome.title}</h4></div><ul>{outcome.body.map((line) => <li key={line}>{line}</li>)}</ul></article>)}</div></div>
           </div>
         </div>
       </section>
@@ -127,7 +115,7 @@ export function PackageServiceDetail({ service }: { service: Service }) {
         </div>
       </section>
 
-      <ContactCta title="まずは、1件から。" body="調べたい企業やテーマをお聞かせください。対象の選定からもご相談いただけます。" primary={{ label: '調査を相談する', href: '/contact/' }} secondary={{ label: '他の事業を見る', href: '/services/' }} />
+      <ContactCta title={detail.ctaTitle} body={detail.ctaBody} primary={{ label: '調査を相談する', href: '/contact/' }} secondary={{ label: '他の事業を見る', href: '/services/' }} />
     </div>
   );
 }

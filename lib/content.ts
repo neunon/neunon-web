@@ -113,6 +113,18 @@ export type Service = {
   updatedAt?: string;
   highlights: string[];
   lead: string;
+  /** パッケージ型支援ページの編集可能な本文・図表コピー */
+  packageDetail?: {
+    journeyTitle: string;
+    journeyIntro: string;
+    journey: { title: string; body: string }[];
+    benefitsTitle: string;
+    benefitsIntro: string;
+    benefitGroupTitles: string[];
+    outcomes: { title: string; body: string[] }[];
+    ctaTitle: string;
+    ctaBody: string;
+  };
   useCases: string[];
   menu: ServiceMenuItem[];
   aiDevelopmentMenu?: string[];
