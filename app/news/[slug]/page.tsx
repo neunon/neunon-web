@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { PageHero } from '@/components/shared/PageHero';
+import { PageBreadcrumbs } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { getNews, getNewsItem } from '@/lib/content';
 import { createPageMetadata } from '@/lib/seo';
@@ -35,49 +35,24 @@ export default async function NewsDetailPage({ params }: Props) {
   const others = getNews().filter((entry) => entry.slug !== item.slug).slice(0, 3);
 
   return (
-    <>
-      <PageHero
-        eyebrow={`${item.date.replace(/-/g, '.')}　${item.category}`}
-        title={item.title}
-        crumbs={[{ label: 'お知らせ', href: '/news' }, { label: item.category }]}
-      />
-
-      <div className="section">
-        <div className="wrap nc-doc-narrow">
-          <article className="nc-news-article">
-            {item.body.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </article>
-
-          {others.length > 0 ? (
-            <section className="nc-news-related" aria-labelledby="other-news">
-              <h2 id="other-news" className="nc-sub-head">
-                ほかのお知らせ
-              </h2>
-              <ul className="nc-news">
-                {others.map((entry) => (
-                  <li key={entry.slug}>
-                    <Link href={`/news/${entry.slug}`}>
-                      <time dateTime={entry.date}>{entry.date.replace(/-/g, '.')}</time>
-                      <span className="nc-news-cat">{entry.category}</span>
-                      <span className="nc-news-title">{entry.title}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
-
-          <div className="nc-acts nc-form-acts">
-            <Link href="/news" className="btn btn-ghost">
-              お知らせ一覧へ
-            </Link>
-          </div>
+    <div className="nc-news-detail-page">
+      <PageBreadcrumbs crumbs={[{ label: 'お知らせ', href: '/news' }, { label: item.title }]} />
+      <article className="wrap nc-news-detail">
+        <header className="nc-news-detail-head">
+          <div className="nc-news-detail-meta"><time dateTime={item.date}>{item.date.replace(/-/g, '.')}</time><span>{item.category}</span></div>
+          <h1>{item.title}</h1>
+          <p>{item.excerpt}</p>
+        </header>
+        <div className="nc-news-detail-layout">
+          <aside className="nc-news-detail-aside"><span>お知らせ</span><Link href="/news/">一覧に戻る <span aria-hidden="true">←</span></Link></aside>
+          <div className="nc-news-detail-body">{item.body.map((paragraph, index) => <p key={`${index}-${paragraph}`}>{paragraph}</p>)}</div>
         </div>
-      </div>
-
+      </article>
+      {others.length > 0 ? <section className="wrap nc-news-detail-related" aria-labelledby="other-news">
+        <div className="nc-news-detail-related-head"><h2 id="other-news">ほかのお知らせ</h2><Link href="/news/">一覧を見る <span aria-hidden="true">→</span></Link></div>
+        <ul>{others.map((entry) => <li key={entry.slug}><Link href={`/news/${entry.slug}/`}><time dateTime={entry.date}>{entry.date.replace(/-/g, '.')}</time><span>{entry.category}</span><strong>{entry.title}</strong><i aria-hidden="true">→</i></Link></li>)}</ul>
+      </section> : null}
       <ContactCta />
-    </>
+    </div>
   );
 }

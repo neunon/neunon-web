@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
 import { pageMetadata } from '@/lib/seo';
-import { conditions, gakuchika, idealCandidate, recruitHero, selectionSteps, termsPendingNote } from '@/lib/recruit';
+import { conditions, gakuchika, idealCandidate, recruitHero, termsPendingNote } from '@/lib/recruit';
+import { RecruitCareerPath, RecruitSelectionRail } from '@/components/recruit/RecruitDiagrams';
 
 export const metadata: Metadata = pageMetadata('recruit', '/recruit/');
 
@@ -49,6 +50,7 @@ export default function RecruitPage() {
           <div className="ep-r-stories">
             <p>ここで経験できること</p>
             <ul>{gakuchika.map((item) => <li key={item}>{item}</li>)}</ul>
+            <Link href="/recruit/voice/" className="ep-r-voice-link">体験談を見る <span aria-hidden="true">→</span></Link>
           </div>
         </div>
       </section>
@@ -59,11 +61,7 @@ export default function RecruitPage() {
             <div><span className="ep-overline">成長の道筋</span><h2 id="ep-r-path-title">アソシエイトから、<br />チームを率いる側へ。</h2></div>
             <p>実務を重ね、任される範囲を広げていきます。一人で抱え込ませず、各段階で監修と支援があります。</p>
           </header>
-          <ol className="ep-r-path-steps">
-            <li><span>01</span><h3>アソシエイト学生</h3><p>調査・データ分析・資料作成を担当。リード学生の指導のもとで、実務の基礎を身につけます。</p></li>
-            <li><span>02</span><h3>リード学生</h3><p>案件実務に加え、ディレクション、進捗管理、企業との窓口を担います。</p></li>
-            <li><span>03</span><h3>新しいチームへ</h3><p>自分のチームを組成し、新規サービスの企画や顧客開拓にも挑戦できます。</p></li>
-          </ol>
+          <RecruitCareerPath />
           <p className="ep-r-path-foot">どの段階でも、成果物は経験のあるコンサルタントが監修します。</p>
         </div>
       </section>
@@ -92,8 +90,7 @@ export default function RecruitPage() {
       <section className="ep-section ep-r-selection" aria-labelledby="ep-r-selection-title">
         <div className="ep-wrap">
           <header className="ep-split-head"><div><span className="ep-overline">選考フロー</span><h2 id="ep-r-selection-title">エントリーから、<br />案件参加まで。</h2></div><p>各段階で、仕事の内容や条件もご説明します。内容を確認したうえで進むか判断できます。</p></header>
-          <ol>{selectionSteps.map((step) => <li key={step.no}><span>{step.no}</span><h3>{step.title}</h3><p>{step.span}</p></li>)}</ol>
-          <Link href="/recruit/flow/" className="ep-text-link">選考フローの詳細 <span aria-hidden="true">↗</span></Link>
+          <RecruitSelectionRail />
         </div>
       </section>
 

@@ -39,6 +39,7 @@ export function Careers() {
               <li key={item}>{item}</li>
             ))}
           </ul>
+          <InteractiveHoverLink href="/recruit/voice/" text="体験談を見る" className="is-outline nc-voice-button" />
         </div>
       </div>
     </section>
