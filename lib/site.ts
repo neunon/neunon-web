@@ -4,26 +4,27 @@
  * 掲載可否は要件定義書 12.1 の判断に従う（所在地・電話番号は掲載する）。
  */
 
+import settings from '@/content/site/settings.json';
+
 export const site = {
-  name: '株式会社Neunon Consulting',
-  nameEn: 'Neunon Consulting, Inc.',
+  name: settings.company.name,
+  nameEn: settings.company.nameEn,
   // 要確認: 独自ドメインの取得状況（要件定義書 10.3 / 14）
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://neun-on.com',
   domain: 'neun-on.com',
-  description:
-    '選抜・育成された学生人材が企業の実務に挑み、プロフェッショナルが成長と成果物の品質を支えることで、企業の成果創出と次世代ビジネス人材の育成を両立します。',
-  keyMessage: '次世代の成長を、企業の成長へ。',
-  mission:
-    '企業の成長・再建・立上げに伴う多様な課題に対し、画一的なフレームワークに頼らず、個々の状況に応じた柔軟かつ実践的な支援を提供すると共に、実務支援を通じて次世代ビジネス人材を育成し、社会的価値の創出を目指します',
-  founded: '2026年1月27日',
-  representative: '代表取締役社長　坂本 慧',
-  employees: '5名',
+  description: settings.company.description,
+  keyMessage: settings.company.keyMessage,
+  mission: settings.company.mission,
+  founded: settings.company.founded,
+  representative: settings.company.representative,
+  employees: settings.company.employees,
   address: {
-    head: '東京都江東区南砂6-7-36-306',
+    head: settings.company.address,
   },
-  tel: '070-4360-2752',
+  business: settings.company.business,
+  tel: settings.company.tel,
   // 代表問い合わせ先
-  email: 'info@neun-on.com',
+  email: settings.company.email,
 } as const;
 
 /**
@@ -39,47 +40,47 @@ export type NavItem = {
 
 export const globalNav: NavItem[] = [
   {
-    label: '事業内容',
+    label: settings.navigation.services,
     href: '/services',
     children: [
-      { label: 'コンサルティング', href: '/services/consulting', note: '01' },
-      { label: 'パッケージ型支援', href: '/services/package', note: '02' },
-      { label: 'AI開発・プロダクト', href: '/services/ai', note: '03' },
+      { label: settings.navigation.consulting, href: '/services/consulting', note: '01' },
+      { label: settings.navigation.package, href: '/services/package', note: '02' },
+      { label: settings.navigation.ai, href: '/services/ai', note: '03' },
     ],
   },
-  { label: '実績', href: '/works' },
-  { label: '人材', href: '/talent' },
-  { label: '企業情報', href: '/about' },
-  { label: '採用情報', href: '/recruit' },
+  { label: settings.navigation.works, href: '/works' },
+  { label: settings.navigation.talent, href: '/talent' },
+  { label: settings.navigation.about, href: '/about' },
+  { label: settings.navigation.recruit, href: '/recruit' },
 ];
 
-export const contactNav = { label: 'お問い合わせ', href: '/contact' };
+export const contactNav = { label: settings.navigation.contact, href: '/contact' };
 
 export const footerNav = [
   {
-    heading: 'Services',
+    heading: settings.footer.servicesHeading,
     items: [
-      { label: 'コンサルティング', href: '/services/consulting' },
-      { label: 'パッケージ型支援', href: '/services/package' },
-      { label: 'AI開発・プロダクト', href: '/services/ai' },
+      { label: settings.navigation.consulting, href: '/services/consulting' },
+      { label: settings.navigation.package, href: '/services/package' },
+      { label: settings.navigation.ai, href: '/services/ai' },
       { label: '支援実績', href: '/works' },
       { label: '人材パネル', href: '/talent' },
     ],
   },
   {
-    heading: 'Company',
+    heading: settings.footer.companyHeading,
     items: [
-      { label: '企業情報', href: '/about' },
+      { label: settings.navigation.about, href: '/about' },
       { label: '会社情報', href: '/about/company' },
       { label: 'お知らせ', href: '/news' },
     ],
   },
   {
-    heading: 'Careers & Contact',
+    heading: settings.footer.careersHeading,
     items: [
-      { label: '採用情報', href: '/recruit' },
+      { label: settings.navigation.recruit, href: '/recruit' },
       { label: '学生エントリー', href: '/entry' },
-      { label: 'お問い合わせ', href: '/contact' },
+      { label: settings.navigation.contact, href: '/contact' },
       { label: 'プライバシーポリシー', href: '/privacy' },
       { label: 'サイト利用規約', href: '/terms' },
     ],

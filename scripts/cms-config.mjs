@@ -153,11 +153,35 @@ export function createCmsConfig(authBaseUrl) {
           name: 'site', label: '主要ページのSEO', file: 'content/site/seo.json',
           fields: [
             ['home', 'トップページ'], ['services', '事業内容'], ['works', '支援実績'],
-            ['talent', '人材パネル'], ['recruit', '採用情報'], ['about', '企業情報'], ['contact', 'お問い合わせ'],
+            ['talent', '人材パネル'], ['recruit', '採用情報'], ['recruitFlow', '選考フロー'],
+            ['about', '企業情報'], ['company', '会社情報'], ['contact', 'お問い合わせ'], ['entry', '学生エントリー'],
+            ['news', 'お知らせ'], ['aiDevelopment', 'AI開発・業務自動化'], ['aiProducts', 'AIプロダクト'],
           ].map(([name, label]) => ({
-            name, label, widget: 'object', fields: [seoTitle('title'), seoDescription('description')],
+            name, label, widget: 'object', fields: [
+              seoTitle('title'), seoDescription('description'),
+              { name: 'ogImage', label: 'SNS共有画像（任意・1200×630推奨）', widget: 'image', required: false, hint: '未設定なら共通画像を使用します。広告用画像とは分けて管理してください。' },
+              string('ogAlt', 'SNS共有画像の説明', { required: false }),
+            ],
           })),
         }],
+      },
+      {
+        name: 'siteSettings', label: 'サイト共通設定', format: 'json', editor: { preview: false },
+        files: [{ name: 'settings', label: '会社情報・ナビ・フッター', file: 'content/site/settings.json', fields: [
+          obj('company', '会社情報', [
+            string('name', '社名'), string('nameEn', '英文社名'), text('description', '会社説明'),
+            string('keyMessage', 'キーメッセージ'), text('mission', 'ミッション'),
+            string('founded', '設立日'), string('representative', '代表者'), string('employees', '従業員数'),
+            string('address', '住所'), string('business', '事業内容'), string('tel', '電話番号'),
+            string('email', '代表メール', { pattern: ['^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$', 'メールアドレスを入力してください'] }),
+          ]),
+          obj('navigation', 'ヘッダー・フッターの表示名', [
+            string('services', '事業内容'), string('consulting', 'コンサルティング'), string('package', 'パッケージ型支援'),
+            string('ai', 'AI開発・プロダクト'), string('works', '実績'), string('talent', '人材'),
+            string('about', '企業情報'), string('recruit', '採用情報'), string('contact', 'お問い合わせ'),
+          ]),
+          obj('footer', 'フッター', [string('servicesHeading', '事業列の見出し'), string('companyHeading', '企業列の見出し'), string('careersHeading', '採用・問い合わせ列の見出し'), string('contactNote', 'フォームへの案内文')]),
+        ] }],
       },
       {
         name: 'pages', label: 'トップページ', format: 'json', editor: { preview: false },
@@ -174,6 +198,14 @@ export function createCmsConfig(authBaseUrl) {
               string('studentTitle', '学生の成長 見出し'), text('studentBody', '学生の成長 説明'),
               string('businessTitle', '企業の成長 見出し'), text('businessBody', '企業の成長 説明'),
             ] },
+            obj('servicesSection', '提供形態セクション', [bool('visible', '表示'), string('title', '見出し'), text('intro', '説明'), string('detailLabel', '詳細リンクの文言')]),
+            obj('structureSection', '管理・育成体制セクション', [bool('visible', '表示'), string('title', '見出し'), text('intro', '説明（改行可能）')]),
+            obj('careersSection', '学生向けセクション', [
+              bool('visible', '表示'), string('titleLine1', '見出し1行目'), string('titleLine2', '見出し2行目'), text('intro', '説明'),
+              string('experiencesTitle', '経験例の見出し'), strings('experiences', '経験例', { min: 1 }),
+              string('recruitLabel', '採用ボタン'), string('entryLabel', 'エントリーボタン'), string('voiceLabel', '体験談ボタン'),
+            ]),
+            obj('newsSection', 'お知らせセクション', [bool('visible', '表示'), string('title', '見出し'), string('moreLabel', '一覧リンク')]),
           ],
         }],
       },
@@ -195,9 +227,52 @@ export function createCmsConfig(authBaseUrl) {
         files: [{ name: 'recruit', label: '採用ページのコピー', file: 'content/pages/recruit.json', fields: [
           obj('hero', 'ヒーロー', [string('line1', '見出し1行目'), string('line2', '見出し2行目'), string('sub', '補助見出し'), text('lead', '導入文')]),
           string('careerTitle', '成長の道筋 見出し'), text('careerIntro', '成長の道筋 説明'),
+          strings('experiences', '経験例', { min: 1 }),
+          list('conditions', '募集要項', [string('label', '項目'), text('value', '内容')], { min: 1 }),
+          list('idealCandidate', '求める人物像', [string('title', '見出し'), text('body', '説明')], { min: 1 }),
+          list('selectionSteps', '選考フロー', [string('no', '番号'), string('title', '見出し'), text('body', '説明'), string('span', '時期・目安')], { min: 1 }),
+          text('termsPendingNote', '募集条件の注記'),
+        ] }],
+      },
+      {
+        name: 'formsPage', label: 'お問い合わせ・エントリー案内', format: 'json', editor: { preview: false },
+        files: [{ name: 'forms', label: 'フォーム周辺の案内文', file: 'content/pages/forms.json', fields: [
+          obj('contact', '企業お問い合わせ', [
+            string('heroTitle', 'ページ見出し'), text('heroLead', '導入文'), string('sideTitle', '左側の見出し'), text('sideIntro', '左側の説明'),
+            string('formTitle', 'フォーム見出し'), text('formIntro', 'フォーム説明'),
+            string('studentNoteTitle', '学生向け案内見出し'), text('studentNote', '学生向け案内'),
+            string('studentLinkLabel', '学生向けリンク'), string('submitLabel', '送信ボタン'),
+          ]),
+          obj('entry', '学生エントリー', [
+            string('heroTitle', 'ページ見出し'), text('heroLead', '導入文'), string('sideTitle', '左側の見出し'), text('sideIntro', '左側の説明'),
+            string('flowTitle', '選考フローの見出し'), text('eligibilityNote', '募集対象の注記'),
+            string('formTitle', 'フォーム見出し'), text('formIntro', 'フォーム説明'),
+            string('companyNoteTitle', '企業向け案内見出し'), text('companyNote', '企業向け案内'),
+            string('companyLinkLabel', '企業向けリンク'), string('submitLabel', '送信ボタン'),
+          ]),
+        ] }],
+      },
+      {
+        name: 'hubPages', label: '一覧ページ', format: 'json', editor: { preview: false },
+        files: [{ name: 'hubs', label: '事業・実績・人材の案内', file: 'content/pages/hubs.json', fields: [
+          obj('services', '事業内容', [string('title', 'ページ見出し'), text('lead', '導入文'), string('ctaLabel', '末尾のボタン')]),
+          obj('works', '支援実績', [string('title', 'ページ見出し'), text('lead', '導入文'), string('ctaLabel', '末尾のボタン')]),
+          obj('talent', '人材パネル', [string('title', 'ページ見出し'), text('lead', '導入文'), string('ctaTitle', '末尾の見出し'), text('ctaBody', '末尾の説明'), string('ctaPrimaryLabel', '第1ボタン'), string('ctaSecondaryLabel', '第2ボタン')]),
         ] }],
       },
       { name: 'services', label: '事業', format: 'json', editor: { preview: false }, files: serviceFiles },
+      {
+        name: 'extraSections', label: '既存ページにセクションを追加', format: 'json', editor: { preview: false },
+        files: [{ name: 'sections', label: '追加セクション（各ページ末尾の相談案内の前）', file: 'content/pages/extra-sections.json', fields: [
+          ...[
+            ['home', 'トップ'], ['services', '事業一覧'], ['works', '支援実績'], ['talent', '人材パネル'],
+            ['about', '企業情報'], ['company', '会社情報'], ['recruit', '採用情報'],
+            ['contact', 'お問い合わせ'], ['entry', '学生エントリー'],
+            ['consulting', 'コンサルティング'], ['package', 'パッケージ型支援'], ['ai', 'AI開発・プロダクト'],
+            ['aiDevelopment', 'AI開発・業務自動化'], ['aiProducts', 'AIプロダクト'],
+          ].map(([name, label]) => obj(name, label, [landingSections])),
+        ] }],
+      },
       {
         name: 'landing', label: 'LP・コンテンツページ', folder: 'content/landing', extension: 'json', format: 'json',
         create: true, delete: true, identifier_field: 'title', slug: '{{fields.slug}}',

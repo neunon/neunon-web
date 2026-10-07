@@ -1,6 +1,8 @@
 import type { Service } from '@/lib/content';
 import { PageBreadcrumbs } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
+import { EditorialSections } from '@/components/shared/EditorialSections';
+import { getExtraSections } from '@/lib/extra-sections';
 import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
 import { GridPattern } from '@/components/ui/grid-pattern';
 import { CaseIllustration, PriceComposition } from './ServiceVisuals';
@@ -175,6 +177,7 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
         </div>
       </section>
 
+      <EditorialSections sections={getExtraSections('consulting')} />
       <ContactCta
         title="何を判断したいか、からご相談ください。"
         body="テーマや支援範囲が未整理でも構いません。課題の整理からご一緒します。"

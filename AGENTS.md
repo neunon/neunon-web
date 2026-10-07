@@ -101,8 +101,9 @@ push していない作業は、もう片方からは**存在しないのと同�
 | 人材パネル | `content/talent/talents.json`（Microsoft Lists 連携。手で消さない） |
 | 求人票 | `content/jobs/*.json` |
 | お知らせ | `content/news/*.json` |
-| SEO文言・トップコピー | `content/site/seo.json`、`content/pages/home.json` |
-| 会社情報・電話番号・住所 | `lib/site.ts` |
+| SEO文言・SNS画像・トップコピー | `content/site/seo.json`、`content/pages/home.json` |
+| 会社情報・電話番号・住所・ナビの表示名 | `content/site/settings.json` |
+| 既存ページへの追加セクション | `content/pages/extra-sections.json` |
 
 ## 触らないもの
 

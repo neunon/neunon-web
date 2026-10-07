@@ -1,4 +1,7 @@
 #cms-status { max-width: 640px; margin: 12vh auto; padding: 32px; color: #202b3b; font: 16px/1.9 system-ui, sans-serif; }
 #cms-status h1 { font-size: 26px; }
-.nc-inbox-link { position: fixed; right: 20px; bottom: 20px; z-index: 99999; padding: 10px 16px; border: 1px solid #d4d4d8; border-radius: 8px; background: #fff; color: #18181b; font: 14px/1.5 system-ui, sans-serif; box-shadow: 0 4px 20px #0001; }
-.nc-inbox-link:focus-visible { outline: 2px solid #5b4b8a; outline-offset: 2px; }
+.nc-admin-shortcuts { position: fixed; right: 20px; bottom: 20px; z-index: 99999; display: flex; gap: 8px; font: 14px/1.5 system-ui, sans-serif; }
+.nc-admin-shortcuts a { padding: 10px 16px; border: 1px solid #d4d4d8; border-radius: 8px; background: #fff; color: #18181b; text-decoration: none; box-shadow: 0 4px 20px #0001; }
+.nc-admin-shortcuts a:hover { border-color: #8a7cf0; background: #f8f7ff; }
+.nc-admin-shortcuts a:focus-visible { outline: 2px solid #5b4b8a; outline-offset: 2px; }
+@media (max-width: 560px) { .nc-admin-shortcuts { right: 12px; bottom: 12px; left: 12px; } .nc-admin-shortcuts a { flex: 1; padding: 9px; text-align: center; font-size: 12px; } }

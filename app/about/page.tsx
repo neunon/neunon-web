@@ -5,6 +5,8 @@ import { ContactCta } from '@/components/shared/ContactCta';
 import { TableOfContents, type TocItem } from '@/components/toc/TableOfContents';
 import { CompanyTable } from '@/components/about/CompanyTable';
 import { getAboutContent } from '@/lib/page-content';
+import { EditorialSections } from '@/components/shared/EditorialSections';
+import { getExtraSections } from '@/lib/extra-sections';
 
 export const metadata: Metadata = pageMetadata('about', '/about/');
 
@@ -59,6 +61,7 @@ export default function AboutPage() {
         </div>
       </div>
 
+      <EditorialSections sections={getExtraSections('about')} />
       <ContactCta secondary={{ label: '事業内容を見る', href: '/services' }} />
     </>
   );

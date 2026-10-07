@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Logo } from './Logo';
 import { footerNav, site } from '@/lib/site';
+import settings from '@/content/site/settings.json';
 
 /**
  * グローバルフッター。
@@ -24,13 +25,7 @@ export function Footer() {
                 {site.email}
               </a>
             </address>
-            <p className="nc-fnote">
-              お問い合わせは
-              <Link href="/contact" className="nc-flink">
-                フォーム
-              </Link>
-              からお願いします。
-            </p>
+            <p className="nc-fnote"><Link href="/contact" className="nc-flink">{settings.footer.contactNote}</Link></p>
           </div>
 
           {footerNav.map((group) => (

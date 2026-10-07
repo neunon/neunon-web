@@ -3,13 +3,9 @@ import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { SelectionTimeline } from '@/components/recruit/SelectionTimeline';
 import { termsPendingNote } from '@/lib/recruit';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: '選考フロー',
-  description:
-    '募集要項の送付から稼働開始までの7ステップ。オンラインを中心に選考と初期手続きを進めます。',
-  alternates: { canonical: '/recruit/flow' },
-};
+export const metadata: Metadata = pageMetadata('recruitFlow', '/recruit/flow/');
 
 const faq = [
   {

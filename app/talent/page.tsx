@@ -6,6 +6,9 @@ import { ContactCta } from '@/components/shared/ContactCta';
 import { TalentPanel } from '@/components/talent/TalentPanel';
 import { getTalentFacets } from '@/lib/talent';
 import { getPublicTalents } from '@/lib/talent.server';
+import hubs from '@/content/pages/hubs.json';
+import { EditorialSections } from '@/components/shared/EditorialSections';
+import { getExtraSections } from '@/lib/extra-sections';
 
 export const metadata: Metadata = pageMetadata('talent', '/talent/');
 
@@ -23,8 +26,8 @@ export default async function TalentPage() {
   return (
     <>
       <PageHero
-        title="人材パネル"
-        lead="案件を担当する登録学生の一覧です。スキルと対応領域から、相談したいメンバーを複数選択できます。"
+        title={hubs.talent.title}
+        lead={hubs.talent.lead}
         crumbs={[{ label: '人材' }]}
       />
 
@@ -58,11 +61,12 @@ export default async function TalentPage() {
         </div>
       </div>
 
+      <EditorialSections sections={getExtraSections('talent')} />
       <ContactCta
-        title="人材について相談する"
-        body="必要なスキルや役割がまだ固まっていない段階でも、案件の概要からご相談いただけます。"
-        primary={{ label: '人材について相談する', href: '/contact?topic=人材について' }}
-        secondary={{ label: '事業内容を見る', href: '/services' }}
+        title={hubs.talent.ctaTitle}
+        body={hubs.talent.ctaBody}
+        primary={{ label: hubs.talent.ctaPrimaryLabel, href: '/contact?topic=人材について' }}
+        secondary={{ label: hubs.talent.ctaSecondaryLabel, href: '/services' }}
       />
     </>
   );

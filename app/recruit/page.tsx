@@ -4,6 +4,8 @@ import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
 import { pageMetadata } from '@/lib/seo';
 import { conditions, gakuchika, idealCandidate, recruitCareer, recruitHero, termsPendingNote } from '@/lib/recruit';
 import { RecruitCareerPath, RecruitSelectionRail } from '@/components/recruit/RecruitDiagrams';
+import { EditorialSections } from '@/components/shared/EditorialSections';
+import { getExtraSections } from '@/lib/extra-sections';
 
 export const metadata: Metadata = pageMetadata('recruit', '/recruit/');
 
@@ -94,6 +96,7 @@ export default function RecruitPage() {
         </div>
       </section>
 
+      <EditorialSections sections={getExtraSections('recruit')} />
       <section className="ep-r-cta" aria-labelledby="ep-r-cta-title"><div className="ep-wrap"><span className="ep-overline">あなたの次の一歩</span><h2 id="ep-r-cta-title">使い道は、<br />ここからつくれる。</h2><p>志望動機をきれいにまとめる必要はありません。まずは、話を聞くところから。</p><InteractiveHoverLink href="/entry/" text="エントリーする" /></div></section>
     </div>
   );

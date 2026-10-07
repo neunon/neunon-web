@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>管理サイトの使い方｜Neunon Consulting</title>
+  <link rel="icon" href="/icon.png">
+  <style>
+    :root { color-scheme: light; font-family: system-ui, "Noto Sans JP", sans-serif; color: #18181b; background: #fcfcfc; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #5b4b8a; }
+    .wrap { width: min(100% - 40px, 900px); margin: auto; }
+    header { border-bottom: 1px solid #e4e4e7; background: #fff; }
+    header .wrap { display: flex; justify-content: space-between; align-items: center; min-height: 68px; gap: 16px; }
+    header a { font-size: 14px; text-decoration: none; }
+    main { padding: 64px 0 100px; }
+    h1 { margin: 8px 0 12px; font-size: clamp(32px, 5vw, 48px); letter-spacing: -.04em; }
+    .lead { max-width: 680px; color: #52525b; line-height: 1.9; }
+    .eyebrow { font: 12px/1.5 ui-monospace, monospace; letter-spacing: .14em; color: #71717a; }
+    .steps { display: grid; gap: 12px; margin: 40px 0 64px; padding: 0; list-style: none; counter-reset: step; }
+    .steps li { counter-increment: step; display: grid; grid-template-columns: 34px 1fr; gap: 16px; padding: 22px; border: 1px solid #e4e4e7; border-radius: 12px; background: #fff; line-height: 1.8; }
+    .steps li::before { content: counter(step, decimal-leading-zero); color: #5b4b8a; font: 600 13px/2 ui-monospace, monospace; }
+    h2 { margin: 50px 0 16px; font-size: 24px; }
+    h3 { margin: 0 0 8px; font-size: 16px; }
+    p { line-height: 1.9; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+    .grid article { padding: 24px; border: 1px solid #e4e4e7; border-radius: 12px; background: #fff; }
+    .grid p { margin: 0; color: #52525b; font-size: 14px; }
+    .note { padding: 20px 24px; border-left: 3px solid #8a7cf0; background: #f3f1fe; }
+    @media(max-width: 680px) { .grid { grid-template-columns: 1fr; } main { padding-top: 40px; } }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><strong>Neunon Consulting｜管理ガイド</strong><a href="/admin/">管理画面に戻る →</a></div></header>
+  <main class="wrap">
+    <span class="eyebrow">EDITOR GUIDE</span>
+    <h1>管理サイトの使い方</h1>
+    <p class="lead">公開文言と画像を編集し、内容を確認してから公開するためのガイドです。編集にはご自身の GitHub アカウントでログインしてください。公開サイトの反映には少し時間がかかります。</p>
+
+    <h2>公開までの流れ</h2>
+    <ol class="steps">
+      <li><div><h3>編集する場所を選ぶ</h3>トップ、採用、企業情報、事業、お知らせ、LP、SEO設定などから選択します。問い合わせ履歴は右下の別画面で確認します。</div></li>
+      <li><div><h3>保存して確認する</h3>文章と画像を入力し、見出し・リンク先・誤字・スマートフォンでの読みやすさを確認します。非公開の項目は公開前に表示設定を確認してください。</div></li>
+      <li><div><h3>公開申請・承認する</h3>管理画面の編集ワークフローで公開に進みます。GitHub の変更提案とサイトの自動ビルドが通ってから本番へ反映されます。反映後は実ページを開いて確認します。</div></li>
+    </ol>
+
+    <h2>どこで何を変更するか</h2>
+    <div class="grid">
+      <article><h3>トップページ</h3><p>ヒーロー、次世代の力、事業紹介・管理体制・学生向け・お知らせの見出しと説明、表示・非表示、末尾の相談案内。</p></article>
+      <article><h3>事業・採用・企業情報</h3><p>各事業の説明、メニュー、FAQ、価格関連文言、採用の募集要項・人物像・選考フロー、会社概要と共通ナビの表示文言。</p></article>
+      <article><h3>ニュース・LP・追加セクション</h3><p>記事や LP の新規作成・非公開・削除ができます。「既存ページにセクションを追加」では、各ページに文章、カード、画像＋文章、FAQ、CTA を追加・並べ替えできます。公開済みのURL用IDは変えないでください。</p></article>
+      <article><h3>SEO設定</h3><p>主要ページのタイトル・検索説明・SNS共有画像を編集できます。検索結果の表示文面は Google 側で変わることがあります。</p></article>
+    </div>
+
+    <h2>SEO と広告用ページの注意</h2>
+    <p>1ページに1つの主題を決め、内容に合う見出しと具体的な説明を付けてください。画像には内容を伝える代替テキストを入力します。SNS画像は横1200×縦630pxを推奨します。変更後は表示・リンク・モバイル表示を確認してください。</p>
+    <p>Google 広告を始める際は、広告ごとに LP を作り、広告文と LP の内容を一致させます。URL には計測用 UTM を付けられます。ただし広告タグ・コンバージョン計測は、広告アカウント、計測対象、プライバシー同意の運用を決めてから実装します。現時点では管理画面からタグを直接挿入できません。</p>
+
+    <h2>編集できない項目</h2>
+    <p class="note">フォームの項目・送信先の仕組み、ログイン権限、法務文書、特殊な図やアニメーションの構造は、安全性と整合性のためコード管理です。変更したい場合は管理者に依頼してください。会社情報のメール表示を変えても、フォームの実際の配送先は変わりません。</p>
+    <p><a href="/admin/submissions.html">お問い合わせ・エントリーの履歴を見る →</a></p>
+  </main>
+</body>
+</html>

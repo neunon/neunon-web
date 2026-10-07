@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getServices } from '@/lib/content';
 import { TrackRecord } from './TrackRecord';
+import home from '@/content/pages/home.json';
 
 const serviceAchievements: Record<
   string,
@@ -46,16 +47,14 @@ function ServiceAchievement({ serviceId }: { serviceId: string }) {
  */
 export function Services() {
   const services = getServices();
+  if (!home.servicesSection.visible) return null;
 
   return (
     <section className="section nc-home-services nc-home-wide" aria-labelledby="services-heading">
       <div className="wrap">
         <div className="shead">
-          <h2 id="services-heading">{services.length}つの提供形態</h2>
-          <p>
-            案件単位の個別支援から、定型化して低単価で継続提供するパッケージ、
-            その工程自体を自動化するAI開発・プロダクトまで。同じ分析の型を、規模に応じて使い分けます。
-          </p>
+          <h2 id="services-heading">{home.servicesSection.title}</h2>
+          <p>{home.servicesSection.intro}</p>
         </div>
 
         <div className="nc-svcs nc-service-showcase" data-count={services.length}>
@@ -74,7 +73,7 @@ export function Services() {
                 </ul>
                 <Link href={`/services/${service.id}`} className="nc-service-detail-link">
                   <span className="nc-service-detail-arrow" aria-hidden="true">→</span>
-                  <span className="nc-service-detail-label">詳しく見る</span>
+                  <span className="nc-service-detail-label">{home.servicesSection.detailLabel}</span>
                   <span className="sr-only-text">（{service.title}）</span>
                 </Link>
               </div>

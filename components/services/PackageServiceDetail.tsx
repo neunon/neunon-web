@@ -1,6 +1,8 @@
 import type { Service } from '@/lib/content';
 import { PageBreadcrumbs } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
+import { EditorialSections } from '@/components/shared/EditorialSections';
+import { getExtraSections } from '@/lib/extra-sections';
 import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
 import { PackagePreviewVisual } from './ServiceVisuals';
 
@@ -115,6 +117,7 @@ export function PackageServiceDetail({ service }: { service: Service }) {
         </div>
       </section>
 
+      <EditorialSections sections={getExtraSections('package')} />
       <ContactCta title={detail.ctaTitle} body={detail.ctaBody} primary={{ label: '調査を相談する', href: '/contact/' }} secondary={{ label: '他の事業を見る', href: '/services/' }} />
     </div>
   );

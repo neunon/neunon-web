@@ -3,12 +3,9 @@ import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { getNews } from '@/lib/content';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'お知らせ',
-  description: '株式会社Neunon Consulting からのお知らせ。会社・サービス・採用に関する更新情報。',
-  alternates: { canonical: '/news' },
-};
+export const metadata: Metadata = pageMetadata('news', '/news/');
 
 /** お知らせ一覧（要件定義書 4. のサイトマップ / 7. の追加提案項目） */
 export default function NewsPage() {

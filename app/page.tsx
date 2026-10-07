@@ -8,6 +8,8 @@ import { News } from '@/components/home/News';
 import { Cta } from '@/components/home/Cta';
 import { site } from '@/lib/site';
 import { pageMetadata } from '@/lib/seo';
+import { EditorialSections } from '@/components/shared/EditorialSections';
+import { getExtraSections } from '@/lib/extra-sections';
 
 export const metadata: Metadata = pageMetadata('home', '/');
 
@@ -37,6 +39,7 @@ export default function HomePage() {
       <Structure />
       <Careers />
       <News />
+      <EditorialSections sections={getExtraSections('home')} />
       <Cta />
     </>
   );
