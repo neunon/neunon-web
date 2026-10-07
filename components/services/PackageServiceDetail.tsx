@@ -44,7 +44,6 @@ export function PackageServiceDetail({ service }: { service: Service }) {
             </div>
           </div>
         </div>
-        <div className="ep-wrap ep-p-hero-foot"><span>1件・1案件から</span><span>経験者が成果物を確認</span><span>継続的な観測にも対応</span></div>
       </section>
 
       <section className="ep-section ep-p-journey" aria-labelledby="ep-p-journey-title">

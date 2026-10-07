@@ -13,7 +13,7 @@ export function CaseIllustration({ item }: { item: ConsultingCase }) {
       {item.no === '01' ? (
         <svg viewBox="0 0 620 360" role="img" aria-label={captions[item.no]}>
           <path className="ep-viz-axis" d="M55 24V318H590" />
-          <text className="ep-viz-axis-title" transform="translate(24 206) rotate(-90)">応募密度 →</text><text className="ep-viz-axis-title" x="472" y="349">求人密度 →</text>
+          <text className="ep-viz-axis-title" transform="translate(24 171) rotate(-90)" textAnchor="middle">応募密度</text><text className="ep-viz-axis-title" x="323" y="349" textAnchor="middle">求人密度</text>
           {[[72,294],[91,280],[108,269],[118,262],[135,252],[154,232],[180,214],[252,174],[455,82],[544,50]].map(([x,y], index) => <circle className="ep-viz-point" cx={x} cy={y} r="7" key={index} />)}
         </svg>
       ) : item.no === '02' ? (
@@ -30,12 +30,11 @@ export function CaseIllustration({ item }: { item: ConsultingCase }) {
       ) : (
         <svg viewBox="0 0 620 360" role="img" aria-label={captions[item.no] ?? '分析イメージ'}>
           <path className="ep-viz-axis" d="M58 20V315H590" />
-          <text className="ep-viz-axis-title" x="5" y="25">営業利益率</text><text className="ep-viz-axis-title" x="474" y="348">純売上 →</text>
+          <text className="ep-viz-axis-title" transform="translate(25 169) rotate(-90)" textAnchor="middle">営業利益率</text><text className="ep-viz-axis-title" x="324" y="348" textAnchor="middle">純売上</text>
           <path className="ep-viz-v-guide" d="M95 55L335 264L552 83" />
           <g className="ep-viz-scatter">{[[101,46],[145,96],[189,137],[229,169],[258,177],[291,188],[326,244],[375,226],[416,215],[454,151],[497,119],[545,108]].map(([x,y], index) => <circle key={index} cx={x} cy={y} r="6" />)}</g>
         </svg>
       )}
-      <figcaption>{captions[item.no] ?? '分析イメージ'} <span>模式図・実データではありません</span></figcaption>
     </figure>
   );
 }
@@ -78,7 +77,7 @@ export function PriceComposition({ chart }: { chart: ConsultingPriceChart }) {
             <strong>{column.label}</strong>
           </div>
         ))}
-        <div className="ep-price-composition-delta" aria-hidden="true"><i /><i /><span>{chart.annotation}</span></div>
+        <div className="ep-price-composition-delta" style={{ '--own-percent': `${(totals[1] / maximum) * 100}%` } as React.CSSProperties} aria-hidden="true"><div className="ep-price-composition-delta-track"><i /><i /><span>{chart.annotation}</span></div></div>
       </div>
       <figcaption>価格構造の模式図です。実際の料金や見積額を示すものではありません。{chart.note}</figcaption>
     </figure>

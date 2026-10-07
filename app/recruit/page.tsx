@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
 import { pageMetadata } from '@/lib/seo';
 import { conditions, gakuchika, idealCandidate, recruitHero, selectionSteps, termsPendingNote } from '@/lib/recruit';
 
@@ -15,7 +16,7 @@ export default function RecruitPage() {
             <h1 id="ep-r-title">{recruitHero.lines[0]}<br /><em>{recruitHero.lines[1]}</em></h1>
             <p className="ep-r-hero-sub">{recruitHero.sub}</p>
             <p className="ep-r-hero-lead">{recruitHero.lead}</p>
-            <Link href="/entry/" className="ep-pill-link">エントリーする <span aria-hidden="true">↗</span></Link>
+            <InteractiveHoverLink href="/entry/" text="エントリーする" />
           </div>
           <div className="ep-r-hero-image" role="img" aria-label="街を見つめる学生の後ろ姿">
             <span>可能性を、実務へ。</span>
@@ -96,7 +97,7 @@ export default function RecruitPage() {
         </div>
       </section>
 
-      <section className="ep-r-cta" aria-labelledby="ep-r-cta-title"><div className="ep-wrap"><span className="ep-overline">あなたの次の一歩</span><h2 id="ep-r-cta-title">使い道は、<br />ここからつくれる。</h2><p>志望動機をきれいにまとめる必要はありません。まずは、話を聞くところから。</p><Link href="/entry/" className="ep-pill-link">エントリーする <span aria-hidden="true">↗</span></Link></div></section>
+      <section className="ep-r-cta" aria-labelledby="ep-r-cta-title"><div className="ep-wrap"><span className="ep-overline">あなたの次の一歩</span><h2 id="ep-r-cta-title">使い道は、<br />ここからつくれる。</h2><p>志望動機をきれいにまとめる必要はありません。まずは、話を聞くところから。</p><InteractiveHoverLink href="/entry/" text="エントリーする" /></div></section>
     </div>
   );
 }

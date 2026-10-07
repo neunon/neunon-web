@@ -21,9 +21,6 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
             <p>{service.lead}</p>
             <InteractiveHoverLink href="/contact/" text="相談する" />
           </div>
-          <div className="ep-c-hero-bottom">
-            <span>経営と事業の、判断を支える。</span>
-          </div>
         </div>
       </section>
 
@@ -70,8 +67,8 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
       <section className="ep-section ep-c-method" aria-labelledby="ep-c-method-title">
         <div className="ep-wrap ep-c-method-inner">
           <div className="ep-c-method-heading">
-            <h3>問題解決の考え方</h3>
-            <h2 id="ep-c-method-title">{detail.principles.lead}</h2>
+            <h2 id="ep-c-method-title">問題解決の考え方</h2>
+            <p>{detail.principles.lead}</p>
           </div>
           <div className="ep-c-method-steps">
             {detail.principles.items.map((item) => (
@@ -98,7 +95,7 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
               <article key={item.no}>
                 <div className="ep-c-case-main">
                   <h3>{item.title}</h3>
-                  <p>{item.summary}</p>
+                  <p>{item.no === '02' && item.summary.includes('一貫して設計') ? <>{item.summary.split('一貫して設計')[0]}<span className="ep-c-no-break">一貫して設計</span></> : item.summary}</p>
                   <div className="ep-c-case-detail">
                     <div><span>課題</span><p>{item.issue.join('／')}</p></div>
                     <div><span>アプローチ</span><p>{item.approach.join('／')}</p></div>
