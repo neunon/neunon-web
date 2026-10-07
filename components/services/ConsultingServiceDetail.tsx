@@ -3,7 +3,8 @@ import { PageBreadcrumbs } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
 import { GridPattern } from '@/components/ui/grid-pattern';
-import { CaseIllustration, FormatFlow, PriceComposition } from './ServiceVisuals';
+import { CaseIllustration, PriceComposition } from './ServiceVisuals';
+import { SupportFormatsDiagram } from './SupportFormatsDiagram';
 
 export function ConsultingServiceDetail({ service }: { service: Service }) {
   const detail = service.consulting;
@@ -66,7 +67,7 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
 
       <section className="ep-section ep-c-method" aria-labelledby="ep-c-method-title">
         <div className="ep-wrap ep-c-method-inner">
-          <div className="ep-c-method-heading">
+          <div className="ep-split-head ep-c-method-heading">
             <h2 id="ep-c-method-title">問題解決の考え方</h2>
             <p>{detail.principles.lead}</p>
           </div>
@@ -141,19 +142,11 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
         <div className="ep-wrap">
           <header className="ep-split-head">
             <div>
-              <h2 id="ep-c-formats-title">案件に合わせて、<br />体制を組む。</h2>
+              <h2 id="ep-c-formats-title">4つの支援形態</h2>
             </div>
             <p>{detail.formats.lead}</p>
           </header>
-          <FormatFlow items={detail.formats.items} />
-          <div className="ep-c-format-list">
-            {detail.formats.items.map((format) => (
-              <article key={format.no}>
-                <div><span>{format.role}</span><h3>{format.title}</h3></div>
-                <p>{format.body}</p>
-              </article>
-            ))}
-          </div>
+          <SupportFormatsDiagram />
         </div>
       </section>
 

@@ -96,10 +96,10 @@ export function PackageServiceDetail({ service }: { service: Service }) {
 
       <section className="ep-section ep-p-benefits" aria-labelledby="ep-p-benefits-title">
         <div className="ep-wrap">
-          <h2 id="ep-p-benefits-title">調べる仕事を、<br />前に進む仕事へ。</h2>
+          <header className="ep-split-head"><h2 id="ep-p-benefits-title">調べる仕事を、<br />前に進む仕事へ。</h2><p>パッケージ型支援は、日々の業務に直接効く成果と、担当者・組織に残る知見の両方を生み出します。</p></header>
           <div className="ep-p-benefit-groups">
-            <div className="ep-p-benefit-list"><h3>業務・成果への直接効果</h3>{outcomes.slice(0, 3).map((outcome, index) => <article key={outcome.title}><span>0{index + 1}</span><div><h4>{outcome.title}</h4><p>{outcome.body}</p></div></article>)}</div>
-            <div className="ep-p-benefit-list"><h3>人・組織の能力向上</h3>{outcomes.slice(3).map((outcome, index) => <article key={outcome.title}><span>0{index + 4}</span><div><h4>{outcome.title}</h4><p>{outcome.body}</p></div></article>)}</div>
+            <div className="ep-p-benefit-list"><h3>業務・成果への直接効果</h3><div>{outcomes.slice(0, 3).map((outcome, index) => <article key={outcome.title}><span>0{index + 1}</span><div><h4>{outcome.title}</h4><p>{outcome.body}</p></div></article>)}</div></div>
+            <div className="ep-p-benefit-list"><h3>人・組織の能力向上</h3><div>{outcomes.slice(3).map((outcome, index) => <article key={outcome.title}><span>0{index + 4}</span><div><h4>{outcome.title}</h4><p>{outcome.body}</p></div></article>)}</div></div>
           </div>
         </div>
       </section>

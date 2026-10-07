@@ -427,6 +427,78 @@
 @media (max-width: 600px) { .ep-consulting .ep-c-method-steps { grid-template-columns: 1fr; gap: 40px; margin-top: 75px; border-top: 0; } .ep-consulting .ep-c-method-steps article { min-height: 0; padding: 25px 10px; border-top: 1px solid #d6d6da; } .ep-consulting .ep-c-method-no { margin-top: -52px; } .ep-consulting .ep-price-composition-plot { --bar-height: 240px; --bar-top: 19px; } .ep-ai.ep-ai-subpage .ep-a-process-map li { grid-template-columns: 1fr; gap: 8px; padding: 12px 0; border-bottom: 1px solid #e2dfe8; } .ep-ai .ep-a-process-step { width: calc(100% - 22px); } .ep-ai .ep-a-process-chevron { display: none; } .ep-ai.ep-ai-subpage .ep-a-process-map li p { padding-left: 24px; } .ep-ai .ep-a-features-grid { grid-template-columns: 1fr; } .ep-ai .ep-a-features-grid article { min-height: 0; border-right: 0; border-bottom: 1px dashed #ddd9e4; } }
 @media (prefers-reduced-motion: reduce) { .ep-ai .ep-ai-loader-ring, .ep-ai .ep-ai-loader-core span { animation: none; } }
 
+/* Keep page headings in the shared editorial system; only the illustrations follow the slides. */
+.ep-consulting .ep-c-method-heading.ep-split-head,
+.ep-ai .ep-a-process-heading.ep-split-head { display: grid; grid-template-columns: minmax(0,1fr) minmax(300px,.7fr); gap: clamp(40px,8vw,130px); align-items: end; margin-bottom: clamp(48px,6vw,80px); text-align: left; }
+.ep-consulting .ep-c-method-heading.ep-split-head h2,
+.ep-ai .ep-a-process-heading.ep-split-head h2 { margin: 0; padding: 0; border: 0; font-size: clamp(34px,4.6vw,62px); font-weight: 600; letter-spacing: -.075em; line-height: 1.3; text-align: left; }
+.ep-consulting .ep-c-method-heading.ep-split-head p,
+.ep-ai .ep-a-process-heading.ep-split-head p { max-width: 40em; margin: 0; padding: 0; color: var(--ep-muted); font-size: 15px; font-weight: 400; line-height: 2.1; }
+.ep-consulting .ep-c-method-heading.ep-split-head p::before,
+.ep-ai .ep-a-process-heading.ep-split-head p::before { content: none; }
+.ep-consulting .ep-c-method-steps { margin-top: clamp(130px,16vw,215px); }
+
+/* The effects slide groups three direct effects and two capabilities into one shared table. */
+.ep-package .ep-p-benefits .ep-split-head { margin-bottom: 62px; }
+.ep-package .ep-p-benefits h2 { margin-bottom: 0; }
+.ep-package .ep-p-benefit-groups { display: grid; grid-template-columns: 1fr; gap: 0; border-top: 1px solid #d9d7de; }
+.ep-package .ep-p-benefit-list { display: grid; grid-template-columns: minmax(180px,.28fr) 1fr; border-top: 0; border-bottom: 1px solid #d9d7de; }
+.ep-package .ep-p-benefit-list h3 { display: flex; align-items: center; margin: 0; padding: 35px; border-right: 1px solid #e4e0e8; background: #f4f1f8; color: #3c3547; font-size: clamp(17px,1.7vw,22px); font-weight: 600; line-height: 1.5; }
+.ep-package .ep-p-benefit-list > div { min-width: 0; }
+.ep-package .ep-p-benefit-list article { display: grid; grid-template-columns: 58px minmax(0,1fr); align-items: start; gap: 22px; min-height: 0; padding: 22px 34px; border-bottom: 1px solid #e9e7ed; }
+.ep-package .ep-p-benefit-list article:last-child { border-bottom: 0; }
+.ep-package .ep-p-benefit-list article > span { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: #5b4b8a; color: #fff; font: 600 13px/1 ui-monospace,monospace; }
+.ep-package .ep-p-benefit-list h4 { margin: 2px 0 7px; color: #18181b; font-size: clamp(17px,1.7vw,21px); }
+.ep-package .ep-p-benefit-list article p { margin: 0; color: #64616a; font-size: 14px; line-height: 1.8; }
+
+/* Sibling AI pages echo the parent hero without competing with its scale. */
+.ep-ai .ep-a-sibling-hero { background: linear-gradient(125deg,#263a70 0%,#182744 56%,#111a30 100%); }
+.ep-ai .ep-a-product-hero { background: linear-gradient(125deg,#354269 0%,#202b47 56%,#151d31 100%); }
+.ep-ai .ep-a-sibling-hero::after { opacity: .55; }
+.ep-ai .ep-a-sibling-hero .ep-a-hero-inner { min-height: 520px; padding-block: 66px; }
+.ep-ai .ep-a-sibling-hero h1 { font-size: clamp(42px,4.4vw,62px); }
+.ep-ai .ep-a-sibling-hero .ep-a-hero-image { min-height: 320px; height: min(34vw,380px); }
+.ep-ai .ep-a-sibling-hero .ep-ai-loader { width: clamp(185px,19vw,225px); opacity: .8; }
+.ep-ai .ep-a-sibling-hero .nc-interactive-hover { margin-top: 30px; }
+
+/* Development staircase: 01 begins wide; 06 ends narrow. The arrow has its own ruled column. */
+.ep-ai .ep-a-process-map { grid-template-columns: 58px minmax(0,1fr); margin-top: 48px; }
+.ep-ai.ep-ai-subpage .ep-a-process-map li { grid-template-columns: minmax(0,1fr) 46px minmax(0,.9fr); gap: 22px; }
+.ep-ai .ep-a-process-step { min-width: 0; }
+.ep-ai .ep-a-process-chevron { display: grid; place-items: center; align-self: stretch; padding: 0; border-left: 1px solid #b5b2bb; color: #29262e; }
+.ep-ai .ep-a-process-chevron::before { content: ''; display: block; width: 16px; height: 16px; border-top: 4px solid currentColor; border-right: 4px solid currentColor; transform: rotate(45deg); }
+.ep-ai.ep-ai-subpage .ep-a-process-map li > .ep-a-process-chevron { display: grid; color: #29262e; }
+.ep-ai .ep-a-process-phases span:first-child { flex: 1; }
+.ep-ai .ep-a-process-phases span:last-child { flex: 1; }
+
+/* Product features use the same gridded, softly faded cells as consulting values. */
+.ep-ai .ep-a-features-grid { border: 1px dashed #e2e2e5; }
+.ep-ai .ep-a-features-grid article { position: relative; min-height: 260px; padding: 35px; border-right: 1px dashed #e2e2e5; background: repeating-linear-gradient(0deg,transparent 0 27px,#eff0f2 28px 29px),repeating-linear-gradient(90deg,#fff 0 27px,#eff0f2 28px 29px); }
+.ep-ai .ep-a-features-grid article::before { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg,#fff 20%,transparent 90%); pointer-events: none; }
+.ep-ai .ep-a-features-grid article h3,.ep-ai .ep-a-features-grid article p { position: relative; }
+.ep-ai .ep-a-features-grid h3 { font-size: clamp(21px,2vw,28px); font-weight: 600; }
+.ep-ai .ep-a-features-grid p { max-width: 27em; margin-top: 38px; color: #66616c; font-size: 14px; }
+
+/* Pricing comparison keeps its blue columns, while the difference marker is neutral. */
+.ep-consulting .ep-price-composition-delta-track { border-color: #18181b; }
+.ep-consulting .ep-price-composition-delta-track::before,.ep-consulting .ep-price-composition-delta-track::after { left: -4px; width: 0; height: 0; border: 0; border-right: 4px solid transparent; border-bottom: 7px solid #18181b; border-left: 4px solid transparent; }
+.ep-consulting .ep-price-composition-delta-track::before { top: -4px; transform: none; }
+.ep-consulting .ep-price-composition-delta-track::after { bottom: -4px; transform: rotate(180deg); }
+.ep-consulting .ep-price-composition-delta-track i { width: clamp(34px,6.7vw,85px); background: #18181b; }
+.ep-consulting .ep-price-composition-delta-track span { color: #18181b; }
+.ep-consulting .ep-c-pricing > .ep-wrap > .nc-interactive-hover { margin-top: 62px; }
+
+@media (max-width: 760px) {
+  .ep-consulting .ep-c-method-heading.ep-split-head,.ep-ai .ep-a-process-heading.ep-split-head { grid-template-columns: 1fr; gap: 22px; }
+  .ep-package .ep-p-benefit-list { grid-template-columns: 1fr; }
+  .ep-package .ep-p-benefit-list h3 { padding: 20px 24px; border-right: 0; border-bottom: 1px solid #e4e0e8; }
+  .ep-package .ep-p-benefit-list article { padding: 20px 16px; }
+  .ep-ai .ep-a-sibling-hero .ep-a-hero-inner { min-height: 0; }
+  .ep-ai .ep-a-sibling-hero .ep-a-hero-image { min-height: 240px; }
+  .ep-ai .ep-a-features-grid article { border-right: 0; }
+}
+@media (max-width: 600px) { .ep-ai.ep-ai-subpage .ep-a-process-map li > .ep-a-process-chevron { display: none; } }
+
 /* Recruitment now shares the cleaner white canvas and primary action treatment. */
 .ep-recruit .ep-r-hero, .ep-recruit .ep-r-path, .ep-recruit .ep-r-conditions { background: #fff; }
 .ep-recruit .ep-r-hero-inner { min-height: 650px; }
