@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getLatestNews } from '@/lib/content';
+import home from '@/content/pages/home.json';
 
 /**
  * トップページ セクション8: お知らせ（要件定義書 6.1）最新3件。
@@ -10,6 +11,7 @@ import { getLatestNews } from '@/lib/content';
  * 発注者から原稿を受け取り次第 JSON を差し替える。
  */
 export function News() {
+  if (!home.newsSection.visible) return null;
   const news = getLatestNews(3);
   if (news.length === 0) return null;
 
@@ -20,11 +22,11 @@ export function News() {
       <div className="wrap">
         <div className="nc-news-head shead">
           <div>
-            <h2 id="news-heading">お知らせ</h2>
+            <h2 id="news-heading">{home.newsSection.title}</h2>
           </div>
           <Link href="/news" className="nc-more">
             <i aria-hidden="true" />
-            一覧を見る
+            {home.newsSection.moreLabel}
           </Link>
         </div>
 

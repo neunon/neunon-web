@@ -1,0 +1,16 @@
+{
+  "home": { "sections": [] },
+  "services": { "sections": [] },
+  "works": { "sections": [] },
+  "talent": { "sections": [] },
+  "about": { "sections": [] },
+  "company": { "sections": [] },
+  "recruit": { "sections": [] },
+  "contact": { "sections": [] },
+  "entry": { "sections": [] },
+  "consulting": { "sections": [] },
+  "package": { "sections": [] },
+  "ai": { "sections": [] },
+  "aiDevelopment": { "sections": [] },
+  "aiProducts": { "sections": [] }
+}

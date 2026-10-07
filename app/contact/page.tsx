@@ -6,6 +6,9 @@ import { FormShell } from '@/components/forms/FormShell';
 import { contactFields, formEndpoints } from '@/lib/forms';
 import { site } from '@/lib/site';
 import { Mail } from 'lucide-react';
+import forms from '@/content/pages/forms.json';
+import { EditorialSections } from '@/components/shared/EditorialSections';
+import { getExtraSections } from '@/lib/extra-sections';
 
 export const metadata: Metadata = pageMetadata('contact', '/contact/');
 
@@ -14,11 +17,12 @@ export const metadata: Metadata = pageMetadata('contact', '/contact/');
  * 学生向けは /entry に分けている。
  */
 export default function ContactPage() {
+  const copy = forms.contact;
   return (
     <>
       <PageHero
-        title="お問い合わせ"
-        lead="スポット業務や小さなご相談からお受けします。何を調べるべきかが決まっていない段階でも歓迎です。"
+        title={copy.heroTitle}
+        lead={copy.heroLead}
         crumbs={[{ label: 'お問い合わせ' }]}
       />
 
@@ -26,8 +30,8 @@ export default function ContactPage() {
         <div className="wrap nc-formwrap">
           <div className="nc-formside">
             <span className="nc-contact-kicker">CONTACT</span>
-            <h2>ご相談はこちらから</h2>
-            <p className="nc-contact-intro">ご相談内容が固まっていない段階でも構いません。当日〜翌営業日にメールでご連絡します。</p>
+            <h2>{copy.sideTitle}</h2>
+            <p className="nc-contact-intro">{copy.sideIntro}</p>
 
             <dl className="nc-deflist nc-contactinfo">
               <div>
@@ -38,28 +42,29 @@ export default function ContactPage() {
               </div>
             </dl>
             <div className="nc-notice">
-              <p><b>学生の方はこちら</b></p>
-              <p>採用へのご応募は<Link href="/entry" className="nc-inline-link">エントリーフォーム</Link>からお願いします。</p>
-              <Link href="/entry" className="btn nc-contact-entry">学生エントリーへ</Link>
+              <p><b>{copy.studentNoteTitle}</b></p>
+              <p>{copy.studentNote}</p>
+              <Link href="/entry" className="btn nc-contact-entry">{copy.studentLinkLabel}</Link>
             </div>
           </div>
 
           <div className="nc-formmain">
             <div className="nc-contact-formhead">
-              <h2>お問い合わせフォーム</h2>
-              <p>必要事項をご入力ください。確認画面で内容を確かめてから送信できます。</p>
+              <h2>{copy.formTitle}</h2>
+              <p>{copy.formIntro}</p>
             </div>
             <FormShell
               fields={contactFields}
               endpoint={formEndpoints.contact}
               thanksPath="/contact/thanks"
               subject="【サイト】企業からのお問い合わせ"
-              submitLabel="この内容で送信する"
+              submitLabel={copy.submitLabel}
               envName="NEXT_PUBLIC_CONTACT_FORM_ENDPOINT"
             />
           </div>
         </div>
       </div>
+      <EditorialSections sections={getExtraSections('contact')} />
     </>
   );
 }

@@ -27,6 +27,30 @@ export const seoDefaults = {
   "contact": {
     "title": "お問い合わせ",
     "description": "企業のお客様向けのお問い合わせフォーム。スポット業務や小さなご相談からお受けします。"
+  },
+  "entry": {
+    "title": "学生エントリー",
+    "description": "学生向けのエントリーフォーム。学部・学科不問、実務未経験でも応募できます。"
+  },
+  "company": {
+    "title": "会社情報",
+    "description": "株式会社Neunon Consultingの社名、設立、代表者、所在地、事業内容をご案内します。"
+  },
+  "news": {
+    "title": "お知らせ",
+    "description": "株式会社Neunon Consultingからの会社・サービス・採用に関するお知らせ。"
+  },
+  "recruitFlow": {
+    "title": "選考フロー",
+    "description": "募集要項の確認から選考、契約、オンボーディング、稼働開始までの流れ。"
+  },
+  "aiDevelopment": {
+    "title": "AI開発・業務自動化",
+    "description": "業務・課題整理からPoC、本開発、運用改善まで支援します。"
+  },
+  "aiProducts": {
+    "title": "AIプロダクト",
+    "description": "調査・営業の実務から生まれたAIプロダクトの提供状況と用途をご紹介します。"
   }
 } as const;
 

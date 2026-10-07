@@ -4,6 +4,9 @@ import { ContactCta } from '@/components/shared/ContactCta';
 import { PageHero } from '@/components/shared/PageHero';
 import { Services } from '@/components/home/Services';
 import { Structure } from '@/components/home/Structure';
+import hubs from '@/content/pages/hubs.json';
+import { EditorialSections } from '@/components/shared/EditorialSections';
+import { getExtraSections } from '@/lib/extra-sections';
 
 export const metadata: Metadata = pageMetadata('services', '/services/');
 
@@ -16,14 +19,15 @@ export default function ServicesPage() {
   return (
     <>
       <PageHero
-        title="事業内容"
-        lead="経営課題に向き合うコンサルティングから、必要な範囲で頼める調査、実務に組み込むAIまで。目的と規模に合わせて支援の形を選べます。"
+        title={hubs.services.title}
+        lead={hubs.services.lead}
         crumbs={[{ label: '事業内容' }]}
       />
       <Services />
       <Structure />
+      <EditorialSections sections={getExtraSections('services')} />
 
-      <ContactCta secondary={{ label: '支援実績を見る', href: '/works' }} />
+      <ContactCta secondary={{ label: hubs.services.ctaLabel, href: '/works' }} />
     </>
   );
 }

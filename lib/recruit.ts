@@ -15,85 +15,16 @@ import recruitPage from '@/content/pages/recruit.json';
 export const recruitHero = recruitPage.hero;
 export const recruitCareer = { title: recruitPage.careerTitle, intro: recruitPage.careerIntro };
 
-export const gakuchika = [
-  '実際の企業案件を担当して、成果を出した。',
-  '自分で案件を獲得した。',
-  '新しいサービスや事業を立ち上げた。',
-];
+export const gakuchika = recruitPage.experiences;
 
 /** 募集要項の要旨（ポスター案の内容を踏襲） */
-export const conditions = [
-  { label: '対象', value: '学部・学科不問。実務未経験でも可' },
-  { label: '稼働', value: 'フルリモート。時間帯自由。サークル・バイトと両立可' },
-  { label: '条件', value: '本気度のみ。スキル・成績は問わない' },
-  { label: '応募', value: 'フォームから' },
-];
+export const conditions = recruitPage.conditions;
 
 /** 求める人物像（内部基準を学生向けの言葉に直したもの） */
-export const idealCandidate = [
-  {
-    title: '責任感',
-    body: '納期を守る。連絡を絶やさない。最後までやり切る。',
-  },
-  {
-    title: '学習能力・思考力',
-    body: '未知の領域でも吸収できる。情報を構造化できる。フィードバックで伸びる。',
-  },
-  {
-    title: '主体性・成長意欲・好奇心',
-    body: '指示を待たずに動ける。分からないことを面白がれる。',
-  },
-  {
-    title: '稼働余力',
-    body: '学業と両立しつつ、継続的に時間を確保できる。',
-  },
-];
+export const idealCandidate = recruitPage.idealCandidate;
 
 /** 選考フロー（要件定義書 8.2 の selectionFlow に対応） */
-export const selectionSteps = [
-  {
-    no: '01',
-    title: '募集要項送付＆事前回答',
-    body: 'エントリー内容を確認後、詳細な募集要項と事前質問をメールでお送りします。内容をご確認のうえ、ご回答ください。',
-    span: 'エントリー後にメール送付',
-  },
-  {
-    no: '02',
-    title: '書類選考',
-    body: 'エントリーと事前回答をもとに、志向や稼働条件を確認します。経験の多さより、責任感と学ぶ姿勢を重視します。',
-    span: '受領後1週間以内が目安',
-  },
-  {
-    no: '03',
-    title: '面接',
-    body: 'オンラインで、志望理由、得意なこと、学業との両立などを伺います。当社の仕事や進め方についても詳しくご説明します。',
-    span: 'オンラインで30〜45分程度',
-  },
-  {
-    no: '04',
-    title: '選考結果の連絡',
-    body: '選考結果をメールでご連絡します。通過の場合は、今後の手続きと稼働開始までの流れをお知らせします。',
-    span: '面接後にメールで連絡',
-  },
-  {
-    no: '05',
-    title: '契約・初期手続き',
-    body: '契約条件と稼働条件を確認し、必要書類の取り交わしや業務ツールの初期設定を行います。',
-    span: 'オンラインで順次実施',
-  },
-  {
-    no: '06',
-    title: 'オンボーディング',
-    body: '情報管理、調査・分析、成果物の作り方をガイドに沿って学びます。リード学生とコンサルタントがサポートします。',
-    span: '基礎ガイドと実践準備',
-  },
-  {
-    no: '07',
-    title: '稼働開始',
-    body: '実際の案件へ参画します。はじめはリード学生の支援のもとで、担当範囲を確認しながら進めます。',
-    span: '準備完了後に案件へ参画',
-  },
-];
+export const selectionSteps = recruitPage.selectionSteps;
 
 /** 学生向けに見せる支援実績の業種（要件定義書 6.6） */
 export const recruitIndustries = [
@@ -107,5 +38,4 @@ export const recruitIndustries = [
 ];
 
 /** 契約形態・報酬が未確定であることの共通文言（要件定義書 14. 未解決） */
-export const termsPendingNote =
-  '契約形態と報酬の条件は現在整備中です。確定し次第このページに掲載します。通過後、契約・初期手続きの前に個別にご説明します。';
+export const termsPendingNote = recruitPage.termsPendingNote;

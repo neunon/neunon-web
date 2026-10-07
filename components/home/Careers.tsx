@@ -1,45 +1,38 @@
 import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
+import home from '@/content/pages/home.json';
 
 /**
  * トップページ セクション7: 学生の方へ（要件定義書 6.1）
  * 採用サイトへの導線ブロック。デザイン案 v2 の 06 CAREERS をそのまま踏襲。
  */
 
-const gakuchika = [
-  '実際の企業案件を担当して、成果を出した。',
-  '自分で案件を獲得した。',
-  '新しいサービスや事業を立ち上げた。',
-];
-
 export function Careers() {
+  if (!home.careersSection.visible) return null;
+  const section = home.careersSection;
   return (
     <section className="section nc-home-wide" aria-labelledby="careers-heading">
       <div className="wrap nc-stu-sec">
         <div className="nc-stu-copy">
           <h2 id="careers-heading">
-            時間だけは、ある。
+            {section.titleLine1}
             <br />
-            <span className="nc-sub">使い道が、まだない。</span>
+            <span className="nc-sub">{section.titleLine2}</span>
           </h2>
-          <p>
-            練習課題ではなく、企業がそのまま意思決定に使う成果物をつくります。
-            経験のあるコンサルタントが監修するので、知識ゼロから始められます。
-            フルリモート、時間帯は自由。学部・学科は問いません。
-          </p>
+          <p>{section.intro}</p>
           <div className="nc-acts nc-stu-acts">
-            <InteractiveHoverLink href="/recruit" text="採用情報を見る" />
-            <InteractiveHoverLink href="/entry" text="エントリー" className="is-outline" />
+            <InteractiveHoverLink href="/recruit" text={section.recruitLabel} />
+            <InteractiveHoverLink href="/entry" text={section.entryLabel} className="is-outline" />
           </div>
         </div>
 
         <div>
-          <p className="nc-glabel">実務を通じて、こんな経験を積めます</p>
+          <p className="nc-glabel">{section.experiencesTitle}</p>
           <ul className="nc-gakuchika">
-            {gakuchika.map((item) => (
+            {section.experiences.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
-          <InteractiveHoverLink href="/recruit/voice/" text="体験談を見る" className="is-outline nc-voice-button" />
+          <InteractiveHoverLink href="/recruit/voice/" text={section.voiceLabel} className="is-outline nc-voice-button" />
         </div>
       </div>
     </section>

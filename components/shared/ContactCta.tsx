@@ -1,4 +1,5 @@
 import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
+import home from '@/content/pages/home.json';
 
 /**
  * 下層ページ末尾の問い合わせCTA。
@@ -6,8 +7,8 @@ import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
  * 「価格表の直後に必ず問い合わせCTAを置く」に対応する。
  */
 export function ContactCta({
-  title = 'まずは小さく、試せます。',
-  body = '「外注するほどではない」「社内では手が回らない」規模の調査から承ります。内容が固まっていない段階でのご相談も歓迎です。',
+  title = home.bottomCta.title,
+  body = home.bottomCta.body,
   primary,
   secondary,
 }: {
@@ -22,7 +23,7 @@ export function ContactCta({
         <h2>{title}</h2>
         <p>{body}</p>
         <div className="nc-acts nc-cta-acts">
-          <InteractiveHoverLink href={primary?.href ?? '/contact'} text={primary?.label ?? 'お問い合わせ'} className="is-light" />
+          <InteractiveHoverLink href={primary?.href ?? '/contact'} text={primary?.label ?? home.bottomCta.primaryLabel} className="is-light" />
           {secondary ? (
             <InteractiveHoverLink href={secondary.href} text={secondary.label} className="is-outline-light" />
           ) : null}

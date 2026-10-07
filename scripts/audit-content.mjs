@@ -37,10 +37,18 @@ export function validateContent(root = process.cwd()) {
     }
   };
   const seo = read('content/site/seo.json');
-  for (const key of ['home', 'services', 'works', 'talent', 'recruit', 'about', 'contact']) {
+  for (const key of ['home', 'services', 'works', 'talent', 'recruit', 'recruitFlow', 'about', 'company', 'contact', 'entry', 'news', 'aiDevelopment', 'aiProducts']) {
     keys(seo?.[key], ['title', 'description'], 'seo.' + key);
     description(seo?.[key]?.description, 'seo.' + key);
+    const image = seo?.[key]?.ogImage;
+    if (image && (typeof image !== 'string' || !/^\/uploads\/[A-Za-z0-9/_-]+\.(?:png|jpe?g|webp|avif)$/i.test(image))) fail('seo.' + key + '.ogImage', '/uploads/配下の画像のみ指定できます');
+    if (seo?.[key]?.ogAlt && typeof seo[key].ogAlt !== 'string') fail('seo.' + key + '.ogAlt', '文字列が必要です');
   }
+  const settings = read('content/site/settings.json');
+  keys(settings?.company, ['name', 'nameEn', 'description', 'keyMessage', 'mission', 'founded', 'representative', 'employees', 'address', 'business', 'tel', 'email'], 'settings.company');
+  if (settings?.company?.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(settings.company.email)) fail('settings.company.email', 'メールアドレスが不正です');
+  keys(settings?.navigation, ['services', 'consulting', 'package', 'ai', 'works', 'talent', 'about', 'recruit', 'contact'], 'settings.navigation');
+  keys(settings?.footer, ['servicesHeading', 'companyHeading', 'careersHeading', 'contactNote'], 'settings.footer');
   const home = read('content/pages/home.json');
   keys(home, [
     'eyebrow', 'titleLine1', 'titleLine2', 'lead', 'businessSummary', 'companyCtaLabel', 'studentCtaLabel',
@@ -51,10 +59,34 @@ export function validateContent(root = process.cwd()) {
   if (typeof problem?.visible !== 'boolean') fail('home.problem.visible', 'booleanが必要です');
   objects(problem?.opportunities, ['title'], 'home.problem.opportunities').forEach((item, i) =>
     stringList(item.body, `home.problem.opportunities[${i}].body`));
+  for (const [key, fields] of [
+    ['servicesSection', ['title', 'intro', 'detailLabel']],
+    ['structureSection', ['title', 'intro']],
+    ['careersSection', ['titleLine1', 'titleLine2', 'intro', 'experiencesTitle', 'recruitLabel', 'entryLabel', 'voiceLabel']],
+    ['newsSection', ['title', 'moreLabel']],
+  ]) {
+    keys(home?.[key], fields, 'home.' + key);
+    if (typeof home?.[key]?.visible !== 'boolean') fail('home.' + key + '.visible', 'booleanが必要です');
+  }
+  stringList(home?.careersSection?.experiences, 'home.careersSection.experiences');
 
   const recruit = read('content/pages/recruit.json');
   keys(recruit?.hero, ['line1', 'line2', 'sub', 'lead'], 'recruit.hero');
   keys(recruit, ['careerTitle', 'careerIntro'], 'recruit');
+  stringList(recruit?.experiences, 'recruit.experiences');
+  objects(recruit?.conditions, ['label', 'value'], 'recruit.conditions');
+  objects(recruit?.idealCandidate, ['title', 'body'], 'recruit.idealCandidate');
+  objects(recruit?.selectionSteps, ['no', 'title', 'body', 'span'], 'recruit.selectionSteps');
+  string(recruit?.termsPendingNote, 'recruit.termsPendingNote');
+
+  const forms = read('content/pages/forms.json');
+  keys(forms?.contact, ['heroTitle', 'heroLead', 'sideTitle', 'sideIntro', 'formTitle', 'formIntro', 'studentNoteTitle', 'studentNote', 'studentLinkLabel', 'submitLabel'], 'forms.contact');
+  keys(forms?.entry, ['heroTitle', 'heroLead', 'sideTitle', 'sideIntro', 'flowTitle', 'eligibilityNote', 'formTitle', 'formIntro', 'companyNoteTitle', 'companyNote', 'companyLinkLabel', 'submitLabel'], 'forms.entry');
+
+  const hubs = read('content/pages/hubs.json');
+  keys(hubs?.services, ['title', 'lead', 'ctaLabel'], 'hubs.services');
+  keys(hubs?.works, ['title', 'lead', 'ctaLabel'], 'hubs.works');
+  keys(hubs?.talent, ['title', 'lead', 'ctaTitle', 'ctaBody', 'ctaPrimaryLabel', 'ctaSecondaryLabel'], 'hubs.talent');
 
   const about = read('content/pages/about.json');
   keys(about, ['heroLead'], 'about');
@@ -222,6 +254,37 @@ export function validateContent(root = process.cwd()) {
       }
       if (section.type === 'faq') objects(section.questions, ['question', 'answer'], at + '.questions').forEach((question, j) => {
         if (typeof question.visible !== 'boolean') fail(`${at}.questions[${j}].visible`, 'booleanが必要です');
+      });
+      if (section.type === 'cta') {
+        keys(section, ['body', 'label', 'href'], at);
+        if (!safeHref(section.href)) fail(at + '.href', 'サイト内のパスのみ指定できます');
+      }
+    });
+  }
+  const extra = read('content/pages/extra-sections.json');
+  for (const key of ['home', 'services', 'works', 'talent', 'about', 'company', 'recruit', 'contact', 'entry', 'consulting', 'package', 'ai', 'aiDevelopment', 'aiProducts']) {
+    const sections = extra?.[key]?.sections;
+    const where = `extra-sections.${key}`;
+    if (!Array.isArray(sections)) { fail(where, 'セクションの配列が必要です'); continue; }
+    sections.forEach((section, i) => {
+      const at = `${where}.sections[${i}]`;
+      if (!object(section)) { fail(at, 'オブジェクトが必要です'); return; }
+      if (!['text', 'cards', 'imageText', 'faq', 'cta'].includes(section.type)) fail(at + '.type', '未対応のセクション形式です');
+      if (!['white', 'soft', 'dark'].includes(section.tone)) fail(at + '.tone', '未対応の背景です');
+      if (typeof section.visible !== 'boolean') fail(at + '.visible', 'booleanが必要です');
+      string(section.title, at + '.title');
+      if (section.type === 'text' || section.type === 'imageText') stringList(section.paragraphs, at + '.paragraphs');
+      if (section.type === 'cards') objects(section.cards, ['title', 'body'], at + '.cards').forEach((card, j) => {
+        if (typeof card.visible !== 'boolean') fail(`${at}.cards[${j}].visible`, 'booleanが必要です');
+        if (card.href && !safeHref(card.href)) fail(`${at}.cards[${j}].href`, 'サイト内のパスのみ指定できます');
+      });
+      if (section.type === 'imageText') {
+        if (typeof section.image !== 'string' || !/^\/uploads\/[A-Za-z0-9/_-]+\.(?:png|jpe?g|webp|avif)$/i.test(section.image)) fail(at + '.image', '/uploads/配下の画像のみ指定できます');
+        string(section.imageAlt, at + '.imageAlt');
+        if (!['left', 'right'].includes(section.imageSide)) fail(at + '.imageSide', 'leftまたはrightが必要です');
+      }
+      if (section.type === 'faq') objects(section.questions, ['question', 'answer'], at + '.questions').forEach((item, j) => {
+        if (typeof item.visible !== 'boolean') fail(`${at}.questions[${j}].visible`, 'booleanが必要です');
       });
       if (section.type === 'cta') {
         keys(section, ['body', 'label', 'href'], at);

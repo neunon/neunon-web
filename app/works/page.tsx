@@ -4,6 +4,9 @@ import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { WorksGrid } from '@/components/works/WorksGrid';
 import { anonymousWorks } from '@/lib/anonymous-works';
+import hubs from '@/content/pages/hubs.json';
+import { EditorialSections } from '@/components/shared/EditorialSections';
+import { getExtraSections } from '@/lib/extra-sections';
 
 export const metadata: Metadata = pageMetadata('works', '/works/');
 
@@ -15,8 +18,8 @@ export default function WorksPage() {
   return (
     <>
       <PageHero
-        title="支援実績"
-        lead="守秘義務に配慮し、顧客名・規模・成果は公開せず、業界と支援テーマのみを匿名で紹介しています。"
+        title={hubs.works.title}
+        lead={hubs.works.lead}
         crumbs={[{ label: '支援実績' }]}
       />
 
@@ -24,7 +27,8 @@ export default function WorksPage() {
         <WorksGrid works={anonymousWorks} />
       </section>
 
-      <ContactCta secondary={{ label: '事業内容を見る', href: '/services' }} />
+      <EditorialSections sections={getExtraSections('works')} />
+      <ContactCta secondary={{ label: hubs.works.ctaLabel, href: '/services' }} />
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
+import { ContactCta } from '@/components/shared/ContactCta';
 import home from '@/content/pages/home.json';
 
 /**
@@ -7,15 +7,11 @@ import home from '@/content/pages/home.json';
  */
 export function Cta() {
   return (
-    <div className="nc-cta nc-home-wide">
-      <div className="wrap">
-        <h2>{home.bottomCta.title}</h2>
-        <p>{home.bottomCta.body}</p>
-        <div className="nc-acts nc-cta-acts">
-          <InteractiveHoverLink href="/contact" text={home.bottomCta.primaryLabel} className="is-light" />
-          <InteractiveHoverLink href="/works" text={home.bottomCta.secondaryLabel} className="is-outline-light" />
-        </div>
-      </div>
-    </div>
+    <ContactCta
+      title={home.bottomCta.title}
+      body={home.bottomCta.body}
+      primary={{ href: '/contact/', label: home.bottomCta.primaryLabel }}
+      secondary={{ href: '/works/', label: home.bottomCta.secondaryLabel }}
+    />
   );
 }

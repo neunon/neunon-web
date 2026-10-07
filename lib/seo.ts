@@ -5,7 +5,7 @@ import { site } from './site';
 import { seoDefaults, homeDefaults } from './editorial-defaults';
 
 export type PageSeoKey = keyof typeof seoDefaults;
-type SeoCopy = { title: string; description: string };
+type SeoCopy = { title: string; description: string; ogImage?: string; ogAlt?: string };
 
 function readEditorial(file: string): Record<string, unknown> {
   try {
@@ -26,6 +26,8 @@ export function getPageSeo(key: PageSeoKey): SeoCopy {
   return {
     title: textOr(data.title, seoDefaults[key].title),
     description: textOr(data.description, seoDefaults[key].description),
+    ogImage: typeof data.ogImage === 'string' && data.ogImage ? data.ogImage : undefined,
+    ogAlt: typeof data.ogAlt === 'string' && data.ogAlt ? data.ogAlt : undefined,
   };
 }
 
@@ -42,6 +44,7 @@ export function createPageMetadata(copy: SeoCopy, pathname: string): Metadata {
     ? copy.title
     : `${copy.title}｜${site.name}`;
   const canonical = new URL(pathname === '/' ? '/' : pathname.replace(/\/$/, '') + '/', site.url).href;
+  const image = copy.ogImage || '/ogp.png';
   return {
     title: { absolute: title },
     description: copy.description,
@@ -49,9 +52,9 @@ export function createPageMetadata(copy: SeoCopy, pathname: string): Metadata {
     openGraph: {
       type: 'website', locale: 'ja_JP', siteName: site.name,
       title, description: copy.description, url: canonical,
-      images: [{ url: '/ogp.png', width: 1200, height: 630, alt: site.name }],
+      images: [{ url: image, width: 1200, height: 630, alt: copy.ogAlt || site.name }],
     },
-    twitter: { card: 'summary_large_image', title, description: copy.description, images: ['/ogp.png'] },
+    twitter: { card: 'summary_large_image', title, description: copy.description, images: [image] },
   };
 }
 

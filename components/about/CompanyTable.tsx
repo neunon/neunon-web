@@ -16,7 +16,7 @@ export function CompanyTable() {
       label: '所在地',
       value: site.address.head,
     },
-    { label: '事業内容', value: '経営コンサルティング／戦略コンサルティング' },
+    { label: '事業内容', value: site.business },
     { label: '従業員数', value: site.employees },
     {
       label: 'メール',

@@ -4,24 +4,24 @@ import { PageHero } from '@/components/shared/PageHero';
 import { FormShell } from '@/components/forms/FormShell';
 import { entryFields, formEndpoints } from '@/lib/forms';
 import { selectionSteps } from '@/lib/recruit';
+import forms from '@/content/pages/forms.json';
+import { pageMetadata } from '@/lib/seo';
+import { EditorialSections } from '@/components/shared/EditorialSections';
+import { getExtraSections } from '@/lib/extra-sections';
 
-export const metadata: Metadata = {
-  title: 'エントリー',
-  description:
-    '学生向けのエントリーフォーム。学部・学科不問、実務未経験でも可。志望動機はきれいにまとめる必要はありません。',
-  alternates: { canonical: '/entry' },
-};
+export const metadata: Metadata = pageMetadata('entry', '/entry/');
 
 /**
  * 学生向けエントリー（要件定義書 6.8）。
  * 採用サイトと同じトーンにするため nc-recruit を付けている。
  */
 export default function EntryPage() {
+  const copy = forms.entry;
   return (
     <div className="nc-recruit">
       <PageHero
-        title="エントリー"
-        lead="志望動機はきれいにまとめなくて構いません。何をやりたいかが伝われば十分です。迷っている段階でのご応募も歓迎します。"
+        title={copy.heroTitle}
+        lead={copy.heroLead}
         crumbs={[{ label: '採用情報', href: '/recruit' }, { label: 'エントリー' }]}
       />
 
@@ -29,9 +29,9 @@ export default function EntryPage() {
         <div className="wrap nc-formwrap">
           <div className="nc-formside">
             <span className="nc-contact-kicker">ENTRY</span>
-            <h2>ご応募はこちらから</h2>
-            <p className="nc-contact-intro">実務未経験でも構いません。まずは現在の関心や、挑戦してみたいことをお聞かせください。</p>
-            <h2 className="nc-side-head">送信後の流れ</h2>
+            <h2>{copy.sideTitle}</h2>
+            <p className="nc-contact-intro">{copy.sideIntro}</p>
+            <h2 className="nc-side-head">{copy.flowTitle}</h2>
             <ol className="nc-sidesteps">
               {selectionSteps.map((step) => (
                 <li key={step.no}>
@@ -42,35 +42,36 @@ export default function EntryPage() {
               ))}
             </ol>
             <p className="nc-rnote">
-              学部・学科は問いません。スキルも成績も問いません。実務未経験でも構いません。
+              {copy.eligibilityNote}
             </p>
             <Link href="/recruit/flow" className="nc-more">
               <i aria-hidden="true" />
               選考フローの詳細へ
             </Link>
             <div className="nc-notice">
-              <p><b>企業のご担当者様はこちら</b></p>
-              <p>お仕事のご相談は<Link href="/contact" className="nc-inline-link">お問い合わせフォーム</Link>からお願いします。</p>
-              <Link href="/contact" className="btn nc-contact-entry">企業のお問い合わせへ</Link>
+              <p><b>{copy.companyNoteTitle}</b></p>
+              <p>{copy.companyNote}</p>
+              <Link href="/contact" className="btn nc-contact-entry">{copy.companyLinkLabel}</Link>
             </div>
           </div>
 
           <div className="nc-formmain">
             <div className="nc-contact-formhead">
-              <h2>学生エントリーフォーム</h2>
-              <p>必要事項をご入力ください。確認画面で内容を確かめてから送信できます。</p>
+              <h2>{copy.formTitle}</h2>
+              <p>{copy.formIntro}</p>
             </div>
             <FormShell
               fields={entryFields}
               endpoint={formEndpoints.entry}
               thanksPath="/entry/thanks"
               subject="【サイト】学生からのエントリー"
-              submitLabel="この内容でエントリーする"
+              submitLabel={copy.submitLabel}
               envName="NEXT_PUBLIC_ENTRY_FORM_ENDPOINT"
             />
           </div>
         </div>
       </div>
+      <EditorialSections sections={getExtraSections('entry')} />
     </div>
   );
 }

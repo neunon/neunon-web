@@ -1,0 +1,33 @@
+{
+  "company": {
+    "name": "株式会社Neunon Consulting",
+    "nameEn": "Neunon Consulting, Inc.",
+    "description": "選抜・育成された学生人材が企業の実務に挑み、プロフェッショナルが成長と成果物の品質を支えることで、企業の成果創出と次世代ビジネス人材の育成を両立します。",
+    "keyMessage": "次世代の成長を、企業の成長へ。",
+    "mission": "企業の成長・再建・立上げに伴う多様な課題に対し、画一的なフレームワークに頼らず、個々の状況に応じた柔軟かつ実践的な支援を提供すると共に、実務支援を通じて次世代ビジネス人材を育成し、社会的価値の創出を目指します",
+    "founded": "2026年1月27日",
+    "representative": "代表取締役社長　坂本 慧",
+    "employees": "5名",
+    "address": "東京都江東区南砂6-7-36-306",
+    "business": "経営コンサルティング／戦略コンサルティング",
+    "tel": "070-4360-2752",
+    "email": "info@neun-on.com"
+  },
+  "navigation": {
+    "services": "事業内容",
+    "consulting": "コンサルティング",
+    "package": "パッケージ型支援",
+    "ai": "AI開発・プロダクト",
+    "works": "実績",
+    "talent": "人材",
+    "about": "企業情報",
+    "recruit": "採用情報",
+    "contact": "お問い合わせ"
+  },
+  "footer": {
+    "servicesHeading": "Services",
+    "companyHeading": "Company",
+    "careersHeading": "Careers & Contact",
+    "contactNote": "お問い合わせはフォームからお願いします。"
+  }
+}

@@ -1,6 +1,6 @@
 # CMS 初回設定・運用
 
-2026-09-19。実装済みと本番設定済みは異なります。OAuth App、認証 Worker、Render の環境変数・ヘッダー設定、実ログイン・下書き公開テストは初回設定が必要です。
+2026-10-08 更新。実装済みと本番設定済みは異なります。現在の公開状態は Render のデプロイ履歴で確認してください。
 
 ## A. 構成と編集範囲
 
@@ -8,14 +8,18 @@
 
 | 編集対象 | 保存先 | 補足 |
 |---|---|---|
-| 主要7ページのSEO title/description | content/site/seo.json | URL・canonicalは編集不可 |
-| トップHeroコピー・短い事業説明・CTA文言・「次世代の力」の文章と4項目 | content/pages/home.json | セクションの表示切替、4項目の追加・削除・並べ替えが可能 |
+| 主要ページのSEO title/description・SNS画像 | content/site/seo.json | URL・canonical・noindexは編集不可。共有画像は `/uploads/` 配下に限定 |
+| トップHeroコピー・「次世代の力」・提供形態・管理体制・学生向け・ニュース・末尾CTA | content/pages/home.json | 主要セクションは表示切替可 |
 | 企業情報ページの理念・人材育成の文章 | content/pages/about.json | ミッション・人材育成・会社情報の表示切替。論点の追加・削除・並べ替えが可能 |
+| 会社基本情報・共通ナビ・フッターの文言 | content/site/settings.json | 表示用メールを変えてもフォームの配送先は変更されない |
+| 採用ページの募集要項・人物像・選考フロー | content/pages/recruit.json | フォームの項目と応募者データは別管理 |
+| 問い合わせ・エントリー周辺文言、事業・実績・人材一覧の案内 | content/pages/forms.json、content/pages/hubs.json | フォーム処理と個人情報に関する固定注意文はコード管理 |
 | 3事業の説明・メニュー・FAQ・参考価格 | content/services/*.json | ID/順序/価格公開フラグは固定 |
+| 既存ページの追加セクション | content/pages/extra-sections.json | 文章・カード・画像＋文章・FAQ・CTAを追加・削除・並べ替え・非表示にできる |
 | LP・コンテンツページ | content/landing/*.json | `/lp/{slug}/`。追加・削除・下書き・公開、セクションとカードの追加・削除・並べ替え・非表示が可能 |
 | ニュース | content/news/*.json | 本文は段落ごとのプレーンテキスト。公開切替・削除が可能 |
 
-学生マスタ・人材の個人情報、採用情報、電話番号、会社基本情報、Privacy、Terms、フォーム、secrets、schema、robots/noindexはCMSに出しません。CMSの制限はGitHub自体の権限を制限するものではありません。既存の固定ページ全体を自由に削除・追加できる汎用ページビルダーではなく、新規ページはLP用テンプレート内で作成します。
+学生マスタ・人材の個人情報、Privacy、Terms、フォーム項目と送信先の仕組み、secrets、schema、robots/noindexはCMSに出しません。CMSの制限はGitHub自体の権限を制限するものではありません。既存の特殊な図・アニメーションやページ自体の削除はコード管理で、追加セクションは各ページの所定位置に入ります。新規ページはLP用テンプレート内で作成します。操作ガイドは `/admin/help.html`。
 
 LPのセクションは「文章」「カード一覧」「画像＋文章」「よくある質問」「行動ボタン」の5種類です。上下順はCMSで変更できます。任意HTML・JavaScriptは入力できず、ボタンはサイト内リンク、画像は `/uploads/` に限定してビルド時に監査します。公開スイッチがオフのLPは生成・サイトマップ掲載されません。セクション／カード／質問ごとの表示スイッチでも隠せます。画像を使う際は代替テキストを記入してください。
 

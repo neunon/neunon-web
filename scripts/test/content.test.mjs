@@ -16,13 +16,16 @@ test('CMS uses review workflow and exposes only approved collections', () => {
   assert.equal(config.publish_mode, 'editorial_workflow');
   assert.equal(config.backend.repo, 'neunon/neunon-web');
   assert.equal(config.backend.branch, 'main');
-  assert.deepEqual(config.collections.map(c => c.name), ['seo', 'pages', 'aboutPage', 'recruitPage', 'services', 'landing', 'news']);
+  assert.deepEqual(config.collections.map(c => c.name), ['seo', 'siteSettings', 'pages', 'aboutPage', 'recruitPage', 'formsPage', 'hubPages', 'services', 'extraSections', 'landing', 'news']);
   assert.ok(config.collections.find(c => c.name === 'pages').files[0].fields.some(f => f.name === 'bottomCta'));
   assert.ok(config.collections.find(c => c.name === 'recruitPage').files[0].fields.some(f => f.name === 'hero'));
   const landing = config.collections.find(c => c.name === 'landing');
   assert.equal(landing.create, true);
   assert.equal(landing.delete, true);
   assert.deepEqual(landing.fields.find(f => f.name === 'sections').types.map(t => t.name), ['text', 'cards', 'imageText', 'faq', 'cta']);
+  const extra = config.collections.find(c => c.name === 'extraSections');
+  assert.ok(extra.files[0].fields.some(f => f.name === 'home'));
+  assert.ok(extra.files[0].fields.some(f => f.name === 'aiProducts'));
   for (const file of config.collections.find(c => c.name === 'services').files) {
     const source = JSON.parse(fs.readFileSync(file.file, 'utf8'));
     const declared = new Set(file.fields.map(f => f.name));
@@ -35,10 +38,11 @@ test('CMS uses review workflow and exposes only approved collections', () => {
     const menuKeys = new Set(file.fields.find(f => f.name === 'menu').fields.map(f => f.name));
     for (const item of source.menu) for (const key of Object.keys(item)) assert.ok(menuKeys.has(key), 'unrepresented menu key: ' + key);
   }
-  const serialized = JSON.stringify(config);
-  for (const path of ['content/talent', 'content/jobs', 'privacy', 'terms', 'GITHUB_CLIENT_SECRET']) {
-    assert.ok(!serialized.includes(path));
+  const editablePaths = config.collections.flatMap(c => [c.folder, ...(c.files || []).map(f => f.file)]).filter(Boolean);
+  for (const forbidden of ['content/talent', 'content/jobs', 'privacy', 'terms']) {
+    assert.ok(!editablePaths.some(path => path.includes(forbidden)), 'protected path in CMS: ' + forbidden);
   }
+  assert.ok(!JSON.stringify(config).includes('GITHUB_CLIENT_SECRET'));
 });
 
 test('new LP content supports drafts and rejects unsafe links', () => {
@@ -56,6 +60,20 @@ test('new LP content supports drafts and rejects unsafe links', () => {
     assert.deepEqual(validateContent(root).errors, []);
     page.sections[0].href = 'https://outside.example/';
     fs.writeFileSync(file, JSON.stringify(page));
+    assert.ok(validateContent(root).errors.some(error => error.includes('サイト内のパスのみ')));
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('extra sections reject external links', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'neunon-extra-test-'));
+  try {
+    fs.cpSync('content', path.join(root, 'content'), { recursive: true });
+    const file = path.join(root, 'content/pages/extra-sections.json');
+    const content = JSON.parse(fs.readFileSync(file, 'utf8'));
+    content.home.sections.push({ type: 'cta', visible: true, tone: 'white', title: '相談', body: 'ご相談ください', label: '相談する', href: 'https://outside.example' });
+    fs.writeFileSync(file, JSON.stringify(content));
     assert.ok(validateContent(root).errors.some(error => error.includes('サイト内のパスのみ')));
   } finally {
     fs.rmSync(root, { recursive: true, force: true });

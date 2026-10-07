@@ -3,12 +3,11 @@ import { PageHero } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { CompanyTable } from '@/components/about/CompanyTable';
 import { site } from '@/lib/site';
+import { pageMetadata } from '@/lib/seo';
+import { EditorialSections } from '@/components/shared/EditorialSections';
+import { getExtraSections } from '@/lib/extra-sections';
 
-export const metadata: Metadata = {
-  title: '会社情報',
-  description: `${site.name} の会社情報。社名、設立、代表者、所在地、事業内容、従業員数。`,
-  alternates: { canonical: '/about/company' },
-};
+export const metadata: Metadata = pageMetadata('company', '/about/company/');
 
 /** 会社情報（登記情報） */
 export default function CompanyPage() {
@@ -35,6 +34,7 @@ export default function CompanyPage() {
         </div>
       </div>
 
+      <EditorialSections sections={getExtraSections('company')} />
       <ContactCta secondary={{ label: '企業情報へ戻る', href: '/about' }} />
     </>
   );
