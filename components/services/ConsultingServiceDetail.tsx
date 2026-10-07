@@ -17,9 +17,12 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
           <div className="ep-c-hero-copy">
             <h1 id="ep-c-title">コンサルティング</h1>
             <p>{service.lead}</p>
-            <InteractiveHoverLink href="/contact/" text="相談する" className="is-outline-light" />
+            <InteractiveHoverLink href="/contact/" text="相談する" />
           </div>
-          <div className="ep-c-hero-visual" role="img" aria-label="夜の都市とビジネスの風景" />
+          <div className="ep-c-hero-visual" role="img" aria-label="複数の分析視点がひとつの判断につながる抽象的なグリッド図">
+            <span className="ep-c-grid-node is-one" /><span className="ep-c-grid-node is-two" /><span className="ep-c-grid-node is-three" /><span className="ep-c-grid-node is-four" />
+            <span className="ep-c-grid-axis" />
+          </div>
           <div className="ep-c-hero-bottom">
             <span>経営と事業の、判断を支える。</span>
           </div>
@@ -32,9 +35,9 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
             <h2 id="ep-c-vision-title">{detail.vision.title}</h2>
           </div>
           <div className="ep-c-values">
-            {detail.vision.values.map((value) => (
+            {detail.vision.values.map((value, index) => (
               <article key={value.no}>
-                <span>{value.en}</span>
+                <h3>{['専門性と品質', '柔軟な実行力', '手の届きやすさ', '次世代の育成'][index]}</h3>
                 <p>{value.body}</p>
               </article>
             ))}
@@ -46,7 +49,7 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
         <div className="ep-wrap">
           <header className="ep-split-head">
             <div>
-              <h2 id="ep-c-themes-title">経営課題を、<br />具体的な問いに。</h2>
+              <h2 id="ep-c-themes-title">主な支援テーマ例</h2>
             </div>
             <p>{detail.themes.lead}</p>
           </header>
@@ -69,6 +72,7 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
       <section className="ep-section ep-c-method" aria-labelledby="ep-c-method-title">
         <div className="ep-wrap ep-c-method-inner">
           <div className="ep-c-method-heading">
+            <h3>問題解決の考え方</h3>
             <h2 id="ep-c-method-title">{detail.principles.lead}</h2>
           </div>
           <div className="ep-c-method-steps">
@@ -86,7 +90,7 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
         <div className="ep-wrap">
           <header className="ep-split-head">
             <div>
-              <h2 id="ep-c-cases-title">課題から、<br />判断材料まで。</h2>
+              <h2 id="ep-c-cases-title">事例</h2>
             </div>
             <p>{detail.cases.lead}</p>
           </header>
@@ -130,6 +134,9 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
             <p>{detail.record.industryLead}</p>
             <ul>{detail.record.industries.map((industry) => <li key={industry}>{industry}</li>)}</ul>
             <InteractiveHoverLink href="/works/" text="支援実績を見る" className="is-outline" />
+          </div>
+          <div className="ep-c-proof-examples">
+            {detail.record.examples.map((example) => <article key={example.client}><h3>{example.client}</h3><p>{example.items.join('、')}</p></article>)}
           </div>
         </div>
       </section>

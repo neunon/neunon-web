@@ -44,7 +44,7 @@ export const globalNav: NavItem[] = [
     children: [
       { label: 'コンサルティング', href: '/services/consulting', note: '01' },
       { label: 'パッケージ型支援', href: '/services/package', note: '02' },
-      { label: 'AIプロダクト', href: '/services/ai', note: '03' },
+      { label: 'AI開発・プロダクト', href: '/services/ai', note: '03' },
     ],
   },
   { label: '実績', href: '/works' },
@@ -61,7 +61,7 @@ export const footerNav = [
     items: [
       { label: 'コンサルティング', href: '/services/consulting' },
       { label: 'パッケージ型支援', href: '/services/package' },
-      { label: 'AIプロダクト', href: '/services/ai' },
+      { label: 'AI開発・プロダクト', href: '/services/ai' },
       { label: '支援実績', href: '/works' },
       { label: '人材パネル', href: '/talent' },
     ],

@@ -10,6 +10,14 @@ const journey = [
   { title: '使える形に', body: '優先順位や提案の論点まで、資料にまとめる。' },
 ];
 
+const outcomes = [
+  { title: '調査・分析工数を削減', body: '情報収集・整理にかかる作業を減らし、検討・判断・実行に時間を使えます。' },
+  { title: '新たな示唆・機会を発見', body: '個別情報を横断的に分析し、新規提案や市場機会、競合への対策を見いだします。' },
+  { title: '対象の変化を継続的に把握', body: '新商品、戦略変更、投資、提携、組織変更を追い、判断の前提を更新します。' },
+  { title: '理解・知見を深め、判断・提案を高度化', body: '企業・市場・競合を多面的に把握し、担当者自身の理解を深めます。' },
+  { title: '分析品質を標準化・組織知化', body: '調査項目と分析観点をそろえ、重要な着眼点を組織の資産として蓄積します。' },
+];
+
 export function PackageServiceDetail({ service }: { service: Service }) {
   return (
     <div className="ep ep-package">
@@ -91,20 +99,11 @@ export function PackageServiceDetail({ service }: { service: Service }) {
         <div className="ep-wrap ep-p-benefits-inner">
           <div><h2 id="ep-p-benefits-title">調べる仕事を、<br />前に進む仕事へ。</h2></div>
           <div className="ep-p-benefit-list">
-            <article><h3>検討の幅が広がる</h3><p>工数の制約で調べきれなかった企業や市場まで検討できます。</p></article>
-            <article><h3>提案の質が変わる</h3><p>事実を横断して、営業機会や競争上の論点を見いだします。</p></article>
-            <article><h3>変化を追い続けられる</h3><p>市場・競合・取引先を定期的に見直し、判断の前提を更新します。</p></article>
+            <h3>業務・成果への直接効果</h3>
+            {outcomes.slice(0, 3).map((outcome) => <article key={outcome.title}><h4>{outcome.title}</h4><p>{outcome.body}</p></article>)}
+            <h3>人・組織の能力向上</h3>
+            {outcomes.slice(3).map((outcome) => <article key={outcome.title}><h4>{outcome.title}</h4><p>{outcome.body}</p></article>)}
           </div>
-        </div>
-      </section>
-
-      <section className="ep-section ep-p-process" aria-labelledby="ep-p-process-title">
-        <div className="ep-wrap">
-          <header className="ep-split-head">
-            <div><h2 id="ep-p-process-title">小さな依頼から、<br />始められます。</h2></div>
-            <p>対象が1社だけでも構いません。納品物をご確認いただいてから、継続の要否を判断できます。</p>
-          </header>
-          <ol>{(service.steps ?? []).map((step) => <li key={step.no}><span>{step.no.replace('STEP ', '')}</span><h3>{step.title}</h3><p>{step.body}</p></li>)}</ol>
         </div>
       </section>
 

@@ -11,27 +11,26 @@ export function CaseIllustration({ item }: { item: ConsultingCase }) {
   return (
     <figure className="ep-case-viz">
       {item.no === '01' ? (
-        <svg viewBox="0 0 440 230" role="img" aria-label={captions[item.no]}>
-          <g className="ep-viz-grid"><path d="M35 35H415M35 88H415M35 141H415M35 194H415" /></g>
-          <g className="ep-viz-bars"><rect x="57" y="145" width="34" height="49" /><rect x="112" y="126" width="34" height="68" /><rect x="167" y="136" width="34" height="58" /><rect x="222" y="101" width="34" height="93" /><rect x="277" y="86" width="34" height="108" /><rect x="332" y="61" width="34" height="133" /></g>
-          <path className="ep-viz-line" d="M74 151C111 148 114 117 129 128S179 138 184 121 233 114 239 91 286 86 294 72 350 63 349 48" />
-          <g className="ep-viz-points"><circle cx="74" cy="151" r="5" /><circle cx="129" cy="128" r="5" /><circle cx="184" cy="121" r="5" /><circle cx="239" cy="91" r="5" /><circle cx="294" cy="72" r="5" /><circle cx="349" cy="48" r="5" /></g>
+        <svg viewBox="0 0 620 360" role="img" aria-label={captions[item.no]}>
+          <path className="ep-viz-axis" d="M55 24V318H590" />
+          <text className="ep-viz-axis-title" x="8" y="26">応募密度</text><text className="ep-viz-axis-title" x="472" y="349">求人密度 →</text>
+          {[[72,294],[91,280],[108,269],[118,262],[135,252],[154,232],[180,214],[252,174],[455,82],[544,50]].map(([x,y], index) => <g className="ep-viz-numbered" key={index}><circle cx={x} cy={y} r="7" /><text x={x + 10} y={y + 5}>{10 - index}</text></g>)}
+          <text className="ep-viz-chart-note" x="287" y="300">地域・セグメント別の関係を確認</text>
         </svg>
       ) : item.no === '02' ? (
-        <svg viewBox="0 0 440 230" role="img" aria-label={captions[item.no]}>
-          <g className="ep-viz-matrix-labels"><text x="40" y="35">役割</text><text x="160" y="35">期待行動</text><text x="285" y="35">評価</text><text x="375" y="35">育成</text></g>
-          <g className="ep-viz-grid"><path d="M34 52H415M34 104H415M34 156H415M34 208H415" /></g>
-          <g className="ep-viz-matrix-row"><rect x="37" y="66" width="66" height="24" rx="6" /><rect x="155" y="66" width="73" height="24" rx="6" /><rect x="278" y="66" width="59" height="24" rx="6" /><circle cx="383" cy="78" r="12" /></g>
-          <g className="ep-viz-matrix-row"><rect x="37" y="118" width="66" height="24" rx="6" /><rect x="155" y="118" width="73" height="24" rx="6" /><rect x="278" y="118" width="59" height="24" rx="6" /><circle cx="383" cy="130" r="12" /></g>
-          <g className="ep-viz-matrix-row"><rect x="37" y="170" width="66" height="24" rx="6" /><rect x="155" y="170" width="73" height="24" rx="6" /><rect x="278" y="170" width="59" height="24" rx="6" /><circle cx="383" cy="182" r="12" /></g>
-          <g className="ep-viz-matrix-links"><path d="M103 78H155M228 78H278M337 78H371M103 130H155M228 130H278M337 130H371M103 182H155M228 182H278M337 182H371" /></g>
-        </svg>
+        <div className="ep-viz-evaluation">
+          <div className="ep-viz-eval-phases"><div><strong>準備（期初）</strong><span>評価基準の周知／目標設定</span></div><div><strong>運用（期中）</strong><span>業務遂行／進捗確認</span></div><div><strong>評価・反映（期末）</strong><span>評価／調整／処遇反映</span></div></div>
+          <div className="ep-viz-eval-roles"><span>人事・事務局</span><span>評価者</span><span>被評価者</span></div>
+          <div className="ep-viz-eval-grid"><span>スキル定義・評価基準</span><span>運用状況を確認</span><span>評価集計・調整</span><span>等級・報酬へ反映</span><span>目標設定面談</span><span>月次1on1</span><span>一次評価</span><span>フィードバック</span><span>自己診断・目標案</span><span>業務遂行・成果記録</span><span>自己評価</span><span>次期目標を設定</span></div>
+          <table className="ep-viz-skill-matrix"><caption>スキル評価基準の例</caption><thead><tr><th>評価段階</th><th>コミュニケーション</th><th>専門業務</th><th>業務基盤</th></tr></thead><tbody><tr><th>高</th><td>顧客との信頼関係を構築</td><td>成果物の品質を主導</td><td>業務改善を提案</td></tr><tr><th>やや高</th><td>必要な合意形成を進める</td><td>期限内に成果物を完成</td><td>担当業務を管理</td></tr><tr><th>標準</th><td>状況を正確に共有</td><td>基準に沿って遂行</td><td>基本的な処理を実行</td></tr></tbody></table>
+        </div>
       ) : (
-        <svg viewBox="0 0 440 230" role="img" aria-label={captions[item.no] ?? '分析イメージ'}>
-          <g className="ep-viz-grid"><path d="M50 25V205M50 205H414M50 115H414M232 25V205" /></g>
-          <g className="ep-viz-scatter"><circle cx="90" cy="159" r="7" /><circle cx="127" cy="133" r="8" /><circle cx="161" cy="171" r="6" /><circle cx="208" cy="139" r="10" /><circle cx="248" cy="89" r="7" /><circle cx="288" cy="69" r="10" /><circle cx="330" cy="111" r="7" /><circle cx="365" cy="56" r="8" /></g>
-          <circle className="ep-viz-focus" cx="288" cy="69" r="24" />
-          <g className="ep-viz-axis-labels"><text x="55" y="20">収益性</text><text x="300" y="222">事業規模・領域</text></g>
+        <svg viewBox="0 0 620 360" role="img" aria-label={captions[item.no] ?? '分析イメージ'}>
+          <path className="ep-viz-axis" d="M58 20V315H590" />
+          <text className="ep-viz-axis-title" x="5" y="25">営業利益率</text><text className="ep-viz-axis-title" x="474" y="348">純売上 →</text>
+          <path className="ep-viz-v-guide" d="M95 55C180 108 282 247 349 263S440 90 552 83" />
+          <g className="ep-viz-scatter">{[[101,46],[145,96],[189,137],[229,169],[258,177],[291,188],[326,244],[375,226],[416,215],[454,151],[497,119],[545,108]].map(([x,y], index) => <circle key={index} cx={x} cy={y} r="6" />)}</g>
+          <text className="ep-viz-chart-note" x="89" y="291">特化型</text><text className="ep-viz-chart-note" x="275" y="300">中規模</text><text className="ep-viz-chart-note" x="487" y="287">規模の経済</text>
         </svg>
       )}
       <figcaption>{captions[item.no] ?? '分析イメージ'} <span>模式図・実データではありません</span></figcaption>
@@ -71,13 +70,13 @@ export function PriceComposition({ chart }: { chart: ConsultingPriceChart }) {
           <div className="ep-price-composition-column" key={column.label}>
             <div className="ep-price-composition-bar">
               <div className="ep-price-composition-stack" style={{ height: `${(totals[index] / maximum) * 100}%` }}>
-                {column.segments.map((segment) => <div className={`is-${segment.tone}`} key={segment.label} style={{ flex: segment.value }} />)}
+                {column.segments.map((segment) => <div className={`is-${segment.tone}`} key={segment.label} style={{ flex: segment.value }}><span>{segment.label}</span></div>)}
               </div>
             </div>
             <strong>{column.label}</strong>
           </div>
         ))}
-        <div className="ep-price-composition-guide"><span>比較イメージ</span></div>
+        <div className="ep-price-composition-guide"><span>{chart.annotation}</span></div>
       </div>
       <div className="ep-price-composition-legend">
         {Array.from(new Map(chart.columns.flatMap((column) => column.segments).map((segment) => [segment.label, segment])).values()).map((segment) => (
@@ -112,15 +111,14 @@ export function AiWorkflowDiagram() {
   return (
     <figure className="ep-ai-workflow">
       <div className="ep-ai-workflow-before">
-        <h3>現在の業務</h3>
-        <div><span>資料を探す</span><span>内容を整理する</span><span>下書きを作る</span><span>人が確認する</span></div>
+        <h3>AIが支援する工程</h3>
+        <div><span>資料・データの収集</span><span>分類と要点整理</span><span>下書き・候補の作成</span></div>
       </div>
-      <div className="ep-ai-workflow-arrow" aria-hidden="true">→</div>
       <div className="ep-ai-workflow-after">
-        <h3>導入後の業務イメージ</h3>
-        <div><span>対象を指定</span><span className="is-ai">AIが収集・整理を支援</span><span className="is-human">人が確認・判断</span><span>業務で利用</span></div>
+        <h3>人が担う工程</h3>
+        <div><span>目的と確認基準を決める</span><span>事実と出力を検証する</span><span>判断して業務に適用する</span></div>
       </div>
-      <figcaption>業務フローの一例です。自動化できる範囲と確認工程は、対象業務に合わせて設計します。</figcaption>
+      <figcaption>役割分担の例です。自動化する範囲と確認工程は、対象業務に合わせて設計します。</figcaption>
     </figure>
   );
 }
