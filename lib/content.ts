@@ -115,6 +115,9 @@ export type Service = {
   lead: string;
   useCases: string[];
   menu: ServiceMenuItem[];
+  aiDevelopmentMenu?: string[];
+  aiDevelopmentExamples?: string[];
+  aiProductFeatures?: { title: string; body: string }[];
   /** 匿名化した成果物の見せ方（パッケージ型支援） */
   examples?: { title: string; body: string; takeaway: string }[];
   /** コンサルティングは専用ページで扱わないため任意 */

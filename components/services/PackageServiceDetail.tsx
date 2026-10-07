@@ -96,13 +96,11 @@ export function PackageServiceDetail({ service }: { service: Service }) {
       </section> : null}
 
       <section className="ep-section ep-p-benefits" aria-labelledby="ep-p-benefits-title">
-        <div className="ep-wrap ep-p-benefits-inner">
-          <div><h2 id="ep-p-benefits-title">調べる仕事を、<br />前に進む仕事へ。</h2></div>
-          <div className="ep-p-benefit-list">
-            <h3>業務・成果への直接効果</h3>
-            {outcomes.slice(0, 3).map((outcome) => <article key={outcome.title}><h4>{outcome.title}</h4><p>{outcome.body}</p></article>)}
-            <h3>人・組織の能力向上</h3>
-            {outcomes.slice(3).map((outcome) => <article key={outcome.title}><h4>{outcome.title}</h4><p>{outcome.body}</p></article>)}
+        <div className="ep-wrap">
+          <h2 id="ep-p-benefits-title">調べる仕事を、<br />前に進む仕事へ。</h2>
+          <div className="ep-p-benefit-groups">
+            <div className="ep-p-benefit-list"><h3>業務・成果への直接効果</h3>{outcomes.slice(0, 3).map((outcome, index) => <article key={outcome.title}><span>0{index + 1}</span><div><h4>{outcome.title}</h4><p>{outcome.body}</p></div></article>)}</div>
+            <div className="ep-p-benefit-list"><h3>人・組織の能力向上</h3>{outcomes.slice(3).map((outcome, index) => <article key={outcome.title}><span>0{index + 4}</span><div><h4>{outcome.title}</h4><p>{outcome.body}</p></div></article>)}</div>
           </div>
         </div>
       </section>

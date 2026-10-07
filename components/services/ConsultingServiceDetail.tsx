@@ -2,6 +2,7 @@ import type { Service } from '@/lib/content';
 import { PageBreadcrumbs } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { InteractiveHoverLink } from '@/components/ui/interactive-hover-button';
+import { GridPattern } from '@/components/ui/grid-pattern';
 import { CaseIllustration, FormatFlow, PriceComposition } from './ServiceVisuals';
 
 export function ConsultingServiceDetail({ service }: { service: Service }) {
@@ -13,15 +14,12 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
       <PageBreadcrumbs crumbs={[{ label: '事業内容', href: '/services' }, { label: service.title }]} />
 
       <section className="ep-c-hero" aria-labelledby="ep-c-title">
+        <GridPattern width={54} height={54} squares={[[8,2],[11,4],[15,3],[17,7],[10,9],[20,5],[6,10],[14,11]]} className="ep-c-hero-grid" />
         <div className="ep-wrap ep-c-hero-inner">
           <div className="ep-c-hero-copy">
             <h1 id="ep-c-title">コンサルティング</h1>
             <p>{service.lead}</p>
             <InteractiveHoverLink href="/contact/" text="相談する" />
-          </div>
-          <div className="ep-c-hero-visual" role="img" aria-label="複数の分析視点がひとつの判断につながる抽象的なグリッド図">
-            <span className="ep-c-grid-node is-one" /><span className="ep-c-grid-node is-two" /><span className="ep-c-grid-node is-three" /><span className="ep-c-grid-node is-four" />
-            <span className="ep-c-grid-axis" />
           </div>
           <div className="ep-c-hero-bottom">
             <span>経営と事業の、判断を支える。</span>
@@ -35,9 +33,9 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
             <h2 id="ep-c-vision-title">{detail.vision.title}</h2>
           </div>
           <div className="ep-c-values">
-            {detail.vision.values.map((value, index) => (
+            {detail.vision.values.map((value) => (
               <article key={value.no}>
-                <h3>{['専門性と品質', '柔軟な実行力', '手の届きやすさ', '次世代の育成'][index]}</h3>
+                <h3>{value.en}</h3>
                 <p>{value.body}</p>
               </article>
             ))}
@@ -78,6 +76,7 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
           <div className="ep-c-method-steps">
             {detail.principles.items.map((item) => (
               <article key={item.no}>
+                <span className="ep-c-method-no">{item.no}</span>
                 <h3>{item.title}</h3>
                 <p>{item.body}</p>
               </article>
@@ -100,13 +99,13 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
                 <div className="ep-c-case-main">
                   <h3>{item.title}</h3>
                   <p>{item.summary}</p>
-                  <CaseIllustration item={item} />
+                  <div className="ep-c-case-detail">
+                    <div><span>課題</span><p>{item.issue.join('／')}</p></div>
+                    <div><span>アプローチ</span><p>{item.approach.join('／')}</p></div>
+                    <div><span>示唆・アウトプット</span><p>{item.insight.join('／')}</p></div>
+                  </div>
                 </div>
-                <div className="ep-c-case-detail">
-                  <div><span>課題</span><p>{item.issue.join('／')}</p></div>
-                  <div><span>アプローチ</span><p>{item.approach.join('／')}</p></div>
-                  <div><span>示唆・アウトプット</span><p>{item.insight.join('／')}</p></div>
-                </div>
+                <CaseIllustration item={item} />
               </article>
             ))}
           </div>
@@ -133,11 +132,11 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
           <div className="ep-c-proof-bottom">
             <p>{detail.record.industryLead}</p>
             <ul>{detail.record.industries.map((industry) => <li key={industry}>{industry}</li>)}</ul>
-            <InteractiveHoverLink href="/works/" text="支援実績を見る" className="is-outline" />
           </div>
           <div className="ep-c-proof-examples">
             {detail.record.examples.map((example) => <article key={example.client}><h3>{example.client}</h3><p>{example.items.join('、')}</p></article>)}
           </div>
+          <InteractiveHoverLink href="/works/" text="支援実績を見る" className="is-outline ep-c-proof-link" />
         </div>
       </section>
 
@@ -173,7 +172,6 @@ export function ConsultingServiceDetail({ service }: { service: Service }) {
               {detail.price.reasons.map((reason) => <article key={reason.no}><h3>{reason.title}</h3><p>{reason.body}</p></article>)}
             </div>
           </div>
-          <p className="ep-pricing-note">{service.pricingNote}</p>
           <InteractiveHoverLink href="/contact/" text="見積りを相談する" className="is-outline" />
         </div>
       </section>
