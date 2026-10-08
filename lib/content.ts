@@ -115,6 +115,7 @@ export type Service = {
   lead: string;
   /** パッケージ型支援ページの編集可能な本文・図表コピー */
   packageDetail?: {
+    heroDiagram: { intro: string; result: string; themes: string[] };
     journeyTitle: string;
     journeyIntro: string;
     journey: { title: string; body: string }[];

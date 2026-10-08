@@ -1,0 +1,170 @@
+/* Web-first treatment for the package hero and three former slide diagrams. */
+.ep-package .ep-p-hero {
+  position: relative;
+  background: #f8f6fc;
+  border-bottom: 1px solid #e8e2f0;
+}
+.ep-package .ep-p-hero-inner {
+  grid-template-columns: minmax(0, 1.12fr) minmax(420px, .88fr);
+  gap: 4%;
+  min-height: 650px;
+  padding-block: clamp(72px, 7vw, 104px);
+}
+.ep-package .ep-p-hero h1 {
+  margin: 0;
+  color: #18161d;
+  font-size: clamp(38px, 4.6vw, 62px);
+  line-height: 1.22;
+  letter-spacing: -.075em;
+  white-space: nowrap;
+}
+.ep-package .ep-p-hero-copy > p {
+  max-width: 36em;
+  margin-top: 30px;
+  color: #5e5966;
+}
+.ep-package .ep-p-hero-actions { gap: 16px; margin-top: 38px; }
+.ep-p-hero-system {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 14 / 13;
+  isolation: isolate;
+}
+.ep-p-hero-system::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: radial-gradient(#c7bfd4 1px, transparent 1px) 0 0 / 22px 22px;
+  mask-image: radial-gradient(ellipse 70% 70% at center, #000 33%, transparent 100%);
+  opacity: .75;
+}
+.ep-p-hero-system-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.ep-p-hero-system-lines path { stroke: #bcb2cd; stroke-width: 1.2; }
+.ep-p-hero-system-lines .ep-p-hero-system-trace { stroke: #8a7cf0; stroke-width: 2; stroke-dasharray: 8 12; animation: ep-p-flow 8s linear infinite; }
+@keyframes ep-p-flow { to { stroke-dashoffset: -240; } }
+.ep-p-hero-system-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 36%;
+  aspect-ratio: 1;
+  border: 1px solid #d9d0e7;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 22px 48px -30px rgba(91, 75, 138, .36);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.ep-p-hero-system-center span { color: #756a83; font-size: clamp(10px, .85vw, 12px); }
+.ep-p-hero-system-center strong { margin-top: 7px; color: #241e2c; font-size: clamp(15px, 1.4vw, 20px); font-weight: 600; }
+.ep-p-hero-system-node {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px;
+  border: 1px solid #ddd5e9;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 8px 24px -18px rgba(39, 29, 55, .35);
+  color: #393140;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+}
+.ep-p-hero-system-node i { flex: none; width: 7px; height: 7px; border-radius: 50%; background: #8a7cf0; box-shadow: 0 0 0 4px #f2eefe; }
+.ep-p-hero-system-node-1 { top: 22.5%; left: 22.14%; }
+.ep-p-hero-system-node-2 { top: 22.5%; left: 77.86%; }
+.ep-p-hero-system-node-3 { top: 77.5%; left: 22.14%; }
+.ep-p-hero-system-node-4 { top: 77.5%; left: 77.86%; }
+
+.ep-consulting .ep-c-method { background: #faf9fc; }
+.ep-consulting .ep-c-method-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+  margin-top: 0;
+  border: 0;
+  background: transparent;
+}
+.ep-consulting .ep-c-method-steps article {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  min-height: 290px;
+  padding: 27px 24px;
+  border: 1px solid #e7e3ed;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 18px 38px -36px rgba(55, 38, 78, .45);
+  text-align: left;
+  transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+.ep-consulting .ep-c-method-steps article:hover { transform: translateY(-4px); border-color: #cfc3e4; box-shadow: 0 22px 40px -32px rgba(91, 75, 138, .42); }
+.ep-consulting .ep-c-method-no {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  border-radius: 50%;
+  background: #f0ebfa;
+  color: #5b4b8a;
+  font: 600 12px/1 ui-monospace, monospace;
+}
+.ep-consulting .ep-c-method-steps h3 { margin-top: 40px; font-size: clamp(18px, 1.65vw, 22px); font-weight: 600; }
+.ep-consulting .ep-c-method-steps p { max-width: none; margin-top: 14px; color: #67616d; font-size: 13px; line-height: 1.9; text-align: left; }
+
+.ep-package .ep-p-benefit-panels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; align-items: start; }
+.ep-package .ep-p-benefit-panel { min-width: 0; padding: 28px 30px 12px; border: 1px solid #e6e2eb; border-radius: 18px; background: #fff; box-shadow: 0 18px 42px -38px rgba(55, 38, 78, .35); }
+.ep-package .ep-p-benefit-panel-head { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding-bottom: 24px; }
+.ep-package .ep-p-benefit-panel-head h3 { color: #242128; font-size: clamp(18px, 1.7vw, 22px); font-weight: 600; }
+.ep-package .ep-p-benefit-panel-items article { display: grid; grid-template-columns: 33px minmax(0, 1fr); gap: 16px; padding: 24px 0; border-top: 1px solid #ece9f0; }
+.ep-package .ep-p-benefit-index { color: #7a68a5; font: 500 12px/1.6 ui-monospace, monospace; }
+.ep-package .ep-p-benefit-panel h4 { color: #242128; font-size: 17px; font-weight: 600; line-height: 1.5; }
+.ep-package .ep-p-benefit-panel ul { display: grid; gap: 7px; margin: 12px 0 0; padding: 0; list-style: none; }
+.ep-package .ep-p-benefit-panel li { color: #67616d; font-size: 14px; line-height: 1.85; }
+
+.ep-ai .ep-a-process-web { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+.ep-ai .ep-a-process-web-phase { min-width: 0; padding: 30px 34px 12px; border: 1px solid #e7e2ec; border-radius: 18px; background: #fff; box-shadow: 0 18px 42px -38px rgba(55, 38, 78, .35); }
+.ep-ai .ep-a-process-web-phase > h3 { margin-bottom: 22px; color: #5b4b8a; font-size: 16px; font-weight: 600; }
+.ep-ai.ep-ai-subpage .ep-a-process-web-phase ol { display: block; margin: 0; padding: 0; border: 0; list-style: none; }
+.ep-ai.ep-ai-subpage .ep-a-process-web-phase li { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 17px; min-height: 0; padding: 23px 0; border: 0; border-top: 1px solid #ece9f0; background: transparent; }
+.ep-ai .ep-a-process-web-number { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #f0ebfa; color: #5b4b8a; font: 600 12px/1 ui-monospace, monospace; }
+.ep-ai .ep-a-process-web-phase h4 { color: #242128; font-size: 17px; font-weight: 600; line-height: 1.5; }
+.ep-ai.ep-ai-subpage .ep-a-process-web-phase li p { margin: 9px 0 0; color: #67616d; font-size: 14px; line-height: 1.85; }
+
+@media (max-width: 1050px) {
+  .ep-consulting .ep-c-method-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ep-consulting .ep-c-method-steps article { min-height: 240px; }
+}
+@media (max-width: 900px) {
+  .ep-package .ep-p-hero-inner { grid-template-columns: 1fr; gap: 35px; min-height: 0; padding-block: 76px 65px; }
+  .ep-package .ep-p-hero h1 { font-size: clamp(38px, 7vw, 58px); }
+  .ep-p-hero-system { width: min(100%, 510px); margin: 0 auto; }
+}
+@media (max-width: 760px) {
+  .ep-package .ep-p-benefit-panels, .ep-ai .ep-a-process-web { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .ep-package .ep-p-hero h1 { font-size: clamp(30px, 8.2vw, 43px); }
+  .ep-package .ep-p-hero-copy > p { margin-top: 24px; }
+  .ep-p-hero-system-node { gap: 6px; padding: 7px 9px; font-size: 10px; }
+  .ep-p-hero-system-node i { width: 5px; height: 5px; box-shadow: 0 0 0 3px #f2eefe; }
+  .ep-p-hero-system-center strong { font-size: clamp(11px, 3vw, 16px); }
+  .ep-consulting .ep-c-method-steps { grid-template-columns: 1fr; gap: 12px; }
+  .ep-consulting .ep-c-method-steps article { min-height: 0; padding: 24px; }
+  .ep-consulting .ep-c-method-steps h3 { margin-top: 22px; }
+  .ep-package .ep-p-benefit-panel, .ep-ai .ep-a-process-web-phase { padding: 23px 22px 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ep-p-hero-system-lines .ep-p-hero-system-trace { animation: none; }
+  .ep-consulting .ep-c-method-steps article { transition: none; }
+}

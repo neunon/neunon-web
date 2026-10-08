@@ -126,6 +126,9 @@ export function validateContent(root = process.cwd()) {
     if (id === 'package') {
       const detail = data.packageDetail;
       const at = where + '.packageDetail';
+      keys(detail?.heroDiagram, ['intro', 'result'], at + '.heroDiagram');
+      stringList(detail?.heroDiagram?.themes, at + '.heroDiagram.themes', 4);
+      if (detail?.heroDiagram?.themes?.length !== 4) fail(at + '.heroDiagram.themes', 'ヒーローの図は4項目です');
       keys(detail, ['journeyTitle', 'journeyIntro', 'benefitsTitle', 'benefitsIntro', 'ctaTitle', 'ctaBody'], at);
       objects(detail?.journey, ['title', 'body'], at + '.journey', 3);
       if (detail?.journey?.length !== 3) fail(at + '.journey', '3つの手順が必要です');
