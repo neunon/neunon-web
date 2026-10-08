@@ -16,22 +16,20 @@ export function PackageServiceDetail({ service }: { service: Service }) {
       <section className="ep-p-hero" aria-labelledby="ep-p-title">
         <div className="ep-wrap ep-p-hero-inner">
           <div className="ep-p-hero-copy">
-            <h1 id="ep-p-title">パッケージ型<br />支援</h1>
+            <h1 id="ep-p-title">{service.title}</h1>
             <p>{service.lead}</p>
             <div className="ep-p-hero-actions">
               <InteractiveHoverLink href="/contact/" text="調査を相談する" />
               <InteractiveHoverLink href="#ep-p-menu-title" text="メニューを見る" className="is-outline" />
             </div>
           </div>
-          <div className="ep-p-report" aria-label="成果物の構成イメージ">
-            <div className="ep-p-report-sheet ep-p-report-back" aria-hidden="true" />
-            <div className="ep-p-report-sheet ep-p-report-front">
-              <div className="ep-p-report-top"><span>Research brief</span><span>NEUNON / SAMPLE</span></div>
-              <strong>調査から、<br />判断へ。</strong>
-              <div className="ep-p-report-rule" />
-              <div className="ep-p-report-graphic" aria-hidden="true"><i /><i /><i /><i /><i /></div>
-              <div className="ep-p-report-foot"><span>市場・企業・競合</span><span>分析 / 示唆 / 資料化</span></div>
-            </div>
+          <div className="ep-p-hero-system" role="img" aria-label={`${detail.heroDiagram.themes.join('・')}の調査を、判断材料へつなぐ図`}>
+            <svg className="ep-p-hero-system-lines" viewBox="0 0 560 520" fill="none" aria-hidden="true">
+              <path d="M124 117 C180 117 198 260 280 260 M436 117 C380 117 362 260 280 260 M124 403 C180 403 198 260 280 260 M436 403 C380 403 362 260 280 260" />
+              <path className="ep-p-hero-system-trace" d="M124 117 C180 117 198 260 280 260" />
+            </svg>
+            <div className="ep-p-hero-system-center"><span>{detail.heroDiagram.intro}</span><strong>{detail.heroDiagram.result}</strong></div>
+            {detail.heroDiagram.themes.map((theme, index) => <span className={`ep-p-hero-system-node ep-p-hero-system-node-${index + 1}`} key={`${theme}-${index}`}><i />{theme}</span>)}
           </div>
         </div>
       </section>
@@ -87,9 +85,14 @@ export function PackageServiceDetail({ service }: { service: Service }) {
       <section className="ep-section ep-p-benefits" aria-labelledby="ep-p-benefits-title">
         <div className="ep-wrap">
           <header className="ep-split-head"><h2 id="ep-p-benefits-title">{detail.benefitsTitle}</h2><p>{detail.benefitsIntro}</p></header>
-          <div className="ep-p-benefit-groups">
-            <div className="ep-p-benefit-list"><h3>{detail.benefitGroupTitles[0]}</h3><div>{detail.outcomes.slice(0, 3).map((outcome, index) => <article key={outcome.title}><div className="ep-p-benefit-name"><span>0{index + 1}.</span><h4>{outcome.title}</h4></div><ul>{outcome.body.map((line) => <li key={line}>{line}</li>)}</ul></article>)}</div></div>
-            <div className="ep-p-benefit-list"><h3>{detail.benefitGroupTitles[1]}</h3><div>{detail.outcomes.slice(3).map((outcome, index) => <article key={outcome.title}><div className="ep-p-benefit-name"><span>0{index + 4}.</span><h4>{outcome.title}</h4></div><ul>{outcome.body.map((line) => <li key={line}>{line}</li>)}</ul></article>)}</div></div>
+          <div className="ep-p-benefit-panels">
+            {detail.benefitGroupTitles.map((title, groupIndex) => <section key={title} className="ep-p-benefit-panel">
+              <div className="ep-p-benefit-panel-head"><h3>{title}</h3></div>
+              <div className="ep-p-benefit-panel-items">{detail.outcomes.slice(groupIndex === 0 ? 0 : 3, groupIndex === 0 ? 3 : undefined).map((outcome, index) => <article key={outcome.title}>
+                <span className="ep-p-benefit-index">0{groupIndex * 3 + index + 1}</span>
+                <div><h4>{outcome.title}</h4><ul>{outcome.body.map((line) => <li key={line}>{line}</li>)}</ul></div>
+              </article>)}</div>
+            </section>)}
           </div>
         </div>
       </section>

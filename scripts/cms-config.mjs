@@ -106,6 +106,7 @@ const serviceFiles = [
       list('aiProductFeatures', 'AIプロダクトの特徴', [string('title', '見出し'), text('body', '説明')], { min: 1 }),
     ] : []),
     ...(id === 'package' ? [obj('packageDetail', 'パッケージ型支援ページの本文', [
+      obj('heroDiagram', 'ヒーローの図', [string('intro', '中心の上段'), string('result', '中心の見出し'), strings('themes', '周囲の4つの項目', { min: 4, max: 4 })]),
       string('journeyTitle', '依頼手順の見出し'), text('journeyIntro', '依頼手順の説明'),
       list('journey', '依頼手順', [string('title', '見出し'), text('body', '説明')], { min: 3, max: 3 }),
       string('benefitsTitle', '効果の見出し'), text('benefitsIntro', '効果の説明'),
