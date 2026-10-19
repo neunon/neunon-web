@@ -1,6 +1,10 @@
 # 作業の引き継ぎ（Codex ⇄ Claude Code）
 
-最終更新: 2026-10-08 / 更新者: Codex
+最終更新: 2026-10-20 / 更新者: Codex
+
+## 問い合わせフォーム Turnstile 一時停止（2026-10-20）
+
+ユーザー依頼により、企業向け `/contact/` だけ Cloudflare Turnstile の表示・送信時検証を一時停止する。学生 `/entry/` と管理画面の認証は維持する。迷惑投稿のリスクが上がるため、復旧後は `app/contact/page.tsx` の `turnstileEnabled={false}` を外し、`worker/src/index.mjs` の `formType !== 'contact' &&` を外して、Worker と静的サイトを両方再デプロイすること。Worker テスト 8 件と TypeScript は通過。ローカルの静的書き出しは Windows の出力フォルダー作成で断続的な EPERM が出ており、本番側のビルド結果を必ず確認する。
 
 ## 直近の追加改修（2026-10-08・共通UIとCMS拡張）
 

@@ -27,6 +27,8 @@ type Props = {
   submitLabel: string;
   /** 環境変数名。未設定時の案内に出す */
   envName: string;
+  /** 問い合わせフォームの一時的なTurnstile停止用。エントリーは有効のまま。 */
+  turnstileEnabled?: boolean;
 };
 
 const MIN_FILL_MS = 3000;
@@ -45,7 +47,7 @@ declare global {
   }
 }
 
-export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, envName }: Props) {
+export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, envName, turnstileEnabled = true }: Props) {
   const router = useRouter();
   const formId = useId();
   const startedAt = useRef(Date.now());
@@ -67,10 +69,11 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
   const [turnstileAttempt, setTurnstileAttempt] = useState(0);
 
   const configured = endpoint !== '';
-  const canProceed = consent && !sending && (!turnstileSiteKey || turnstileToken !== '');
+  const requiresTurnstile = turnstileEnabled && Boolean(turnstileSiteKey);
+  const canProceed = consent && !sending && (!requiresTurnstile || turnstileToken !== '');
 
   useEffect(() => {
-    if (!turnstileSiteKey) return;
+    if (!requiresTurnstile) return;
 
     let cancelled = false;
     const localHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -124,7 +127,7 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
         turnstileWidgetId.current = null;
       }
     };
-  }, [turnstileAttempt]);
+  }, [requiresTurnstile, turnstileAttempt]);
 
   function retryTurnstile() {
     setTurnstileToken('');
@@ -471,7 +474,7 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
         ) : null}
       </div>
 
-      {turnstileSiteKey ? (
+      {requiresTurnstile ? (
         <div className={`nc-turnstile is-${turnstileStatus}`}>
           <div ref={turnstileContainer} />
           {turnstileStatus === 'error' ? (
