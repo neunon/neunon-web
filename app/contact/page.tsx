@@ -60,6 +60,7 @@ export default function ContactPage() {
               subject="【サイト】企業からのお問い合わせ"
               submitLabel={copy.submitLabel}
               envName="NEXT_PUBLIC_CONTACT_FORM_ENDPOINT"
+              turnstileEnabled={false}
             />
           </div>
         </div>

@@ -67,7 +67,9 @@ export default {
       if (missing.length) return json({ error: '必須項目が不足しています。', fields: missing }, 400, cors);
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email || '')) return json({ error: 'メールアドレスが正しくありません。' }, 400, cors);
 
-      if (env.TURNSTILE_SECRET) {
+      // TEMPORARY: Contact Turnstile is disabled while the public form issue is resolved.
+      // Keep verification for student entry submissions.
+      if (formType !== 'contact' && env.TURNSTILE_SECRET) {
         const valid = await verifyTurnstile(String(data.get('cf-turnstile-response') || ''), request, env.TURNSTILE_SECRET);
         if (!valid) return json({ error: '迷惑送信防止の確認に失敗しました。' }, 400, cors);
       }
