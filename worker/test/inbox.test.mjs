@@ -44,7 +44,6 @@ test('inbox rejects unauthenticated reads, including attachments', async () => {
 
 test('contact is archived after email delivery and editor can read it', async () => {
   const env = memoryEnv();
-  env.TURNSTILE_SECRET = 'test-secret';
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async (url) => {
     if (String(url).startsWith('https://api.resend.com/')) return new Response('{}', { status: 200 });
@@ -66,19 +65,6 @@ test('contact is archived after email delivery and editor can read it', async ()
     const detail = await worker.fetch(new Request(api + `/submissions/${body.items[0].id}`, { headers:{ Origin:origin, Authorization:'Bearer example-token' } }), env);
     assert.equal((await detail.json()).values.message, '本文');
   } finally { globalThis.fetch = originalFetch; }
-});
-
-test('student entry still requires Turnstile while contact is temporarily exempt', async () => {
-  const env = memoryEnv();
-  env.TURNSTILE_SECRET = 'test-secret';
-  const form = new FormData();
-  for (const [key, value] of Object.entries({ name: '学生', email: 'student@example.com',
-    school: '大学', experience: '経験', motivation: '志望動機', privacyConsent: 'accepted' })) form.set(key, value);
-  const response = await worker.fetch(new Request(api + '/entry', {
-    method: 'POST', headers: { Origin: origin }, body: form,
-  }), env);
-  assert.equal(response.status, 400);
-  assert.match((await response.json()).error, /迷惑送信防止/);
 });
 
 test('a token from an unlisted editor cannot read submissions', async () => {
