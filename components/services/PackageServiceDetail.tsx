@@ -1,4 +1,5 @@
 import type { Service } from '@/lib/content';
+import Link from 'next/link';
 import { PageBreadcrumbs } from '@/components/shared/PageHero';
 import { ContactCta } from '@/components/shared/ContactCta';
 import { EditorialSections } from '@/components/shared/EditorialSections';
@@ -66,6 +67,7 @@ export function PackageServiceDetail({ service }: { service: Service }) {
             </details>)}
           </div>
           <p className="ep-p-menu-help">どれに当てはまるか分からない場合も、調査したい対象だけお聞かせください。</p>
+          <p className="ep-p-menu-help"><Link href="/services/package/existing-customers/">既存顧客の企業分析・クローズアップの詳しい内容を見る ↗</Link></p>
         </div>
       </section>
 
