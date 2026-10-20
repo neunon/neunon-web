@@ -180,6 +180,14 @@ services:
       - path: /admin/*
         name: Cache-Control
         value: no-store
+      # 営業メールに載せる資料（public/docs/<推測できない文字列>/）。サイトからはリンクせず、
+      # 検索にも載せない。メールを受け取った人だけが開ける想定（2026-10-20 坂本さん判断）
+      - path: /docs/*
+        name: X-Robots-Tag
+        value: noindex, nofollow, noarchive
+      - path: /docs/*
+        name: Cache-Control
+        value: public, max-age=3600, must-revalidate
 
       # --- キャッシュ ---
       # ビルドごとにファイル名へハッシュが付くので、恒久的にキャッシュしてよい。

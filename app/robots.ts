@@ -6,7 +6,8 @@ export const dynamic = 'force-static';
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: '*', allow: '/' },
+    // /docs/ は営業メールに載せる資料の置き場。巡回させない（配下の文字列はここに書かない）
+    rules: { userAgent: '*', allow: '/', disallow: '/docs/' },
     sitemap: `${site.url}/sitemap.xml`,
   };
 }
