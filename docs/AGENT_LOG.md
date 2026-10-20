@@ -4,7 +4,7 @@
 
 ## 既存顧客企業クローズアップ SEO向けLP（2026-10-20・Codex）
 
-`hp/existing-customers-seo-lp` に `/services/package/existing-customers/` を新設。検索意図を既存顧客の企業分析・調査依頼に絞り、架空の個社別レポート4ページと拡大表示、親ページからの導線、SEOメタ情報、構造化データ、sitemapを追加。戦略・判断・QAは `docs/EXISTING_CUSTOMERS_LP.md` に記載。既存の広告向けLPブランチは流用・公開していない。`npm run typecheck`、`npm run build`、`npm run audit:html` は通過（通常権限のビルドはWindowsサンドボックスの `EPERM`、権限付きで完了）。**本番反映はしていない。**
+`hp/existing-customers-seo-lp` に `/services/package/existing-customers/` を新設。検索意図を既存顧客の企業分析・調査依頼に絞り、架空の個社別レポート4ページと拡大表示、親ページからの導線、SEOメタ情報、構造化データ、sitemapを追加。戦略・判断・QAは `docs/EXISTING_CUSTOMERS_LP.md` に記載。既存の広告向けLPブランチは流用・公開していない。`npm run typecheck`、`npm run build`、`npm run audit:html` は通過（通常権限のビルドはWindowsサンドボックスの `EPERM`、権限付きで完了）。PC/モバイルのローカル表示を確認。**本番反映はしていない。**
 
 ## 問い合わせフォーム Turnstile 復旧（2026-10-20・Codex）
 
