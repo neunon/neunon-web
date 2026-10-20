@@ -9,6 +9,7 @@
 
 - [SEO・CMS実装報告](docs/SEO_IMPLEMENTATION.md)
 - [CMS初回設定・編集・復旧手順](docs/CMS_SETUP.md) — OAuth 初回設定が完了するまでログインは無効です。
+- [HP改修メンバー参画ガイド](docs/HP_DEVELOPMENT_ONBOARDING.md) — 新規メンバーと Claude Code / Codex に丸ごと渡す手順書です。
 
 ## 資料
 
