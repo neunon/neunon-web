@@ -1,6 +1,17 @@
 # 作業の引き継ぎ（Codex ⇄ Claude Code）
 
-最終更新: 2026-10-20 / 更新者: Codex
+最終更新: 2026-10-20 / 更新者: Claude Code
+
+## パッケージ型支援の資料PDFを営業メール用に配置（2026-10-20・Claude Code）
+
+ブランチ `hp/package-deck-pdf`（`origin/main` の `c73b39b` から）。営業メール自動化のパッケージ型支援の文面に載せる
+サービス紹介資料を `public/docs/<推測できない文字列>/neunon-package-support.pdf` に置いた。サイトからはリンクしない。
+`render.yaml` で `/docs/*` に `X-Robots-Tag: noindex, nofollow, noarchive`、`app/robots.ts` で `/docs/` を巡回除外
+（配下の文字列は書かない）。SharePoint は会社の設定で社外の匿名共有が止まっており、社外の受信者が開けなかったため
+（坂本さん判断）。`typecheck`・`build`・`audit:html` 通過。**main へのマージと公開は坂本さんの判断待ち。**
+マージ後、`curl -I https://neun-on.com/docs/<文字列>/neunon-package-support.pdf` で X-Robots-Tag が付くか確認する
+（Blueprint の headers が反映されない場合はダッシュボードで同じヘッダを足す）。
+資料を差し替えるときは同じパス・同じファイル名で上書きする（営業メールに載せたURLを変えないため）。
 
 ## 問い合わせフォーム Turnstile 一時停止（2026-10-20）
 
