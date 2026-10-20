@@ -2,9 +2,9 @@
 
 最終更新: 2026-10-20 / 更新者: Codex
 
-## 問い合わせフォーム Turnstile 復旧・参画手順追加（2026-10-20・Codex）
+## 問い合わせフォーム Turnstile 復旧（2026-10-20・Codex）
 
-一時停止していた企業向け `/contact/` の Cloudflare Turnstile を表示側・Worker側とも復旧する。学生 `/entry/` は停止中も含め常時有効。新規メンバー向けに `docs/HP_DEVELOPMENT_ONBOARDING.md` を追加し、GitHubの最小権限、環境構築、Claude Code / Codexへの投入方法、検証、PR、本番反映、秘密情報の扱いを1ファイルにまとめる。
+一時停止していた企業向け `/contact/` の Cloudflare Turnstile を表示側・Worker側とも復旧する。学生 `/entry/` は停止中も含め常時有効。
 
 ## パッケージ型支援の資料PDFを営業メール用に配置（2026-10-20・Claude Code）
 
