@@ -1,6 +1,10 @@
 # 作業の引き継ぎ（Codex ⇄ Claude Code）
 
-最終更新: 2026-10-20 / 更新者: Claude Code
+最終更新: 2026-10-20 / 更新者: Codex
+
+## 問い合わせフォーム Turnstile 復旧・参画手順追加（2026-10-20・Codex）
+
+一時停止していた企業向け `/contact/` の Cloudflare Turnstile を表示側・Worker側とも復旧する。学生 `/entry/` は停止中も含め常時有効。新規メンバー向けに `docs/HP_DEVELOPMENT_ONBOARDING.md` を追加し、GitHubの最小権限、環境構築、Claude Code / Codexへの投入方法、検証、PR、本番反映、秘密情報の扱いを1ファイルにまとめる。
 
 ## パッケージ型支援の資料PDFを営業メール用に配置（2026-10-20・Claude Code）
 
@@ -12,10 +16,6 @@
 マージ後、`curl -I https://neun-on.com/docs/<文字列>/neunon-package-support.pdf` で X-Robots-Tag が付くか確認する
 （Blueprint の headers が反映されない場合はダッシュボードで同じヘッダを足す）。
 資料を差し替えるときは同じパス・同じファイル名で上書きする（営業メールに載せたURLを変えないため）。
-
-## 問い合わせフォーム Turnstile 一時停止（2026-10-20）
-
-ユーザー依頼により、企業向け `/contact/` だけ Cloudflare Turnstile の表示・送信時検証を一時停止する。学生 `/entry/` と管理画面の認証は維持する。迷惑投稿のリスクが上がるため、復旧後は `app/contact/page.tsx` の `turnstileEnabled={false}` を外し、`worker/src/index.mjs` の `formType !== 'contact' &&` を外して、Worker と静的サイトを両方再デプロイすること。Worker テスト 8 件と TypeScript は通過。ローカルの静的書き出しは Windows の出力フォルダー作成で断続的な EPERM が出ており、本番側のビルド結果を必ず確認する。
 
 ## 直近の追加改修（2026-10-08・共通UIとCMS拡張）
 
