@@ -2,11 +2,11 @@
 
 最終更新: 2026-10-22 / 更新者: Claude Code
 
-## 2026-10-22 Claude Code：既存顧客LP 第4版（完了・確認待ち）
+## 2026-10-22 Claude Code：既存顧客LP 第5版（完了・確認待ち）
 
 ブランチ `hp/existing-customers-claude-lp`。確認用URL `/design-review/existing-customers-claude/`（noindex）。
 
-- 受注を主目的にLPとして作り直した。明るいブランド青の配色、課題 → 解決 → 仮説例 → 効果 → 理由・比較 → 実績 → 料金 → 流れ → FAQ → 相談、スマホは画面下に相談ボタン。詳細は `docs/EXISTING_CUSTOMERS_CLAUDE_LP.md` の「0. 改訂（第4版）」
+- 受注を主目的にLPとして作り直した。明るいブランド青の配色、課題 → 解決 → 仮説例 → 効果 → 理由・比較 → 実績 → 料金 → 流れ → FAQ → 相談、スマホは画面下に相談ボタン。第5版で抽象図をやめ、サンプルレポートの実物（ノートPCと印刷の見せ方）に替えた。詳細は `docs/EXISTING_CUSTOMERS_CLAUDE_LP.md` の「0. 改訂（第5版）」
 - 決まったこと: NDAは締結前提、取引情報の提供は任意。「分析の視点」の節は削除。提案仮説は「事実 → 言えること」の組で件数自由
 - 次: ユーザーが `content/pages/existing-customers.json` に仮説を記入。「資料を請求する」で送る資料を決める。承認後に正式URL `/services/package/existing-customers/` へ移す（noindex 解除・sitemap 追加・確認用ルート削除）
 

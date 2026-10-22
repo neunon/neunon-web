@@ -562,5 +562,18 @@ text(s, 0.36, 6.72, 10.1, 0.26, [[("留意点：", {"size": 8.5, "bold": True, "
                                   ("冷凍の主委託先とは長期契約の可能性が高い。置き換えを正面から提案せず、新しく生まれる区画から入る",
                                    {"size": 8.5, "color": G2})]], margin=0)
 
+# ------------------------------------------------------------------ 表紙（LPの「実物の見え方」の画像に使う）
+cover = prs.slides.add_slide(next(l for l in prs.slide_layouts if l.name == "表紙"))
+for ph in cover.placeholders:
+    idx = ph.placeholder_format.idx
+    if idx == 12:
+        ph.text_frame.text = "サンプル物流株式会社　御中"
+    elif idx == 11:
+        ph.text_frame.text = f"{COMPANY}　企業クローズアップ"
+    elif idx == 13:
+        ph.text_frame.text = DATE
+ids = prs.slides._sldIdLst
+ids.insert(0, ids[-1])
+
 prs.save(OUT)
 print("saved", OUT)
