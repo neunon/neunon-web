@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 520" width="420" height="520">
+    
+  <defs>
+    <radialGradient id="shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#1b2230" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#1b2230" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sheen" x1="0" x2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".46" stop-color="#fff" stop-opacity=".0"/>
+      <stop offset=".5" stop-color="#fff" stop-opacity=".22"/>
+      <stop offset=".56" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    
+  </defs>
+    
+  <ellipse cx="210" cy="462" rx="150" ry="14" fill="url(#shadow)"/>
+    <path d="M70 66 L77 66 L84 60 L91 66 L98 60 L105 66 L112 60 L119 66 L126 60 L133 66 L140 60 L147 66 L154 60 L161 66 L168 60 L175 66 L182 60 L189 66 L196 60 L203 66 L210 60 L217 66 L224 60 L231 66 L238 60 L245 66 L252 60 L259 66 L266 60 L273 66 L280 60 L287 66 L294 60 L301 66 L308 60 L315 66 L322 60 L329 66 L336 60 L343 66 L350 60 L350 434 L77 440 L84 434 L91 440 L98 434 L105 440 L112 434 L119 440 L126 434 L133 440 L140 434 L147 440 L154 434 L161 440 L168 434 L175 440 L182 434 L189 440 L196 434 L203 440 L210 434 L217 440 L224 434 L231 440 L238 434 L245 440 L252 434 L259 440 L266 434 L273 440 L280 434 L287 440 L294 434 L301 440 L308 434 L315 440 L322 434 L329 440 L336 434 L343 440 L350 434 Z" fill="#2f5d50"/>
+    <rect x="70" y="66" width="280" height="368" fill="#2f5d50"/>
+    <rect x="70" y="78" width="280" height="18" fill="#000" opacity=".08"/>
+    <rect x="70" y="404" width="280" height="18" fill="#000" opacity=".08"/>
+    
+  <g transform="translate(114 134)">
+    <circle r="24" fill="#c8102e"/>
+    <text y="8.16" text-anchor="middle" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-weight="700" font-size="20.64" fill="#fff">ミオリ</text>
+  </g>
+    <text x="150" y="126" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="14" font-weight="700" fill="#f0e6c8">ミオリ食品</text>
+    <text x="150" y="146" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="12" fill="#ffffffcc">冷凍食品</text>
+    <text x="94" y="198" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="38" font-weight="800" fill="#fff">讃岐風うどん</text>
+    <text x="96" y="226" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="15" font-weight="700" fill="#f0e6c8">冷凍めん　コシの強い太麺</text>
+    <rect x="92" y="246" width="236" height="128" rx="64" fill="#fff" opacity=".96"/>
+    <g>
+  <ellipse cx="210" cy="312" rx="104" ry="44" fill="#efe6cf"/>
+  <path d="M124 290 C 160 274, 190 308, 222 290 S 280 276, 296 292" fill="none" stroke="#d8cba8" stroke-width="11" stroke-linecap="round"/>
+            <path d="M124 289 C 160 273, 190 307, 222 289 S 280 275, 296 291" fill="none" stroke="#fbf7ec" stroke-width="7" stroke-linecap="round"/><path d="M130 297 C 160 281, 190 315, 222 297 S 280 283, 290 299" fill="none" stroke="#d8cba8" stroke-width="11" stroke-linecap="round"/>
+            <path d="M130 296 C 160 280, 190 314, 222 296 S 280 282, 290 298" fill="none" stroke="#fbf7ec" stroke-width="7" stroke-linecap="round"/><path d="M124 304 C 160 288, 190 322, 222 304 S 280 290, 296 306" fill="none" stroke="#d8cba8" stroke-width="11" stroke-linecap="round"/>
+            <path d="M124 303 C 160 287, 190 321, 222 303 S 280 289, 296 305" fill="none" stroke="#fbf7ec" stroke-width="7" stroke-linecap="round"/><path d="M130 311 C 160 295, 190 329, 222 311 S 280 297, 290 313" fill="none" stroke="#d8cba8" stroke-width="11" stroke-linecap="round"/>
+            <path d="M130 310 C 160 294, 190 328, 222 310 S 280 296, 290 312" fill="none" stroke="#fbf7ec" stroke-width="7" stroke-linecap="round"/><path d="M124 318 C 160 302, 190 336, 222 318 S 280 304, 296 320" fill="none" stroke="#d8cba8" stroke-width="11" stroke-linecap="round"/>
+            <path d="M124 317 C 160 301, 190 335, 222 317 S 280 303, 296 319" fill="none" stroke="#fbf7ec" stroke-width="7" stroke-linecap="round"/><path d="M130 325 C 160 309, 190 343, 222 325 S 280 311, 290 327" fill="none" stroke="#d8cba8" stroke-width="11" stroke-linecap="round"/>
+            <path d="M130 324 C 160 308, 190 342, 222 324 S 280 310, 290 326" fill="none" stroke="#fbf7ec" stroke-width="7" stroke-linecap="round"/><path d="M124 332 C 160 316, 190 350, 222 332 S 280 318, 296 334" fill="none" stroke="#d8cba8" stroke-width="11" stroke-linecap="round"/>
+            <path d="M124 331 C 160 315, 190 349, 222 331 S 280 317, 296 333" fill="none" stroke="#fbf7ec" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="262" cy="296" r="9" fill="#5b8f3a"/><circle cx="276" cy="304" r="7" fill="#6ea64a"/>
+  <path d="M150 324 q20 -10 40 0" fill="none" stroke="#e7b7a6" stroke-width="7" stroke-linecap="round"/></g>
+    <rect x="92" y="386" width="92" height="24" rx="4" fill="#f0e6c8"/>
+    <text x="138" y="403" text-anchor="middle" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="13" font-weight="700" fill="#2f5d50">5食入</text>
+    <text x="328" y="403" text-anchor="end" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="11" fill="#ffffffb3">−18℃以下で保存</text>
+    <rect x="70" y="60" width="280" height="380" fill="url(#sheen)"/>
+  </svg>
