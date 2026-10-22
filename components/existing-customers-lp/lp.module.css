@@ -133,7 +133,7 @@
 .bridge b { color: var(--ink); border-bottom: 2px solid var(--ink); }
 
 /* ------------------------------------------------------------ レポートの中身 */
-.gallery { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px 28px; }
+.gallery { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px 20px; }
 .galleryThumb { display: block; width: 100%; padding: 0; border: 1px solid #e4e7ea; background: #fff; box-shadow: var(--paper-shadow); cursor: zoom-in; transition: transform .2s ease; }
 .galleryThumb:hover { transform: translateY(-3px); }
 .galleryThumb:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }

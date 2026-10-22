@@ -1,21 +1,15 @@
 """
-既存顧客企業クローズアップ　サンプルレポート（表紙＋12ページ）を生成する。
+既存顧客企業クローズアップ　分析レポートのサンプル（表紙＋8ページ）を生成する。
 
-土台は Neunon Consulting の公式スライドテンプレート（ver3。サンプルの頁を除いたもの）の
-マスター（フッター・ロゴ・表紙）。本文はコンサルティングの報告書の作法で組む:
-  白地に黒とグレー。色はブランドの青1色だけを、強調したい数字・区画・線に使う。
-  塗りの箱やラベルの飾りは使わず、罫線と文字の太さで区切る。結論はタイトルに書く。
+実際の納品物（顧客企業クローズアップ ver1〜8、提案書用材料_クローズアップ系）と同じ作り方にする:
+  公式テンプレート（ver3）／タイトル「社名（n）　章名」＋メッセージ1〜2行／中央の節見出しと罫線／
+  灰色のラベル列＋■と–の箇条書き／赤字は提案につながる事実／橙字は技術検討先／商品画像／注・出所。
 
-実際の納品物（ボリューム大）の構成にならったページ:
-  (1) サマリー (2) 会社概要・グループ (3) 業績推移 (4) 事業別の売上構成 (5) 主要組織図
-  (6) 顧客・販売チャネル (7) 商品ラインナップ (8) ブランド別売上推移 (9) ブランド詳細
-  (10) 変化のシグナル (11) 取引マップ (12) 提案のヒント
-ページの構成は依頼ごとに決めるもので、プランとの対応は固定しない。
-
-設定:
-  分析対象   サンプル食品株式会社 … 関東の中堅食品メーカー（説明用のサンプル）
-  依頼元     サンプル物流株式会社 … 低温物流（冷凍・冷蔵の保管と配送）
-数値・出来事・組織・提案のヒントはすべて説明用に作ったもので、実在企業の情報ではない。
+設定（すべて架空）:
+  分析対象  サンプル化粧品株式会社 … 大阪の中堅化粧品・日用品メーカー（非上場）
+  依頼元    サンプル容器株式会社   … プラスチック容器メーカー（ボトル・ポンプ・ジャー・エアレス・パウチ）
+  ブランド  ミナモ（敏感肌スキンケア）／クラシカ（高価格スキンケア）／ハレノヒ（UV）／ルフレ（ヘアケア）
+数値は各ページで整合させている（事業別の合計＝売上、ブランド別の合計＝売上、伸び率＝数値から計算）。
 
 実行: py design/existing-customers-sample/build_report.py
 出力: design/existing-customers-sample/existing-customers-sample.pptx
@@ -23,76 +17,70 @@
 from pathlib import Path
 
 from lxml import etree
+from PIL import Image
 from pptx import Presentation
 from pptx.chart.data import CategoryChartData
 from pptx.dml.color import RGBColor
-from pptx.enum.chart import XL_CHART_TYPE, XL_LABEL_POSITION, XL_MARKER_STYLE
+from pptx.enum.chart import XL_CHART_TYPE, XL_LABEL_POSITION
 from pptx.enum.shapes import MSO_CONNECTOR, MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.oxml.ns import qn
 from pptx.util import Inches, Pt
 
 HERE = Path(__file__).parent
-ILL = HERE / "illustrations"
+PACK = HERE / "packshots"
 TEMPLATE = HERE / "neunon-template.pptx"
 OUT = HERE / "existing-customers-sample.pptx"
 
-COMPANY = "サンプル食品株式会社"
+COMPANY = "サンプル化粧品株式会社"
+CLIENT = "サンプル容器株式会社"
 DATE = "2026/10/22"
-FONT = "BIZ UDPゴシック"
 
-INK = RGBColor(0x11, 0x11, 0x11)
-G1 = RGBColor(0x33, 0x33, 0x33)
+INK = RGBColor(0x00, 0x00, 0x00)
+G1 = RGBColor(0x40, 0x40, 0x40)
 G2 = RGBColor(0x59, 0x59, 0x59)
 G3 = RGBColor(0x7F, 0x7F, 0x7F)
-G4 = RGBColor(0xA6, 0xA6, 0xA6)
-G5 = RGBColor(0xD0, 0xD0, 0xD0)
-G6 = RGBColor(0xE6, 0xE6, 0xE6)
+G5 = RGBColor(0xBF, 0xBF, 0xBF)
+LABEL = RGBColor(0xE7, 0xE6, 0xE6)
 PANEL = RGBColor(0xF2, 0xF2, 0xF2)
 WHITE = RGBColor(0xFF, 0xFF, 0xFF)
-BLUE = RGBColor(0x12, 0x5B, 0x84)
-BLUE_L = RGBColor(0xD6, 0xE5, 0xEE)
-
-SAMPLE = "説明用に作成したサンプル（実在企業の情報ではない）"
+RED = RGBColor(0xE0, 0x00, 0x00)
+ORANGE = RGBColor(0xED, 0x7D, 0x31)
+# 実物のグラフと同じ、淡い青灰の階調
+C1 = RGBColor(0xDE, 0xE6, 0xF0)
+C2 = RGBColor(0xB9, 0xC9, 0xDE)
+C3 = RGBColor(0x8F, 0xA8, 0xC8)
+C4 = RGBColor(0x5B, 0x76, 0x9C)
+C5 = RGBColor(0x33, 0x45, 0x63)
 
 prs = Presentation(TEMPLATE)
 LAYOUT = next(l for l in prs.slide_layouts if l.name == "タイトル")
-R = PP_ALIGN.RIGHT
-L = PP_ALIGN.LEFT
-C = PP_ALIGN.CENTER
+L, C, R = PP_ALIGN.LEFT, PP_ALIGN.CENTER, PP_ALIGN.RIGHT
+TOP, MID = MSO_ANCHOR.TOP, MSO_ANCHOR.MIDDLE
 
 
-# ------------------------------------------------------------------ 文字
-def set_font(font, size=None, bold=None, color=None):
-    if size is not None:
-        font.size = Pt(size)
-    if bold is not None:
-        font.bold = bold
-    if color is not None:
-        font.color.rgb = color
-    font.name = FONT
-    rpr = font._rPr
-    for tag in ("a:ea", "a:cs"):
-        for el in rpr.findall(qn(tag)):
-            rpr.remove(el)
-        etree.SubElement(rpr, qn(tag)).set("typeface", FONT)
-
-
+# ------------------------------------------------------------------ 部品
 def style_run(run, size=10, bold=False, color=INK):
-    set_font(run.font, size, bold, color)
+    run.font.size = Pt(size)
+    run.font.bold = bold
+    run.font.color.rgb = color
 
 
 def set_bullet(p, level):
     ppr = p._p.get_or_add_pPr()
-    ppr.set("marL", str(Inches(0.15 if level == 0 else 0.32)))
-    ppr.set("indent", str(-Inches(0.15)))
-    for tag in ("a:buFont", "a:buChar", "a:buNone", "a:buClr"):
+    ppr.set("marL", str(Inches(0.17 if level == 0 else 0.34)))
+    ppr.set("indent", str(-Inches(0.17)))
+    for tag in ("a:buFont", "a:buChar", "a:buNone"):
         for el in ppr.findall(qn(tag)):
             ppr.remove(el)
     f = etree.SubElement(ppr, qn("a:buFont"))
     c = etree.SubElement(ppr, qn("a:buChar"))
-    f.set("typeface", "Arial")
-    c.set("char", "•" if level == 0 else "–")
+    if level == 0:
+        f.set("typeface", "Wingdings")
+        c.set("char", "§")
+    else:
+        f.set("typeface", "Arial")
+        c.set("char", "–")
 
 
 def no_bullet(p):
@@ -106,9 +94,9 @@ def no_bullet(p):
         etree.SubElement(ppr, qn("a:buNone"))
 
 
-def text(slide, x, y, w, h, paras, size=10, align=L, anchor=MSO_ANCHOR.TOP, line=1.1, margin=0.0):
+def text(s, x, y, w, h, paras, size=10, align=L, anchor=TOP, line=1.0, margin=0.03):
     """paras: [str | (str, opts) | [(str, opts), ...]]  opts: size/bold/color/level/space"""
-    tb = slide.shapes.add_textbox(Inches(x), Inches(y), Inches(w), Inches(h))
+    tb = s.shapes.add_textbox(Inches(x), Inches(y), Inches(w), Inches(h))
     tf = tb.text_frame
     tf.word_wrap = True
     tf.vertical_anchor = anchor
@@ -119,8 +107,7 @@ def text(slide, x, y, w, h, paras, size=10, align=L, anchor=MSO_ANCHOR.TOP, line
         p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
         p.alignment = align
         p.line_spacing = line
-        level = None
-        space = None
+        level = space = None
         for r in runs:
             t, o = (r, {}) if isinstance(r, str) else r
             level = o.get("level", level)
@@ -135,41 +122,42 @@ def text(slide, x, y, w, h, paras, size=10, align=L, anchor=MSO_ANCHOR.TOP, line
         if space is not None:
             p.space_before = Pt(space)
         elif level is not None:
-            p.space_before = Pt(4 if level == 0 else 1)
+            p.space_before = Pt(3 if level == 0 else 0.5)
     return tb
 
 
-def bullets(slide, x, y, w, h, items, size=10, line=1.1):
+def bl(s, x, y, w, h, items, size=9.5, line=1.0):
+    """items: (level, text[, color[, bold]])"""
     paras = []
     for it in items:
         level, t = it[0], it[1]
         color = it[2] if len(it) > 2 else INK
         bold = it[3] if len(it) > 3 else False
         paras.append((t, {"level": level, "color": color, "bold": bold, "size": size if level == 0 else size - 0.5}))
-    return text(slide, x, y, w, h, paras, size=size, line=line)
+    return text(s, x, y, w, h, paras, size=size, line=line)
 
 
-def box(slide, x, y, w, h, fill=None, line=None, weight=0.75, shape=MSO_SHAPE.RECTANGLE, dash=False):
-    s = slide.shapes.add_shape(shape, Inches(x), Inches(y), Inches(w), Inches(h))
-    s.shadow.inherit = False
+def box(s, x, y, w, h, fill=None, line=None, weight=0.75, shape=MSO_SHAPE.RECTANGLE, dash=False):
+    b = s.shapes.add_shape(shape, Inches(x), Inches(y), Inches(w), Inches(h))
+    b.shadow.inherit = False
     if fill is None:
-        s.fill.background()
+        b.fill.background()
     else:
-        s.fill.solid()
-        s.fill.fore_color.rgb = fill
+        b.fill.solid()
+        b.fill.fore_color.rgb = fill
     if line is None:
-        s.line.fill.background()
+        b.line.fill.background()
     else:
-        s.line.color.rgb = line
-        s.line.width = Pt(weight)
+        b.line.color.rgb = line
+        b.line.width = Pt(weight)
         if dash:
-            s.line.dash_style = 4
-    s.text_frame.text = ""
-    return s
+            b.line.dash_style = 4
+    b.text_frame.text = ""
+    return b
 
 
-def line(slide, x1, y1, x2, y2, color=G5, weight=0.75, dash=False):
-    ln = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Inches(x1), Inches(y1), Inches(x2), Inches(y2))
+def line(s, x1, y1, x2, y2, color=G3, weight=0.75, dash=False):
+    ln = s.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Inches(x1), Inches(y1), Inches(x2), Inches(y2))
     ln.shadow.inherit = False
     ln.line.color.rgb = color
     ln.line.width = Pt(weight)
@@ -178,586 +166,562 @@ def line(slide, x1, y1, x2, y2, color=G5, weight=0.75, dash=False):
     return ln
 
 
-def head(slide, x, y, w, t, note=None):
-    """節見出し：太字＋黒の細い罫線"""
-    text(slide, x, y, w, 0.3, [(t, {"size": 11, "bold": True})], anchor=MSO_ANCHOR.BOTTOM)
-    if note:
-        text(slide, x, y, w, 0.3, [(note, {"size": 8, "color": G3})], align=R, anchor=MSO_ANCHOR.BOTTOM)
-    line(slide, x, y + 0.36, x + w, y + 0.36, INK, 1.0)
+def head(s, x, y, w, t):
+    """節見出し：中央寄せの太字＋灰の罫線（実物と同じ）"""
+    text(s, x, y, w, 0.3, [(t, {"size": 12, "bold": False})], align=C, anchor=MSO_ANCHOR.BOTTOM)
+    line(s, x, y + 0.33, x + w, y + 0.33, G3, 1.0)
 
 
-def takeaway(slide, x, y, w, h, body):
-    """そのページで言いたいこと。薄いグレーの地に太字で"""
-    box(slide, x, y, w, h, PANEL)
-    text(slide, x + 0.18, y + 0.1, 0.6, h - 0.2, [("示唆", {"size": 9.5, "bold": True, "color": BLUE})], anchor=MSO_ANCHOR.MIDDLE)
-    text(slide, x + 0.72, y + 0.08, w - 0.9, h - 0.16, [(body, {"size": 10.5, "bold": True})], anchor=MSO_ANCHOR.MIDDLE, line=1.2)
+def lab(s, x, y, w, h, t, size=10):
+    """灰色のラベル列"""
+    box(s, x, y, w, h, LABEL, G5, 0.5)
+    text(s, x, y, w, h, [(t, {"size": size})], align=C, anchor=MID, line=1.0)
 
 
-def grid_table(slide, x, y, widths, rows, row_h=0.32, size=9.5, align=None, hot=None, bold_first=True, total_last=False):
-    """罫線だけの表。rows[0] は見出し。hot: {(i, j)} は青の太字"""
-    hot = hot or set()
+def pic(s, name, x, bottom, h=None, w=None):
+    im = Image.open(PACK / f"{name}.png")
+    ratio = im.width / im.height
+    if h is None:
+        h = w / ratio
+    if w is None:
+        w = h * ratio
+    s.shapes.add_picture(str(PACK / f"{name}.png"), Inches(x), Inches(bottom - h), Inches(w), Inches(h))
+    return w
+
+
+def pics_row(s, names, x, bottom, width, max_h, gap=0.08):
+    """商品画像を横に並べる。画素の高さは描画時の実寸比なので、その比を保って縮める"""
+    sizes = [Image.open(PACK / f"{n}.png").size for n in names]
+    tallest = max(h for _, h in sizes)
+    k = max_h / tallest
+    total = sum(w for w, _ in sizes) * k + gap * (len(names) - 1)
+    if total > width:
+        k *= (width - gap * (len(names) - 1)) / (total - gap * (len(names) - 1))
+        total = width
+    cx = x + (width - total) / 2
+    for n, (w, h) in zip(names, sizes):
+        pic(s, n, cx, bottom, h=h * k, w=w * k)
+        cx += w * k + gap
+
+
+def callout(s, x, y, w, h, t, size=8.5):
+    box(s, x, y, w, h, PANEL, G3, 0.75, shape=MSO_SHAPE.RECTANGLE)
+    text(s, x, y, w, h, [(t, {"size": size})], align=L, anchor=MID, margin=0.05)
+
+
+def grid(s, x, y, widths, rows, row_h, size=9, head_fill=LABEL, aligns=None, colors=None, heights=None):
+    """表。rows[0] は見出し。colors: {(i, j): RGB}"""
+    colors = colors or {}
+    yy = y
     for i, row in enumerate(rows):
-        yy = y + i * row_h
+        rh = heights[i] if heights else row_h
         cx = x
         for j, val in enumerate(row):
             w = widths[j]
-            a = align[j] if align else L
-            is_head = i == 0
-            color = G3 if is_head else (BLUE if (i, j) in hot else INK)
-            bold = is_head or (bold_first and j == 0) or (i, j) in hot or (total_last and i == len(rows) - 1)
-            text(slide, cx + (0.04 if a == L else 0), yy, w - 0.08, row_h, [(val, {"size": size - (1 if is_head else 0), "bold": bold, "color": color})],
-                 align=a, anchor=MSO_ANCHOR.MIDDLE, line=1.0)
+            if i == 0:
+                box(s, cx, yy, w, rh, head_fill, G5, 0.5)
+            else:
+                box(s, cx, yy, w, rh, WHITE, G5, 0.5)
+            a = aligns[j] if aligns else L
+            col = colors.get((i, j), INK)
+            text(s, cx, yy, w, rh, [(val, {"size": size, "bold": i == 0 or col == RED, "color": col})],
+                 align=C if i == 0 else a, anchor=MID, margin=0.06, line=1.0)
             cx += w
-        if i == 0:
-            line(slide, x, yy + row_h, x + sum(widths), yy + row_h, INK, 1.0)
-        else:
-            line(slide, x, yy + row_h, x + sum(widths), yy + row_h, G5 if i < len(rows) - 1 else INK, 0.5 if i < len(rows) - 1 else 1.0)
+        yy += rh
+    return yy
 
 
 def style_chart(ch, size=9):
     ch.has_title = False
     ch.has_legend = False
-    set_font(ch.font, size, None, G2)
+    ch.font.size = Pt(size)
 
 
-def legend(slide, x, y, entries, size=8.5):
-    lx = x
-    for color, label, w in entries:
-        box(slide, lx, y + 0.07, 0.13, 0.13, color)
-        text(slide, lx + 0.18, y, w - 0.18, 0.27, [(label, {"size": size, "color": G2})], anchor=MSO_ANCHOR.MIDDLE)
-        lx += w
-
-
-def picture_row(slide, names, x, bottom, width, max_h, gap=0.05):
-    sizes = {"frozen-gyoza": (588, 831), "frozen-friedrice": (588, 831), "frozen-udon": (588, 831),
-             "chilled-gyoza": (680, 515), "chilled-salad": (510, 619), "sauce-gyoza": (352, 763),
-             "sauce-tsuyu": (440, 863), "sauce-dressing": (440, 863), "bulk-gyoza": (668, 819), "bulk-soup": (668, 819)}
-    ratios = [sizes[n][0] / sizes[n][1] for n in names]
-    h = min(max_h, (width - gap * (len(names) - 1)) / sum(ratios))
-    total = h * sum(ratios) + gap * (len(names) - 1)
-    cx = x + (width - total) / 2
-    for n, r in zip(names, ratios):
-        slide.shapes.add_picture(str(ILL / f"{n}-trim.png"), Inches(cx), Inches(bottom - h), height=Inches(h))
-        cx += h * r + gap
+def legend_v(s, x, y, entries, size=9, step=0.24):
+    for i, (color, name) in enumerate(entries):
+        box(s, x, y + i * step + 0.05, 0.2, 0.14, color, G3, 0.5)
+        text(s, x + 0.26, y + i * step, 1.4, 0.24, [(name, {"size": size})], anchor=MID, margin=0)
 
 
 PAGE_NO = [0]
 
 
-def page(section, title, source):
-    """本文ページの枠：章名・結論のタイトル・出所・日付・頁番号"""
+def page(title, message, source, note=None):
     PAGE_NO[0] += 1
     n = PAGE_NO[0]
     s = prs.slides.add_slide(LAYOUT)
     for ph in list(s.placeholders):
         if ph.placeholder_format.idx == 1:
             ph._element.getparent().remove(ph._element)
-    tf = s.shapes.title.text_frame
-    tf.text = title
-    tf.vertical_anchor = MSO_ANCHOR.BOTTOM
-    tf.word_wrap = True
-    p = tf.paragraphs[0]
-    p.alignment = L
-    p.line_spacing = 1.0
-    style_run(p.runs[0], 17, True, INK)
-    text(s, 0.38, 0.06, 5.0, 0.22, [(f"{COMPANY}　企業クローズアップ", {"size": 8, "color": G3})], anchor=MSO_ANCHOR.MIDDLE)
-    text(s, 5.47, 0.06, 5.0, 0.22, [[(f"{n:02d}  ", {"size": 8, "bold": True, "color": BLUE}), (section, {"size": 8, "bold": True, "color": G2})]],
-         align=R, anchor=MSO_ANCHOR.MIDDLE)
-    text(s, 1.7, 7.27, 1.0, 0.27, [(DATE, {"size": 9})], anchor=MSO_ANCHOR.MIDDLE)
+    s.shapes.title.text = f"{COMPANY}（{n}）　{title}"
+    for r in s.shapes.title.text_frame.paragraphs[0].runs:
+        style_run(r, 20, False, INK)
+    text(s, 0.36, 0.97, 10.11, 0.5, [(message, {"size": 14, "bold": True})], align=C, anchor=MID, line=1.0)
+    # 架空であることの表示（実物の「ボリューム」札の位置）
+    box(s, 9.12, 0.03, 1.36, 0.24, WHITE, G1, 0.75)
+    text(s, 9.12, 0.03, 1.36, 0.24, [("架空企業のサンプル", {"size": 8.5})], align=C, anchor=MID, margin=0)
+    text(s, 1.7, 7.27, 1.0, 0.27, [(DATE, {"size": 9})], anchor=MID)
     text(s, 9.6, 7.29, 0.85, 0.24, [(f"- {n} -", {"size": 9})], align=R)
-    text(s, 0.36, 6.98, 9.8, 0.26, [[("出所：", {"size": 7.5, "color": G3}), (source + "。" + SAMPLE, {"size": 7.5, "color": G3})]])
+    foot = [("出所：", {"size": 8, "color": G1}), (source, {"size": 8, "color": G1})]
+    if note:
+        foot += [("　　注：", {"size": 8, "color": G1}), (note, {"size": 8, "color": G1})]
+    text(s, 0.36, 6.98, 10.1, 0.27, [foot], anchor=MID)
     return s
 
 
-YEARS = ["2022", "2023", "2024", "2025", "2026予"]
+SRC_FICTION = "（いずれも想定）。社名・ブランド名・商品名・数値はすべて架空"
 
-# ======================================================================= (1) サマリー
-s = page("サマリー", "冷凍と業務用が成長をけん引。物流の接点は冷凍・EC・外食の3方面で広がる",
-         "決算公告・会社案内・プレスリリース・求人情報を想定")
-head(s, 0.36, 1.1, 2.95, "企業プロフィール")
-profile = [("本社", "埼玉県さいたま市"), ("設立", "1968年"), ("従業員", "640名（単体）"), ("売上高", "276億円（2026/3期予）"),
-           ("主な事業", "冷凍食品・チルド惣菜・調味料・業務用"), ("生産拠点", "埼玉工場、群馬第1・第2工場")]
-for i, (k, v) in enumerate(profile):
-    yy = 1.6 + i * 0.62
-    text(s, 0.36, yy, 2.95, 0.22, [(k, {"size": 8, "color": G3})])
-    text(s, 0.36, yy + 0.2, 2.95, 0.36, [(v, {"size": 10, "bold": True})])
-    line(s, 0.36, yy + 0.56, 3.31, yy + 0.56, G5, 0.5)
-
-head(s, 3.6, 1.1, 6.87, "4つの要点")
-finds = [
-    ("業績", "276", "億円", "3年で売上は約3割増。増収64億円の7割が冷凍食品", False),
-    ("顧客・販路", "55", "%", "量販の比率は63%から55%へ。外食・中食とEC・ふるさと納税が伸びる", False),
-    ("商品", "約2", "倍", "主力の冷凍ギョーザ「羽根つき一番」は4年で売上が約2倍の55億円に", False),
-    ("変化", "2026/04", "", "物流部を新設。物流企画職の求人に「委託先の再編」と記載", True),
-]
-for i, (cat, num, unit, body, hot) in enumerate(finds):
-    x = 3.6 + (i % 2) * 3.5
-    y = 1.6 + (i // 2) * 1.86
-    text(s, x, y, 3.3, 0.24, [(cat, {"size": 9, "bold": True, "color": G2})])
-    text(s, x, y + 0.24, 3.3, 0.62, [[(num, {"size": 26, "bold": True, "color": BLUE if hot else INK}), (" " + unit, {"size": 11, "bold": True})]],
-         anchor=MSO_ANCHOR.MIDDLE)
-    text(s, x, y + 0.9, 3.25, 0.62, [(body, {"size": 9.5, "color": G1})], line=1.2)
-    if i // 2 == 0:
-        line(s, x, y + 1.66, x + 3.3, y + 1.66, G5, 0.5)
-line(s, 7.0, 1.7, 7.0, 5.0, G5, 0.5)
-
-head(s, 0.36, 5.38, 10.11, "当社（低温物流）との接点")
-touch = [("冷凍の幹線輸送", "群馬の2工場から関東・関西へ"), ("冷凍の小口配送", "公式EC・ふるさと納税の返礼品"), ("外食店舗への配送", "関西・中部の外食チェーン3社")]
-for i, (t, b) in enumerate(touch):
-    x = 0.36 + i * 3.42
-    text(s, x, 5.86, 0.35, 0.5, [(str(i + 1), {"size": 18, "bold": True, "color": BLUE})])
-    text(s, x + 0.36, 5.86, 2.9, 0.3, [(t, {"size": 11, "bold": True})])
-    text(s, x + 0.36, 6.17, 2.9, 0.3, [(b, {"size": 9, "color": G2})])
-
-
-# ================================================================ (2) 会社概要・グループ
-s = page("会社概要", "群馬に冷凍の生産を集約。製造子会社2社と販売子会社1社のグループで事業を運営",
-         "会社案内・登記情報・プレスリリースを想定")
-head(s, 0.36, 1.1, 4.3, "基本情報")
-basic = [("項目", "内容"), ("商号", COMPANY), ("設立", "1968年4月"), ("本社", "埼玉県さいたま市"), ("資本金", "4.8億円"),
-         ("従業員数", "640名（単体）／1,120名（連結）"), ("売上高", "276億円（2026/3期予・単体）"),
-         ("事業内容", "冷凍食品・チルド惣菜・調味料の製造販売、業務用食品の販売"), ("上場", "非上場")]
-grid_table(s, 0.36, 1.52, [1.1, 3.2], basic, row_h=0.43, size=9.5)
-takeaway(s, 0.36, 5.6, 4.3, 1.2, "保管・配送はすべて外部に委託しており、自社の物流拠点を持たない")
-
-head(s, 4.95, 1.1, 5.52, "グループ構成")
-box(s, 6.27, 1.6, 2.9, 0.62, WHITE, INK, 1.25)
-text(s, 6.27, 1.6, 2.9, 0.62, [(COMPANY, {"size": 10.5, "bold": True}), ("本社・商品開発・量販営業", {"size": 8, "color": G3, "space": 1})],
-     align=C, anchor=MSO_ANCHOR.MIDDLE)
-line(s, 7.72, 2.22, 7.72, 2.45, G3, 1.0)
-line(s, 5.87, 2.45, 9.57, 2.45, G3, 1.0)
-children = [("群馬サンプル食品（株）", "冷凍食品の製造", "群馬第1・第2工場", True), ("サンプルデリカ（株）", "チルド惣菜の製造", "埼玉工場", False),
-            ("サンプル食品販売（株）", "業務用の営業・販売", "関東・関西", False)]
-for i, (name, role, site, hot) in enumerate(children):
-    x = 5.0 + i * 1.86
-    line(s, x + 0.87, 2.45, x + 0.87, 2.63, G3, 1.0)
-    box(s, x, 2.63, 1.74, 1.25, WHITE, BLUE if hot else G4, 1.5 if hot else 0.75)
-    text(s, x + 0.08, 2.7, 1.58, 1.12, [(name, {"size": 9, "bold": True, "color": BLUE if hot else INK}), (role, {"size": 9, "space": 6}),
-                                        (site, {"size": 8, "color": G3, "space": 1})], align=C, anchor=MSO_ANCHOR.MIDDLE)
-head(s, 4.95, 4.2, 5.52, "主な拠点")
-sites = [("本社", "埼玉県さいたま市", False), ("埼玉工場", "チルド惣菜・調味料", False), ("群馬第1工場", "冷凍食品", False),
-         ("群馬第2工場", "冷凍ギョーザ・冷凍麺（2026/04稼働）", True), ("関西営業所", "大阪府大阪市", False)]
-for i, (k, v, hot) in enumerate(sites):
-    yy = 4.64 + i * 0.42
-    text(s, 4.95, yy, 1.5, 0.38, [(k, {"size": 9.5, "bold": True, "color": BLUE if hot else INK})], anchor=MSO_ANCHOR.MIDDLE)
-    text(s, 6.5, yy, 3.97, 0.38, [(v, {"size": 9.5, "color": BLUE if hot else INK, "bold": hot})], anchor=MSO_ANCHOR.MIDDLE)
-    line(s, 4.95, yy + 0.4, 10.47, yy + 0.4, G5, 0.5)
-
-
-# =================================================================== (3) 業績推移
-s = page("業績", "5期連続の増収。営業利益率は4.3%から5.3%へ改善した", "決算公告を想定。2026年度は会社予想")
-head(s, 0.36, 1.1, 6.4, "売上高の推移", "単位：億円")
+# ============================================================ (1) 会社概要
+s = page("会社概要",
+         "敏感肌スキンケアとUVが成長をけん引し、3年で売上は約2割増\n中期経営計画でプラスチック削減と海外生産を柱に据える",
+         "会社案内、決算公告、中期経営計画「2028」、プレスリリース" + SRC_FICTION,
+         "*1. 2026/3期は会社予想")
+head(s, 0.36, 1.5, 4.95, "基本情報・業績")
+lab(s, 0.36, 1.95, 0.72, 2.62, "売上/\n利益")
 d = CategoryChartData()
-d.categories = YEARS
-d.add_series("売上高", (198, 212, 228, 251, 276))
-ch = s.shapes.add_chart(XL_CHART_TYPE.COLUMN_CLUSTERED, Inches(0.3), Inches(1.55), Inches(6.5), Inches(3.0), d).chart
-style_chart(ch)
-ch.plots[0].gap_width = 70
-ser = ch.plots[0].series[0]
-ser.format.fill.solid()
-ser.format.fill.fore_color.rgb = G4
-ser.points[4].format.fill.solid()
-ser.points[4].format.fill.fore_color.rgb = BLUE
-ser.data_labels.show_value = True
-ser.data_labels.position = XL_LABEL_POSITION.OUTSIDE_END
-set_font(ser.data_labels.font, 11, True, INK)
-ch.value_axis.visible = False
-ch.value_axis.has_major_gridlines = False
-ch.value_axis.minimum_scale = 0
-ch.value_axis.maximum_scale = 320
-ch.category_axis.format.line.color.rgb = INK
-set_font(ch.category_axis.tick_labels.font, 10, None, G1)
-
-head(s, 0.36, 4.7, 6.4, "営業利益率の推移")
-d = CategoryChartData()
-d.categories = YEARS
-d.add_series("営業利益率", (4.3, 4.6, 4.8, 5.0, 5.3))
-ch = s.shapes.add_chart(XL_CHART_TYPE.LINE_MARKERS, Inches(0.3), Inches(5.12), Inches(6.5), Inches(1.75), d).chart
-style_chart(ch)
-ser = ch.plots[0].series[0]
-ser.smooth = False
-ser.format.line.color.rgb = INK
-ser.format.line.width = Pt(1.75)
-ser.marker.style = XL_MARKER_STYLE.CIRCLE
-ser.marker.size = 6
-ser.marker.format.fill.solid()
-ser.marker.format.fill.fore_color.rgb = INK
-ser.marker.format.line.color.rgb = INK
-ser.data_labels.show_value = True
-ser.data_labels.number_format = '0.0"%"'
-ser.data_labels.number_format_is_linked = False
-ser.data_labels.position = XL_LABEL_POSITION.ABOVE
-set_font(ser.data_labels.font, 9.5, True, INK)
-ch.value_axis.visible = False
-ch.value_axis.has_major_gridlines = False
-ch.value_axis.minimum_scale = 3.4
-ch.value_axis.maximum_scale = 5.9
-ch.category_axis.visible = False
-
-head(s, 7.05, 1.1, 3.42, "主要な指標")
-kpis = [("売上高（2026/3期予）", "276", "億円", "前期比 +10%", False), ("営業利益（同）", "14.6", "億円", "営業利益率 5.3%", False),
-        ("年平均の伸び", "+8.7", "%", "2022 → 2026予", False), ("冷凍食品の売上比率", "41", "%", "2022年度は30%", True)]
-for i, (a, b, c, e, hot) in enumerate(kpis):
-    yy = 1.58 + i * 0.86
-    text(s, 7.05, yy, 3.42, 0.22, [(a, {"size": 8.5, "color": G3})])
-    text(s, 7.05, yy + 0.22, 1.9, 0.5, [[(b, {"size": 22, "bold": True, "color": BLUE if hot else INK}), (" " + c, {"size": 10, "bold": True})]],
-         anchor=MSO_ANCHOR.MIDDLE)
-    text(s, 8.95, yy + 0.22, 1.52, 0.5, [(e, {"size": 8.5, "color": G2})], align=R, anchor=MSO_ANCHOR.MIDDLE)
-    line(s, 7.05, yy + 0.78, 10.47, yy + 0.78, G5, 0.5)
-takeaway(s, 7.05, 5.2, 3.42, 1.6, "増収の主因は冷凍食品。群馬第2工場の稼働で、2027年度以降も冷凍の物量は増え続ける見込み")
-
-
-# ============================================================ (4) 事業別の売上構成
-s = page("業績", "増収64億円の7割が冷凍食品。当社が取引するチルド惣菜は横ばい", "決算公告・会社案内を想定")
-head(s, 0.36, 1.1, 5.55, "事業別の売上推移", "単位：億円")
-seg = [("調味料", (52, 53, 52, 52), G6), ("チルド惣菜", (61, 62, 63, 64), G5), ("業務用", (31, 34, 40, 47), G3),
-       ("冷凍食品", (68, 79, 96, 113), BLUE)]
-legend(s, 0.36, 1.55, [(BLUE, "冷凍食品", 1.1), (G3, "業務用", 0.95), (G5, "チルド惣菜", 1.2), (G6, "調味料", 0.9)])
-d = CategoryChartData()
-d.categories = ["2023", "2024", "2025", "2026予"]
+d.categories = ["2023/3", "2024/3", "2025/3", "2026/3予*1"]
+seg = [("その他（受託）", (38, 36, 34, 33), C5), ("UV・ボディ", (41, 48, 55, 63), C4), ("ヘアケア", (92, 95, 101, 112), C2),
+       ("スキンケア", (168, 176, 189, 204), C1)]
 for name, vals, _ in seg:
     d.add_series(name, vals)
 d.add_series("合計", (0, 0, 0, 0))
-ch = s.shapes.add_chart(XL_CHART_TYPE.COLUMN_STACKED, Inches(0.3), Inches(1.88), Inches(5.65), Inches(4.0), d).chart
-style_chart(ch)
-plot = ch.plots[0]
-plot.gap_width = 70
-plot.overlap = 100
-for i, ser in enumerate(plot.series):
+ch = s.shapes.add_chart(XL_CHART_TYPE.COLUMN_STACKED, Inches(1.1), Inches(2.05), Inches(3.05), Inches(2.25), d).chart
+style_chart(ch, 8)
+ch.plots[0].gap_width = 55
+ch.plots[0].overlap = 100
+for i, ser in enumerate(ch.plots[0].series):
     if i == 4:
         ser.format.fill.background()
         ser.format.line.fill.background()
-        for j, tot in enumerate((212, 228, 251, 276)):
+        for j, tot in enumerate((339, 355, 379, 412)):
             dl = ser.points[j].data_label
             dl.has_text_frame = True
             dl.text_frame.text = str(tot)
             dl.position = XL_LABEL_POSITION.INSIDE_BASE
-            style_run(dl.text_frame.paragraphs[0].runs[0], 11, True, INK)
+            style_run(dl.text_frame.paragraphs[0].runs[0], 9, True, INK)
         continue
     fill = seg[i][2]
     ser.format.fill.solid()
     ser.format.fill.fore_color.rgb = fill
-    ser.format.line.color.rgb = WHITE
-    ser.format.line.width = Pt(1)
+    ser.format.line.color.rgb = G3
+    ser.format.line.width = Pt(0.5)
     ser.data_labels.show_value = True
     ser.data_labels.position = XL_LABEL_POSITION.CENTER
-    set_font(ser.data_labels.font, 9, True, WHITE if fill in (BLUE, G3) else INK)
+    ser.data_labels.font.size = Pt(8)
+    ser.data_labels.font.color.rgb = WHITE if fill in (C4, C5) else INK
 ch.value_axis.visible = False
 ch.value_axis.has_major_gridlines = False
-ch.value_axis.maximum_scale = 300
-ch.value_axis.minimum_scale = 0
-ch.category_axis.format.line.color.rgb = INK
-set_font(ch.category_axis.tick_labels.font, 10, None, G1)
+ch.value_axis.maximum_scale = 460
+ch.category_axis.tick_labels.font.size = Pt(8)
+text(s, 1.12, 1.97, 1.0, 0.2, [("単位：億円", {"size": 8})], margin=0)
+legend_v(s, 4.2, 2.1, [(C1, "スキンケア"), (C2, "ヘアケア"), (C4, "UV・ボディ"), (C5, "その他（受託）")], size=8, step=0.22)
+text(s, 1.12, 4.28, 3.1, 0.28, [[("営業利益　", {"size": 8.5, "bold": True}), ("20 → 22 → 25 → 29億円（利益率 5.9% → 7.0%）", {"size": 8.5})]], anchor=MID, margin=0)
+lab(s, 0.36, 4.62, 0.72, 0.36, "従業員数")
+text(s, 1.15, 4.62, 4.1, 0.36, [("単体：760名、連結：1,180名（2026/3）", {"size": 9.5})], anchor=MID)
+lab(s, 0.36, 5.03, 0.72, 1.88, "事業概要\n経営動向")
+bl(s, 1.12, 5.02, 4.2, 1.9, [
+    (0, "化粧品・医薬部外品の企画・研究開発から製造・販売まで一貫（大阪本社、滋賀・茨城に工場）"),
+    (1, "スキンケアが売上の約5割。敏感肌の「ミナモ」が最大ブランド"),
+    (0, "中計「2028」（2024/5公表）：売上500億円、海外比率10%、容器のプラスチック使用量を2030年に30%削減", RED),
+    (0, "2025/10にタイ子会社を設立し、2026/10に現地生産を開始予定"),
+], size=9)
 
-head(s, 6.2, 1.1, 4.27, "事業別の伸び")
-rows = [("事業", "2023", "2026予", "年平均", "構成比"), ("冷凍食品", "68", "113", "+18.4%", "41%"), ("業務用", "31", "47", "+14.9%", "17%"),
-        ("チルド惣菜※", "61", "64", "+1.6%", "23%"), ("調味料", "52", "52", "±0.0%", "19%"), ("合計", "212", "276", "+9.2%", "100%")]
-grid_table(s, 6.2, 1.52, [1.17, 0.7, 0.75, 0.85, 0.8], rows, row_h=0.36, align=[L, R, R, R, R], hot={(1, 3), (2, 3)}, total_last=True)
-text(s, 6.2, 3.74, 4.27, 0.26, [("※ 当社の取引先事業", {"size": 8, "color": G3})])
-bullets(s, 6.2, 4.05, 4.27, 1.3, [(0, "冷凍は年18%、業務用は年15%で伸びる"), (0, "中計で冷凍比率を2028年度に50%へ"),
-                                  (0, "チルド惣菜は年2%弱。今の取引の延長では取引額は増えにくい")], size=9.5)
-takeaway(s, 6.2, 5.55, 4.27, 1.25, "伸びているのは当社の取引の外側。冷凍と業務用の物流に入れるかが、取引拡大の分かれ目")
+head(s, 5.55, 1.5, 4.92, "グループ組織図")
+box(s, 6.75, 1.98, 2.5, 0.42, WHITE, G1, 1.0)
+text(s, 6.75, 1.98, 2.5, 0.42, [(COMPANY, {"size": 10.5, "bold": True})], align=C, anchor=MID)
+text(s, 6.75, 2.42, 2.5, 0.22, [("非上場（創業家が過半を保有）", {"size": 8})], align=C, margin=0)
+line(s, 8.0, 2.64, 8.0, 2.82)
+line(s, 6.4, 2.82, 9.6, 2.82)
+kids = [("サンプルファクトリー㈱", "製造（滋賀工場・茨城工場）", "100%"), ("サンプル化粧品販売㈱", "百貨店・専門店向け販売", "100%"),
+        ("SAMPLE COSMETICS\n(THAILAND) Co., Ltd.", "2025/10設立、2026/10生産開始予定", "70%")]
+for i, (nm, role, pct) in enumerate(kids):
+    x = 5.6 + i * 1.62
+    line(s, x + 0.78, 2.82, x + 0.78, 3.1)
+    text(s, x + 0.82, 2.84, 0.6, 0.22, [(pct, {"size": 8})], margin=0)
+    box(s, x, 3.1, 1.56, 0.92, WHITE, G1, 0.75)
+    text(s, x, 3.1, 1.56, 0.92, [(nm, {"size": 8.5, "bold": True, "color": RED if i == 2 else INK}), (role, {"size": 7.5, "space": 2})],
+         align=C, anchor=MID, margin=0.04)
+rel = [("㈱サンプルロジ\n出荷・保管", "……非連結子会社、2019年設立"), ("関連会社 ㈱Y\nOEM受託の製造", "……持分法適用、出資比率30%"),
+       ("サンプル化粧品（上海）\n輸入販売", "……連結子会社、2026/3期に縮小方針")]
+for i, (nm, note) in enumerate(rel):
+    y = 4.35 + i * 0.66
+    box(s, 5.6, y, 1.85, 0.54, WHITE, G1, 0.75)
+    text(s, 5.6, y, 1.85, 0.54, [(nm, {"size": 8})], align=C, anchor=MID, margin=0.03)
+    text(s, 7.52, y, 2.95, 0.54, [(note, {"size": 8})], anchor=MID, margin=0)
+text(s, 5.55, 6.38, 4.92, 0.5, [("容器・資材の調達は本社の購買部が一括して担う（求人情報より推定）。タイ子会社の調達方針は未公表", {"size": 8.5, "color": RED})],
+     anchor=MID)
 
 
-# ================================================================== (5) 主要組織図
-s = page("組織", "2026年4月に物流部を新設。物流の意思決定が管理本部に集約された", "会社案内・人事異動の発表・求人情報を想定")
-box(s, 0.36, 1.14, 0.32, 0.18, WHITE, BLUE, 2.0)
-text(s, 0.76, 1.08, 2.0, 0.3, [("提案の起点・実務窓口", {"size": 8.5, "bold": True, "color": BLUE})], anchor=MSO_ANCHOR.MIDDLE)
-box(s, 2.6, 1.14, 0.32, 0.18, WHITE, INK, 1.25)
-text(s, 3.0, 1.08, 2.0, 0.3, [("関係する検討先（太字）", {"size": 8.5, "bold": True})], anchor=MSO_ANCHOR.MIDDLE)
-
-box(s, 4.67, 1.45, 1.5, 0.4, PANEL)
-text(s, 4.67, 1.45, 1.5, 0.4, [("取締役会", {"size": 9.5})], align=C, anchor=MSO_ANCHOR.MIDDLE)
-line(s, 5.42, 1.85, 5.42, 2.02, G3, 1.0)
-box(s, 4.42, 2.02, 2.0, 0.42, WHITE, INK, 1.0)
-text(s, 4.42, 2.02, 2.0, 0.42, [("代表取締役社長", {"size": 10, "bold": True})], align=C, anchor=MSO_ANCHOR.MIDDLE)
-line(s, 5.42, 2.44, 5.42, 2.66, G3, 1.0)
+# ============================================================ (2) 主要組織図
+s = page("主要組織図",
+         "2026/4にパッケージ開発部を新設し、容器の企画・仕様決定を商品開発から切り出した",
+         "公式サイト、組織改正・人事異動の発表、求人情報" + SRC_FICTION,
+         "2026/10時点の公開情報を提案活動の観点で整理した参考図（正式な組織図ではない）")
+text(s, 0.36, 1.48, 3.2, 0.24, [("赤太字：実際の提案の起点・実務窓口", {"size": 9, "bold": True, "color": RED})], margin=0)
+text(s, 0.36, 1.7, 3.2, 0.24, [("橙太字：技術検討先", {"size": 9, "bold": True, "color": ORANGE})], margin=0)
+box(s, 4.17, 1.5, 2.5, 0.34, WHITE, G1, 0.75)
+text(s, 4.17, 1.5, 2.5, 0.34, [("取締役会", {"size": 10})], align=C, anchor=MID)
+line(s, 5.42, 1.84, 5.42, 1.94)
+box(s, 3.92, 1.94, 3.0, 0.5, WHITE, G1, 0.75)
+text(s, 3.92, 1.94, 3.0, 0.5, [("代表取締役社長", {"size": 9.5}), ("（中村 正之 氏）", {"size": 8.5})], align=C, anchor=MID)
+line(s, 5.42, 2.44, 5.42, 2.6)
 cols = [
-    ("営業本部", [("量販営業部", None), ("業務用営業部", "rel"), ("EC推進室（2025/10新設）", "rel")]),
-    ("商品開発本部", [("冷凍開発部", None), ("チルド・調味料開発部", None)]),
-    ("生産本部", [("埼玉工場", None), ("群馬工場", None), ("生産管理部", "rel"), ("品質保証部", None)]),
-    ("管理本部", [("経営企画部", "rel"), ("物流部（2026/04新設）", "key"), ("購買部", None), ("総務人事部", None)]),
+    ("ブランド・企画", [("ブランド戦略部", "（森 智子 部長）", None), ("スキンケア企画部", "（西田 亮 部長）", "rel"), ("ヘアケア・ボディ企画部", "（小池 恵 部長）", None)]),
+    ("研究・開発", [("処方開発研究所", "（藤井 俊介 所長）", "tech"), ("パッケージ開発部\n2026/4新設", "（岡本 直樹 部長）", "key"), ("品質保証部", "（井上 健 部長）", None)]),
+    ("調達・品質・生産", [("購買部", "（高橋 裕子 部長）", "key"), ("生産技術部", "（サンプルファクトリー）", "tech"), ("滋賀工場・茨城工場", "", None)]),
+    ("販売・顧客接点", [("ドラッグストア営業部", "", None), ("EC事業部", "（木村 彩 部長）", "rel"), ("海外事業部", "（タイ子会社を管轄）", "rel")]),
+    ("経営・全社基盤", [("経営企画部", "", None), ("サステナビリティ推進室", "（2025/4新設）", "rel"), ("人事総務部", "", None)]),
 ]
-cw, cg = 2.42, 0.14
-line(s, 0.36 + cw / 2, 2.66, 0.36 + 3 * (cw + cg) + cw / 2, 2.66, G3, 1.0)
-for i, (bu, depts) in enumerate(cols):
-    x = 0.36 + i * (cw + cg)
-    line(s, x + cw / 2, 2.66, x + cw / 2, 2.84, G3, 1.0)
-    box(s, x, 2.84, cw, 0.42, PANEL)
-    text(s, x, 2.84, cw, 0.42, [(bu, {"size": 10, "bold": True})], align=C, anchor=MSO_ANCHOR.MIDDLE)
-    last = 3.42 + (len(depts) - 1) * 0.56 + 0.21
-    line(s, x + 0.16, 3.26, x + 0.16, last, G4, 0.75)
-    for k, (dname, mark) in enumerate(depts):
-        yy = 3.42 + k * 0.56
-        line(s, x + 0.16, yy + 0.21, x + 0.34, yy + 0.21, G4, 0.75)
-        color = BLUE if mark == "key" else (INK if mark == "rel" else G4)
-        box(s, x + 0.34, yy, cw - 0.34, 0.42, WHITE, color, 2.0 if mark == "key" else (1.0 if mark == "rel" else 0.5))
-        text(s, x + 0.34, yy, cw - 0.34, 0.42, [(dname, {"size": 9, "bold": mark is not None, "color": BLUE if mark == "key" else INK})],
-             align=C, anchor=MSO_ANCHOR.MIDDLE)
-takeaway(s, 0.36, 5.85, 10.11, 0.95,
-         "提案の起点は新設の物流部。届け先の要件は業務用営業部とEC推進室、物量の計画は生産管理部、委託先の評価には経営企画部が関わる")
+cw, gap = 1.94, 0.1
+line(s, 0.36 + cw / 2, 2.6, 0.36 + 4 * (cw + gap) + cw / 2, 2.6)
+for i, (grp, depts) in enumerate(cols):
+    x = 0.36 + i * (cw + gap)
+    line(s, x + cw / 2, 2.6, x + cw / 2, 2.72)
+    box(s, x, 2.72, cw, 3.42, None, G1, 0.75)
+    text(s, x, 2.76, cw, 0.3, [(grp, {"size": 10.5})], align=C, anchor=MID)
+    for k, (nm, who, mark) in enumerate(depts):
+        y = 3.12 + k * 0.98
+        color = RED if mark == "key" else (ORANGE if mark == "tech" else INK)
+        box(s, x + 0.12, y, cw - 0.24, 0.78, WHITE, color if mark in ("key", "tech") else G3, 1.5 if mark in ("key", "tech") else 0.5)
+        text(s, x + 0.12, y, cw - 0.24, 0.78, [(nm, {"size": 9, "bold": mark in ("key", "tech"), "color": color}),
+                                              (who, {"size": 7.5, "color": G1, "space": 1})], align=C, anchor=MID, margin=0.03)
+notes2 = [("パッケージ開発部", "容器の見た目・使いやすさ・環境対応の仕様を決める。ミナモのリニューアルで容器選定の起点", RED),
+          ("購買部", "サプライヤー選定・調達条件・相見積もりの実務窓口。タイ子会社の調達方針も所管（推定）", RED),
+          ("処方開発研究所・生産技術部", "処方と容器の適合（保存性・吐出量）、充填ラインとの適合・量産性の検討先", ORANGE)]
+for i, (k, v, col) in enumerate(notes2):
+    x = 0.36 + i * 3.4
+    box(s, x, 6.22, 3.27, 0.66, PANEL, G5, 0.5)
+    text(s, x, 6.22, 3.27, 0.66, [(k, {"size": 8.5, "bold": True, "color": col}), (v, {"size": 8, "space": 1})], anchor=MID, margin=0.06)
 
 
-# ============================================================ (6) 顧客・販売チャネル
-s = page("顧客・販路", "量販中心の販路から、外食・ECへ分散が進む。冷凍の届け先が増えている", "会社案内・プレスリリース・求人情報を想定")
-head(s, 0.36, 1.1, 5.0, "販売チャネル別の売上構成")
+# ============================================================ (3) ブランド・チャネル
+s = page("ブランド別売上・販売チャネル",
+         "「ミナモ」「ハレノヒ」が増収をけん引。EC比率が9%から16%へ上がり、小容量・詰替の需要が増える",
+         "決算説明資料、ブランド別の公表値、業界紙" + SRC_FICTION,
+         "*1. その他ブランド・受託を含む。ブランド別は公表値と業界紙の推計からの推計値")
+head(s, 0.36, 1.5, 4.0, "ブランド別売上推移")
 d = CategoryChartData()
-d.categories = ["2026予", "2023"]
-channel = [("量販", (55, 63), G2, 0.62), ("CVS", (11, 12), G4, 0.6), ("外食・中食", (17, 15), BLUE_L, 0.95),
-           ("EC・ふるさと納税", (6, 0), BLUE, 1.45), ("その他", (11, 10), G6, 0.7)]
-for name, vals, _, _ in channel:
+d.categories = ["2023/3", "2024/3", "2025/3", "2026/3予"]
+brands = [("その他*1", (112, 109, 111, 119), C1), ("ルフレ", (64, 66, 71, 78), C2), ("ハレノヒ", (33, 40, 46, 52), C3),
+          ("クラシカ", (42, 45, 48, 51), C4), ("ミナモ", (88, 95, 103, 112), C5)]
+for name, vals, _ in brands:
     d.add_series(name, vals)
-ch = s.shapes.add_chart(XL_CHART_TYPE.BAR_STACKED_100, Inches(0.3), Inches(1.55), Inches(5.1), Inches(1.95), d).chart
-style_chart(ch)
-ch.plots[0].gap_width = 50
+d.add_series("合計", (0, 0, 0, 0))
+ch = s.shapes.add_chart(XL_CHART_TYPE.COLUMN_STACKED, Inches(0.3), Inches(2.02), Inches(3.05), Inches(4.85), d).chart
+style_chart(ch, 8)
+ch.plots[0].gap_width = 45
 ch.plots[0].overlap = 100
 for i, ser in enumerate(ch.plots[0].series):
-    color = channel[i][2]
+    if i == 5:
+        ser.format.fill.background()
+        ser.format.line.fill.background()
+        for j, tot in enumerate((339, 355, 379, 412)):
+            dl = ser.points[j].data_label
+            dl.has_text_frame = True
+            dl.text_frame.text = str(tot)
+            dl.position = XL_LABEL_POSITION.INSIDE_BASE
+            style_run(dl.text_frame.paragraphs[0].runs[0], 9, True, INK)
+        continue
+    fill = brands[i][2]
     ser.format.fill.solid()
-    ser.format.fill.fore_color.rgb = color
-    ser.format.line.color.rgb = WHITE
-    ser.format.line.width = Pt(1)
+    ser.format.fill.fore_color.rgb = fill
+    ser.format.line.color.rgb = G3
+    ser.format.line.width = Pt(0.5)
     ser.data_labels.show_value = True
-    ser.data_labels.number_format = '0"%";;;'
-    ser.data_labels.number_format_is_linked = False
-    set_font(ser.data_labels.font, 9.5, True, WHITE if color in (G2, BLUE) else INK)
+    ser.data_labels.position = XL_LABEL_POSITION.CENTER
+    ser.data_labels.font.size = Pt(8)
+    ser.data_labels.font.color.rgb = WHITE if fill in (C4, C5) else INK
 ch.value_axis.visible = False
 ch.value_axis.has_major_gridlines = False
-ch.category_axis.format.line.fill.background()
-set_font(ch.category_axis.tick_labels.font, 10, None, G1)
-legend(s, 0.42, 3.55, [(c, n, w) for n, _, c, w in channel])
+ch.value_axis.maximum_scale = 450
+ch.category_axis.tick_labels.font.size = Pt(8)
+text(s, 0.36, 1.95, 1.0, 0.2, [("単位：億円", {"size": 8})], margin=0)
+legend_v(s, 3.38, 2.4, [(C5, "ミナモ"), (C4, "クラシカ"), (C3, "ハレノヒ"), (C2, "ルフレ"), (C1, "その他*1")], size=8.5)
 
-head(s, 0.36, 4.05, 5.0, "特徴・強み")
-strengths = [("看板商品を持つ", "冷凍ギョーザ「羽根つき一番」が冷凍売上の約5割。量販の冷凍売場で定番の棚を確保"),
-             ("2温度帯で作り、届ける", "チルドと冷凍を同じグループで製造。チルドは関西に即日配送の仕組みを持つ"),
-             ("生産拠点の増強", "群馬第2工場（冷凍）が2026/04に稼働し、冷凍の生産能力は約1.5倍に")]
-for i, (t, b) in enumerate(strengths):
-    yy = 4.55 + i * 0.75
-    text(s, 0.36, yy, 0.3, 0.3, [(str(i + 1), {"size": 12, "bold": True, "color": BLUE})])
-    text(s, 0.7, yy, 4.66, 0.3, [(t, {"size": 10.5, "bold": True})], anchor=MSO_ANCHOR.MIDDLE)
-    text(s, 0.7, yy + 0.3, 4.66, 0.42, [(b, {"size": 9, "color": G1})])
-
-head(s, 5.65, 1.1, 4.82, "主な販売先")
-rows = [("チャネル", "主な販売先", "2023→2026予"), ("量販", "関東・関西の大手スーパー。上位5社で量販売上の約6割", "63% → 55%"),
-        ("CVS", "大手コンビニのPB惣菜を製造", "12% → 11%"), ("外食・中食", "外食チェーン3社と新規契約（2026/06〜）、弁当事業者", "15% → 17%"),
-        ("EC", "公式EC（2025/10〜）、ふるさと納税の返礼品", "0% → 6%"), ("その他", "卸・生協", "10% → 11%")]
-grid_table(s, 5.65, 1.52, [1.0, 2.67, 1.15], rows, row_h=0.56, size=9, align=[L, L, R], hot={(4, 0), (4, 2)})
-takeaway(s, 5.65, 5.2, 4.82, 1.6, "量販向けの定期便だけでは、伸びる販路に届かない。外食店舗と個人宅という、温度管理が難しい届け先が増えている")
-
-
-# ============================================================== (7) 商品ラインナップ
-s = page("商品", "物流の接点が大きいのは冷凍食品と業務用。取引中のチルドは伸びが小さい",
-         "自社サイト・商品カタログを想定。価格は店頭想定（税込）")
-cats = [
-    ("冷凍食品", ["frozen-gyoza", "frozen-friedrice", "frozen-udon"], [
-        ("主な商品", "羽根つき一番（ギョーザ）、香ばし炒飯、讃岐風うどん"), ("価格帯", "298〜498円"), ("温度帯", "冷凍（−18℃以下）"),
-        ("主な販路", "量販・CVS・EC・ふるさと納税"), ("売上と伸び", "113億円　年+18%")], "物流の接点：大", True),
-    ("チルド惣菜", ["chilled-gyoza", "chilled-salad"], [
-        ("主な商品", "焼くだけ餃子、ポテトサラダ、きんぴら"), ("価格帯", "198〜398円"), ("温度帯", "チルド（10℃以下）・賞味3〜5日"),
-        ("主な販路", "量販の惣菜売場に毎日納品"), ("売上と伸び", "64億円　年+2%")], "当社取引中・伸び小", False),
-    ("調味料", ["sauce-gyoza", "sauce-tsuyu", "sauce-dressing"], [
-        ("主な商品", "餃子のたれ、そばつゆ、胡麻ドレッシング"), ("価格帯", "198〜548円"), ("温度帯", "常温"),
-        ("主な販路", "量販・EC（冷凍品と同梱）"), ("売上と伸び", "52億円　横ばい")], "物流の接点：小", False),
-    ("業務用", ["bulk-gyoza", "bulk-soup"], [
-        ("主な商品", "業務用冷凍ギョーザ（50個入）、スープの素"), ("価格帯", "ケース単位の取引"), ("温度帯", "冷凍中心"),
-        ("主な販路", "外食チェーン・弁当事業者"), ("売上と伸び", "47億円　年+15%")], "物流の接点：中・新規", True),
-]
-cw = 2.4
-for i, (name, pics, specs, verdict, grow) in enumerate(cats):
-    x = 0.36 + i * (cw + 0.17)
-    text(s, x, 1.1, cw, 0.3, [(name, {"size": 11, "bold": True})], anchor=MSO_ANCHOR.BOTTOM)
-    line(s, x, 1.46, x + cw, 1.46, INK, 1.0)
-    box(s, x, 1.56, cw, 1.6, PANEL)
-    picture_row(s, pics, x + 0.1, 3.08, cw - 0.2, 1.42)
-    yy = 3.28
-    for k, (label, value) in enumerate(specs):
-        rh = 0.62 if k == 0 else 0.47
-        hot = label == "売上と伸び" and grow
-        text(s, x, yy, cw, 0.2, [(label, {"size": 8, "color": G3})])
-        text(s, x, yy + 0.19, cw, rh - 0.2, [(value, {"size": 9.5, "bold": hot, "color": BLUE if hot else INK})], line=1.0)
-        line(s, x, yy + rh - 0.03, x + cw, yy + rh - 0.03, G5, 0.5)
-        yy += rh
-    text(s, x, 6.28, cw, 0.46, [(verdict, {"size": 10.5, "bold": True, "color": BLUE if grow else G2})], anchor=MSO_ANCHOR.MIDDLE)
-    line(s, x, 6.74, x + cw, 6.74, BLUE if grow else G4, 2.0 if grow else 0.75)
-
-
-# ============================================================ (8) ブランド別売上推移
-s = page("ブランド", "主力「羽根つき一番」は4年で約2倍。主要4ブランドがそろって伸びる",
-         "決算説明資料・プレスリリースを想定。2026年度は会社予想")
-head(s, 0.36, 1.1, 6.35, "主要4ブランドの売上推移", "単位：億円")
-brands = [("羽根つき一番", (28, 32, 38, 46, 55), BLUE, 2.75), ("業務用ギョーザ", (15, 17, 20, 24, 29), G2, 1.75),
-          ("香ばし炒飯", (18, 20, 23, 27, 31), G4, 1.75), ("讃岐風うどん", (10, 11, 13, 15, 17), G5, 1.75)]
+head(s, 4.55, 1.5, 5.92, "チャネル別売上構成比（2023/3 → 2026/3予）")
 d = CategoryChartData()
-d.categories = YEARS
-for name, vals, _, _ in brands:
+d.categories = ["2026/3予", "2023/3"]
+chs = [("ドラッグストア", (52, 58), C2), ("量販・バラエティ", (13, 14), C1), ("EC（自社・モール）", (16, 9), C5),
+       ("百貨店・専門店", (10, 11), C3), ("海外", (5, 3), C4), ("その他", (4, 5), PANEL)]
+for name, vals, _ in chs:
     d.add_series(name, vals)
-ch = s.shapes.add_chart(XL_CHART_TYPE.LINE_MARKERS, Inches(0.3), Inches(1.6), Inches(5.3), Inches(4.9), d).chart
-style_chart(ch)
+ch = s.shapes.add_chart(XL_CHART_TYPE.BAR_STACKED_100, Inches(4.5), Inches(1.95), Inches(6.0), Inches(1.65), d).chart
+style_chart(ch, 8)
+ch.plots[0].gap_width = 40
+ch.plots[0].overlap = 100
 for i, ser in enumerate(ch.plots[0].series):
-    _, _, color, wt = brands[i]
-    ser.smooth = False
-    ser.format.line.color.rgb = color
-    ser.format.line.width = Pt(wt)
-    ser.marker.style = XL_MARKER_STYLE.CIRCLE
-    ser.marker.size = 6
-    ser.marker.format.fill.solid()
-    ser.marker.format.fill.fore_color.rgb = color
-    ser.marker.format.line.color.rgb = color
-ch.value_axis.minimum_scale = 0
-ch.value_axis.maximum_scale = 60
-ch.value_axis.major_unit = 20
-ch.value_axis.has_major_gridlines = True
-ch.value_axis.major_gridlines.format.line.color.rgb = G6
-ch.value_axis.format.line.fill.background()
-set_font(ch.value_axis.tick_labels.font, 9, None, G3)
-ch.category_axis.format.line.color.rgb = INK
-set_font(ch.category_axis.tick_labels.font, 10, None, G1)
-for i, (name, vals, color, _) in enumerate(brands):
-    yy = {0: 2.02, 1: 3.98, 2: 3.62, 3: 4.76}[i]
-    c2 = color if color not in (G4, G5) else G2
-    text(s, 5.6, yy, 1.35, 0.3, [[(name + " ", {"size": 9, "bold": i == 0, "color": c2}), (str(vals[-1]), {"size": 11, "bold": True, "color": c2})]],
-         anchor=MSO_ANCHOR.MIDDLE)
+    fill = chs[i][2]
+    ser.format.fill.solid()
+    ser.format.fill.fore_color.rgb = fill
+    ser.format.line.color.rgb = G3
+    ser.format.line.width = Pt(0.5)
+    ser.data_labels.show_value = True
+    ser.data_labels.number_format = '0"%"'
+    ser.data_labels.number_format_is_linked = False
+    ser.data_labels.font.size = Pt(8.5)
+    ser.data_labels.font.color.rgb = WHITE if fill in (C4, C5) else INK
+ch.value_axis.visible = False
+ch.value_axis.has_major_gridlines = False
+ch.category_axis.tick_labels.font.size = Pt(8.5)
+lx = 4.62
+for color, name in [(C2, "ドラッグストア"), (C1, "量販・バラエティ"), (C5, "EC"), (C3, "百貨店・専門店"), (C4, "海外"), (PANEL, "その他")]:
+    box(s, lx, 3.66, 0.18, 0.13, color, G3, 0.5)
+    text(s, lx + 0.22, 3.6, 1.1, 0.24, [(name, {"size": 8})], anchor=MID, margin=0)
+    lx += 0.32 + len(name) * 0.12
 
-head(s, 7.05, 1.1, 3.42, "ブランド別の伸び")
-rows = [("ブランド", "2026予", "年平均"), ("羽根つき一番", "55", "+18.4%"), ("業務用ギョーザ", "29", "+17.9%"),
-        ("香ばし炒飯", "31", "+14.6%"), ("讃岐風うどん", "17", "+14.2%")]
-grid_table(s, 7.05, 1.52, [1.57, 0.85, 1.0], rows, row_h=0.4, align=[L, R, R], hot={(1, 2), (2, 2)})
-bullets(s, 7.05, 3.7, 3.42, 1.4, [(0, "上位2ブランドはどちらもギョーザ。家庭用と業務用の両方で伸びる"),
-                                  (0, "4ブランドの合計は132億円。2022年度の約1.9倍")], size=9.5)
-takeaway(s, 7.05, 5.3, 3.42, 1.5, "ギョーザの物量が増える。群馬で作り、関東・関西の量販と外食へ運ぶ流れが太くなる")
-
-
-# ============================================================== (9) ブランド詳細
-s = page("ブランド", "「羽根つき一番」：EC・返礼品の比率が上がり、冷凍の小口配送が増えていく", "自社サイト・商品カタログ・プレスリリースを想定")
-head(s, 0.36, 1.1, 4.1, "ブランド概要")
-rows = [("項目", "内容"), ("売上", "55億円（2026/3期予）年+18%"), ("商品数", "6商品（12・18・24個入り、大袋ほか）"),
-        ("主な顧客", "共働き世帯を中心とする家庭用"), ("主な販路", "量販・公式EC・ふるさと納税"), ("価格帯", "298〜498円（店頭想定）"),
-        ("温度帯", "冷凍（−18℃以下）"), ("生産", "群馬第1・第2工場")]
-grid_table(s, 0.36, 1.52, [1.05, 3.05], rows, row_h=0.46, size=9.5, hot={(1, 1)})
-head(s, 4.7, 1.1, 2.5, "商品")
-box(s, 4.7, 1.6, 2.5, 3.7, PANEL)
-picture_row(s, ["frozen-gyoza"], 4.85, 3.9, 2.2, 2.1)
-text(s, 4.7, 4.0, 2.5, 0.3, [("家庭用 12個入り", {"size": 8.5, "color": G2})], align=C)
-picture_row(s, ["bulk-gyoza"], 5.25, 5.08, 1.4, 0.95)
-text(s, 4.7, 5.08, 2.5, 0.22, [("業務用（50個入）", {"size": 8, "color": G3})], align=C)
-
-head(s, 7.45, 1.1, 3.02, "物流との接点")
-pts = [("生産が群馬に集約", "群馬から関東・関西への冷凍の幹線が太くなる", False),
-       ("個人宅への直送", "公式EC・返礼品で、冷凍の小口配送が新たに発生", True),
-       ("12月に需要の山", "返礼品は年末に集中しやすく、出荷の波が大きい", False)]
-for i, (t, b, hot) in enumerate(pts):
-    yy = 1.62 + i * 1.22
-    text(s, 7.45, yy, 0.3, 0.32, [(str(i + 1), {"size": 12, "bold": True, "color": BLUE})])
-    text(s, 7.78, yy, 2.69, 0.32, [(t, {"size": 10.5, "bold": True, "color": BLUE if hot else INK})])
-    text(s, 7.78, yy + 0.36, 2.69, 0.66, [(b, {"size": 9, "color": G1})], line=1.15)
-    line(s, 7.45, yy + 1.08, 10.47, yy + 1.08, G5, 0.5)
-takeaway(s, 0.36, 5.55, 10.11, 1.25, "主力ブランドの伸びは、量販への定期便より「個人宅への冷凍小口」と「年末の波」に表れる。今の委託先が得意とする領域の外側")
+head(s, 4.55, 3.95, 5.92, "ブランド別事業動向")
+bl(s, 4.55, 4.36, 5.92, 1.55, [
+    (0, "ミナモ：年+8.4%の最大ブランド。2026/3に処方・容器を全面リニューアル予定", RED, True),
+    (1, "ドラッグストアの敏感肌棚で定番化。EC限定の大容量・お試しサイズも展開"),
+    (0, "ハレノヒ：年+16.4%で最も伸びる。2026/6にスティック・スプレーを追加し剤型を拡大"),
+    (0, "ルフレ：詰替品の構成比が上昇（推定35% → 48%）し、本体ボトルの出荷は横ばい", RED, True),
+    (1, "中計のプラスチック削減目標の中心ブランド。付け替え式本体の検討を公表"),
+    (0, "クラシカ：百貨店・ECで堅調（年+6.7%）。ガラス容器中心"),
+    (0, "EC比率の上昇で、小容量・お試し・詰替の品目数が増加"),
+], size=9)
+grid(s, 4.55, 5.92, [2.6, 1.1, 1.1, 1.12], [("容器に関わる指標", "2023/3", "2026/3予", "変化"),
+                                            ("ルフレの詰替品の構成比（推定）", "35%", "48%", "+13pt"),
+                                            ("ECの取扱品目数", "128", "205", "約1.6倍"),
+                                            ("海外売上比率", "3%", "5%", "+2pt")], 0.24, size=8.4, aligns=[L, R, R, R],
+     colors={(1, 3): RED, (2, 3): RED})
 
 
-# =============================================================== (10) 変化のシグナル
-s = page("変化", "生産増強・新しい販路・組織の新設が2年で重なった。物流の見直し時期に入っている", "プレスリリース・求人情報を想定")
-head(s, 0.36, 1.1, 10.11, "直近2年の主な出来事")
-events = [
-    ("2024/04", "中期経営計画を公表", "冷凍の売上比率を2028年度に50%へ", "戦略", False),
-    ("2025/03", "群馬第2工場を着工", "冷凍ギョーザ・冷凍麺の専用ライン", "投資", False),
-    ("2025/10", "公式EC・ふるさと納税に参入", "冷凍ギョーザを個人宅へ直送", "販路", False),
-    ("2026/04", "群馬第2工場が稼働", "冷凍の生産能力が約1.5倍に", "投資", False),
-    ("2026/04", "物流部を新設", "物流企画職の求人で「委託先の再編」に言及", "組織", True),
-    ("2026/06", "外食チェーン3社へ供給開始", "関西・中部の店舗へ業務用を納品", "販路", False),
+# ============================================================ (4) 商品ラインナップ
+s = page("商品ラインナップ",
+         "スキンケアはボトル・エアレス・ジャー、UVはチューブ・スプレー、ヘアケアはポンプ・詰替と\n剤型ごとに容器接点が広い",
+         "公式サイト、公式EC、商品カタログ" + SRC_FICTION + "。価格は税込の想定")
+cats = [
+    ("ミナモ（敏感肌スキンケア）", [
+        (0, "化粧水・乳液・美容液・クリームの4ステップ、計14品目"),
+        (0, "1,320〜3,300円"),
+        (0, "化粧水は200mL PETボトル、乳液はポンプ、美容液はエアレス、クリームはジャー"),
+        (1, "2026/3のリニューアルで、美容液・乳液をエアレス化する方針（求人より）", RED),
+    ], ["minamo-lotion", "minamo-milk", "minamo-serum", "minamo-cream"]),
+    ("クラシカ（高価格スキンケア）", [
+        (0, "化粧水・美容液・クリームの3品目。百貨店とECのみ"),
+        (0, "6,600〜16,500円"),
+        (0, "すりガラスのボトル・ジャーに金のキャップ"),
+        (1, "ガラスが中心で、当社の樹脂容器とは接点が小さい"),
+    ], ["classica-lotion", "classica-cream"]),
+    ("ハレノヒ（UV）", [
+        (0, "ジェル・ミルク・スプレー、2026/6にスティックを追加"),
+        (0, "990〜1,980円"),
+        (0, "ジェルはラミネートチューブ、スプレーはエアゾール缶"),
+        (1, "スティックは新規の剤型で、容器の調達先は未定（推定）", RED),
+    ], ["harenohi-tube", "harenohi-spray", "harenohi-stick"]),
+    ("ルフレ（ヘアケア）・ボディ", [
+        (0, "シャンプー・トリートメント・ヘアオイル・泡ハンドソープ"),
+        (0, "本体1,540円、詰替1,100円（900mL）"),
+        (0, "480mLポンプボトルと、900mLの詰替スタンドパウチ"),
+        (1, "詰替の比率上昇で、本体は長く使える設計（付け替え式）が論点に", RED),
+    ], ["refre-shampoo", "refre-treatment", "refre-refill", "body-foam"]),
 ]
-colw = 10.11 / 6
-axis = 2.05
-line(s, 0.36, axis, 10.47, axis, INK, 1.0)
-for i, (dte, t, b, tag, hot) in enumerate(events):
-    x = 0.36 + i * colw
-    color = BLUE if hot else INK
-    box(s, x + 0.02, axis - 0.07, 0.14, 0.14, color, shape=MSO_SHAPE.OVAL)
-    text(s, x, 1.55, colw - 0.1, 0.3, [(dte, {"size": 10, "bold": True, "color": color})], anchor=MSO_ANCHOR.BOTTOM)
-    text(s, x, 2.25, colw - 0.15, 0.24, [(tag, {"size": 8.5, "color": G3})])
-    text(s, x, 2.5, colw - 0.15, 0.7, [(t, {"size": 11, "bold": True, "color": color})], line=1.1)
-    text(s, x, 3.25, colw - 0.15, 0.8, [(b, {"size": 9, "color": G1})], line=1.2)
-    if hot:
-        box(s, x - 0.06, 1.5, colw - 0.02, 2.65, None, BLUE, 1.5)
-
-head(s, 0.36, 4.45, 10.11, "物流から見た意味")
-meaning = [("生産・投資", "群馬の冷凍の生産が増え、関東・関西への幹線の物量が増える"),
-           ("販路", "個人宅と外食店舗という、新しい届け先が生まれた"),
-           ("組織", "物流の意思決定者ができ、委託先の再編を検討している")]
-for i, (k, v) in enumerate(meaning):
-    x = 0.36 + i * 3.42
-    text(s, x, 4.95, 3.2, 0.26, [(k, {"size": 9, "bold": True, "color": G2})])
-    text(s, x, 5.22, 3.2, 0.6, [(v, {"size": 10, "bold": True})], line=1.2)
-takeaway(s, 0.36, 6.05, 10.11, 0.78, "生産能力1.5倍・販路の拡大・物流部の新設。委託体制を見直す条件がそろった")
+extra = [("ドラッグストア・EC", "112億円　年+8.4%", "容器接点：大", True),
+         ("百貨店・EC", "51億円　年+6.7%", "容器接点：小", False),
+         ("ドラッグストア・量販", "52億円　年+16.4%", "容器接点：中", True),
+         ("ドラッグストア・EC", "78億円　年+6.8%", "容器接点：大", True)]
+cw = 2.45
+for i, (nm, items, packs) in enumerate(cats):
+    x = 0.36 + i * (cw + 0.105)
+    text(s, x, 1.52, cw, 0.3, [(nm, {"size": 10.5})], align=C, anchor=MID)
+    line(s, x, 1.86, x + cw, 1.86, G3, 1.0)
+    rows = [("主な商品", items[0][1]), ("価格帯", items[1][1]), ("主な販路", extra[i][0]), ("容器形態", items[2][1])]
+    bl(s, x, 1.93, cw, 2.15, [(0, f"{k}：{v}") for k, v in rows] + [items[3]], size=8.5)
+    box(s, x, 3.52, cw, 2.9, PANEL)
+    pics_row(s, packs, x + 0.1, 6.28, cw - 0.2, 2.55, gap=0.05)
+    sales, touch, hot = extra[i][1], extra[i][2], extra[i][3]
+    text(s, x, 6.46, cw * 0.55, 0.42, [("売上（2026/3予）", {"size": 7.5, "color": G1}), (sales, {"size": 9, "bold": True})], anchor=MID, margin=0.02)
+    box(s, x + cw * 0.56, 6.5, cw * 0.44, 0.34, C5 if hot else LABEL, G5, 0.5)
+    text(s, x + cw * 0.56, 6.5, cw * 0.44, 0.34, [(touch, {"size": 8.5, "bold": True, "color": WHITE if hot else INK})], align=C, anchor=MID, margin=0)
 
 
-# ================================================================= (11) 取引マップ
-s = page("取引", "当社の取引はチルド・関西の1区画のみ。伸びる冷凍側に、委託先が固まっていない区画が3つ",
-         "プレスリリース・求人情報と、依頼元の取引実績を突合して作成")
-steps = ["保管・横持ち", "量販・CVS配送", "EC・個人宅配送", "外食店舗配送"]
-rows4 = ["冷凍食品", "チルド惣菜", "調味料", "業務用"]
-grid = [["O", "O", "N", "X"], ["O", "T", "X", "X"], ["O", "O", "N", "X"], ["O", "X", "X", "N"]]
-notes = [["大手3PL", "大手3PL", "2025/10〜", ""], ["自社倉庫", "関西のみ当社", "", ""],
-         ["他社", "大手3PL", "冷凍と同梱", ""], ["他社", "", "", "2026/06〜"]]
-STATE = {"T": (BLUE, WHITE, "当社取引中"), "O": (PANEL, G1, "他社委託"), "N": (WHITE, BLUE, "新規・未取引"), "X": (WHITE, G4, "対象外")}
-GX, CWD, CG, GY, RH, RG = 1.95, 1.62, 0.06, 1.72, 0.97, 0.07
-for j, st in enumerate(steps):
-    x = GX + j * (CWD + CG)
-    text(s, x, 1.15, CWD, 0.4, [(st, {"size": 9.5, "bold": True})], align=C, anchor=MSO_ANCHOR.BOTTOM)
-    line(s, x, 1.6, x + CWD, 1.6, INK, 1.0)
-for i, name in enumerate(rows4):
-    yy = GY + i * (RH + RG)
-    text(s, 0.36, yy, 1.5, RH, [(name, {"size": 10.5, "bold": True})], anchor=MSO_ANCHOR.MIDDLE)
-    for j in range(4):
-        k = grid[i][j]
-        fill, fg, label = STATE[k]
-        xx = GX + j * (CWD + CG)
-        box(s, xx, yy, CWD, RH, fill, BLUE if k == "N" else (G6 if k == "X" else None), 1.75 if k == "N" else 0.5, dash=k == "N")
-        paras = [(label, {"size": 10, "bold": k != "X", "color": fg})]
-        if notes[i][j]:
-            paras.append((notes[i][j], {"size": 8.5, "color": fg, "space": 2}))
-        text(s, xx, yy, CWD, RH, paras, align=C, anchor=MSO_ANCHOR.MIDDLE)
-for k, key in enumerate(("T", "O", "N", "X")):
-    fill, fg, label = STATE[key]
-    lx = 1.95 + k * 1.5
-    box(s, lx, 6.03, 0.24, 0.17, fill, BLUE if key == "N" else G5, 1.25, dash=key == "N")
-    text(s, lx + 0.3, 5.98, 1.15, 0.27, [(label, {"size": 8.5, "color": G2})], anchor=MSO_ANCHOR.MIDDLE)
-
-px = 8.85
-head(s, px, 1.1, 1.62, "区画の数")
-counts = [("当社取引中", "1", BLUE), ("新規・未取引", "3", BLUE), ("他社委託", "6", INK)]
-for i, (lab, num, color) in enumerate(counts):
-    yy = 1.62 + i * 1.0
-    text(s, px, yy, 1.62, 0.24, [(lab, {"size": 9, "color": G2})])
-    text(s, px, yy + 0.24, 1.62, 0.6, [[(num, {"size": 28, "bold": True, "color": color}), (" 区画", {"size": 10, "bold": True})]],
-         anchor=MSO_ANCHOR.MIDDLE)
-    line(s, px, yy + 0.9, px + 1.62, yy + 0.9, G5, 0.5)
-text(s, px, 4.7, 1.62, 1.1, [("未取引の3区画は、どれも2025年以降に生まれた物流", {"size": 9.5, "bold": True})], line=1.2)
-takeaway(s, 0.36, 6.32, 10.11, 0.58, "既存の委託先と競わずに入れる区画がある。新しく生まれた物流から取引を広げる")
-
-
-# ================================================================= (12) 提案のヒント
-s = page("提案", "委託先の見直し前の今が好機。新しく生まれた3つの物流から入る",
-         "(1)〜(11)の分析にもとづく。初回の訪問で確認が必要な事項を含む")
-head(s, 0.36, 1.1, 4.3, "調べてわかったこと")
-head(s, 5.15, 1.1, 5.32, "そこから言えること（提案のヒント）")
-hints = [
-    ("2026/04に物流部を新設。物流企画職の求人に「委託先の再編」と記載。冷凍の保管・配送は大手3PLに集中",
-     "委託先を見直す前の今が、比較の候補に入る時期。冷凍を2社体制にした場合のコストと災害時の備えを示せる"),
-    ("2026/06から関西・中部の外食チェーン3社へ業務用を供給。当社は関西で量販向けチルド便を毎日運行",
-     "既存のチルド便に冷凍を混載し、店舗へ一括で納品できる。冷凍専用便の大手3PLにない切り口になる"),
-    ("2025/10に公式EC・ふるさと納税へ参入。返礼品は冷凍ギョーザ。発送体制は未公表",
-     "12月に集中する冷凍の小口出荷を、期間を区切って請け負える。小さく実績を作り、1の比較につなげる"),
+# ============================================================ (5) 直近の事業動向
+s = page("直近の事業動向",
+         "2024年以降、中計・工場増設・組織新設・海外生産が続き、容器の仕様と調達先を見直す局面にある",
+         "各社発表のプレスリリース・求人情報・業界紙" + SRC_FICTION,
+         "赤字は容器の需要・仕様・調達先に影響する出来事")
+rows = [("時期", "区分", "出来事", "内容", "容器への影響", "出所（確認日）")]
+ev = [
+    ("2024/5", "戦略", "中期経営計画「2028」を公表", "売上500億円、海外比率10%、2030年に容器のプラスチック使用量30%削減", "詰替・薄肉化・再生材の採用が進む", "中計資料（2026/10/15）"),
+    ("2024/11", "商品", "ルフレの詰替を全品目に拡大", "シャンプー・トリートメント・ボディの詰替を発売", "本体ボトルの出荷が減り、パウチが増える", "プレスリリース（同上）"),
+    ("2025/3", "投資", "滋賀工場にUV・チューブの充填ラインを増設", "投資額18億円。チューブ充填能力は約1.4倍", "チューブの調達量が増える", "業界紙（2026/10/16）"),
+    ("2025/10", "海外", "タイ子会社を設立（出資70%）", "2026/10に現地生産を開始し、ASEANへ供給", "現地調達の容器が必要になる", "プレスリリース（2026/10/15）"),
+    ("2026/3予", "商品", "ミナモを全面リニューアル", "処方を刷新。美容液・乳液の容器をエアレス化（求人より）", "エアレス容器の新規採用", "求人情報（2026/10/18）"),
+    ("2026/4", "組織", "パッケージ開発部を新設", "容器の企画・仕様決定を商品開発から独立", "容器選定の窓口が明確になる", "人事異動の発表（2026/10/15）"),
+    ("2026/6", "商品", "ハレノヒにスティック・スプレーを追加", "UVの剤型を拡大", "新しい剤型の容器が必要", "プレスリリース（2026/10/15）"),
 ]
-for i, (fact, hint) in enumerate(hints):
-    yy = 1.62 + i * 1.35
-    text(s, 0.36, yy, 0.35, 0.5, [(str(i + 1), {"size": 20, "bold": True, "color": BLUE})])
-    text(s, 0.78, yy + 0.04, 3.88, 1.1, [(fact, {"size": 10, "color": G1})], line=1.25)
-    text(s, 4.7, yy + 0.25, 0.4, 0.4, [("→", {"size": 16, "bold": True, "color": G3})], align=C)
-    text(s, 5.15, yy + 0.04, 5.32, 1.1, [(hint, {"size": 11, "bold": True})], line=1.3)
-    line(s, 0.36, yy + 1.22, 10.47, yy + 1.22, G5, 0.5)
-head(s, 0.36, 5.68, 10.11, "初回の訪問で確認したいこと")
-text(s, 0.36, 6.12, 10.11, 0.7, [("冷凍の主委託先との契約期間／物流部の検討の時期と範囲／外食店舗の納品条件（時間帯・温度帯）／年末の出荷量の見込み",
-                                  {"size": 10})], line=1.3)
+red_rows = {1, 2, 4, 5, 6}
+ty = 1.62
+line(s, 0.6, ty + 0.32, 10.25, ty + 0.32, G1, 1.25)
+span = {"2024/1": 0.0, "2027/1": 1.0}
+def tx(ym):
+    y, m = ym.replace("予", "").split("/")
+    v = (int(y) - 2024) * 12 + int(m) - 1
+    return 0.6 + (10.25 - 0.6) * v / 36
+for yr in (2024, 2025, 2026):
+    xx = tx(f"{yr}/1")
+    line(s, xx, ty + 0.22, xx, ty + 0.42, G1, 1.0)
+    text(s, xx + 0.04, ty + 0.36, 0.6, 0.22, [(f"{yr}年", {"size": 8, "color": G1})], margin=0)
+for k, (ym, _, nm, *_r) in enumerate(ev):
+    xx = tx(ym)
+    hot = (k + 1) in red_rows
+    box(s, xx - 0.06, ty + 0.26, 0.12, 0.12, RED if hot else G3, shape=MSO_SHAPE.OVAL)
+    text(s, xx - 0.55, ty - 0.06 if k % 2 == 0 else ty + 0.56, 1.1, 0.28, [(ym, {"size": 7.5, "bold": True, "color": RED if hot else G1})],
+         align=C, anchor=MID, margin=0)
+rows += ev
+colors = {(i + 1, 4): RED for i in range(len(ev)) if (i + 1) in red_rows}
+colors.update({(i + 1, 2): RED for i in range(len(ev)) if (i + 1) in red_rows})
+grid(s, 0.36, 2.55, [0.72, 0.55, 2.3, 2.75, 2.1, 1.69], rows, 0.0, size=8.6,
+     aligns=[C, C, L, L, L, L], colors=colors, heights=[0.3] + [0.56] * len(ev))
+
+
+# ============================================================ (6) 既存取引との照合
+s = page("既存取引との照合",
+         "当社の取引は「ミナモ化粧水」「ルフレ本体」の2品のみ。リニューアル・新剤型・海外生産で\n新たな容器需要が3領域で生まれる",
+         "依頼元の取引実績（架空設定）、公式サイト、求人情報" + SRC_FICTION,
+         "他社は公開情報からの推定。取引額は依頼元からの共有を想定した架空の値")
+cols6 = ["ボトル", "ポンプ", "エアレス", "ジャー", "チューブ", "詰替パウチ", "新剤型"]
+br6 = ["ミナモ", "クラシカ", "ハレノヒ", "ルフレ", "ボディ・その他", "タイ生産品"]
+STATE = {"T": ("当社取引中", C5, WHITE), "O": ("他社（推定）", C1, INK), "N": ("新規発生", WHITE, RED), "U": ("要確認", WHITE, G1), "-": ("−", WHITE, G3)}
+g6 = [["T", "O", "N", "O", "-", "U", "-"],
+      ["O", "O", "O", "O", "-", "-", "-"],
+      ["-", "-", "-", "-", "O", "-", "N"],
+      ["T", "O", "-", "-", "-", "O", "-"],
+      ["O", "O", "-", "-", "O", "O", "-"],
+      ["N", "N", "U", "U", "N", "U", "-"]]
+n6 = [["化粧水200mL\n年約1.9億円", "乳液", "美容液・乳液\n2026/3〜", "クリーム", "", "詰替は\n未確認", ""],
+      ["ガラス", "", "", "ガラス", "", "", ""],
+      ["", "", "", "", "ラミネート", "", "スティック\n2026/6〜"],
+      ["480mL本体\n年約1.3億円", "ポンプ部品", "", "", "", "900mL", ""],
+      ["", "泡ポンプ", "", "", "", "", ""],
+      ["2026/10〜", "同左", "品目未公表", "品目未公表", "同左", "", ""]]
+gx, gy, lw, cwid, rh = 0.36, 1.62, 1.35, 0.98, 0.66
+box(s, gx, gy, lw, 0.4, LABEL, G5, 0.5)
+for j, c in enumerate(cols6):
+    x = gx + lw + j * cwid
+    box(s, x, gy, cwid, 0.4, LABEL, G5, 0.5)
+    text(s, x, gy, cwid, 0.4, [(c, {"size": 9})], align=C, anchor=MID)
+for i, b in enumerate(br6):
+    y = gy + 0.4 + i * rh
+    box(s, gx, y, lw, rh, LABEL, G5, 0.5)
+    text(s, gx, y, lw, rh, [(b, {"size": 9.5})], align=C, anchor=MID)
+    for j in range(7):
+        k = g6[i][j]
+        nm, fill, fg = STATE[k]
+        x = gx + lw + j * cwid
+        box(s, x, y, cwid, rh, fill, RED if k == "N" else G5, 1.5 if k == "N" else 0.5, dash=k == "N")
+        paras = [(nm, {"size": 8.5, "bold": k in ("T", "N"), "color": fg})]
+        if n6[i][j]:
+            paras.append((n6[i][j], {"size": 7.5, "color": fg, "space": 1}))
+        text(s, x, y, cwid, rh, paras, align=C, anchor=MID, margin=0.02)
+leg_y = gy + 0.4 + 6 * rh + 0.08
+lx = gx
+for k in ("T", "O", "N", "U"):
+    nm, fill, fg = STATE[k]
+    box(s, lx, leg_y + 0.05, 0.26, 0.15, fill, RED if k == "N" else G3, 1.0, dash=k == "N")
+    text(s, lx + 0.32, leg_y, 1.2, 0.26, [(nm, {"size": 8})], anchor=MID, margin=0)
+    lx += 1.3
+
+rx = 8.55
+head(s, rx, 1.5, 1.92, "区分の根拠")
+bl(s, rx, 1.92, 1.92, 1.6, [(0, "当社取引中：依頼元から共有された取引実績（架空設定）"), (0, "他社：容器の形状・刻印・業界紙からの推定"),
+                            (0, "新規発生：直近の動向から需要の発生が見込まれる区画")], size=8)
+head(s, rx, 3.62, 1.92, "未確認事項")
+bl(s, rx, 4.04, 1.92, 2.85, [(0, "ミナモ詰替の有無と採用時期", RED), (0, "エアレス容器の仕様決定の時期と、評価中のサプライヤー"),
+                             (0, "ルフレのポンプ部品の調達先"), (0, "タイ生産の品目と、容器を現地調達するか日本から供給するか", RED)], size=8)
+
+
+# ============================================================ (7) 追加提案仮説
+s = page("追加提案仮説",
+         "優先は「ミナモのエアレス化」と「ルフレ本体の再設計」。どちらも既存取引の延長で入れる",
+         "(1)〜(6)の分析" + SRC_FICTION,
+         "確度・規模は公開情報と取引実績からの見立て。提案前に右列の事項を確認する")
+hdr = ["仮説", "対象", "顧客の変化（根拠）", "想定されるニーズ", "当社商材との適合性", "提案候補", "提案前の確認事項"]
+widths = [1.3, 0.85, 1.85, 1.5, 1.6, 1.6, 1.41]
+hyp_pics = [["minamo-serum", "minamo-milk"], ["refre-shampoo", "refre-refill"], ["minamo-lotion", "refre-shampoo"]]
+hyp = [
+    ("1　ミナモの\nエアレス容器\n確度：高　規模：大",
+     "2026/3にミナモを全面リニューアル。求人に「エアレス容器の開発経験者」を記載。パッケージ開発部を2026/4に新設",
+     "防腐剤を減らした処方の酸化防止、最後まで使い切れること、化粧水ボトルとのデザインの統一",
+     "化粧水200mLボトルを取引中で、ブランドの意匠を理解している。30・50mLのエアレスを量産中",
+     "エアレス美容液・乳液容器（30/50mL）を、化粧水ボトルとそろえた意匠で提案",
+     "仕様決定の時期／評価中のサプライヤー／充填ラインの条件"),
+    ("2　ルフレ本体の\n再設計\n確度：中　規模：中",
+     "詰替の構成比が35%→48%に上昇。中計で2030年に容器のプラスチック30%削減。付け替え式本体の検討を公表",
+     "本体を長く使える設計、薄肉化、再生材の使用、詰替パウチからの付け替えやすさ",
+     "480mL本体を取引中。再生PET30%のボトルと、付け替え用キャップの実績あり",
+     "再生材30%・薄肉の本体ボトル＋付け替えキャップのセット",
+     "再生材の目標比率／コストの許容幅／発売時期"),
+    ("3　タイ生産品の\n容器供給\n確度：中　規模：中",
+     "2025/10にタイ子会社を設立し、2026/10に現地生産を開始。ASEANへの供給拠点",
+     "立ち上げ期の品質安定と、日本と同じ仕様の容器の安定調達",
+     "タイの協力工場で日本仕様のボトルを生産できる（架空設定）",
+     "日本仕様のボトル・ポンプを現地で供給。立ち上げ期は日本から輸出",
+     "生産品目／調達方針（現地か日本か）／立ち上げの日程"),
+]
+rows7 = [hdr] + [[h[0], ""] + list(h[1:]) for h in hyp]
+yy = 1.55
+for i, row in enumerate(rows7):
+    rh = 0.36 if i == 0 else 1.48
+    cx = 0.36
+    for j, val in enumerate(row):
+        w = widths[j]
+        if i == 0:
+            box(s, cx, yy, w, rh, LABEL, G5, 0.5)
+            text(s, cx, yy, w, rh, [(val, {"size": 9})], align=C, anchor=MID)
+        elif j == 0:
+            box(s, cx, yy, w, rh, LABEL, G5, 0.5)
+            parts = val.split("\n")
+            text(s, cx, yy, w, rh, [(parts[0], {"size": 9.5, "bold": True}), (parts[1], {"size": 9.5, "bold": True}),
+                                    (parts[2], {"size": 8, "color": RED if i < 3 else G1, "space": 4})], align=C, anchor=MID)
+        elif j == 1:
+            box(s, cx, yy, w, rh, WHITE, G5, 0.5)
+            pics_row(s, hyp_pics[i - 1], cx + 0.06, yy + rh - 0.12, w - 0.12, rh - 0.3, gap=0.03)
+        else:
+            box(s, cx, yy, w, rh, WHITE, G5, 0.5)
+            text(s, cx, yy, w, rh, [(val, {"size": 8.5, "bold": j == 5, "color": RED if j == 5 and i < 3 else INK})], anchor=MID, margin=0.06, line=1.0)
+        cx += w
+    yy += rh
+text(s, 0.36, 6.43, 10.11, 0.5, [[("見送り：", {"size": 8.6, "bold": True}), ("ハレノヒのスティック容器は需要が見込めるが、当社にスティックの量産実績がないため今回は対象外。協力会社と組む場合は再検討", {"size": 8.6})]],
+     anchor=MID)
+
+
+# ============================================================ (8) 営業アクション案
+s = page("営業アクション案",
+         "11月中にパッケージ開発部へ初回訪問し、ミナモのリニューアル日程と容器仕様の決定時期を確認する",
+         "(1)〜(7)の分析" + SRC_FICTION,
+         "担当者名は公開情報で確認できた範囲。面談の可否・時期は依頼元の営業担当が判断する")
+head(s, 0.36, 1.5, 3.35, "提案テーマの優先順位")
+mx, my, mw, mh = 0.75, 2.0, 2.85, 2.85
+box(s, mx, my, mw, mh, WHITE, G3, 0.75)
+line(s, mx + mw / 2, my, mx + mw / 2, my + mh, G5, 0.75, dash=True)
+line(s, mx, my + mh / 2, mx + mw, my + mh / 2, G5, 0.75, dash=True)
+text(s, mx, my + mh + 0.04, mw, 0.24, [("確度 →（高い）", {"size": 8})], align=R, margin=0)
+text(s, 0.3, my, 0.42, mh, [("規模\n↑\n大", {"size": 8})], align=C, anchor=MID, margin=0)
+for (cxp, cyp, r, lab_t, hot) in [(0.8, 0.2, 0.24, "1", True), (0.6, 0.42, 0.19, "2", True), (0.36, 0.56, 0.19, "3", False), (0.2, 0.8, 0.15, "見送り", False)]:
+    bx = mx + mw * cxp - r
+    by = my + mh * cyp - r
+    box(s, bx, by, r * 2, r * 2, C5 if hot else C2, G1, 0.75, shape=MSO_SHAPE.OVAL)
+    text(s, bx - 0.2, by, r * 2 + 0.4, r * 2, [(lab_t, {"size": 9 if lab_t == "見送り" else 11, "bold": True, "color": WHITE if hot else INK})],
+         align=C, anchor=MID, margin=0)
+bl(s, 0.36, 5.25, 3.35, 1.65, [(0, "1 ミナモのエアレス容器：確度・規模とも最大"), (0, "2 ルフレ本体の再設計：既存取引の延長"),
+                               (0, "3 タイ生産品：立ち上げ時期に合わせる"), (0, "見送り：ハレノヒのスティック")], size=8.6)
+
+head(s, 3.95, 1.5, 6.52, "アクションプラン")
+hdr = ["テーマ", "対象部門・担当", "商談で確認する質問", "提案する商品", "次のアクション"]
+w8 = [1.0, 1.35, 1.92, 1.15, 1.1]
+acts = [
+    ("1 ミナモ\nエアレス", "パッケージ開発部\n岡本部長\n（技術：処方開発研究所）", "リニューアルの発売日と容器仕様の決定時期は／評価中のサプライヤーは／求める保存性能は", "エアレス30/50mL\n化粧水ボトルと意匠統一", "11月：初回訪問\n12月：試作品の提示"),
+    ("2 ルフレ\n本体", "購買部 高橋部長\nサステナビリティ推進室", "再生材の目標比率と時期は／付け替え式の検討状況は／コストの許容幅は", "再生PET30%本体\n付け替えキャップ", "12月：再生材ボトルのサンプル提出"),
+    ("3 タイ生産", "海外事業部\n購買部", "現地生産の品目と数量は／容器は現地調達か日本からの供給か", "日本仕様ボトル・ポンプの現地供給", "1月：現地調達の方針を確認"),
+]
+rows8 = [hdr] + [list(a) for a in acts]
+grid(s, 3.95, 1.95, w8, rows8, 0.0, size=8.4, aligns=[C, L, L, L, L], colors={(1, 4): RED, (1, 0): RED},
+     heights=[0.34, 1.22, 1.05, 0.95])
+text(s, 3.95, 5.6, 6.52, 1.3, [("初回訪問で持ち込むもの", {"size": 9.5, "bold": True}),
+                               ("・既存の化粧水ボトルと意匠をそろえたエアレス容器のサンプル（30mL・50mL）", {"size": 8.8, "space": 3}),
+                               ("・再生PET30%ボトルの採用事例（他ブランド、守秘範囲で）", {"size": 8.8}),
+                               ("・中計のプラスチック削減目標に対する、容器別の削減効果の試算", {"size": 8.8})], line=1.05)
 
 
 # ------------------------------------------------------------------ 表紙（先頭に移す）
@@ -765,14 +729,11 @@ cover = prs.slides.add_slide(next(l for l in prs.slide_layouts if l.name == "表
 for ph in cover.placeholders:
     idx = ph.placeholder_format.idx
     if idx == 12:
-        ph.text_frame.text = "サンプル物流株式会社　御中"
+        ph.text_frame.text = f"{CLIENT}　御中"
     elif idx == 11:
         ph.text_frame.text = f"{COMPANY}　企業クローズアップ"
     elif idx == 13:
-        ph.text_frame.text = DATE
-    for p in ph.text_frame.paragraphs:
-        for r in p.runs:
-            set_font(r.font)
+        ph.text_frame.text = f"{DATE}　（架空企業による分析サンプル）"
 ids = prs.slides._sldIdLst
 ids.insert(0, ids[-1])
 

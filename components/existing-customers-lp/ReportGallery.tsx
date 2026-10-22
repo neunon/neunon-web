@@ -36,7 +36,7 @@ export function ReportGallery() {
               <img
                 src={`${IMG}/${p.img}-640.webp`}
                 srcSet={`${IMG}/${p.img}-640.webp 640w, ${IMG}/${p.img}-960.webp 960w`}
-                sizes="(min-width: 1200px) 370px, (min-width: 768px) 45vw, 90vw"
+                sizes="(min-width: 1200px) 280px, (min-width: 768px) 45vw, 90vw"
                 width={640}
                 height={443}
                 alt=""
