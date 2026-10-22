@@ -3,15 +3,18 @@
 
 テンプレート: Neunon Consulting の公式スライドテンプレート（ver3。サンプルの頁を除いたもの）。
 ページの種類と並びは実際の納品物（顧客企業クローズアップ、提案書用材料_クローズアップ系）にならう。
-本文はすべてダミー（「この文章はサンプルです。」）。社名・ブランド・カテゴリ・商品も「A・B・C」のサンプル表記。
+本文はすべてダミー（「この文章はサンプルです。」）。社名・ブランド・商品も「A・B・C」のサンプル表記。
+  事業A〜D（売上の区分）／ブランドA〜E／カテゴリA〜G（容器の種類）／チャネルA〜E／部門A-1〜E-3／出来事A〜G／テーマA〜D
+  ページ間で記号と数字を揃える（例：商品ラインナップの「容器」＝既存取引との照合の行、組織図の赤＝アクションの対象部門）
 
 レイアウトの決まり（全ページ共通）
-  余白        左右 0.36in（テンプレートの罫線と同じ）。本文の領域は y 1.62〜6.82in
+  余白        左右 0.36in（テンプレートの罫線と同じ）。本文の領域は y 1.62〜6.82in。各段の下端は 6.82in に揃える
   段組        2段・3段・4段・5段の格子。段の間は 0.2〜0.45in で揃える
-  文字        BIZ UDPゴシック。タイトル20pt／メッセージ14pt太字／節見出し11.5pt太字／本文10pt／注8pt
+  文字        BIZ UDPゴシック。タイトル20pt／メッセージ14pt太字／節見出し11.5pt太字（中央＋罫線、段の中の小見出しも同じ型）／本文10pt／注8pt
   色          構造は灰（テンプレートの階調）。データは青灰の1系統。赤は「提案につながる事実」だけ。
-              橙は組織図の「技術検討先」だけ
+              橙は組織図の「技術検討先」だけ。提案テーマは A〜D の丸印（同じ色）で全ページをつなぐ
   形          影・角丸・タグの飾りは使わない。罫線と灰のラベル、商品画像は全ページ同じ縮尺・同じ基準線
+  グラフ      プロット領域を数値で固定し、棒の位置に合わせて注記・表の行を置く
 
 実行: py design/existing-customers-sample/build_report.py
 出力: design/existing-customers-sample/existing-customers-sample.pptx
@@ -35,7 +38,8 @@ PACK = HERE / "packshots"
 TEMPLATE = HERE / "neunon-template.pptx"
 OUT = HERE / "existing-customers-sample.pptx"
 
-CO = "サンプル株式会社"
+CO = "サンプル化粧品株式会社"
+CLIENT = "サンプル容器株式会社"
 DATE = "2026/10/22"
 FONT = "BIZ UDPゴシック"
 S = "この文章はサンプルです。"
@@ -62,6 +66,7 @@ N5 = RGBColor(0x46, 0x62, 0x8F)
 N6 = RGBColor(0x2C, 0x3F, 0x5E)
 RED = RGBColor(0xC8, 0x16, 0x1D)
 ORANGE = RGBColor(0xE0, 0x7B, 0x00)
+THEME = {"A": N6, "B": N5, "C": N4, "D": N1}   # 提案テーマの丸印（(8)(9) で共通）
 
 L, C, R = PP_ALIGN.LEFT, PP_ALIGN.CENTER, PP_ALIGN.RIGHT
 TOP, MID, BOT = MSO_ANCHOR.TOP, MSO_ANCHOR.MIDDLE, MSO_ANCHOR.BOTTOM
@@ -155,12 +160,13 @@ def text(s, x, y, w, h, paras, size=10, align=L, anchor=TOP, line=1.15, margin=0
 
 
 def bl(s, x, y, w, h, items, size=10, anchor=TOP):
-    """items: (level, text[, color])"""
+    """items: (level, text[, color[, bold]])。赤の第1階層は太字"""
     paras = []
     for it in items:
         lvl, t = it[0], it[1]
         col = it[2] if len(it) > 2 else INK
-        paras.append((t, {"level": lvl, "color": col, "bold": col == RED and lvl == 0, "size": size if lvl == 0 else size - 0.5}))
+        bold = it[3] if len(it) > 3 else (col == RED and lvl == 0)
+        paras.append((t, {"level": lvl, "color": col, "bold": bold, "size": size if lvl == 0 else size - 0.5}))
     return text(s, x, y, w, h, paras, size=size, anchor=anchor)
 
 
@@ -195,7 +201,7 @@ def line(s, x1, y1, x2, y2, color=G2, weight=0.75, dash=False):
 
 
 def head(s, x, y, w, t):
-    """節見出し：中央寄せの太字＋濃い灰の罫線（実際の納品物と同じ型）"""
+    """節見出し：中央寄せの太字＋濃い灰の罫線（実際の納品物と同じ型）。罫線は y+0.34"""
     text(s, x, y, w, 0.3, [(t, {"size": 11.5, "bold": True})], align=C, anchor=BOT, line=1.0)
     line(s, x, y + 0.34, x + w, y + 0.34, G2, 0.75)
 
@@ -203,6 +209,13 @@ def head(s, x, y, w, t):
 def label(s, x, y, w, h, t, size=10, bold=False):
     box(s, x, y, w, h, LABEL)
     text(s, x, y, w, h, [(t, {"size": size, "bold": bold})], align=C, anchor=MID, line=1.05, margin=0.04)
+
+
+def badge(s, cx, cy, d, t, fill, fg=WHITE, size=None):
+    """丸印（テーマ・出来事の記号）"""
+    box(s, cx - d / 2, cy - d / 2, d, d, fill, None, shape=MSO_SHAPE.OVAL)
+    text(s, cx - d / 2 - 0.05, cy - d / 2, d + 0.1, d, [(t, {"size": size or round(d * 34, 1), "bold": True, "color": fg})],
+         align=C, anchor=MID, line=1.0)
 
 
 def legend_row(s, x, y, entries, size=9, gap=0.28):
@@ -244,13 +257,31 @@ def fit_scale(groups, widths, max_h, gap=0.07):
     return k
 
 
-def style_chart(ch, size=9):
-    ch.has_title = False
-    ch.has_legend = False
-    set_font(ch.font, size, None, G2)
+# ------------------------------------------------------------------ グラフ
+def plot_area(ch, frame, inner):
+    """プロット領域（軸の内側）を frame 内の絶対位置で固定する。棒の位置を計算で出せるようにするため"""
+    fx, fy, fw, fh = frame
+    ix, iy, iw, ih = inner
+    pa = ch._chartSpace.chart.plotArea
+    lay = pa.find(qn("c:layout"))
+    if lay is None:
+        lay = etree.Element(qn("c:layout"))
+        pa.insert(0, lay)
+    for el in list(lay):
+        lay.remove(el)
+    ml = etree.SubElement(lay, qn("c:manualLayout"))
+    for tag, val in (("c:layoutTarget", "inner"), ("c:xMode", "edge"), ("c:yMode", "edge"),
+                     ("c:x", (ix - fx) / fw), ("c:y", (iy - fy) / fh), ("c:w", iw / fw), ("c:h", ih / fh)):
+        etree.SubElement(ml, qn(tag)).set("val", val if isinstance(val, str) else f"{val:.5f}")
 
 
-def stacked(s, x, y, w, h, cats, series, colors, totals=None, pct=False, gap=55):
+def bar_x(inner, n, i):
+    """i 本目の棒の中心 x"""
+    ix, _, iw, _ = inner
+    return ix + (i + 0.5) * iw / n
+
+
+def stacked(s, frame, inner, cats, series, colors, totals=None, pct=False, gap=55, ymax=None):
     d = CategoryChartData()
     d.categories = cats
     for nm, vals in series:
@@ -258,8 +289,11 @@ def stacked(s, x, y, w, h, cats, series, colors, totals=None, pct=False, gap=55)
     if totals:
         d.add_series("合計", [0] * len(cats))
     kind = XL_CHART_TYPE.COLUMN_STACKED_100 if pct else XL_CHART_TYPE.COLUMN_STACKED
-    ch = s.shapes.add_chart(kind, Inches(x), Inches(y), Inches(w), Inches(h), d).chart
-    style_chart(ch)
+    fx, fy, fw, fh = frame
+    ch = s.shapes.add_chart(kind, Inches(fx), Inches(fy), Inches(fw), Inches(fh), d).chart
+    ch.has_title = False
+    ch.has_legend = False
+    set_font(ch.font, 9, None, G2)
     plot = ch.plots[0]
     plot.gap_width = gap
     plot.overlap = 100
@@ -272,7 +306,7 @@ def stacked(s, x, y, w, h, cats, series, colors, totals=None, pct=False, gap=55)
                 dl.has_text_frame = True
                 dl.text_frame.text = t
                 dl.position = XL_LABEL_POSITION.INSIDE_BASE
-                set_font(dl.text_frame.paragraphs[0].runs[0].font, 10, True, INK)
+                set_font(dl.text_frame.paragraphs[0].runs[0].font, 10.5, True, INK)
             continue
         col = colors[i]
         ser.format.fill.solid()
@@ -287,12 +321,13 @@ def stacked(s, x, y, w, h, cats, series, colors, totals=None, pct=False, gap=55)
         set_font(ser.data_labels.font, 9, False, WHITE if col in (N4, N5, N6) else INK)
     ch.value_axis.visible = False
     ch.value_axis.has_major_gridlines = False
-    if not pct and totals:
-        ch.value_axis.maximum_scale = max(sum(v[j] for _, v in series) for j in range(len(cats))) * 1.12
+    if not pct:
         ch.value_axis.minimum_scale = 0
+        ch.value_axis.maximum_scale = ymax
     ch.category_axis.format.line.color.rgb = G2
     ch.category_axis.format.line.width = Pt(0.75)
     set_font(ch.category_axis.tick_labels.font, 9.5, None, G2)
+    plot_area(ch, frame, inner)
     return ch
 
 
@@ -330,36 +365,40 @@ def page(title, message, source="この文章はサンプルです。"):
     return s
 
 
-# ================================================================== 表紙
+# ================================================================== 表紙（テンプレートの書体のまま）
 cover = prs.slides.add_slide(next(l for l in prs.slide_layouts if l.name == "表紙"))
 for ph in cover.placeholders:
     idx = ph.placeholder_format.idx
     if idx == 12:
-        ph.text_frame.text = "〇〇株式会社　御中"
+        ph.text_frame.text = f"{CLIENT}　御中"
     elif idx == 11:
         ph.text_frame.text = f"{CO}　企業クローズアップ"
     elif idx == 13:
-        ph.text_frame.text = f"{DATE}　（サンプル）"
-    for p in ph.text_frame.paragraphs:
-        for r in p.runs:
-            set_font(r.font)
+        ph.text_frame.text = f"{DATE}　（架空企業による分析サンプル）"
 
 
 # ================================================================== (1) 会社概要
 s = page("会社概要", dummy(3))
 LW = 4.83                     # 2段：各 4.83in、段間 0.45in
 RX = X0 + LW + 0.45
+VX = 1.32                     # ラベル列（0.82in）の右の本文の開始位置
 head(s, X0, CT, LW, "基本情報・業績")
-label(s, X0, 2.08, 0.82, 2.52, "売上・\n利益")
-legend_row(s, 1.32, 2.08, [(N1, "カテゴリA"), (N2, "カテゴリB"), (N4, "カテゴリC"), (N6, "カテゴリD")], gap=0.16)
-text(s, 1.32, 2.33, 1.2, 0.2, [("単位：億円", {"size": 8, "color": G3})], line=1.0)
-stacked(s, 1.22, 2.42, X0 + LW - 1.22, 2.22, ["2023/3", "2024/3", "2025/3", "2026/3予"],
-        [("カテゴリD", (38, 36, 34, 33)), ("カテゴリC", (41, 48, 55, 63)), ("カテゴリB", (92, 95, 101, 112)), ("カテゴリA", (168, 176, 189, 204))],
-        [N6, N4, N2, N1], totals=["339", "355", "379", "412"])
-label(s, X0, 4.72, 0.82, 0.4, "従業員数")
-text(s, 1.32, 4.72, LW - 0.96, 0.4, [("単体：○○○名、連結：○,○○○名（2026/3）", {"size": 10})], anchor=MID)
-label(s, X0, 5.24, 0.82, CB - 5.24, "事業概要\n経営動向")
-bl(s, 1.32, 5.24, LW - 0.96, CB - 5.24, [(0, dummy(2)), (1, dummy(1)), (0, dummy(2), RED), (1, dummy(1)), (0, dummy(2))], anchor=MID)
+label(s, X0, 2.08, 0.82, 2.62, "売上高")
+legend_row(s, VX, 2.08, [(N1, "事業A"), (N2, "事業B"), (N4, "事業C"), (N6, "事業D")], gap=0.2)
+text(s, X0 + LW - 1.0, 2.08, 1.0, 0.24, [("単位：億円", {"size": 8, "color": G3})], align=R, anchor=MID, line=1.0)
+fr1 = (VX, 2.36, X0 + LW - VX, 2.34)
+in1 = (VX, 2.6, X0 + LW - VX, 1.8)
+stacked(s, fr1, in1, ["2023/3", "2024/3", "2025/3", "2026/3予"],
+        [("事業D", (52, 55, 57, 60)), ("事業C", (64, 70, 78, 86)), ("事業B", (92, 95, 101, 112)), ("事業A", (131, 135, 143, 154))],
+        [N6, N4, N2, N1], totals=["339", "355", "379", "412"], ymax=412 * 1.1)
+label(s, X0, 4.78, 0.82, 0.4, "営業利益")
+for i, (v, r) in enumerate([("18", "5.3%"), ("21", "5.9%"), ("24", "6.3%"), ("29", "7.0%")]):
+    cx = bar_x(in1, 4, i)
+    text(s, cx - 0.45, 4.78, 0.9, 0.4, [[(v, {"size": 10, "bold": True}), (f"（{r}）", {"size": 8, "color": G3})]], align=C, anchor=MID, line=1.0)
+label(s, X0, 5.26, 0.82, 0.4, "従業員数")
+text(s, VX, 5.26, LW - 0.96, 0.4, [("単体：○○○名、連結：○,○○○名（2026/3）", {"size": 10})], anchor=MID)
+label(s, X0, 5.74, 0.82, CB - 5.74, "事業概要\n経営動向")
+bl(s, VX, 5.74, LW - 0.96, CB - 5.74, [(0, dummy(2)), (1, dummy(1)), (0, dummy(2), RED), (0, dummy(2))], size=9.5, anchor=MID)
 
 head(s, RX, CT, LW, "グループ組織図")
 cx = RX + LW / 2
@@ -379,13 +418,16 @@ for i, (nm, role, pct) in enumerate([("子会社A", "機能A", "100%"), ("子会
     box(s, x, 3.66, kw, 0.62, WHITE, G2, 0.75)
     text(s, x, 3.66, kw, 0.62, [(nm, {"size": 10, "bold": True, "color": RED if i == 2 else INK}), (role, {"size": 8.5, "color": G3, "space": 1})],
          align=C, anchor=MID, line=1.05)
-for i, nm in enumerate(["関連会社A", "関連会社B", "関連会社C"]):
-    y = 4.56 + i * 0.6
-    box(s, RX, y, 1.6, 0.46, LABEL)
-    text(s, RX, y, 1.6, 0.46, [(nm, {"size": 9.5})], align=C, anchor=MID)
-    text(s, RX + 1.75, y, LW - 1.75, 0.46, [("……" + dummy(1), {"size": 9.5, "color": G2})], anchor=MID)
-line(s, RX, 6.42, RX + LW, 6.42, G5, 0.5)
-text(s, RX, 6.48, LW, 0.34, [(dummy(2), {"size": 9.5, "color": RED})], anchor=MID)
+head(s, RX, 4.44, LW, "主な関連会社")
+for i, (nm, pct) in enumerate([("関連会社A", "○○%"), ("関連会社B", "○○%"), ("関連会社C", "○○%")]):
+    y = 4.86 + i * 0.38
+    text(s, RX + 0.06, y, 1.2, 0.38, [(nm, {"size": 9.5, "bold": True})], anchor=MID, line=1.0)
+    text(s, RX + 1.3, y, 2.5, 0.38, [(dummy(1), {"size": 9.5, "color": G2})], anchor=MID, line=1.0)
+    text(s, X1 - 1.0, y, 0.94, 0.38, [[("出資 ", {"size": 8, "color": G3}), (pct, {"size": 9.5})]], align=R, anchor=MID, line=1.0)
+    line(s, RX, y + 0.38, X1, y + 0.38, G5, 0.5)
+box(s, RX, 6.16, LW, CB - 6.16, PANEL)
+text(s, RX + 0.14, 6.16, LW - 0.28, CB - 6.16, [("提案の着眼点", {"size": 9, "bold": True}), (dummy(2), {"size": 9.5, "color": RED, "space": 2})],
+     anchor=MID, line=1.05)
 
 
 # ================================================================== (2) 主要組織図
@@ -425,7 +467,7 @@ nw = (W - 2 * 0.2) / 3
 for i, (head_t, col) in enumerate([("部門B-2・部門C-1：提案の起点", RED), ("部門B-1・部門C-2：技術検討先", ORANGE), ("部門A-2・部門D-2：関係部署", INK)]):
     x = X0 + i * (nw + 0.2)
     box(s, x, nb, nw, CB - nb, PANEL)
-    text(s, x + 0.12, nb, nw - 0.24, CB - nb, [(head_t, {"size": 9, "bold": True, "color": col}), (dummy(1), {"size": 9, "color": G2, "space": 1})],
+    text(s, x + 0.14, nb, nw - 0.28, CB - nb, [(head_t, {"size": 9, "bold": True, "color": col}), (dummy(1), {"size": 9, "color": G2, "space": 1})],
          anchor=MID, line=1.1)
 
 
@@ -434,13 +476,27 @@ s = page("販売チャネル", dummy(3))
 LW3 = 5.9
 head(s, X0, CT, LW3, "チャネル別売上構成比の推移")
 legend_row(s, X0, 2.06, [(N1, "チャネルA"), (N2, "チャネルB"), (N3, "チャネルC"), (N5, "チャネルD"), (N6, "チャネルE")], gap=0.14)
-stacked(s, X0 - 0.06, 2.34, LW3 + 0.12, CB - 2.34, ["2022/3", "2023/3", "2024/3", "2025/3", "2026/3予"],
-        [("チャネルE", (3, 3, 4, 4, 5)), ("チャネルD", (12, 11, 11, 10, 10)), ("チャネルC", (7, 9, 11, 13, 16)),
-         ("チャネルB", (15, 14, 14, 13, 13)), ("チャネルA", (63, 63, 60, 60, 56))], [N6, N5, N3, N2, N1], pct=True, gap=45)
+fr3 = (X0, 2.34, LW3, CB - 2.34)
+in3 = (X0 + 0.04, 2.42, LW3 - 0.8, 4.08)
+mix = [("チャネルE", (4, 4, 5, 5, 6)), ("チャネルD", (11, 10, 10, 9, 9)), ("チャネルC", (7, 9, 11, 13, 16)),
+       ("チャネルB", (15, 14, 14, 13, 13)), ("チャネルA", (63, 63, 60, 60, 56))]
+stacked(s, fr3, in3, ["2022/3", "2023/3", "2024/3", "2025/3", "2026/3予"], mix, [N6, N5, N3, N2, N1], pct=True, gap=45)
+# 伸びているチャネルC（最後の棒）に括弧で差を添える
+ix3, iy3, iw3, ih3 = in3
+bw3 = iw3 / 5 / 1.45
+edge = bar_x(in3, 5, 4) + bw3 / 2
+lo, hi = 0.15, 0.31                       # 2026/3予のチャネルCは 15%〜31% の位置
+ylo, yhi = iy3 + ih3 * (1 - lo), iy3 + ih3 * (1 - hi)
+bx3 = edge + 0.08
+line(s, bx3, yhi + 0.02, bx3, ylo - 0.02, RED, 1.0)
+line(s, bx3 - 0.05, yhi + 0.02, bx3, yhi + 0.02, RED, 1.0)
+line(s, bx3 - 0.05, ylo - 0.02, bx3, ylo - 0.02, RED, 1.0)
+text(s, bx3 + 0.08, (yhi + ylo) / 2 - 0.25, X0 + LW3 - bx3 - 0.08, 0.5,
+     [("チャネルC", {"size": 8, "color": RED}), ("＋9pt", {"size": 11, "bold": True, "color": RED})], anchor=MID, line=1.05)
 RX3 = X0 + LW3 + 0.3
 RW3 = X1 - RX3
 head(s, RX3, CT, RW3, "販売チャネルの特徴・戦略")
-blocks = [("チャネルA", "63% → 56%", INK), ("チャネルC", "7% → 16%", RED), ("チャネルE", "3% → 5%", INK)]
+blocks = [("チャネルA", "63% → 56%", INK), ("チャネルC", "7% → 16%", RED), ("チャネルE", "4% → 6%", INK)]
 bh = (CB - 2.08) / 3
 for i, (nm, chg, col) in enumerate(blocks):
     by = 2.08 + i * bh
@@ -448,29 +504,33 @@ for i, (nm, chg, col) in enumerate(blocks):
     text(s, RX3 + RW3 * 0.3, by, RW3 * 0.7, 0.34, [[("構成比 2022→2026予　", {"size": 8, "color": G3}), (chg, {"size": 10.5, "bold": True, "color": col})]],
          align=R, anchor=MID, line=1.0)
     line(s, RX3, by + 0.38, X1, by + 0.38, G5, 0.5)
-    bl(s, RX3, by + 0.46, RW3, bh - 0.56, [(0, dummy(2), col), (1, dummy(1)), (0, dummy(1))], size=9.5)
+    bl(s, RX3, by + 0.48, RW3, bh - 0.58, [(0, dummy(2), col), (1, dummy(1)), (0, dummy(2)), (1, dummy(1))], size=9.5)
 
 
 # ================================================================== (4) 商品ラインナップ
-s = page("商品ラインナップ", dummy(3), "この文章はサンプルです。　注：価格は税込")
+s = page("商品ラインナップ", dummy(3), "この文章はサンプルです。　注：価格は税込。容器のカテゴリは (7) の列と同じ")
 cw4 = (W - 3 * 0.2) / 4
-groups = [["minamo-lotion", "minamo-milk", "minamo-serum", "minamo-cream"], ["classica-lotion", "classica-cream"],
+groups = [["minamo-lotion", "minamo-milk", "minamo-serum", "minamo-cream"], ["classica-lotion", "classica-serum", "classica-cream"],
           ["refre-shampoo", "refre-treatment", "refre-refill"], ["harenohi-tube", "harenohi-spray", "harenohi-stick"]]
-k = fit_scale(groups, [cw4 - 0.24] * 4, 1.95)
-meta = [("カテゴリA", "ブランドA", "○○億円", "接点：大", N6), ("カテゴリB", "ブランドB", "○○億円", "接点：小", N1),
-        ("カテゴリC", "ブランドC", "○○億円", "接点：大", N6), ("カテゴリD", "ブランドD", "○○億円", "接点：中", N4)]
-for i, (cat, brand, sales, touch, tcol) in enumerate(meta):
+k = fit_scale(groups, [cw4 - 0.24] * 4, 2.2)
+# ブランド, 事業, 商品数, 販路, 容器（(7) の当社・他社の区画と一致）, 容器接点（0〜3）
+meta = [("A", "事業A", 4, "チャネルA・C", "カテゴリA・B・D", 3, "大"), ("B", "事業A", 3, "チャネルB・D", "カテゴリA〜D", 1, "小"),
+        ("C", "事業B", 3, "チャネルA・B", "カテゴリA・B・F", 3, "大"), ("D", "事業C", 3, "チャネルA・E", "カテゴリE", 2, "中")]
+for i, (b, biz, n_, chs, cats, touch, tl) in enumerate(meta):
     x = X0 + i * (cw4 + 0.2)
-    head(s, x, CT, cw4, f"{cat}（{brand}）")
-    bl(s, x, 2.06, cw4, 1.74, [(0, f"主な商品：商品{brand[-1]}-1〜{brand[-1]}-4"), (0, "価格帯：○,○○○〜○,○○○円"),
-                                (0, "主な販路：チャネルA・B"), (0, "容器形態：形態A・B・C"),
-                                (0, dummy(1)), (1, dummy(1), RED if i in (0, 2) else INK)], size=9.5)
-    box(s, x, 3.92, cw4, 2.36, PANEL)
+    head(s, x, CT, cw4, f"ブランド{b}（{biz}）")
+    bl(s, x, 2.06, cw4, 1.74, [(0, f"主な商品：商品{b}-1〜{b}-{n_}"), (0, "価格帯：○,○○○〜○,○○○円"),
+                                (0, f"主な販路：{chs}"), (0, f"容器：{cats}"),
+                                (0, dummy(1)), (1, dummy(1), RED if touch == 3 else INK)], size=9.5)
+    box(s, x, 3.56, cw4, 2.72, PANEL)
     products(s, groups[i], x + 0.12, cw4 - 0.24, 6.1, k)
-    text(s, x, 6.38, cw4 * 0.56, 0.44, [("売上（2026/3予）", {"size": 8, "color": G3}), (sales, {"size": 11, "bold": True, "space": 0})], anchor=MID, line=1.0)
-    box(s, x + cw4 * 0.56, 6.44, cw4 * 0.44, 0.34, tcol)
-    text(s, x + cw4 * 0.56, 6.44, cw4 * 0.44, 0.34, [(touch, {"size": 9.5, "bold": True, "color": WHITE if tcol in (N4, N6) else INK})],
-         align=C, anchor=MID, line=1.0)
+    text(s, x, 6.38, cw4 * 0.6, 0.44, [("売上（2026/3予）", {"size": 8, "color": G3}), (f"○○億円", {"size": 11, "bold": True, "space": 0})],
+         anchor=MID, line=1.0)
+    text(s, x + cw4 * 0.4, 6.38, cw4 * 0.6, 0.2, [("容器の接点", {"size": 8, "color": G3})], align=R, anchor=MID, line=1.0)
+    text(s, X0 + i * (cw4 + 0.2) + cw4 - 0.26, 6.58, 0.26, 0.24, [(tl, {"size": 11, "bold": True})], align=R, anchor=MID, line=1.0)
+    for d_ in range(3):
+        dx = x + cw4 - 0.36 - (2 - d_) * 0.19
+        box(s, dx - 0.07, 6.7 - 0.07, 0.14, 0.14, N6 if d_ < touch else WHITE, None if d_ < touch else G4, 0.75, shape=MSO_SHAPE.OVAL)
 
 
 # ================================================================== (5) ブランド詳細
@@ -489,64 +549,74 @@ for i, (k5, items) in enumerate([("ブランド戦略", [(0, dummy(2)), (0, dumm
     bl(s, X0 + 1.2, y + 0.02, LW5 - 1.2, 0.8, items, size=9.5, anchor=MID)
 RX5 = X0 + LW5 + 0.35
 RW5 = X1 - RX5
-head(s, RX5, CT, RW5, "商品画像・提案・連携余地")
-box(s, RX5, 2.08, RW5, 2.5, PANEL)
-k5s = fit_scale([groups[0]], [RW5 - 0.6], 2.05)
-products(s, groups[0], RX5 + 0.3, RW5 - 0.6, 4.38, k5s, gap=0.14)
-text(s, RX5, 4.62, RW5, 0.26, [(dummy(1), {"size": 8.5, "color": G3})], align=C, anchor=MID, line=1.0)
-text(s, RX5, 4.96, RW5, 0.3, [("提案・連携余地", {"size": 10.5, "bold": True})], anchor=MID, line=1.0)
-line(s, RX5, 5.3, X1, 5.3, G5, 0.5)
-bl(s, RX5, 5.4, RW5, CB - 5.4, [(0, dummy(2)), (1, dummy(1)), (0, dummy(2), RED), (1, dummy(1)), (0, dummy(2))], size=9.5)
+head(s, RX5, CT, RW5, "商品画像")
+box(s, RX5, 2.08, RW5, 2.56, PANEL)
+k5s = fit_scale([groups[0]], [RW5 - 0.6], 2.12)
+products(s, groups[0], RX5 + 0.3, RW5 - 0.6, 4.44, k5s, gap=0.14)
+text(s, RX5, 4.68, RW5, 0.24, [(dummy(1), {"size": 8.5, "color": G3})], align=C, anchor=MID, line=1.0)
+head(s, RX5, 5.0, RW5, "提案・連携余地")
+bl(s, RX5, 5.44, RW5, CB - 5.44, [(0, dummy(2)), (1, dummy(1)), (0, dummy(2), RED), (1, dummy(1)), (0, dummy(2))], size=9.5)
 
 
 # ================================================================== (6) 直近の事業動向
-s = page("直近の事業動向", dummy(3), "この文章はサンプルです。　注：赤字は提案に関わる出来事")
-ev = [("2024/5", "戦略", "出来事A", True, "中期経営計画"), ("2024/11", "商品", "出来事B", True, "プレスリリース"), ("2025/3", "投資", "出来事C", False, "業界紙"),
-      ("2025/10", "海外", "出来事D", True, "プレスリリース"), ("2026/3予", "商品", "出来事E", True, "求人情報"), ("2026/4", "組織", "出来事F", True, "人事発表"),
-      ("2026/6", "商品", "出来事G", False, "プレスリリース")]
-ax = CT + 0.42
+s = page("直近の事業動向", dummy(3), "この文章はサンプルです。　注：赤は提案に関わる出来事")
+ev = [("2024/5", "戦略", "A", True, "中期経営計画"), ("2024/11", "商品", "B", False, "プレスリリース"), ("2025/3", "投資", "C", False, "業界紙"),
+      ("2025/10", "海外", "D", True, "プレスリリース"), ("2026/3予", "商品", "E", True, "求人情報"), ("2026/4", "組織", "F", False, "人事発表"),
+      ("2026/6", "商品", "G", True, "プレスリリース")]
 
 
 def tx(ym):
     y, m = ym.replace("予", "").split("/")
-    return X0 + 0.15 + (W - 0.3) * ((int(y) - 2024) * 12 + int(m) - 1) / 36
+    return X0 + W * ((int(y) - 2024) * 12 + int(m) - 0.5) / 36
 
 
+ax = 2.24
+for kk, yr in enumerate((2024, 2025, 2026)):
+    box(s, X0 + kk * W / 3, CT, W / 3, 0.26, LABEL, WHITE, 1.0)
+    text(s, X0 + kk * W / 3, CT, W / 3, 0.26, [(f"{yr}年", {"size": 9.5, "bold": True})], align=C, anchor=MID, line=1.0)
+    if kk:
+        line(s, X0 + kk * W / 3, CT + 0.26, X0 + kk * W / 3, 2.58, G5, 0.5)
 line(s, X0, ax, X1, ax, G2, 1.0)
-for yr in (2024, 2025, 2026):
-    xx = tx(f"{yr}/1")
-    line(s, xx, ax - 0.09, xx, ax + 0.09, G2, 1.0)
-    text(s, xx + 0.05, ax + 0.04, 0.6, 0.2, [(f"{yr}", {"size": 8, "color": G3})], line=1.0)
-for i, (ym, _, nm, hot, _) in enumerate(ev):
+for q in range(1, 12):
+    if q % 4:
+        xq = X0 + W * q / 12
+        line(s, xq, ax - 0.04, xq, ax + 0.04, G4, 0.5)
+for i, (ym, _, e, hot, _) in enumerate(ev):
     xx = tx(ym)
-    box(s, xx - 0.065, ax - 0.065, 0.13, 0.13, RED if hot else N4, WHITE, 1.0, shape=MSO_SHAPE.OVAL)
+    badge(s, xx, ax, 0.24, e, RED if hot else N4, size=8.5)
     up = i % 2 == 0
-    text(s, xx - 0.4, ax - 0.36 if up else ax + 0.14, 0.8, 0.22, [(ym, {"size": 8.5, "bold": True, "color": RED if hot else G2})],
+    text(s, xx - 0.45, ax - 0.36 if up else ax + 0.15, 0.9, 0.21, [(ym, {"size": 8.5, "bold": True, "color": RED if hot else G2})],
          align=C, anchor=MID, line=1.0)
 widths = [0.85, 0.65, 1.55, 3.05, 2.71, 1.3]
 heads6 = ["時期", "区分", "出来事", "内容", "提案への影響", "出所"]
-ty = 2.6
+ty = 2.72
 x = X0
 for j, h in enumerate(heads6):
-    box(s, x, ty, widths[j], 0.32, LABEL)
+    box(s, x, ty, widths[j], 0.32, LABEL, WHITE, 1.0)
     text(s, x, ty, widths[j], 0.32, [(h, {"size": 9.5, "bold": True})], align=C, anchor=MID, line=1.0)
     x += widths[j]
 rh = (CB - ty - 0.32) / len(ev)
 y = ty + 0.32
-for ym, kind, nm, hot, src in ev:
+for n_, (ym, kind, e, hot, src) in enumerate(ev):
     x = X0
-    vals = [ym, kind, nm, dummy(1), dummy(1), src]
+    vals = [ym, kind, f"出来事{e}", dummy(2), S + "\n" + S, src]
     for j, v in enumerate(vals):
         red = hot and j in (2, 4)
-        text(s, x + (0.08 if j >= 2 else 0), y, widths[j] - (0.12 if j >= 2 else 0), rh, [(v, {"size": 9.5, "bold": red, "color": RED if red else INK})],
-             align=C if j < 2 else L, anchor=MID, line=1.05)
+        if j == 2:
+            badge(s, x + 0.2, y + rh / 2, 0.22, e, RED if hot else N4, size=8)
+            text(s, x + 0.4, y, widths[j] - 0.44, rh, [(v, {"size": 9.5, "bold": red, "color": RED if red else INK})], anchor=MID, line=1.0)
+        else:
+            text(s, x + (0.1 if j >= 2 else 0), y, widths[j] - (0.2 if j >= 2 else 0), rh,
+                 [(ln_, {"size": 9.5 if j < 3 or j == 5 else 9, "bold": red, "color": RED if red else INK}) for ln_ in v.split("\n")],
+                 align=C if j < 2 else L, anchor=MID, line=1.08)
         x += widths[j]
-    line(s, X0, y + rh, X1, y + rh, G5 if (ym, kind) != ev[-1][:2] else G2, 0.5 if (ym, kind) != ev[-1][:2] else 0.75)
+    last = n_ == len(ev) - 1
+    line(s, X0, y + rh, X1, y + rh, G2 if last else G5, 0.75 if last else 0.5)
     y += rh
 
 
 # ================================================================== (7) 既存取引との照合
-s = page("既存取引との照合", dummy(3), "この文章はサンプルです。　注：他社は公開情報からの推定")
+s = page("既存取引との照合", dummy(3), "この文章はサンプルです。　注：他社は公開情報からの推定。カテゴリは容器の種類")
 cols7 = [f"カテゴリ{c}" for c in "ABCDEFG"]
 rows7 = ["ブランドA", "ブランドB", "ブランドC", "ブランドD", "ブランドE", "その他・新規"]
 ST = {"T": ("当社取引中", N5, WHITE), "O": ("他社（推定）", N1, INK), "N": ("新規発生", WHITE, RED), "U": ("要確認", WHITE, G2), "-": ("−", WHITE, G4)}
@@ -555,7 +625,7 @@ g7 = [["T", "O", "N", "O", "-", "U", "-"], ["O", "O", "O", "O", "-", "-", "-"], 
 n7 = [["商品A-1", "", "2026/3〜", "", "", "", ""], ["", "", "", "", "", "", ""], ["商品C-1", "", "", "", "", "", ""],
       ["", "", "", "", "", "", "2026/6〜"], ["", "", "", "", "", "", ""], ["2026/10〜", "2026/10〜", "", "", "2026/10〜", "", ""]]
 lw7, cw7, hh7 = 1.25, 0.98, 0.38
-rh7 = 0.7
+rh7 = 0.74
 gx = X0
 box(s, gx, CT, lw7, hh7, LABEL)
 for j, c_ in enumerate(cols7):
@@ -578,7 +648,7 @@ for i, b in enumerate(rows7):
             paras.append((n7[i][j], {"size": 8, "color": fg, "space": 1}))
         text(s, xx, yy, cw7, rh7, paras, align=C, anchor=MID, line=1.0)
 gb = CT + hh7 + 6 * rh7
-ly = gb + 0.16
+ly = gb + 0.13
 lx = gx
 for st in ("T", "O", "N", "U"):
     nm, fill, fg = ST[st]
@@ -588,32 +658,35 @@ for st in ("T", "O", "N", "U"):
 RX7 = gx + lw7 + 7 * cw7 + 0.3
 RW7 = X1 - RX7
 head(s, RX7, CT, RW7, "区画の数")
-counts = [("当社取引中", "2", N5), ("新規発生", "5", RED), ("要確認", "5", G2)]
+cnt = {k_: sum(r.count(k_) for r in g7) for k_ in "TONU"}
+counts = [("当社取引中", cnt["T"], N5), ("他社（推定）", cnt["O"], G2), ("新規発生", cnt["N"], RED), ("要確認", cnt["U"], G2)]
 for i, (lab_, num, col) in enumerate(counts):
-    y = 2.08 + i * 0.66
-    text(s, RX7, y, RW7 * 0.55, 0.56, [(lab_, {"size": 9, "color": G2})], anchor=MID, line=1.0)
-    text(s, RX7 + RW7 * 0.5, y, RW7 * 0.5, 0.56, [[(num, {"size": 22, "bold": True, "color": col}), (" 区画", {"size": 9, "color": G2})]],
+    y = 2.06 + i * 0.66
+    text(s, RX7, y, RW7 * 0.6, 0.54, [(lab_, {"size": 9, "color": G2})], anchor=MID, line=1.0)
+    text(s, RX7 + RW7 * 0.4, y, RW7 * 0.6, 0.54, [[(str(num), {"size": 20, "bold": True, "color": col}), (" 区画", {"size": 8.5, "color": G2})]],
          align=R, anchor=MID, line=1.0)
     line(s, RX7, y + 0.6, X1, y + 0.6, G5, 0.5)
-head(s, RX7, 4.2, RW7, "未確認事項")
-bl(s, RX7, 4.66, RW7, CB - 4.66, [(0, dummy(1), RED), (0, dummy(1)), (0, dummy(1)), (0, dummy(1), RED)], size=9.5)
+head(s, RX7, 4.86, RW7, "未確認事項")
+bl(s, RX7, 5.3, RW7, CB - 5.3, [(0, dummy(1), RED), (0, dummy(1)), (0, dummy(1)), (0, dummy(1)), (0, dummy(1))], size=9.5)
 
 
 # ================================================================== (8) 提案・連携余地
 s = page("提案・連携余地", dummy(3))
-themes = [("テーマA", ["minamo-serum", "minamo-milk"]), ("テーマB", ["refre-shampoo", "refre-refill"]), ("テーマC", ["harenohi-tube", "harenohi-stick"])]
-c8 = [(X0, 2.2, "提案テーマ"), (X0 + 2.4, 3.55, "根拠となる事実"), (X0 + 6.15, 2.5, "提案の切り口"), (X1 - 1.31, 1.31, "対象商品")]
+themes = [("A", ["minamo-serum", "minamo-milk"]), ("B", ["refre-shampoo", "refre-refill"]), ("C", ["harenohi-tube", "harenohi-stick"])]
+c8 = [(X0, 2.2, "提案テーマ"), (X0 + 2.4, 3.55, "根拠となる事実"), (X0 + 6.15, 2.45, "提案の切り口"), (X1 - 1.31, 1.31, "対象商品")]
 for x, w, h in c8:
     head(s, x, CT, w, h)
 top8 = CT + 0.46
 rh8 = (CB - top8) / 3
 k8 = fit_scale([t_[1] for t_ in themes], [1.1] * 3, rh8 - 0.36)
-for i, (nm, pics) in enumerate(themes):
+for i, (a, pics) in enumerate(themes):
     y = top8 + i * rh8
     box(s, X0, y + 0.08, 2.2, rh8 - 0.16, LABEL)
-    text(s, X0 + 0.12, y + 0.08, 1.96, rh8 - 0.16, [(nm, {"size": 12, "bold": True}), (dummy(1), {"size": 9, "color": G2, "space": 4})], align=C, anchor=MID, line=1.15)
-    bl(s, X0 + 2.4, y + 0.08, 3.55, rh8 - 0.16, [(0, dummy(2)), (1, dummy(1)), (0, dummy(2))], size=9.5, anchor=MID)
-    bl(s, X0 + 6.15, y + 0.08, 2.5, rh8 - 0.16, [(0, dummy(1), RED), (0, dummy(1), RED), (1, dummy(1))], size=9.5, anchor=MID)
+    badge(s, X0 + 0.37, y + rh8 / 2, 0.42, a, THEME[a], size=13)
+    text(s, X0 + 0.7, y + 0.08, 1.46, rh8 - 0.16, [(f"テーマ{a}", {"size": 12, "bold": True}), (dummy(1), {"size": 8.5, "color": G2, "space": 3})],
+         anchor=MID, line=1.12)
+    bl(s, X0 + 2.4, y + 0.08, 3.55, rh8 - 0.16, [(0, dummy(2)), (1, dummy(1)), (0, dummy(2), RED)], size=9.5, anchor=MID)
+    bl(s, X0 + 6.15, y + 0.08, 2.45, rh8 - 0.16, [(0, dummy(1), INK, True), (0, dummy(1)), (1, dummy(1))], size=9.5, anchor=MID)
     box(s, X1 - 1.31, y + 0.08, 1.31, rh8 - 0.16, PANEL)
     products(s, pics, X1 - 1.31 + 0.1, 1.11, y + rh8 - 0.2, k8, gap=0.05)
     if i < 2:
@@ -624,27 +697,31 @@ for i, (nm, pics) in enumerate(themes):
 s = page("優先順位と営業アクション", dummy(3), "この文章はサンプルです。　注：確度・規模は公開情報と取引実績からの見立て")
 LW9 = 3.95
 head(s, X0, CT, LW9, "提案テーマの優先順位")
-mx9, my9, ms = X0 + 0.55, 2.12, 3.25
-box(s, mx9, my9, ms, ms, WHITE, G2, 0.75)
-box(s, mx9 + ms / 2, my9, ms / 2, ms / 2, PANEL)
-line(s, mx9 + ms / 2, my9, mx9 + ms / 2, my9 + ms, G4, 0.75, dash=True)
-line(s, mx9, my9 + ms / 2, mx9 + ms, my9 + ms / 2, G4, 0.75, dash=True)
-text(s, mx9 + ms / 2, my9 + 0.06, ms / 2 - 0.08, 0.24, [("優先して着手", {"size": 8, "color": G3})], align=R, line=1.0)
-text(s, mx9, my9 + ms + 0.04, ms, 0.24, [("確度　→　高", {"size": 8.5, "color": G2})], align=R, line=1.0)
-text(s, X0, my9, 0.5, ms, [("規模", {"size": 8.5, "color": G2}), ("↑", {"size": 8.5, "color": G2}), ("大", {"size": 8.5, "color": G2})], align=C, anchor=TOP, line=1.0)
-for cxp, cyp, rr, lab_, fill, fg in [(0.78, 0.22, 0.3, "A", N6, WHITE), (0.6, 0.4, 0.24, "B", N5, WHITE), (0.34, 0.6, 0.22, "C", N3, WHITE), (0.18, 0.82, 0.18, "D", N1, INK)]:
-    bx, by_ = mx9 + ms * cxp - rr, my9 + ms * cyp - rr
-    box(s, bx, by_, rr * 2, rr * 2, fill, WHITE, 1.0, shape=MSO_SHAPE.OVAL)
-    text(s, bx, by_, rr * 2, rr * 2, [(lab_, {"size": 12, "bold": True, "color": fg})], align=C, anchor=MID, line=1.0)
-legend9 = [("A", "テーマA", N6), ("B", "テーマB", N5), ("C", "テーマC", N3), ("D", "テーマD（見送り）", N1)]
-for i, (a, nm, col) in enumerate(legend9):
-    y = 5.78 + i * 0.26
-    box(s, X0 + 0.55, y + 0.04, 0.17, 0.17, col, None, shape=MSO_SHAPE.OVAL)
-    text(s, X0 + 0.8, y, 2.8, 0.25, [(nm, {"size": 9, "color": G2})], anchor=MID, line=1.0)
+mx9, my9 = X0 + 0.4, 2.1
+mw9, mh9 = X0 + LW9 - mx9, 4.0
+box(s, mx9, my9, mw9, mh9, WHITE, G2, 0.75)
+box(s, mx9 + mw9 / 2, my9, mw9 / 2, mh9 / 2, PANEL)
+line(s, mx9 + mw9 / 2, my9, mx9 + mw9 / 2, my9 + mh9, G4, 0.75, dash=True)
+line(s, mx9, my9 + mh9 / 2, mx9 + mw9, my9 + mh9 / 2, G4, 0.75, dash=True)
+text(s, mx9 + mw9 / 2, my9 + 0.06, mw9 / 2 - 0.08, 0.24, [("優先して着手", {"size": 8.5, "bold": True, "color": G2})], align=R, line=1.0)
+# 縦軸：規模、横軸：確度
+text(s, X0, my9, 0.3, 0.24, [("大", {"size": 8.5, "color": G2})], align=C, anchor=MID, line=1.0)
+text(s, X0, my9 + mh9 / 2 - 0.3, 0.3, 0.6, [("規", {"size": 9, "bold": True, "color": G2}), ("模", {"size": 9, "bold": True, "color": G2})],
+     align=C, anchor=MID, line=1.0)
+text(s, X0, my9 + mh9 - 0.24, 0.3, 0.24, [("小", {"size": 8.5, "color": G2})], align=C, anchor=MID, line=1.0)
+text(s, mx9, my9 + mh9 + 0.04, 0.4, 0.22, [("低", {"size": 8.5, "color": G2})], anchor=MID, line=1.0)
+text(s, mx9, my9 + mh9 + 0.04, mw9, 0.22, [("確度", {"size": 9, "bold": True, "color": G2})], align=C, anchor=MID, line=1.0)
+text(s, mx9 + mw9 - 0.4, my9 + mh9 + 0.04, 0.4, 0.22, [("高", {"size": 8.5, "color": G2})], align=R, anchor=MID, line=1.0)
+text(s, X0, CB - 0.26, LW9, 0.26, [("円の大きさは想定される取引の規模", {"size": 8, "color": G3})], align=R, anchor=MID, line=1.0)
+for a, cxp, cyp, rr in [("A", 0.76, 0.2, 0.34), ("B", 0.6, 0.33, 0.27), ("C", 0.34, 0.58, 0.23), ("D", 0.2, 0.82, 0.17)]:
+    bx, by_ = mx9 + mw9 * cxp, my9 + mh9 * cyp
+    badge(s, bx, by_, rr * 2, a, THEME[a], WHITE if a != "D" else INK, size=12)
+    text(s, bx - 0.8, by_ + rr + 0.03, 1.6, 0.2, [(f"テーマ{a}" + ("（見送り）" if a == "D" else ""), {"size": 8.5, "color": G2})],
+         align=C, anchor=MID, line=1.0)
 RX9 = X0 + LW9 + 0.35
 RW9 = X1 - RX9
 head(s, RX9, CT, RW9, "アクションプラン")
-w9 = [0.95, 1.3, 2.31, 1.25]
+w9 = [1.1, 1.2, 2.26, 1.25]
 hdr9 = ["テーマ", "対象部門", "商談で確認すること", "次のアクション"]
 y = 2.08
 x = RX9
@@ -653,19 +730,20 @@ for j, h in enumerate(hdr9):
     text(s, x, y, w9[j], 0.32, [(h, {"size": 9.5, "bold": True})], align=C, anchor=MID, line=1.0)
     x += w9[j]
 y += 0.32
-acts = [("テーマA", "部門B-2", dummy(2), "○月：初回訪問"), ("テーマB", "部門C-1", dummy(2), "○月：サンプル提出"), ("テーマC", "部門D-2", dummy(2), "○月：方針の確認")]
-for i, a in enumerate(acts):
-    x = RX9
-    for j, v in enumerate(a):
-        hot = i == 0 and j in (0, 3)
-        text(s, x + 0.08, y, w9[j] - 0.14, 1.0, [(v, {"size": 9.5, "bold": hot or j == 0, "color": RED if hot else INK})],
-             align=L, anchor=MID, line=1.1)
+acts = [("A", "部門B-2", S + "\n" + S, "○月：初回訪問"), ("B", "部門C-1", S + "\n" + S, "○月：サンプル提出"), ("C", "部門D-2", S + "\n" + S, "○月：方針の確認")]
+for i, (a, dept, q, nxt) in enumerate(acts):
+    if i == 0:
+        box(s, RX9, y, RW9, 1.0, PANEL)
+    badge(s, RX9 + 0.22, y + 0.5, 0.3, a, THEME[a], size=10)
+    text(s, RX9 + 0.44, y, w9[0] - 0.48, 1.0, [(f"テーマ{a}", {"size": 9.5, "bold": True})], anchor=MID, line=1.0)
+    x = RX9 + w9[0]
+    for j, v in enumerate((dept, q, nxt), start=1):
+        text(s, x + 0.08, y, w9[j] - 0.14, 1.0, [(ln_, {"size": 9.5, "bold": j == 3}) for ln_ in v.split("\n")], anchor=MID, line=1.1)
         x += w9[j]
     line(s, RX9, y + 1.0, X1, y + 1.0, G5 if i < 2 else G2, 0.5 if i < 2 else 0.75)
     y += 1.0
-text(s, RX9, 5.58, RW9, 0.3, [("初回訪問で持ち込むもの", {"size": 10.5, "bold": True})], anchor=MID, line=1.0)
-line(s, RX9, 5.92, X1, 5.92, G5, 0.5)
-bl(s, RX9, 5.98, RW9, CB - 5.98, [(0, dummy(2)), (0, dummy(2)), (0, dummy(1))], size=9.5, anchor=MID)
+head(s, RX9, 5.52, RW9, "初回訪問で持ち込むもの")
+bl(s, RX9, 5.96, RW9, CB - 5.96, [(0, dummy(2)), (0, dummy(2)), (0, dummy(1))], size=9.5, anchor=MID)
 
 
 prs.save(OUT)

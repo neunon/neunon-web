@@ -145,6 +145,17 @@ products['classica-lotion'] = { w: 220, h: 500, svg: `
   ${label([['BRAND B', 19, SERIF, '#3a3226', 400, 4], ['SAMPLE', 10, SERIF, '#3a3226', 400, 4, 24], ['商品B-1', 10, JP, '#5b5246', 400, 1, 70]], 110, 300)}
   <rect x="60" y="340" width="100" height="1.2" fill="${GOLD}"/>` };
 
+products['classica-serum'] = { w: 150, h: 430, svg: `
+  <defs>${defsBase}${cyl('b', '#ddd5c9', { gloss: 0.55, dark: -0.22 })}${cyl('c', GOLD, { gloss: 0.55, dark: -0.35 })}${cyl('k', '#3a3226', { gloss: 0.3, dark: -0.35 })}</defs>
+  ${floor(75, 416, 52)}
+  <rect x="57" y="20" width="36" height="74" rx="17" fill="url(#k)"/>
+  <rect x="47" y="90" width="56" height="66" rx="4" fill="url(#c)"/>
+  <path d="M30 192 Q30 156 66 156 L84 156 Q120 156 120 192 L120 406 Q120 416 110 416 L40 416 Q30 416 30 406Z" fill="url(#b)"/>
+  ${shine(42, 172, 9, 226, 0.55)}
+  <rect x="45" y="246" width="60" height="1" fill="${GOLD}"/>
+  ${label([['BRAND B', 12, SERIF, '#3a3226', 400, 3], ['SAMPLE', 8, SERIF, '#3a3226', 400, 3, 17], ['商品B-3', 9, JP, '#5b5246', 400, 1, 42]], 75, 286)}
+  <rect x="45" y="346" width="60" height="1" fill="${GOLD}"/>` };
+
 products['classica-cream'] = { w: 300, h: 240, svg: `
   <defs>${defsBase}${cyl('b', '#e7e2da', { gloss: 0.6, dark: -0.22 })}${cyl('c', GOLD, { gloss: 0.55, dark: -0.35 })}</defs>
   ${floor(150, 224, 112)}
