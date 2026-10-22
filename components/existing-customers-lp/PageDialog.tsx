@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, type KeyboardEvent } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { IMG, type ReportPage } from './data';
 import s from './lp.module.css';
@@ -10,10 +10,14 @@ export const pageLabel = (p: ReportPage) => (p.no ? `（${p.no}）${p.title}` : 
 
 /**
  * レポートのページを大きく開くダイアログ。pages が2枚以上なら前後に送れる。
+ * パソコンではページ全体が画面に収まる大きさで開き、画像を押すと原寸（幅2000px）に切り替わる。
  * スマホでは画像を画面より広く出し、横スクロールと指での拡大で読めるようにする。
  */
 export function PageDialog({ pages, index, onChange }: { pages: ReportPage[]; index: number | null; onChange: (i: number | null) => void }) {
   const dialog = useRef<HTMLDialogElement>(null);
+  const [large, setLarge] = useState(false);
+
+  useEffect(() => setLarge(false), [index]);
 
   useEffect(() => {
     const d = dialog.current;
@@ -48,10 +52,11 @@ export function PageDialog({ pages, index, onChange }: { pages: ReportPage[]; in
             <p><b>{pageLabel(current)}</b><span>{current.role}</span></p>
             <button type="button" onClick={() => onChange(null)} aria-label="閉じる"><X size={22} aria-hidden="true" /></button>
           </div>
-          <div className={s.lightboxScroll}>
+          <div className={s.lightboxScroll} data-large={large ? 'true' : undefined}>
             <img
+              onClick={() => setLarge((v) => !v)}
               src={`${IMG}/${current.slug}-2000.webp`}
-              srcSet={`${IMG}/${current.slug}-1440.webp 1440w, ${IMG}/${current.slug}-2000.webp 2000w`}
+              srcSet={large ? undefined : `${IMG}/${current.slug}-1440.webp 1440w, ${IMG}/${current.slug}-2000.webp 2000w`}
               sizes="(min-width: 1440px) 1360px, 96vw"
               width={2000}
               height={1385}
@@ -59,6 +64,9 @@ export function PageDialog({ pages, index, onChange }: { pages: ReportPage[]; in
             />
           </div>
           <p className={s.lightboxHint}>横にスクロールでき、指で広げると拡大できます。</p>
+          <button type="button" className={s.lightboxSize} onClick={() => setLarge((v) => !v)} aria-pressed={large}>
+            {large ? '画面に合わせて表示' : '原寸で表示'}
+          </button>
           {many && (
             <div className={s.lightboxNav}>
               <button type="button" onClick={() => go(-1)} aria-label="前のページ"><ChevronLeft size={20} aria-hidden="true" />前へ</button>

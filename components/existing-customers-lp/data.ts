@@ -119,8 +119,11 @@ export const labelSample = [
 
 /** サンプルの設定（すべて架空） */
 export const sampleSetting = {
-  client: 'サンプル容器株式会社（樹脂容器メーカー）',
-  target: 'サンプル化粧品株式会社（化粧品・日用品メーカー）',
+  rows: [
+    { k: '依頼元', v: 'サンプル容器株式会社', note: '樹脂容器メーカー' },
+    { k: '分析対象', v: 'サンプル化粧品株式会社', note: '化粧品・日用品メーカー' },
+    { k: '見る観点', v: '容器の接点', note: 'ブランドごとの容器と、依頼元の取引との関係' },
+  ],
   brands: [
     { key: 'a', name: 'ブランドA', biz: '事業A', touch: 3, label: '大' },
     { key: 'b', name: 'ブランドB', biz: '事業A', touch: 1, label: '小' },

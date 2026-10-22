@@ -28,6 +28,7 @@ const jsonLd = [
     serviceType: '既存顧客の企業分析・調査代行',
     description: seo.description,
     url: FINAL_URL,
+    image: new URL('/images/existing-customers/matching-1440.webp', site.url).href,
     areaServed: 'JP',
     provider: { '@type': 'Organization', name: site.name, url: site.url },
     offers: plans.map((p) => ({

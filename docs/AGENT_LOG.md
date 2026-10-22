@@ -1,6 +1,16 @@
 # 作業の引き継ぎ（Codex ⇄ Claude Code）
 
-最終更新: 2026-10-22 / 更新者: Claude Code
+最終更新: 2026-10-23 / 更新者: Claude Code
+
+## 2026-10-23 Claude Code：既存顧客LP 第8版　承認されたサンプルレポートを主役に作り直し（確認待ち）
+
+ブランチ `hp/existing-customers-claude-lp`。確認用URL `/design-review/existing-customers-claude/`（noindex）。
+
+- ユーザーがサンプルレポートを承認し、LP を依頼。レポートを主役に設計し直した（詳細は `docs/EXISTING_CUSTOMERS_CLAUDE_LP.md` の「0. LP 第8版」）
+- 部品: `components/existing-customers-lp/`（ExistingCustomersLp・ReportViewer＝ファーストビューのタブ表示・ZoomFigure・ReportGallery・PageDialog＝拡大表示・StickyCta・data.ts）
+- 画像は `node design/existing-customers-sample/prepare_assets.mjs` で renders/ から作る（PowerPoint の書き出しが前段）
+- 検証: typecheck・build・audit:html 通過。390/768/1024/1440px で表示と操作を確認
+- 次: ユーザーの確認。承認後に正式URL `/services/package/existing-customers/` へ移す（noindex 解除・sitemap 追加・確認用ルート削除）。「資料を請求する」で送る資料は未決
 
 ## 2026-10-23 Claude Code：既存顧客LP　分析レポートのサンプルを Neunon のテンプレートで作り直し（確認待ち）
 

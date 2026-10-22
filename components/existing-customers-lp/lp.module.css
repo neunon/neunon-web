@@ -74,7 +74,7 @@
 .crumbs a:hover { color: var(--b700); text-decoration: underline; text-underline-offset: 4px; }
 .heroTop { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 48px; align-items: end; }
 .lead { margin-top: 16px; font-size: 16.5px; line-height: 1.95; color: var(--ink2); max-width: 41em; }
-.facts { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 30px; margin-top: 16px; font-size: 15px; color: var(--ink2); }
+.facts { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 24px; margin-top: 16px; font-size: 15px; color: var(--ink2); }
 .facts li { display: flex; align-items: baseline; }
 .facts b { margin: 0 2px; font-family: var(--num); font-size: 23px; line-height: 1.2; color: var(--ink); }
 .facts li:nth-child(3) b { font-family: inherit; font-size: 15px; }
@@ -85,7 +85,7 @@
 
 /* レポートの表示（タブ・ページ・説明） */
 .viewer { margin-top: 30px; background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
-.viewerTabs { display: flex; overflow-x: auto; border-bottom: 1px solid var(--line); scrollbar-width: thin; }
+.viewerTabs { position: relative; display: flex; overflow-x: auto; border-bottom: 1px solid var(--line); scrollbar-width: thin; }
 .viewerTab {
   flex: 1 0 auto; padding: 14px 12px 11px; border: 0; border-bottom: 3px solid transparent; background: none;
   font: inherit; font-size: 14px; font-weight: 700; line-height: 1.5; color: var(--ink3); white-space: nowrap; cursor: pointer;
@@ -176,7 +176,8 @@
 .sampleDl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 28px; }
 .sampleDl > div { padding: 2px 0 2px 16px; border-left: 1px solid var(--line2); }
 .sampleDl dt { font-size: 13px; font-weight: 700; color: var(--ink3); line-height: 1.8; }
-.sampleDl dd { font-size: 14.5px; font-weight: 700; line-height: 1.8; }
+.sampleDl dd { font-size: 15px; font-weight: 700; line-height: 1.7; }
+.sampleDl dd small { display: block; font-size: 13px; font-weight: 400; color: var(--ink2); }
 .sampleText .small { grid-column: 2; }
 .brands { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
 .brands li { padding: 8px 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
@@ -198,7 +199,8 @@
 .galleryTitle { margin-top: 12px; font-size: 15.5px; line-height: 1.6; }
 .galleryBody { margin-top: 2px; font-size: 13.5px; line-height: 1.75; color: var(--ink2); }
 
-.lightbox { width: min(1400px, 96vw); max-width: none; max-height: 96vh; margin: auto; padding: 0; border: 0; border-radius: 10px; background: #fff; overflow: hidden; }
+/* ページ全体が画面の高さに収まる幅で開く（書き出しの縦横比 1662/2400） */
+.lightbox { width: min(1400px, 96vw, calc((96vh - 132px) * 1.444 + 38px)); max-width: none; max-height: 96vh; margin: auto; padding: 0; border: 0; border-radius: 10px; background: #fff; overflow: hidden; }
 .lightbox::backdrop { background: rgba(7, 28, 50, .72); }
 .lightboxInner { padding: 14px 18px 16px; }
 .lightboxBar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 10px; }
@@ -210,8 +212,10 @@
 }
 .lightboxBar button:hover, .lightboxNav button:hover { border-color: var(--b700); color: var(--b700); }
 .lightboxScroll { overflow: auto; max-height: calc(96vh - 128px); border: 1px solid var(--line); touch-action: pan-x pan-y pinch-zoom; overscroll-behavior: contain; }
-.lightboxScroll img { width: 100%; }
+.lightboxScroll img { width: 100%; cursor: zoom-in; }
+.lightboxScroll[data-large='true'] img { width: 2000px; max-width: none; cursor: zoom-out; }
 .lightboxHint { display: none; }
+.lightboxSize { margin-top: 8px; padding: 0; border: 0; background: none; font: inherit; font-size: 13.5px; font-weight: 700; color: var(--b700); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 .lightboxNav { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-family: var(--num); font-size: 14px; color: var(--ink3); }
 
 /* ------------------------------------------------------------ 途中の相談 */
@@ -439,8 +443,9 @@
   .lightboxInner { display: flex; flex-direction: column; height: 100%; padding: 10px; }
   .lightboxBar span { display: none; }
   .lightboxScroll { flex: 1; max-height: none; }
-  .lightboxScroll img { width: 960px; max-width: none; }
+  .lightboxScroll img, .lightboxScroll[data-large='true'] img { width: 960px; max-width: none; cursor: default; }
   .lightboxHint { display: block; margin-top: 6px; font-size: 12px; color: var(--ink3); }
+  .lightboxSize { display: none; }
   .terms { grid-template-columns: 1fr; padding: 4px 18px; }
   .terms > div:nth-last-child(2) { border-bottom: 1px solid var(--line); }
   .custom { padding: 20px; }

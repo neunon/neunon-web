@@ -171,9 +171,9 @@ export function ExistingCustomersLp() {
             <div className={s.sampleText}>
               <h3 className={s.h3}>このサンプルの設定</h3>
               <dl className={s.sampleDl}>
-                <div><dt>依頼元</dt><dd>{sampleSetting.client}</dd></div>
-                <div><dt>分析対象</dt><dd>{sampleSetting.target}</dd></div>
-                <div><dt>見る観点</dt><dd>ブランドごとの容器と、依頼元の取引との接点</dd></div>
+                {sampleSetting.rows.map((r) => (
+                  <div key={r.k}><dt>{r.k}</dt><dd>{r.v}<small>{r.note}</small></dd></div>
+                ))}
               </dl>
               <p className={s.small}>社名・ブランド・数値はすべて架空です。商品画像もこのサンプルのために制作したものです。</p>
             </div>

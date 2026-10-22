@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { Maximize2 } from 'lucide-react';
 import { HERO_PAGE, IMG, reportPages } from './data';
 import { PageDialog, pageLabel } from './PageDialog';
@@ -18,7 +18,16 @@ export function ReportViewer() {
   const [current, setCurrent] = useState(first);
   const [zoom, setZoom] = useState<number | null>(null);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const list = useRef<HTMLDivElement>(null);
   const p = pages[current];
+
+  // 選んだタブが見えるよう、タブの列だけを横に送る（ページ全体はスクロールさせない）
+  useEffect(() => {
+    const box = list.current;
+    const tab = tabs.current[current];
+    if (!box || !tab || box.scrollWidth <= box.clientWidth) return;
+    box.scrollTo({ left: tab.offsetLeft - (box.clientWidth - tab.offsetWidth) / 2 });
+  }, [current]);
 
   function onTabKey(e: KeyboardEvent<HTMLDivElement>) {
     const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
@@ -31,7 +40,7 @@ export function ReportViewer() {
 
   return (
     <div className={s.viewer}>
-      <div className={s.viewerTabs} role="tablist" aria-label="サンプルレポートのページ" onKeyDown={onTabKey}>
+      <div ref={list} className={s.viewerTabs} role="tablist" aria-label="サンプルレポートのページ" onKeyDown={onTabKey}>
         {pages.map((x, i) => (
           <button
             key={x.slug}
