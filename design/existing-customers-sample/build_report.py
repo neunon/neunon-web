@@ -510,9 +510,10 @@ for i, (nm, chg, col) in enumerate(blocks):
 # ================================================================== (4) 商品ラインナップ
 s = page("商品ラインナップ", dummy(3), "この文章はサンプルです。　注：価格は税込。容器のカテゴリは (7) の列と同じ")
 cw4 = (W - 3 * 0.2) / 4
-groups = [["minamo-lotion", "minamo-milk", "minamo-serum", "minamo-cream"], ["classica-lotion", "classica-serum", "classica-cream"],
+groups = [["minamo-lotion", "minamo-milk", "minamo-cream"], ["classica-lotion", "classica-serum", "classica-cream"],
           ["refre-shampoo", "refre-treatment", "refre-refill"], ["harenohi-tube", "harenohi-spray", "harenohi-stick"]]
 k = fit_scale(groups, [cw4 - 0.24] * 4, 2.2)
+base4 = 3.56 + (2.72 + k * max(px(n)[1] for g in groups for n in g)) / 2 - 0.02   # 面（3.56〜6.28）の上下中央
 # ブランド, 事業, 商品数, 販路, 容器（(7) の当社・他社の区画と一致）, 容器接点（0〜3）
 meta = [("A", "事業A", 4, "チャネルA・C", "カテゴリA・B・D", 3, "大"), ("B", "事業A", 3, "チャネルB・D", "カテゴリA〜D", 1, "小"),
         ("C", "事業B", 3, "チャネルA・B", "カテゴリA・B・F", 3, "大"), ("D", "事業C", 3, "チャネルA・E", "カテゴリE", 2, "中")]
@@ -523,7 +524,7 @@ for i, (b, biz, n_, chs, cats, touch, tl) in enumerate(meta):
                                 (0, f"主な販路：{chs}"), (0, f"容器：{cats}"),
                                 (0, dummy(1)), (1, dummy(1), RED if touch == 3 else INK)], size=9.5)
     box(s, x, 3.56, cw4, 2.72, PANEL)
-    products(s, groups[i], x + 0.12, cw4 - 0.24, 6.1, k)
+    products(s, groups[i], x + 0.12, cw4 - 0.24, base4, k)
     text(s, x, 6.38, cw4 * 0.6, 0.44, [("売上（2026/3予）", {"size": 8, "color": G3}), (f"○○億円", {"size": 11, "bold": True, "space": 0})],
          anchor=MID, line=1.0)
     text(s, x + cw4 * 0.4, 6.38, cw4 * 0.6, 0.2, [("容器の接点", {"size": 8, "color": G3})], align=R, anchor=MID, line=1.0)
@@ -551,11 +552,12 @@ RX5 = X0 + LW5 + 0.35
 RW5 = X1 - RX5
 head(s, RX5, CT, RW5, "商品画像")
 box(s, RX5, 2.08, RW5, 2.56, PANEL)
-k5s = fit_scale([groups[0]], [RW5 - 0.6], 2.12)
-products(s, groups[0], RX5 + 0.3, RW5 - 0.6, 4.44, k5s, gap=0.14)
+line_a = ["minamo-lotion", "minamo-milk", "minamo-serum", "minamo-cream"]
+k5s = fit_scale([line_a], [RW5 - 0.6], 2.12)
+products(s, line_a, RX5 + 0.3, RW5 - 0.6, 4.44, k5s, gap=0.14)
 text(s, RX5, 4.68, RW5, 0.24, [(dummy(1), {"size": 8.5, "color": G3})], align=C, anchor=MID, line=1.0)
 head(s, RX5, 5.0, RW5, "提案・連携余地")
-bl(s, RX5, 5.44, RW5, CB - 5.44, [(0, dummy(2)), (1, dummy(1)), (0, dummy(2), RED), (1, dummy(1)), (0, dummy(2))], size=9.5)
+bl(s, RX5, 5.44, RW5, CB - 5.44, [(0, dummy(2)), (1, dummy(1)), (0, dummy(2), RED), (1, dummy(1)), (0, dummy(2)), (1, dummy(1))], size=9.5)
 
 
 # ================================================================== (6) 直近の事業動向
@@ -583,7 +585,7 @@ for q in range(1, 12):
         line(s, xq, ax - 0.04, xq, ax + 0.04, G4, 0.5)
 for i, (ym, _, e, hot, _) in enumerate(ev):
     xx = tx(ym)
-    badge(s, xx, ax, 0.24, e, RED if hot else N4, size=8.5)
+    badge(s, xx, ax, 0.22, e, RED if hot else N4, size=8)
     up = i % 2 == 0
     text(s, xx - 0.45, ax - 0.36 if up else ax + 0.15, 0.9, 0.21, [(ym, {"size": 8.5, "bold": True, "color": RED if hot else G2})],
          align=C, anchor=MID, line=1.0)
@@ -713,7 +715,7 @@ text(s, mx9, my9 + mh9 + 0.04, 0.4, 0.22, [("低", {"size": 8.5, "color": G2})],
 text(s, mx9, my9 + mh9 + 0.04, mw9, 0.22, [("確度", {"size": 9, "bold": True, "color": G2})], align=C, anchor=MID, line=1.0)
 text(s, mx9 + mw9 - 0.4, my9 + mh9 + 0.04, 0.4, 0.22, [("高", {"size": 8.5, "color": G2})], align=R, anchor=MID, line=1.0)
 text(s, X0, CB - 0.26, LW9, 0.26, [("円の大きさは想定される取引の規模", {"size": 8, "color": G3})], align=R, anchor=MID, line=1.0)
-for a, cxp, cyp, rr in [("A", 0.76, 0.2, 0.34), ("B", 0.6, 0.33, 0.27), ("C", 0.34, 0.58, 0.23), ("D", 0.2, 0.82, 0.17)]:
+for a, cxp, cyp, rr in [("A", 0.8, 0.17, 0.34), ("B", 0.62, 0.36, 0.27), ("C", 0.34, 0.58, 0.23), ("D", 0.2, 0.82, 0.17)]:
     bx, by_ = mx9 + mw9 * cxp, my9 + mh9 * cyp
     badge(s, bx, by_, rr * 2, a, THEME[a], WHITE if a != "D" else INK, size=12)
     text(s, bx - 0.8, by_ + rr + 0.03, 1.6, 0.2, [(f"テーマ{a}" + ("（見送り）" if a == "D" else ""), {"size": 8.5, "color": G2})],
