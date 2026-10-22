@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, Check, Minus } from 'lucide-react';
 import {
   CONTACT_DOCS, CONTACT_ESTIMATE, CONTACT_GENERAL, IMG,
-  comparison, contents, effects, faq, flow, hypotheses, labelSample, pains, perspectives, plans, records,
+  comparison, effects, faq, flow, hypotheses, labelSample, pains, perspectives, planFeatures, plans, records,
 } from './data';
+import { ReportGallery } from './ReportGallery';
 import { StickyCta } from './StickyCta';
 import s from './lp.module.css';
 
@@ -11,7 +12,7 @@ import s from './lp.module.css';
  * 既存顧客企業クローズアップ LP。受注（見積もり相談）につなげることを第一に組んだ。
  *
  *   ファーストビュー（誰向け・何が・いくらで・相談ボタン・納品物の実物）→ 実績の帯 → こんなこと
- *   → レポートに書くこと → 提案仮説の例 → 効果 → 途中の相談 → 選ばれる理由と比較
+ *   → レポートの中身（全ページ・プラン別）→ 提案仮説の例 → 効果 → 途中の相談 → 選ばれる理由と比較
  *   → 実績 → 料金 → 依頼の流れ → FAQ → 最後の相談（スマホは画面下に相談ボタン）
  *
  * 画像はすべてサンプルレポート（サンプル食品株式会社を分析した例）の実物の書き出し。
@@ -79,15 +80,18 @@ export function ExistingCustomersLp() {
             <div className={s.laptop}>
               <div className={s.screen}>
                 <img
-                  {...pageSrc('signals')}
+                  {...pageSrc('summary')}
                   sizes="(min-width: 1200px) 620px, 90vw"
                   width={PAGE_W}
                   height={PAGE_H}
-                  alt="サンプルレポートの「変化のシグナルと取引状況」のページ。出来事の時系列と、商品カテゴリと物流工程を掛け合わせた取引マップ"
+                  alt="サンプルレポートの「サマリー」のページ。企業プロフィール、業績・顧客と販路・商品・変化の4つの要点、依頼元との接点"
                   fetchPriority="high"
                 />
               </div>
               <div className={s.base} aria-hidden="true" />
+            </div>
+            <div className={s.printBack} aria-hidden="true">
+              <img src={`${IMG}/segments-640.webp`} width={640} height={443} alt="" />
             </div>
             <div className={s.print}>
               <img
@@ -132,40 +136,21 @@ export function ExistingCustomersLp() {
         </div>
       </section>
 
-      {/* ------------------------------------------------------------ レポートに書くこと */}
+      {/* ------------------------------------------------------------ レポートの中身 */}
       <section className={s.contents} id="contents" aria-labelledby="contents-title">
         <div className={s.wrap}>
           <header className={s.secHead}>
-            <h2 id="contents-title" className={s.h2}>レポートに書くこと</h2>
+            <h2 id="contents-title" className={s.h2}>レポートの中身</h2>
             <p className={s.secLead}>
-              1社につき1レポート。Standardプランでは次の4つの面から顧客を調べ、最後に提案のヒントをまとめます。
-              下の画像は、食品メーカーを低温物流の会社の目線で分析したサンプルです。
+              食品メーカーを、低温物流の会社の目線で分析したサンプルです（Advancedプラン・表紙＋11ページ）。
+              プランを選ぶと、そのプランに収めるページがわかります。ページを押すと拡大できます。
             </p>
           </header>
-          <ol className={s.pages}>
-            {contents.map((c, i) => (
-              <li key={c.img}>
-                <div className={s.paper}>
-                  <img
-                    {...pageSrc(c.img)}
-                    sizes="(min-width: 1200px) 280px, (min-width: 768px) 45vw, 90vw"
-                    width={PAGE_W}
-                    height={PAGE_H}
-                    alt={`サンプルレポートの「${c.title}」のページ`}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <p className={s.pageNo}>{`0${i + 1}`}</p>
-                <h3 className={s.h3}>{c.title}</h3>
-                <p className={s.pageBody}>{c.body}</p>
-              </li>
-            ))}
-          </ol>
+          <ReportGallery />
           <div className={s.insightBar}>
-            <p className={s.pageNo}>05</p>
+            <p className={s.pageNo}>＋</p>
             <div>
-              <h3 className={s.h3}>提案のヒント</h3>
+              <h3 className={s.h3}>どのプランにも「提案のヒント」を添えます</h3>
               <p>調べてわかったことと、そこから言えることを、御社の商材の目線で書き出します。</p>
             </div>
             <a href="#hypotheses" className={s.textLink}>例を見る</a>
@@ -361,19 +346,37 @@ export function ExistingCustomersLp() {
 
           <div className={s.plans}>
             {plans.map((p) => (
-              <article key={p.name} className={s.plan}>
-                <h3 className={s.planName}>{p.name}</h3>
-                <p className={s.planPrice}><b>{p.price}</b>円／社<small>（税抜）</small></p>
-                <dl className={s.planSpec}>
-                  <div><dt>分量</dt><dd>{p.volume}</dd></div>
-                  <div><dt>納期の目安</dt><dd>{p.pace}</dd></div>
-                  <div><dt>内容</dt><dd>{p.contents}</dd></div>
-                </dl>
+              <article key={p.name} className={p.featured ? s.planFeatured : s.plan}>
+                <div className={s.planTop}>
+                  <h3 className={s.planName}>{p.name}</h3>
+                  {p.featured && <span className={s.planBadge}>おすすめ</span>}
+                </div>
                 <p className={s.planFit}>{p.fit}</p>
+                <p className={s.planPrice}><b>{p.price}</b><span>円／社</span><small>（税抜）</small></p>
+                <p className={s.planMeta}>{p.volume}<span aria-hidden="true">・</span>納期の目安 {p.pace}</p>
+                <Link href={CONTACT_ESTIMATE} className={p.featured ? s.planCtaFeatured : s.planCta}>このプランで相談する</Link>
+                <ul className={s.planList} aria-label={`${p.name}に含まれる内容`}>
+                  {planFeatures.map((f) => {
+                    const has = (f.in as readonly string[]).includes(p.name);
+                    return (
+                      <li key={f.label} data-has={has ? 'true' : undefined}>
+                        {has ? <Check aria-hidden="true" size={16} strokeWidth={3} /> : <Minus aria-hidden="true" size={16} strokeWidth={2} />}
+                        <span>{f.label}{p.name === 'Light' && has ? '（要点）' : ''}</span>
+                        <span className={s.srOnly}>{has ? '：含む' : '：含まない'}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
               </article>
             ))}
           </div>
-          <p className={s.trial}><b>お試し</b>数社からのご依頼も承ります。まず成果物をご確認いただいてから、対象を広げるかどうかをご判断ください。</p>
+          <div className={s.custom}>
+            <div>
+              <h3 className={s.h3}>ご要望に合わせて調整します</h3>
+              <p>数社からのお試し、社内フォーマットでの納品、業種や条件からの対象企業の選定もご相談ください。</p>
+            </div>
+            <Link href={CONTACT_GENERAL} className={s.btnGhost}>相談する</Link>
+          </div>
         </div>
       </section>
 
@@ -432,7 +435,7 @@ export function ExistingCustomersLp() {
             <p className={s.finalSub}>サービスについてのご質問は<Link href={CONTACT_GENERAL}>こちら</Link></p>
           </div>
           <div className={s.finalArt} aria-hidden="true">
-            <img src={`${IMG}/performance-640.webp`} width={640} height={443} alt="" loading="lazy" decoding="async" />
+            <img src={`${IMG}/summary-640.webp`} width={640} height={443} alt="" loading="lazy" decoding="async" />
             <img src={`${IMG}/cover-640.webp`} width={640} height={443} alt="" loading="lazy" decoding="async" />
           </div>
         </div>
