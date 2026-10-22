@@ -5,7 +5,7 @@ import { IMG, lenses, products } from './data';
 import s from './lp.module.css';
 
 /**
- * 同じ顧客（ミオリ食品）でも、依頼元の商材によって分析で厚く見る商品と、
+ * 同じ顧客（サンプル食品）でも、依頼元の商材によって分析で厚く見る商品と、
  * 導かれる提案仮説が変わることを示す切替。
  * 商品図は全視点で共通に並べ、該当する商品だけを強調する。
  */
@@ -41,7 +41,7 @@ export function LensSwitcher() {
       </div>
 
       <div className={s.lensPanel} role="tabpanel" id="lens-panel">
-        <ul className={s.shelf} aria-label="ミオリ食品（架空）の主な商品">
+        <ul className={s.shelf} aria-label="サンプル食品の主な商品">
           {products.map((p) => {
             const on = focus.has(p.id);
             return (
@@ -59,7 +59,7 @@ export function LensSwitcher() {
             <dd>{lens.looks}</dd>
           </div>
           <div>
-            <dt>レポートの重心</dt>
+            <dt>厚く書く部分</dt>
             <dd>{lens.page}</dd>
           </div>
           <div className={s.lensHypo}>

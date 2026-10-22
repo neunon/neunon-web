@@ -2,22 +2,13 @@
 
 最終更新: 2026-10-22 / 更新者: Claude Code
 
-## 2026-10-22 Claude Code：既存顧客LP 第3版（途中・未接続）
+## 2026-10-22 Claude Code：既存顧客LP 第3版（完了・確認待ち）
 
-ブランチ `hp/existing-customers-claude-lp`。ユーザーの追加指示と進み具合:
+ブランチ `hp/existing-customers-claude-lp`。確認用URL `/design-review/existing-customers-claude/`（noindex）。
 
-- 決まったこと: NDAは締結前提でよい。取引情報の提供は任意
-- 済: `components/existing-customers-lp/Visuals.tsx` を新規作成。文字・数値なしの抽象図（夜色の地＋青灰、赤は示唆のみ）。中身は VisPerformance / VisChannels / VisProducts / VisSignals / VisHypothesis / VisHero。**まだLPに組み込んでいない**
-- 残り（順に）:
-  1. 提案仮説はユーザー本人が書く → `content/pages/existing-customers.json` に空の入力欄（title, confidence, scale, facts[], reading, proposal ×3）を作り、未記入なら破線の「記入待ち」カードを表示。data.ts の既存の仮説3つは削除
-  2. 読み解きを5段にする: 01業績 → 02特徴・顧客・販路 → 03商品・サービス → 04変化のシグナル（取引情報は任意で取引マップ化）→ 05提案仮説。画像は Visuals.tsx の図に差し替え、本文から具体的な数値を外す
-  3. ヒーローを夜色の地にして、右側を VisHero に差し替え。2つ目のボタンは「#reading 読み解き方を見る」
-  4. 「納品されるレポート」の節を削除。ReportViewer.tsx / PageZoom.tsx と、public/images/existing-customers の page-* / step-* / PDF も削除（product-* は視点の節で使うので残す）
-  5. 「効果」の節を追加（提案書のスライド7・13が出典）。「これまで → これから」の4行: 提案テーマ / 訪問前の準備 / 対象の広さ / 引継ぎ・共有
-  6. FAQに取引情報・NDAの問いを追加（提供は任意、依頼前にNDAを締結）
-  7. LensSwitcher.tsx にミオリ食品（架空）の表記が残っている → サンプル食品に直す。「レポートの重心」の欄から「4ページ目」などのページ参照を外す
-  8. CSS: .reading/.effects/.compare/.price を淡いグレーの地に、.report を削除、.heroVis と .pulse（reduced-motion では止める）を追加、図の figure は夜色のカードにする
-  9. typecheck・build・audit:html を通してから、390/1440 で撮影し、docs/EXISTING_CUSTOMERS_CLAUDE_LP.md を更新
+- 済: 抽象図への差し替え、読み解き5段、レポートの節の削除、効果の節、仮説の入力欄、NDA・取引情報（任意）の記載。詳細は `docs/EXISTING_CUSTOMERS_CLAUDE_LP.md` の「0. 改訂（第3版）」
+- 決まったこと: NDAは締結前提、取引情報の提供は任意
+- 次: ユーザーが `content/pages/existing-customers.json` に提案仮説を記入する。承認後に正式URL `/services/package/existing-customers/` へ移す（noindex 解除・sitemap 追加・確認用ルート削除）
 
 ## 既存顧客企業クローズアップLP：Claude Code による新規制作案（2026-10-22・Claude Code）
 
