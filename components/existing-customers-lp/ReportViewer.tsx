@@ -48,7 +48,8 @@ export function ReportViewer() {
             onClick={() => setActive(i)}
           >
             <span className={s.viewerTabNo}>{String(p.no).padStart(2, '0')}</span>
-            <span>{p.title}</span>
+            <span className={s.viewerTabLong}>{p.title}</span>
+            <span className={s.viewerTabShort} aria-hidden="true">{p.short}</span>
           </button>
         ))}
       </div>

@@ -6,6 +6,7 @@ import {
 } from './data';
 import { ReportViewer } from './ReportViewer';
 import { LensSwitcher } from './LensSwitcher';
+import { PageZoom } from './PageZoom';
 import s from './lp.module.css';
 
 /**
@@ -64,7 +65,7 @@ export function ExistingCustomersLp() {
             </nav>
             <p className={s.kicker}>既存顧客企業クローズアップ</p>
             <h1 id="lp-title" className={s.h1}>
-              既存顧客の企業分析を代行
+              既存顧客の企業分析を代行<span className={s.srOnly}>。</span>
               <span className={s.h1Sub}>取引先ごとの「次の提案」を、1社1レポートに。</span>
             </h1>
             <p className={s.lead}>
@@ -73,16 +74,16 @@ export function ExistingCustomersLp() {
             </p>
             <dl className={s.facts}>
               <div>
-                <dt>参考価格</dt>
-                <dd><b>3,000</b>円〜／社</dd>
+                <dt>参考価格（1社）</dt>
+                <dd><b>3,000</b>円〜</dd>
               </div>
               <div>
-                <dt>分量</dt>
-                <dd><b>1〜10</b>枚／社</dd>
+                <dt>分量（1社）</dt>
+                <dd><b>1〜10</b>枚</dd>
               </div>
               <div>
-                <dt>目安</dt>
-                <dd>週<b>10</b>社<small>（Standard）</small></dd>
+                <dt>納期の目安</dt>
+                <dd>週<b>10</b>社<small>Standard</small></dd>
               </div>
             </dl>
             <div className={s.ctaRow}>
@@ -172,7 +173,9 @@ export function ExistingCustomersLp() {
                 </dl>
               </div>
               <figure className={s.stepFigure}>
-                <img src={`${IMG}/detail-sales-1600.webp`} srcSet={`${IMG}/detail-sales-960.webp 960w, ${IMG}/detail-sales-1600.webp 1097w`} sizes="(min-width: 1200px) 640px, 100vw" width={1097} height={671} alt="1ページ目より、事業別の売上の積み上げ棒グラフ（2023年から2026年予想）" loading="lazy" decoding="async" />
+                <PageZoom page={1}>
+                  <img src={`${IMG}/detail-sales-1600.webp`} srcSet={`${IMG}/detail-sales-960.webp 960w, ${IMG}/detail-sales-1600.webp 1097w`} sizes="(min-width: 1200px) 640px, 100vw" width={1097} height={671} alt="1ページ目より、事業別の売上の積み上げ棒グラフ（2023年から2026年予想）" loading="lazy" decoding="async" />
+                </PageZoom>
                 <figcaption>1ページ目「会社概要」より。事業別の売上推移（単位：億円）</figcaption>
               </figure>
             </li>
@@ -185,8 +188,10 @@ export function ExistingCustomersLp() {
                 <p>中期経営計画、工場の新設、EC開設、業務用の拡販。ばらばらに出ている情報を一本の時系列に並べ、それぞれが御社の領域に何をもたらすかまで書きます。</p>
               </div>
               <figure className={s.stepFigure}>
-                <img src={`${IMG}/detail-events-1600.webp`} srcSet={`${IMG}/detail-events-960.webp 960w, ${IMG}/detail-events-1600.webp 1600w`} sizes="(min-width: 1280px) 1200px, 100vw" width={1600} height={372} alt="3ページ目より、2024年から2026年の主な出来事を並べた時系列" loading="lazy" decoding="async" />
+                <PageZoom page={3}>
+                  <img src={`${IMG}/detail-events-1600.webp`} srcSet={`${IMG}/detail-events-960.webp 960w, ${IMG}/detail-events-1600.webp 1600w`} sizes="(min-width: 1280px) 1200px, 100vw" width={1600} height={372} alt="3ページ目より、2024年から2026年の主な出来事を並べた時系列" loading="lazy" decoding="async" />
                 <img className={s.stepFigureNext} src={`${IMG}/detail-impact-1600.webp`} srcSet={`${IMG}/detail-impact-960.webp 960w, ${IMG}/detail-impact-1600.webp 1600w`} sizes="(min-width: 1280px) 1200px, 100vw" width={1600} height={442} alt="3ページ目より、出来事ごとの物流への影響・物量の伸び・当社の現状を整理した表" loading="lazy" decoding="async" />
+                </PageZoom>
                 <figcaption>3ページ目「直近の動向」より。出来事の時系列と、物流への影響</figcaption>
               </figure>
             </li>
@@ -194,13 +199,15 @@ export function ExistingCustomersLp() {
             {/* 03: 取引マップは印を重ね、読み取りを横に置く */}
             <li className={s.stepSplitReverse}>
               <figure className={s.stepFigure}>
-                <div className={s.marked}>
+                <PageZoom page={4}>
+                  <span className={s.marked}>
                   <img src={`${IMG}/detail-map-1600.webp`} srcSet={`${IMG}/detail-map-960.webp 960w, ${IMG}/detail-map-1600.webp 1600w`} sizes="(min-width: 1200px) 760px, 100vw" width={1600} height={1039} alt="4ページ目より、商品カテゴリと物流工程の取引マップ" loading="lazy" decoding="async" />
                   <span className={s.hitHave} style={cell(1, 1, MAP_CROP)} aria-hidden="true"><b>1</b></span>
                   <span className={s.hitNew} style={cell(0, 2, MAP_CROP)} aria-hidden="true"><b>2</b></span>
                   <span className={s.hitNew} style={cell(2, 2, MAP_CROP)} aria-hidden="true" />
                   <span className={s.hitNew} style={cell(3, 3, MAP_CROP)} aria-hidden="true" />
-                </div>
+                  </span>
+                </PageZoom>
                 <figcaption>4ページ目「取引状況の整理」より。商品カテゴリ × 物流工程の取引マップ</figcaption>
               </figure>
               <div className={s.stepText}>
@@ -222,7 +229,9 @@ export function ExistingCustomersLp() {
                 <p>提案仮説ごとに、根拠となる事実と推察を分けて記し、想定規模・初回の打ち手・確認事項まで添えます。「調べて終わり」にせず、営業会議でそのまま検討できる形にします。</p>
               </div>
               <figure className={s.stepFigure}>
-                <img src={`${IMG}/detail-proposal-1600.webp`} srcSet={`${IMG}/detail-proposal-960.webp 960w, ${IMG}/detail-proposal-1600.webp 1600w`} sizes="(min-width: 1280px) 1200px, 100vw" width={1600} height={240} alt="5ページ目より、優先度・高の提案仮説。事実・推察・提案・想定規模・初回の打ち手・確認事項を記載" loading="lazy" decoding="async" />
+                <PageZoom page={5}>
+                  <img src={`${IMG}/detail-proposal-1600.webp`} srcSet={`${IMG}/detail-proposal-960.webp 960w, ${IMG}/detail-proposal-1600.webp 1600w`} sizes="(min-width: 1280px) 1200px, 100vw" width={1600} height={240} alt="5ページ目より、優先度・高の提案仮説。事実・推察・提案・想定規模・初回の打ち手・確認事項を記載" loading="lazy" decoding="async" />
+                </PageZoom>
                 <figcaption>5ページ目「提案・連携余地」より。優先度・高の提案仮説（ほか2件を同じ形式で記載）</figcaption>
               </figure>
             </li>
@@ -310,16 +319,20 @@ export function ExistingCustomersLp() {
           </header>
 
           <figure className={s.proof}>
-            <div className={s.marked}>
+            <PageZoom page={5}>
+            <span className={s.marked}>
               <img src={`${IMG}/detail-proposal-1600.webp`} width={1600} height={240} alt="5ページ目の提案仮説。【事実】【推察】の書き分けと確認事項の記載箇所" loading="lazy" decoding="async" />
               <span className={s.pin} style={{ left: '27.2%', top: '8.5%' }} aria-hidden="true">1</span>
               <span className={s.pin} style={{ left: '27.2%', top: '21.5%' }} aria-hidden="true">2</span>
               <span className={s.pin} style={{ left: '27.2%', top: '66.5%' }} aria-hidden="true">3</span>
-            </div>
-            <div className={s.marked}>
+            </span>
+            </PageZoom>
+            <PageZoom page={3}>
+            <span className={s.marked}>
               <img className={s.proofSource} src={`${IMG}/detail-source-1600.webp`} width={1600} height={78} alt="3ページ目の下部。出所・注記・作成時点の記載" loading="lazy" decoding="async" />
-              <span className={s.pin} style={{ left: '0.6%', top: '30%' }} aria-hidden="true">4</span>
-            </div>
+              <span className={s.pin} style={{ left: '-1.4%', top: '30%' }} aria-hidden="true">4</span>
+            </span>
+            </PageZoom>
           </figure>
           <ol className={s.proofList}>
             <li><b>1</b><div><h3 className={s.h4}>【事実】</h3><p>公開情報で確認できたこと。日付や数値を添えます。</p></div></li>

@@ -1,6 +1,26 @@
 # 作業の引き継ぎ（Codex ⇄ Claude Code）
 
-最終更新: 2026-10-20 / 更新者: Codex
+最終更新: 2026-10-22 / 更新者: Claude Code
+
+## 既存顧客企業クローズアップLP：Claude Code による新規制作案（2026-10-22・Claude Code）
+
+ブランチ `hp/existing-customers-claude-lp`（`origin/main` の `dfd28a8` から。**Codex の LP ブランチとは独立**）。
+ユーザーの「過去のAI制作LPを出発点にせず、新しい制作会社として作る」依頼に応えた案。詳細は `docs/EXISTING_CUSTOMERS_CLAUDE_LP.md`。
+
+- 実際の納品物（竹本容器様向けクローズアップ ver1/ver2）と提案書を PowerPoint で画像化して確認。型は「会社概要／商品ラインナップ／提案・連携余地」で、
+  顧客を**依頼元の商材との接点**から読むのが核心。これを訴求軸にした。顧客固有の情報は一切使っていない
+- 架空企業「ミオリ食品」を架空の低温物流会社が依頼した設定で、実物と同じ型の5ページのサンプルを新規制作（`design/existing-customers-sample/`、PPTXが編集元）
+- LP本体は `components/existing-customers-lp/`。確認用ルート `/design-review/existing-customers-claude/`（noindex, nofollow、sitemap対象外）
+- 検証：typecheck、build、audit:html（48ページ指摘なし）、test:cms、書き出した `out/` を 390/768/1440/1920px で撮影・操作確認。スクショは `artifacts/lp-claude-2026-10-22/`（ローカル）
+- ビルド時、別ブランチの古い生成物 `.next/types` `.next/dev/types` が型検査を止めたので、その2つだけ削除して再生成した
+
+**次にやること**：ユーザーのレビュー。公開前の確認事項9件（参考価格の具体額の公開可否、税表記、実績の掲載可否、取引情報の受け渡しとNDA など）は
+`docs/EXISTING_CUSTOMERS_CLAUDE_LP.md` の7章。承認後に `/services/package/existing-customers/` へ移す（noindex 解除・sitemap 追加・確認用ルート削除）。
+
+**共有事項**：
+- この環境の `python` はストア版のスタブ。`py` を使う
+- 確認時点で Codex のブランチ `hp/existing-customers-lp-mobile` はリモートに無かった（ローカルのみ）。触っていない
+- 参考サイトの infobox は本番メンテナンス中（Web Archive で確認）、FORCAS は証明書エラーで未確認
 
 ## 問い合わせフォーム Turnstile 復旧（2026-10-20・Codex）
 
