@@ -20,7 +20,7 @@
     <rect x="58" y="70" width="304" height="26" fill="#000" opacity=".07"/>
     <rect x="80" y="128" width="260" height="56" fill="#123a6b"/>
     <text x="96" y="165" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="24" font-weight="800" fill="#fff">業務用</text>
-    <text x="324" y="165" text-anchor="end" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="14" font-weight="700" fill="#fff">ミオリ食品</text>
+    <text x="324" y="165" text-anchor="end" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="14" font-weight="700" fill="#fff">サンプル食品</text>
     <text x="84" y="238" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="34" font-weight="800" fill="#2a2418">冷凍ギョーザ</text>
     <text x="86" y="268" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="15" fill="#4a4030">外食・中食向け　焼き調理用</text>
     <rect x="84" y="296" width="252" height="92" fill="#fff" opacity=".7"/>

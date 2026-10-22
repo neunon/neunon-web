@@ -23,9 +23,9 @@
     
   <g transform="translate(148 274)">
     <circle r="20" fill="#c8102e"/>
-    <text y="6.800000000000001" text-anchor="middle" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-weight="700" font-size="17.2" fill="#fff">ミオリ</text>
+    <text y="4" text-anchor="middle" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-weight="700" font-size="10.4" fill="#fff">サンプル</text>
   </g>
-    <text x="176" y="268" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="12" font-weight="700" fill="#fff">ミオリのチルド</text>
+    <text x="176" y="268" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="12" font-weight="700" fill="#fff">サンプル食品のチルド</text>
     <text x="128" y="322" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="27" font-weight="800" fill="#fff">ポテトサラダ</text>
     <text x="128" y="350" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="13" fill="#ffffffd9">北海道産じゃがいも</text>
     <rect x="92" y="170" width="236" height="260" fill="url(#sheen)"/>

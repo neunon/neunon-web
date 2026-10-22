@@ -1,5 +1,5 @@
 /**
- * 架空サンプル「ミオリ食品株式会社」の商品パッケージ図版を生成する。
+ * サンプル企業「サンプル食品株式会社」の商品パッケージ図版を生成する。
  *
  * 実在企業の商品写真は権利上使えないため、架空ブランドの包装を新規に描いている。
  * 実際の納品物（商品ラインナップのページ）では公開画像を引用するが、
@@ -47,7 +47,7 @@ const defs = (extra = '') => `
 const brandMark = (x, y, r, fg = '#fff', bg = '#c8102e') => `
   <g transform="translate(${x} ${y})">
     <circle r="${r}" fill="${bg}"/>
-    <text y="${r * 0.34}" text-anchor="middle" font-family="${JP}" font-weight="700" font-size="${r * 0.86}" fill="${fg}">ミオリ</text>
+    <text y="${r * 0.2}" text-anchor="middle" font-family="${JP}" font-weight="700" font-size="${r * 0.52}" fill="${fg}">サンプル</text>
   </g>`;
 
 /** 餃子1個（羽根つき）。上から見た三日月形とひだ */
@@ -74,7 +74,7 @@ function pillowBag({ body, band, title, sub, weight, window }) {
     <rect x="${x}" y="${y + 18}" width="${w}" height="18" fill="#000" opacity=".08"/>
     <rect x="${x}" y="${y + h - 36}" width="${w}" height="18" fill="#000" opacity=".08"/>
     ${brandMark(x + 44, y + 74, 24)}
-    <text x="${x + 80}" y="${y + 66}" font-family="${JP}" font-size="14" font-weight="700" fill="${band}">ミオリ食品</text>
+    <text x="${x + 80}" y="${y + 66}" font-family="${JP}" font-size="14" font-weight="700" fill="${band}">サンプル食品</text>
     <text x="${x + 80}" y="${y + 86}" font-family="${JP}" font-size="12" fill="#ffffffcc">冷凍食品</text>
     <text x="${x + 24}" y="${y + 138}" font-family="${JP}" font-size="38" font-weight="800" fill="#fff">${title}</text>
     <text x="${x + 26}" y="${y + 166}" font-family="${JP}" font-size="15" font-weight="700" fill="${band}">${sub}</text>
@@ -101,7 +101,7 @@ function chilledTray({ title, sub, fill, contents }) {
     <g transform="rotate(-4 210 252)">
       <rect x="92" y="196" width="236" height="104" rx="6" fill="${fill}"/>
       ${brandMark(126, 230, 19)}
-      <text x="154" y="224" font-family="${JP}" font-size="12" font-weight="700" fill="#fff">ミオリのチルド</text>
+      <text x="154" y="224" font-family="${JP}" font-size="12" font-weight="700" fill="#fff">サンプル食品のチルド</text>
       <text x="154" y="252" font-family="${JP}" font-size="25" font-weight="800" fill="#fff">${title}</text>
       <text x="108" y="284" font-family="${JP}" font-size="12" fill="#ffffffd9">${sub}</text>
       <text x="316" y="284" text-anchor="end" font-family="${JP}" font-size="11" fill="#ffffffcc">要冷蔵10℃以下</text>
@@ -120,7 +120,7 @@ function cup({ title, sub, fill }) {
     <ellipse cx="210" cy="166" rx="122" ry="22" fill="${fill}"/>
     <rect x="112" y="236" width="196" height="132" rx="8" fill="${fill}"/>
     ${brandMark(148, 274, 20)}
-    <text x="176" y="268" font-family="${JP}" font-size="12" font-weight="700" fill="#fff">ミオリのチルド</text>
+    <text x="176" y="268" font-family="${JP}" font-size="12" font-weight="700" fill="#fff">サンプル食品のチルド</text>
     <text x="128" y="322" font-family="${JP}" font-size="27" font-weight="800" fill="#fff">${title}</text>
     <text x="128" y="350" font-family="${JP}" font-size="13" fill="#ffffffd9">${sub}</text>
     <rect x="92" y="170" width="236" height="260" fill="url(#sheen)"/>
@@ -161,7 +161,7 @@ function bulkBag({ title, sub, weight, accent }) {
     <rect x="58" y="70" width="304" height="26" fill="#000" opacity=".07"/>
     <rect x="80" y="128" width="260" height="56" fill="${accent}"/>
     <text x="96" y="165" font-family="${JP}" font-size="24" font-weight="800" fill="#fff">業務用</text>
-    <text x="324" y="165" text-anchor="end" font-family="${JP}" font-size="14" font-weight="700" fill="#fff">ミオリ食品</text>
+    <text x="324" y="165" text-anchor="end" font-family="${JP}" font-size="14" font-weight="700" fill="#fff">サンプル食品</text>
     <text x="84" y="238" font-family="${JP}" font-size="34" font-weight="800" fill="#2a2418">${title}</text>
     <text x="86" y="268" font-family="${JP}" font-size="15" fill="#4a4030">${sub}</text>
     <rect x="84" y="296" width="252" height="92" fill="#fff" opacity=".7"/>

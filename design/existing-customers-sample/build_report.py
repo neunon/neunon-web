@@ -1,17 +1,18 @@
 """
-既存顧客企業クローズアップ　架空サンプルレポート（Standard・5枚）を生成する。
+既存顧客企業クローズアップ　サンプルレポート（Standard・5枚）を生成する。
 
-実際の納品物（竹本容器様向けクローズアップ等）と同じ型・同じ情報密度で作っている。
-  (1) 会社概要  (2) 商品ラインナップ  (3) 直近の動向  (4) 取引状況の整理  (5) 提案・連携余地
-書式も実物に合わせた: Arial＋ＭＳ Ｐゴシック、本文11pt、灰色の見出し箱、青灰の積み上げグラフ、
-重要な示唆は赤字、右上に区分の札、左下に出所。
+土台は Neunon Consulting の公式スライドテンプレート（ver3。サンプルの頁を除いたもの）。
+実際の納品物と同じく「依頼元の商材との接点」から顧客を読む構成にし、
+LPで見せることを前提に、情報の密度は保ったまま一目で要点が伝わる見せ方にしている。
+
+  (1) 業績・事業構成  (2) 特徴・顧客・販売チャネル  (3) 商品ラインナップ
+  (4) 変化のシグナルと取引状況  (5) 提案仮説
 
 設定:
-  分析対象   ミオリ食品株式会社（架空）… 関東の中堅食品メーカー
-  依頼元     低温物流（冷凍・冷蔵の保管と配送）を営む企業（架空）
-  → 依頼元の商材＝物流 の視点で、顧客の事業を読み解く（実物は容器メーカーの視点だった）
+  分析対象   サンプル食品株式会社 … 関東の中堅食品メーカー（説明用のサンプル）
+  依頼元     低温物流（冷凍・冷蔵の保管と配送）の会社
+数値・出来事はすべて説明用に作ったもので、実在企業の情報ではない。
 
-数値・出来事はすべて架空。実在企業の情報は一切含まない。
 実行: py design/existing-customers-sample/build_report.py
 出力: design/existing-customers-sample/existing-customers-sample.pptx
 """
@@ -22,147 +23,138 @@ from pptx import Presentation
 from pptx.chart.data import CategoryChartData
 from pptx.dml.color import RGBColor
 from pptx.enum.chart import XL_CHART_TYPE, XL_LABEL_POSITION
-from pptx.enum.shapes import MSO_SHAPE
+from pptx.enum.shapes import MSO_CONNECTOR, MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.oxml.ns import qn
-from pptx.util import Emu, Inches, Pt
+from pptx.util import Inches, Pt
 
 HERE = Path(__file__).parent
 ILL = HERE / "illustrations"
+TEMPLATE = HERE / "neunon-template.pptx"
 OUT = HERE / "existing-customers-sample.pptx"
 
-BLACK = RGBColor(0x00, 0x00, 0x00)
-INK = RGBColor(0x1A, 0x1A, 0x1A)
-GRAY = RGBColor(0x59, 0x59, 0x59)
-LABEL = RGBColor(0xEA, 0xEA, 0xEA)
-RULE = RGBColor(0x26, 0x26, 0x26)
-RED = RGBColor(0xE0, 0x1E, 0x1E)
+COMPANY = "サンプル食品株式会社"
+DATE = "2026/10/22"
+
+# テンプレートの灰色階調＋実物のグラフと同じ青灰＋示唆の赤
+INK = RGBColor(0x11, 0x11, 0x11)
+G1 = RGBColor(0x2E, 0x2E, 0x2E)
+G2 = RGBColor(0x4A, 0x4A, 0x4A)
+G3 = RGBColor(0x62, 0x62, 0x62)
+G4 = RGBColor(0x92, 0x92, 0x92)
+G5 = RGBColor(0xBD, 0xBD, 0xBD)
+G6 = RGBColor(0xD8, 0xDA, 0xDA)
+PANEL = RGBColor(0xF2, 0xF3, 0xF4)
 WHITE = RGBColor(0xFF, 0xFF, 0xFF)
-# 実物のグラフと同じ青灰の階調（淡→濃）
+RED = RGBColor(0xD9, 0x25, 0x1D)
 B1, B2, B3, B4, B5 = (RGBColor(0xDF, 0xE5, 0xEF), RGBColor(0xC3, 0xCF, 0xE1),
                       RGBColor(0x9D, 0xB1, 0xCF), RGBColor(0x6F, 0x8D, 0xB9), RGBColor(0x3F, 0x5A, 0x8A))
 
-LATIN = "Arial"
-EA = "ＭＳ Ｐゴシック"
-COMPANY = "ミオリ食品株式会社"
-
-prs = Presentation()
-prs.slide_width = Inches(10.83)
-prs.slide_height = Inches(7.5)
-BLANK = prs.slide_layouts[6]
+prs = Presentation(TEMPLATE)
+LAYOUT = next(l for l in prs.slide_layouts if l.name == "タイトル")
 
 
-# ---------------------------------------------------------------- 文字の基本
-def style_run(run, size=11, bold=False, color=INK):
+# ------------------------------------------------------------------ 文字
+def style_run(run, size=10.5, bold=False, color=INK):
     run.font.size = Pt(size)
     run.font.bold = bold
     run.font.color.rgb = color
-    run.font.name = LATIN
-    rpr = run._r.get_or_add_rPr()
-    for tag in ("a:ea", "a:cs"):
-        el = rpr.find(qn(tag))
-        if el is None:
-            el = etree.SubElement(rpr, qn(tag))
-        el.set("typeface", EA)
 
 
 def set_bullet(p, level):
-    """■（第1階層）と –（第2階層）の箇条書きを PowerPoint の本物の箇条書きとして付ける"""
+    """■（第1階層）と –（第2階層）を PowerPoint の箇条書きとして付ける"""
     ppr = p._p.get_or_add_pPr()
-    indent = 0.2 if level == 0 else 0.42
-    hang = 0.2
-    ppr.set("marL", str(Inches(indent)))
-    ppr.set("indent", str(-Inches(hang)))
+    ppr.set("marL", str(Inches(0.17 if level == 0 else 0.36)))
+    ppr.set("indent", str(-Inches(0.17)))
     for tag in ("a:buFont", "a:buChar", "a:buNone"):
         for el in ppr.findall(qn(tag)):
             ppr.remove(el)
-    bu_font = etree.SubElement(ppr, qn("a:buFont"))
-    bu_char = etree.SubElement(ppr, qn("a:buChar"))
+    f = etree.SubElement(ppr, qn("a:buFont"))
+    c = etree.SubElement(ppr, qn("a:buChar"))
     if level == 0:
-        bu_font.set("typeface", "Wingdings")
-        bu_char.set("char", "§")
+        f.set("typeface", "Wingdings")
+        c.set("char", "§")
     else:
-        bu_font.set("typeface", LATIN)
-        bu_char.set("char", "–")
+        f.set("typeface", "Arial")
+        c.set("char", "–")
 
 
-def text_box(slide, x, y, w, h, paragraphs, size=11, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP,
-             margin=0.04, line=1.0):
-    """paragraphs: [str | (str, opts) | [(str, opts), ...]]。opts は size/bold/color/level/space"""
+def no_bullet(p):
+    ppr = p._p.get_or_add_pPr()
+    ppr.set("marL", "0")
+    ppr.set("indent", "0")
+    for tag in ("a:buFont", "a:buChar", "a:buAutoNum"):
+        for el in ppr.findall(qn(tag)):
+            ppr.remove(el)
+    if ppr.find(qn("a:buNone")) is None:
+        etree.SubElement(ppr, qn("a:buNone"))
+
+
+def text(slide, x, y, w, h, paras, size=10.5, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP, line=1.0, margin=0.03):
+    """paras: [str | (str, opts) | [(str, opts), ...]]  opts: size/bold/color/level/space"""
     tb = slide.shapes.add_textbox(Inches(x), Inches(y), Inches(w), Inches(h))
     tf = tb.text_frame
     tf.word_wrap = True
     tf.vertical_anchor = anchor
     for side in ("margin_left", "margin_right", "margin_top", "margin_bottom"):
         setattr(tf, side, Inches(margin))
-    first = True
-    for para in paragraphs:
+    for i, para in enumerate(paras):
         runs = para if isinstance(para, list) else [para]
-        p = tf.paragraphs[0] if first else tf.add_paragraph()
-        first = False
+        p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
         p.alignment = align
         p.line_spacing = line
         level = None
         space = None
         for r in runs:
-            text, opts = (r, {}) if isinstance(r, str) else r
-            level = opts.get("level", level)
-            space = opts.get("space", space)
+            t, o = (r, {}) if isinstance(r, str) else r
+            level = o.get("level", level)
+            space = o.get("space", space)
             run = p.add_run()
-            run.text = text
-            style_run(run, opts.get("size", size), opts.get("bold", False), opts.get("color", INK))
+            run.text = t
+            style_run(run, o.get("size", size), o.get("bold", False), o.get("color", INK))
         if level is not None:
             set_bullet(p, level)
-        p.space_before = Pt(space if space is not None else (3 if level == 0 else 1))
+        else:
+            no_bullet(p)
+        if space is not None:
+            p.space_before = Pt(space)
+        elif level is not None:
+            p.space_before = Pt(3 if level == 0 else 1)
     return tb
 
 
-def bullets(slide, x, y, w, h, items, size=11, line=1.0):
-    """items: [(level, text) | (level, text, color)]"""
+def bullets(slide, x, y, w, h, items, size=10, line=1.0):
     paras = []
     for it in items:
-        level, text = it[0], it[1]
+        level, t = it[0], it[1]
         color = it[2] if len(it) > 2 else INK
-        paras.append((text, {"level": level, "color": color, "size": size if level == 0 else size - 0.5}))
-    return text_box(slide, x, y, w, h, paras, size=size, line=line)
+        bold = it[3] if len(it) > 3 else False
+        paras.append((t, {"level": level, "color": color, "bold": bold, "size": size if level == 0 else size - 0.5}))
+    return text(slide, x, y, w, h, paras, size=size, line=line)
 
 
-def label_box(slide, x, y, w, h, text, size=11, vertical=False, fill=LABEL, bold=False):
-    """実物と同じ、灰色地＋細い黒枠の見出し箱"""
-    shp = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(x), Inches(y), Inches(w), Inches(h))
-    shp.fill.solid()
-    shp.fill.fore_color.rgb = fill
-    shp.line.color.rgb = BLACK
-    shp.line.width = Pt(0.75)
-    shp.shadow.inherit = False
-    tf = shp.text_frame
-    tf.word_wrap = True
-    tf.vertical_anchor = MSO_ANCHOR.MIDDLE
-    for side in ("margin_left", "margin_right", "margin_top", "margin_bottom"):
-        setattr(tf, side, Inches(0.04))
-    if vertical:
-        tf._txBody.find(qn("a:bodyPr")).set("vert", "eaVert")
-    lines = text.split("\n")
-    for i, ln in enumerate(lines):
-        p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
-        p.alignment = PP_ALIGN.CENTER
-        run = p.add_run()
-        run.text = ln
-        style_run(run, size, bold, INK)
-    return shp
+def box(slide, x, y, w, h, fill=None, line=None, weight=0.75, shape=MSO_SHAPE.RECTANGLE, dash=False):
+    s = slide.shapes.add_shape(shape, Inches(x), Inches(y), Inches(w), Inches(h))
+    s.shadow.inherit = False
+    if fill is None:
+        s.fill.background()
+    else:
+        s.fill.solid()
+        s.fill.fore_color.rgb = fill
+    if line is None:
+        s.line.fill.background()
+    else:
+        s.line.color.rgb = line
+        s.line.width = Pt(weight)
+        if dash:
+            s.line.dash_style = 4
+    s.text_frame.text = ""
+    return s
 
 
-def rule(slide, x, y, w, weight=1.0, color=RULE, dash=False):
-    ln = slide.shapes.add_connector(1, Inches(x), Inches(y), Inches(x + w), Inches(y))
-    ln.line.color.rgb = color
-    ln.line.width = Pt(weight)
-    if dash:
-        ln.line.dash_style = 4  # sysDash
-    return ln
-
-
-def vrule(slide, x, y, h, weight=0.75, color=RULE, dash=False):
-    ln = slide.shapes.add_connector(1, Inches(x), Inches(y), Inches(x), Inches(y + h))
+def rule(slide, x, y, w, color=G2, weight=1.0, dash=False):
+    ln = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Inches(x), Inches(y), Inches(x + w), Inches(y))
+    ln.shadow.inherit = False
     ln.line.color.rgb = color
     ln.line.width = Pt(weight)
     if dash:
@@ -170,98 +162,65 @@ def vrule(slide, x, y, h, weight=0.75, color=RULE, dash=False):
     return ln
 
 
-def section_head(slide, x, y, w, text, size=15):
-    text_box(slide, x, y, w, 0.36, [(text, {"size": size})], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.BOTTOM)
-    rule(slide, x, y + 0.4, w, 1.25)
+def vline(slide, x, y, h, color=G5, weight=1.0):
+    ln = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Inches(x), Inches(y), Inches(x), Inches(y + h))
+    ln.shadow.inherit = False
+    ln.line.color.rgb = color
+    ln.line.width = Pt(weight)
+    return ln
 
 
-def rect(slide, x, y, w, h, fill, line=None, line_w=0.75):
-    shp = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(x), Inches(y), Inches(w), Inches(h))
-    shp.shadow.inherit = False
-    if fill is None:
-        shp.fill.background()
-    else:
-        shp.fill.solid()
-        shp.fill.fore_color.rgb = fill
-    if line is None:
-        shp.line.fill.background()
-    else:
-        shp.line.color.rgb = line
-        shp.line.width = Pt(line_w)
-    return shp
+def head(slide, x, y, w, t, size=12):
+    """節見出し：左寄せの太字＋下線（テンプレートの罫線と同じ灰）"""
+    text(slide, x, y, w, 0.32, [(t, {"size": size, "bold": True})], anchor=MSO_ANCHOR.BOTTOM, margin=0.0)
+    rule(slide, x, y + 0.36, w, G2, 1.0)
 
 
-def page(n, title, message, source, note=None):
-    """表題・メッセージ・札・出所・頁番号を置いた1枚を返す"""
-    s = prs.slides.add_slide(BLANK)
-    text_box(s, 0.4, 0.22, 10.03, 0.5, [(f"{COMPANY}（架空）（{n}）　{title}", {"size": 20})], align=PP_ALIGN.CENTER)
-    text_box(s, 0.3, 0.86, 10.23, 0.5, [(message, {"size": 16})], align=PP_ALIGN.CENTER)
-    tag = label_box(s, 9.38, 0.08, 1.32, 0.3, "架空サンプル", size=10, fill=WHITE)
-    tag.shadow.inherit = False
-    foot = [[("出所：", {"size": 9, "color": GRAY}), (source, {"size": 9, "color": GRAY})]]
-    if note:
-        foot.append([("注：", {"size": 9, "color": GRAY}), (note, {"size": 9, "color": GRAY})])
-    text_box(s, 0.3, 7.0 if note else 7.16, 8.2, 0.42, foot, size=9)
-    text_box(s, 8.5, 7.16, 1.2, 0.26, [("2026/10 時点", {"size": 9, "color": GRAY})], align=PP_ALIGN.RIGHT)
-    text_box(s, 9.72, 7.16, 0.83, 0.26, [(f"- {n} -", {"size": 10})], align=PP_ALIGN.RIGHT)
+def bar_label(slide, x, y, w, h, t, size=11, fill=G2, color=WHITE, align=PP_ALIGN.CENTER):
+    box(slide, x, y, w, h, fill)
+    text(slide, x, y, w, h, [(t, {"size": size, "bold": True, "color": color})], align=align, anchor=MSO_ANCHOR.MIDDLE)
+
+
+def page(n, title, message, source):
+    s = prs.slides.add_slide(LAYOUT)
+    s.shapes.title.text = f"{COMPANY}（{n}）　{title}"
+    for r in s.shapes.title.text_frame.paragraphs[0].runs:
+        style_run(r, 20, False, INK)
+    for ph in list(s.placeholders):
+        if ph.placeholder_format.idx == 1:
+            ph._element.getparent().remove(ph._element)
+    text(s, 0.36, 1.0, 10.11, 0.42, [(message, {"size": 14, "bold": True})], anchor=MSO_ANCHOR.MIDDLE, margin=0)
+    # 頁番号・日付（マスターの位置に合わせる）と出所
+    text(s, 1.7, 7.27, 1.0, 0.27, [(DATE, {"size": 9, "color": INK})], anchor=MSO_ANCHOR.MIDDLE, margin=0)
+    text(s, 9.6, 7.29, 0.85, 0.24, [(f"- {n} -", {"size": 9})], align=PP_ALIGN.RIGHT, margin=0)
+    text(s, 0.36, 6.98, 9.4, 0.26, [[("出所：", {"size": 8, "color": G3}), (source, {"size": 8, "color": G3})]], margin=0)
     return s
 
 
-SOURCE_FICTION = "数値・出来事・商品はすべて架空（実在企業の情報ではない）"
+SAMPLE = "説明用に作成したサンプル（実在企業の情報ではない）"
 
 
-def stacked_chart(slide, x, y, w, h, categories, series, colors, totals=True, gap=70, label_size=9,
-                  value_axis_max=None):
-    data = CategoryChartData()
-    data.categories = categories
-    for name, values in series:
-        data.add_series(name, values)
-    gf = slide.shapes.add_chart(XL_CHART_TYPE.COLUMN_STACKED, Inches(x), Inches(y), Inches(w), Inches(h), data)
-    ch = gf.chart
+def legend(slide, x, y, entries, size=9, step=1.05):
+    lx = x
+    for entry in entries:
+        color, label = entry[0], entry[1]
+        w = entry[2] if len(entry) > 2 else step
+        box(slide, lx, y + 0.05, 0.16, 0.13, color, G3, 0.5)
+        text(slide, lx + 0.2, y - 0.01, w - 0.2, 0.24, [(label, {"size": size})], margin=0)
+        lx += w
+
+
+def style_chart(ch, size=9):
     ch.has_legend = False
-    ch.font.size = Pt(label_size)
-    ch.font.name = LATIN
-    plot = ch.plots[0]
-    plot.gap_width = gap
-    plot.overlap = 100
-    for i, s in enumerate(plot.series):
-        s.format.fill.solid()
-        s.format.fill.fore_color.rgb = colors[i]
-        s.format.line.color.rgb = RGBColor(0x40, 0x40, 0x40)
-        s.format.line.width = Pt(0.5)
-        s.data_labels.show_value = True
-        s.data_labels.number_format = '0'
-        s.data_labels.number_format_is_linked = False
-        s.data_labels.position = XL_LABEL_POSITION.CENTER
-        s.data_labels.font.size = Pt(label_size)
-        s.data_labels.font.color.rgb = WHITE if colors[i] in (B4, B5) else INK
-    va = ch.value_axis
-    va.visible = False
-    va.has_major_gridlines = False
-    if value_axis_max:
-        va.maximum_scale = value_axis_max
-    va.minimum_scale = 0
-    ca = ch.category_axis
-    ca.tick_labels.font.size = Pt(10)
-    ca.format.line.color.rgb = BLACK
-    ca.has_major_gridlines = False
-    return gf
+    ch.font.size = Pt(size)
+    ch.font.name = "Arial"
 
 
-def legend(slide, x, y, entries, size=10, step=0.27):
-    for i, (color, text) in enumerate(entries):
-        rect(slide, x, y + i * step + 0.04, 0.2, 0.16, color, line=RGBColor(0x40, 0x40, 0x40), line_w=0.5)
-        text_box(slide, x + 0.26, y + i * step - 0.02, 1.9, 0.26, [(text, {"size": size})])
-
-
-TRIM = {"frozen-gyoza": (588, 831), "frozen-friedrice": (588, 831), "frozen-udon": (588, 831),
-        "chilled-gyoza": (680, 515), "chilled-salad": (510, 619), "sauce-gyoza": (352, 763),
-        "sauce-tsuyu": (440, 863), "sauce-dressing": (440, 863), "bulk-gyoza": (668, 819), "bulk-soup": (668, 819)}
-
-
-def product_row(slide, names, x, bottom, width, max_h, gap=0.05):
-    """商品図を1列に並べる。列幅を超えるときは高さを縮める（重ねない）"""
-    ratios = [TRIM[n][0] / TRIM[n][1] for n in names]
+def picture_row(slide, names, x, bottom, width, max_h, gap=0.05):
+    sizes = {"frozen-gyoza": (588, 831), "frozen-friedrice": (588, 831), "frozen-udon": (588, 831),
+             "chilled-gyoza": (680, 515), "chilled-salad": (510, 619), "sauce-gyoza": (352, 763),
+             "sauce-tsuyu": (440, 863), "sauce-dressing": (440, 863), "bulk-gyoza": (668, 819), "bulk-soup": (668, 819)}
+    ratios = [sizes[n][0] / sizes[n][1] for n in names]
     h = min(max_h, (width - gap * (len(names) - 1)) / sum(ratios))
     total = h * sum(ratios) + gap * (len(names) - 1)
     cx = x + (width - total) / 2
@@ -270,285 +229,338 @@ def product_row(slide, names, x, bottom, width, max_h, gap=0.05):
         cx += h * r + gap
 
 
-# ================================================================= (1) 会社概要
-s = page(1, "会社概要",
-         "冷凍食品を成長の柱に、3年で売上を約2割伸ばした関東の中堅食品メーカー",
-         "架空の決算公告・会社案内・プレスリリースを想定して作成。" + SOURCE_FICTION)
+# ====================================================== (1) 業績・事業構成
+s = page(1, "業績・事業構成",
+         "冷凍食品が成長をけん引し、3年で売上は約3割増。営業利益率も4.6%から5.3%へ改善",
+         "決算公告・会社案内を想定。" + SAMPLE)
 
-section_head(s, 0.3, 1.5, 4.85, "基本情報・業績")
-section_head(s, 5.55, 1.5, 4.95, "特徴")
+# 左：主要指標
+tiles = [
+    ("売上高（2026/3期予想）", "276", "億円", "前期比 +10%"),
+    ("営業利益率", "5.3", "%", "2023年度 4.6% から +0.7pt"),
+    ("冷凍食品の売上比率", "41", "%", "2023年度 32%。中計で50%へ"),
+    ("従業員数", "640", "名", "単体・2026年3月"),
+]
+for i, (label, value, unit, sub) in enumerate(tiles):
+    tx = 0.36 + (i % 2) * 2.18
+    ty = 1.6 + (i // 2) * 1.18
+    box(s, tx, ty, 2.08, 1.06, PANEL)
+    text(s, tx + 0.1, ty + 0.06, 1.95, 0.26, [(label, {"size": 9, "color": G3, "bold": True})], margin=0)
+    text(s, tx + 0.1, ty + 0.3, 1.95, 0.5, [[(value, {"size": 24, "bold": True}), (" " + unit, {"size": 11, "bold": True})]],
+         margin=0, anchor=MSO_ANCHOR.MIDDLE)
+    text(s, tx + 0.1, ty + 0.78, 1.95, 0.24, [(sub, {"size": 8.5, "color": G3})], margin=0)
 
-label_box(s, 0.3, 2.04, 0.42, 2.95, "売上・利益", vertical=True)
-text_box(s, 0.8, 2.0, 1.2, 0.24, [("単位：億円", {"size": 9, "color": GRAY})])
-cats = ["2023", "2024", "2025", "2026予"]
-seg = [("業務用", (31, 34, 40, 47)), ("調味料", (52, 53, 52, 52)), ("チルド惣菜", (61, 62, 63, 64)), ("冷凍食品", (68, 79, 96, 113))]
-stacked_chart(s, 0.78, 2.2, 3.12, 2.62, cats, seg, [B4, B3, B2, B1], gap=60, value_axis_max=300)
-# 合計（積み上げの上）を実物同様に棒の上へ
-for cx, tot in zip((1.279, 1.983, 2.687, 3.391), (212, 228, 251, 276)):
-    top = 4.468 - 0.006979 * tot
-    text_box(s, cx - 0.33, top - 0.27, 0.66, 0.24, [(f"{tot}", {"size": 10.5, "bold": True})], align=PP_ALIGN.CENTER)
-legend(s, 3.96, 2.28, [(B1, "冷凍食品"), (B2, "チルド惣菜"), (B3, "調味料"), (B4, "業務用")])
-text_box(s, 3.96, 3.5, 1.2, 1.4, [
-    ("営業利益", {"size": 10, "bold": True}),
-    ("2023　9.8", {"size": 10}), ("2024　11.2", {"size": 10}), ("2025　12.9", {"size": 10}), ("2026予　14.6", {"size": 10}),
+head(s, 0.36, 4.0, 4.26, "読み取れること")
+bullets(s, 0.36, 4.5, 4.26, 2.4, [
+    (0, "増収64億円のうち61億円が冷凍食品と業務用"),
+    (1, "冷凍は年18%、業務用は年15%で伸びている"),
+    (0, "当社が取引するチルド惣菜は年2%弱で横ばい", RED, True),
+    (1, "今の取引の延長では、取引額は増えにくい", RED),
+    (0, "中計で冷凍比率を2028年度に50%へ。冷凍への投資と物量の増加が続く見込み"),
+    (0, "業務用は外食チェーン3社との新規契約で、2026年度以降さらに伸びる見込み"),
+], size=10)
+
+# 右：事業別の売上推移（積み上げ＋合計の見出し）
+head(s, 4.85, 1.55, 5.62, "事業別の売上推移（億円）")
+legend(s, 4.88, 2.0, [(B1, "冷凍食品"), (B2, "チルド惣菜"), (B3, "調味料"), (B4, "業務用")], step=1.2)
+data = CategoryChartData()
+data.categories = ["2023", "2024", "2025", "2026予"]
+for name, vals in [("業務用", (31, 34, 40, 47)), ("調味料", (52, 53, 52, 52)), ("チルド惣菜", (61, 62, 63, 64)),
+                   ("冷凍食品", (68, 79, 96, 113)), ("合計", (0, 0, 0, 0))]:
+    data.add_series(name, vals)
+gf = s.shapes.add_chart(XL_CHART_TYPE.COLUMN_STACKED, Inches(4.85), Inches(2.25), Inches(5.62), Inches(2.62), data)
+ch = gf.chart
+style_chart(ch)
+plot = ch.plots[0]
+plot.gap_width = 70
+plot.overlap = 100
+for i, ser in enumerate(plot.series):
+    fill = [B4, B3, B2, B1, None][i]
+    if fill is None:
+        ser.format.fill.background()
+        ser.format.line.fill.background()
+        for j, tot in enumerate((212, 228, 251, 276)):
+            dl = ser.points[j].data_label
+            dl.has_text_frame = True
+            dl.text_frame.text = str(tot)
+            dl.position = XL_LABEL_POSITION.INSIDE_BASE
+            for r in dl.text_frame.paragraphs[0].runs:
+                style_run(r, 10, True, INK)
+        continue
+    ser.format.fill.solid()
+    ser.format.fill.fore_color.rgb = fill
+    ser.format.line.color.rgb = WHITE
+    ser.format.line.width = Pt(0.75)
+    ser.data_labels.show_value = True
+    ser.data_labels.position = XL_LABEL_POSITION.CENTER
+    ser.data_labels.font.size = Pt(9)
+    ser.data_labels.font.color.rgb = WHITE if fill in (B4, B5) else INK
+va = ch.value_axis
+va.visible = False
+va.has_major_gridlines = False
+va.maximum_scale = 300
+va.minimum_scale = 0
+ch.category_axis.tick_labels.font.size = Pt(10)
+ch.category_axis.format.line.color.rgb = G2
+
+# 右下：事業別の伸び
+rows = [
+    ("事業", "2023", "2026予", "年平均の伸び", "構成比"),
+    ("冷凍食品", "68", "113", "+18.4%", "41%"),
+    ("業務用", "31", "47", "+14.9%", "17%"),
+    ("チルド惣菜", "61", "64", "+1.6%", "23%"),
+    ("調味料", "52", "52", "±0.0%", "19%"),
+    ("合計", "212", "276", "+9.2%", "100%"),
+]
+widths = [1.5, 0.85, 0.85, 1.3, 1.12]
+tbl = s.shapes.add_table(len(rows), 5, Inches(4.85), Inches(5.0), Inches(5.62), Inches(1.86)).table
+for j, w in enumerate(widths):
+    tbl.columns[j].width = Inches(w)
+for i, row in enumerate(rows):
+    tbl.rows[i].height = Inches(0.31)
+    for j, val in enumerate(row):
+        c = tbl.cell(i, j)
+        c.margin_left = c.margin_right = Inches(0.06)
+        c.margin_top = c.margin_bottom = Inches(0.02)
+        c.vertical_anchor = MSO_ANCHOR.MIDDLE
+        c.fill.solid()
+        c.fill.fore_color.rgb = G2 if i == 0 else (PANEL if i == len(rows) - 1 else WHITE)
+        tf = c.text_frame
+        tf.text = val
+        p = tf.paragraphs[0]
+        p.alignment = PP_ALIGN.LEFT if j == 0 else PP_ALIGN.RIGHT
+        emphasize = i in (1, 2) and j == 3
+        style_run(p.runs[0], 9.5, i == 0 or emphasize or i == len(rows) - 1,
+                  WHITE if i == 0 else (RED if emphasize else INK))
+tbl.first_row = True
+
+
+# ================================================ (2) 特徴・顧客・販売チャネル
+s = page(2, "特徴・顧客・販売チャネル",
+         "量販中心の販路から、業務用とECへ分散が進む。冷凍の「届け先」が増えている",
+         "会社案内・プレスリリース・求人情報を想定。" + SAMPLE)
+
+head(s, 0.36, 1.55, 4.95, "販売チャネル別の売上構成")
+ch_data = CategoryChartData()
+ch_data.categories = ["2026予", "2023"]
+channel = [("量販", (55, 63), B5), ("CVS", (11, 12), B4), ("外食・中食", (17, 15), B3),
+           ("EC・ふるさと納税", (6, 0), RED), ("その他", (11, 10), G6)]
+for name, vals, _ in channel:
+    ch_data.add_series(name, vals)
+gf = s.shapes.add_chart(XL_CHART_TYPE.BAR_STACKED_100, Inches(0.3), Inches(2.0), Inches(5.05), Inches(1.95), ch_data)
+ch = gf.chart
+style_chart(ch)
+ch.plots[0].gap_width = 45
+ch.plots[0].overlap = 100
+for i, ser in enumerate(ch.plots[0].series):
+    color = channel[i][2]
+    ser.format.fill.solid()
+    ser.format.fill.fore_color.rgb = color
+    ser.format.line.color.rgb = WHITE
+    ser.format.line.width = Pt(0.75)
+    ser.data_labels.show_value = True
+    ser.data_labels.number_format = '0"%";;;'
+    ser.data_labels.number_format_is_linked = False
+    ser.data_labels.font.size = Pt(9.5)
+    ser.data_labels.font.bold = True
+    ser.data_labels.font.color.rgb = WHITE if color in (B5, B4, RED) else INK
+ch.value_axis.visible = False
+ch.value_axis.has_major_gridlines = False
+ch.category_axis.tick_labels.font.size = Pt(10)
+ch.category_axis.format.line.fill.background()
+legend(s, 0.4, 3.98, [(c, n, w) for (n, _, c), w in zip(channel, (0.72, 0.68, 1.05, 1.55, 0.8))], size=8.5)
+
+head(s, 0.36, 4.45, 4.95, "主な販売先")
+sellers = [
+    ("量販", "関東・関西の大手スーパー。上位5社で量販売上の約6割"),
+    ("CVS", "大手コンビニのPB惣菜を製造"),
+    ("外食・中食", "外食チェーン3社と新規契約（2026/06〜）、弁当事業者"),
+    ("EC", "公式EC（2025/10〜）、ふるさと納税の返礼品"),
+]
+for i, (k, v) in enumerate(sellers):
+    yy = 4.95 + i * 0.48
+    box(s, 0.36, yy, 1.05, 0.4, PANEL)
+    text(s, 0.36, yy, 1.05, 0.4, [(k, {"size": 9.5, "bold": True})], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+    text(s, 1.5, yy, 3.8, 0.4, [(v, {"size": 9.5, "color": RED if k == "EC" else INK})], anchor=MSO_ANCHOR.MIDDLE)
+
+head(s, 5.6, 1.55, 4.87, "特徴・強み")
+strengths = [
+    ("看板商品を持つ", "冷凍ギョーザ「羽根つき一番」が冷凍売上の約4割。量販の冷凍売場で定番の棚を確保している", False),
+    ("2温度帯で作り、届ける", "チルドと冷凍を同じ工場群で製造。チルドは関西に即日配送の仕組みを持つ", False),
+    ("生産拠点の増強", "埼玉第1（チルド・調味料）、群馬第1（冷凍）に加え、群馬第2（冷凍）が2026/04に稼働", False),
+    ("物流の意思決定者ができた", "2026/04に物流部を新設。物流企画職の求人で「委託先の再編」に言及している", True),
+]
+for i, (t, body, hot) in enumerate(strengths):
+    yy = 2.08 + i * 1.18
+    circ = box(s, 5.6, yy + 0.02, 0.34, 0.34, RED if hot else G2, shape=MSO_SHAPE.OVAL)
+    text(s, 5.6, yy + 0.02, 0.34, 0.34, [(str(i + 1), {"size": 10, "bold": True, "color": WHITE})],
+         align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, margin=0)
+    text(s, 6.05, yy - 0.02, 4.42, 0.34, [(t, {"size": 11.5, "bold": True, "color": RED if hot else INK})], anchor=MSO_ANCHOR.MIDDLE)
+    text(s, 6.05, yy + 0.34, 4.42, 0.74, [(body, {"size": 9.5, "color": INK})], line=1.05)
+    if i < 3:
+        rule(s, 6.05, yy + 1.08, 4.42, G6, 0.75)
+
+
+# ============================================================ (3) 商品ラインナップ
+s = page(3, "商品ラインナップ",
+         "物流の接点が大きいのは冷凍食品と業務用。取引中のチルドは伸びが小さい",
+         "自社サイト・商品カタログを想定。価格は店頭想定（税込）。" + SAMPLE)
+cats = [
+    ("冷凍食品", ["frozen-gyoza", "frozen-friedrice", "frozen-udon"], [
+        ("主な商品", "羽根つき一番（ギョーザ）、香ばし炒飯、讃岐風うどん"),
+        ("価格帯", "298〜498円"),
+        ("温度帯", "冷凍（−18℃以下）"),
+        ("主な販路", "量販・CVS・EC・ふるさと納税"),
+        ("売上と伸び", "113億円　年+18%"),
+    ], ("物流の接点：大", B5, WHITE)),
+    ("チルド惣菜", ["chilled-gyoza", "chilled-salad"], [
+        ("主な商品", "焼くだけ餃子、ポテトサラダ、きんぴら"),
+        ("価格帯", "198〜398円"),
+        ("温度帯", "チルド（10℃以下）・賞味3〜5日"),
+        ("主な販路", "量販の惣菜売場に毎日納品"),
+        ("売上と伸び", "64億円　年+2%"),
+    ], ("当社取引中・伸び小", B3, INK)),
+    ("調味料", ["sauce-gyoza", "sauce-tsuyu", "sauce-dressing"], [
+        ("主な商品", "餃子のたれ、そばつゆ、胡麻ドレッシング"),
+        ("価格帯", "198〜548円"),
+        ("温度帯", "常温"),
+        ("主な販路", "量販・EC（冷凍品と同梱）"),
+        ("売上と伸び", "52億円　横ばい"),
+    ], ("物流の接点：小", G6, INK)),
+    ("業務用", ["bulk-gyoza", "bulk-soup"], [
+        ("主な商品", "業務用冷凍ギョーザ（50個入）、スープの素"),
+        ("価格帯", "ケース単位の取引"),
+        ("温度帯", "冷凍中心"),
+        ("主な販路", "外食チェーン・弁当事業者"),
+        ("売上と伸び", "47億円　年+15%"),
+    ], ("物流の接点：中・新規", B4, WHITE)),
+]
+cw = 2.4
+for i, (name, pics, specs, (verdict, vfill, vcolor)) in enumerate(cats):
+    x = 0.36 + i * (cw + 0.17)
+    bar_label(s, x, 1.58, cw, 0.36, name, size=11)
+    box(s, x, 1.94, cw, 1.62, PANEL)
+    picture_row(s, pics, x + 0.08, 3.48, cw - 0.16, 1.42)
+    yy = 3.64
+    for k, (label, value) in enumerate(specs):
+        rh = 0.66 if k == 0 else 0.48
+        hot = label == "売上と伸び" and ("18" in value or "15" in value)
+        text(s, x, yy, cw, 0.2, [(label, {"size": 8, "bold": True, "color": G3})], margin=0)
+        text(s, x, yy + 0.19, cw, rh - 0.2, [(value, {"size": 9.5, "bold": hot, "color": RED if hot else INK})], margin=0, line=0.95)
+        rule(s, x, yy + rh - 0.02, cw, G6, 0.5)
+        yy += rh
+    box(s, x, 6.3, cw, 0.42, vfill)
+    text(s, x, 6.3, cw, 0.42, [(verdict, {"size": 10.5, "bold": True, "color": vcolor})],
+         align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+
+
+# =================================================== (4) 変化のシグナルと取引状況
+s = page(4, "変化のシグナルと取引状況",
+         "冷凍の物量が3方面で増える一方、当社の取引はチルド・関西の1区画に留まる",
+         "プレスリリース・求人情報と、依頼元の取引実績を突合して作成。" + SAMPLE)
+
+head(s, 0.36, 1.55, 3.85, "直近の変化（2024〜2026）")
+events = [
+    ("2024/04", "中期経営計画を公表", "冷凍の売上比率を2028年度に50%へ", False),
+    ("2025/03", "群馬第2工場を着工", "冷凍ギョーザ・冷凍麺の専用ライン", False),
+    ("2025/10", "公式EC・ふるさと納税に参入", "冷凍ギョーザを個人宅へ直送", False),
+    ("2026/04", "群馬第2工場が稼働", "冷凍の生産能力が約1.5倍に", False),
+    ("2026/04", "物流部を新設", "求人で「委託先の再編」に言及", True),
+    ("2026/06", "外食チェーン3社へ供給開始", "関西・中部の店舗へ業務用を納品", False),
+]
+vline(s, 0.52, 2.12, 4.55, G5, 1.25)
+for i, (d, t, body, hot) in enumerate(events):
+    yy = 2.05 + i * 0.8
+    box(s, 0.44, yy + 0.07, 0.16, 0.16, RED if hot else G2, shape=MSO_SHAPE.OVAL)
+    text(s, 0.72, yy - 0.02, 3.5, 0.3, [[(d + "　", {"size": 9.5, "bold": True, "color": G3}),
+                                       (t, {"size": 10.5, "bold": True, "color": RED if hot else INK})]], margin=0)
+    text(s, 0.72, yy + 0.29, 3.5, 0.3, [(body, {"size": 9.5, "color": RED if hot else G3})], margin=0)
+
+head(s, 4.45, 1.55, 6.02, "商品カテゴリ × 物流工程の取引マップ")
+steps = ["保管・横持ち", "量販・CVS\n配送", "EC・個人宅\n配送", "外食店舗\n配送"]
+rows4 = ["冷凍食品", "チルド惣菜", "調味料", "業務用"]
+grid = [["O", "O", "N", "X"], ["O", "T", "X", "X"], ["O", "O", "N", "X"], ["O", "X", "X", "N"]]
+notes = [["大手3PL", "大手3PL", "2025/10〜", ""], ["自社倉庫", "関西のみ当社", "", ""],
+         ["他社", "大手3PL", "冷凍と同梱", ""], ["他社", "", "", "2026/06〜"]]
+STATE = {"T": (B5, WHITE, "当社取引中"), "O": (B2, INK, "他社委託"), "N": (WHITE, RED, "新規・未取引"),
+         "X": (RGBColor(0xF6, 0xF6, 0xF6), G4, "対象外")}
+GX, CW, CG, GY, RH, RG = 5.5, 1.2, 0.05, 2.54, 0.8, 0.06
+for j, st in enumerate(steps):
+    bar_label(s, GX + j * (CW + CG), 2.0, CW, 0.48, st, size=9, fill=G2)
+for i, name in enumerate(rows4):
+    yy = GY + i * (RH + RG)
+    box(s, 4.45, yy, 0.98, RH, PANEL)
+    text(s, 4.45, yy, 0.98, RH, [(name, {"size": 9.5, "bold": True})], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+    for j in range(4):
+        k = grid[i][j]
+        fill, fg, label = STATE[k]
+        xx = GX + j * (CW + CG)
+        box(s, xx, yy, CW, RH, fill, RED if k == "N" else G5, 1.75 if k == "N" else 0.5, dash=k == "N")
+        paras = [(label, {"size": 9.5, "bold": True, "color": fg})]
+        if notes[i][j]:
+            paras.append((notes[i][j], {"size": 8.5, "color": fg, "space": 2}))
+        text(s, xx, yy, CW, RH, paras, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+for k, key in enumerate(("T", "O", "N", "X")):
+    fill, fg, label = STATE[key]
+    lx = 4.5 + k * 1.5
+    box(s, lx, 6.03, 0.22, 0.16, fill, RED if key == "N" else G5, 1.0, dash=key == "N")
+    text(s, lx + 0.28, 5.98, 1.2, 0.26, [(label, {"size": 8.5})], margin=0)
+text(s, 4.45, 6.32, 6.02, 0.6, [
+    ("取引中は「チルド × 量販配送」の1区画だけ。伸びている冷凍側に、委託先が固まっていない区画が3つある",
+     {"size": 10.5, "bold": True, "color": RED}),
 ], line=1.05)
 
-label_box(s, 0.3, 5.07, 1.2, 0.34, "従業員数")
-text_box(s, 1.58, 5.07, 3.5, 0.34, [("640名（2026/3、単体）", {"size": 11})], anchor=MSO_ANCHOR.MIDDLE)
-label_box(s, 0.3, 5.49, 1.2, 0.34, "上場区分")
-text_box(s, 1.58, 5.49, 3.5, 0.34, [("非上場（創業家が過半を保有）", {"size": 11})], anchor=MSO_ANCHOR.MIDDLE)
-label_box(s, 0.3, 5.91, 1.2, 1.0, "事業内容")
-bullets(s, 1.55, 5.86, 3.62, 1.1, [
-    (0, "冷凍食品・チルド惣菜・調味料の製造販売"),
-    (0, "外食・中食向けの業務用食品"),
-    (0, "埼玉・群馬に3工場、関西に配送拠点"),
-], size=10.5)
 
-label_box(s, 5.55, 2.04, 1.08, 2.62, "特徴・強み")
-bullets(s, 6.72, 1.98, 3.82, 2.72, [
-    (0, "冷凍ギョーザ「羽根つき一番」が主力"),
-    (1, "冷凍食品売上の約4割を占める看板商品"),
-    (0, "冷凍食品の売上比率は32%→41%（2023→26予）"),
-    (1, "中計で2028年度に50%を目標", RED),
-    (0, "具材の下処理から包装まで自社工場で完結"),
-    (0, "チルドと冷凍の両温度帯を持ち、量販の惣菜売場と冷凍売場の双方に棚を持つ"),
-    (0, "創業家の社長が経営判断を主導、投資判断は比較的速い"),
-    (0, "2026年4月に物流部を新設し、配送体制を見直し中", RED),
-    (1, "物流企画職の求人で「委託先の再編」に言及"),
-], size=10.5)
-
-label_box(s, 5.55, 4.74, 1.08, 2.18, "顧客・\n販売チャネル")
-bullets(s, 6.72, 4.68, 3.82, 2.3, [
-    (0, "量販店（関東・関西のSM）が売上の約6割"),
-    (0, "CVS向けはPB惣菜を中心に約1割"),
-    (0, "業務用は外食チェーン・弁当事業者向け"),
-    (1, "2026年度から関西・中部の外食へ拡販"),
-    (0, "2025年10月に公式ECを開設"),
-    (1, "ふるさと納税の返礼品にも冷凍ギョーザを提供"),
-], size=10.5)
-
-
-# ============================================================ (2) 商品ラインナップ
-s = page(2, "商品ラインナップ",
-         "冷凍とチルドの2温度帯を持ち、冷凍は量販・EC・業務用へ販路が広がっている",
-         "架空の自社サイト・商品カタログを想定して作成。" + SOURCE_FICTION,
-         note="*1. 店頭想定価格（税込）。温度帯は冷凍＝−18℃以下、チルド＝10℃以下、常温＝温度管理不要")
-cols = [
-    ("冷凍食品", [
-        (0, "冷凍ギョーザ・炒飯・麺の3本柱"),
-        (1, "羽根つき一番、香ばし炒飯、讃岐風うどん など"),
-        (1, "298〜498円*1"),
-        (0, "冷凍（−18℃以下）"),
-        (0, "量販・CVSに加え、ECとふるさと納税へ拡大"),
-        (0, "群馬第2工場の稼働で生産量が約1.5倍に", RED),
-        (0, "物流の接点が最も大きく、伸びも大きい", RED),
-    ], ["frozen-gyoza", "frozen-friedrice", "frozen-udon"]),
-    ("チルド惣菜", [
-        (0, "焼くだけ餃子、ポテトサラダ、きんぴら等"),
-        (1, "198〜398円*1"),
-        (0, "チルド（10℃以下）、賞味期限3〜5日"),
-        (0, "量販の惣菜売場向けに毎日納品"),
-        (0, "当社が関西の配送を担当中", RED),
-        (1, "売上は横ばいで、物量の伸びは小さい"),
-    ], ["chilled-gyoza", "chilled-salad"]),
-    ("調味料", [
-        (0, "餃子のたれ、そばつゆ、胡麻ドレッシング"),
-        (1, "198〜548円*1"),
-        (0, "常温（温度管理不要）"),
-        (0, "冷凍ギョーザとの同梱・セット販売あり"),
-        (0, "常温品のため当社の強みは出にくい"),
-        (1, "EC向けの冷凍品との同梱出荷は論点"),
-    ], ["sauce-gyoza", "sauce-tsuyu", "sauce-dressing"]),
-    ("業務用", [
-        (0, "業務用冷凍ギョーザ（50個入）、スープの素"),
-        (1, "外食チェーン・弁当事業者向け"),
-        (0, "冷凍が中心、ケース単位の多店舗配送"),
-        (0, "2026年度から関西・中部の外食へ拡販", RED),
-        (1, "店舗別の定期配送が新たに発生"),
-        (0, "当社の関西配送網と重なる", RED),
-    ], ["bulk-gyoza", "bulk-soup"]),
+# =================================================================== (5) 提案仮説
+s = page(5, "提案仮説",
+         "委託先の見直しを入口に、2温度帯の一括納品と年末の波動対応で取引を広げる",
+         "(1)〜(4)の分析にもとづく仮説。" + SAMPLE)
+hyps = [
+    ("仮説1", "委託先の見直しが始まる前に、相見積もりの席を取る", "確度 高", "規模 大", [
+        "2026/04に物流部を新設。求人に「委託先の再編」と記載",
+        "冷凍の保管・配送は大手3PL1社に集中（推定）",
+    ], "冷凍比率50%を前に、1社依存を見直す段階。入札の前で、候補先はまだ固まっていない",
+       "物流部長に「冷凍の委託を2社体制にした場合のコストと災害時の備え」の比較を持ち込み、候補先に入る"),
+    ("仮説2", "外食向けは「2温度帯の一括納品」で入る", "確度 中", "規模 中", [
+        "2026/06から関西・中部の外食チェーン3社へ業務用を供給",
+        "当社は関西で量販向けチルド便を毎日運行",
+    ], "店舗は冷凍とチルドを別便で受けると、検品と収納の手間が倍になる。一括納品の要望が出やすい",
+       "既存のチルド便に冷凍を混載した店舗への一括納品を提案。冷凍専用便の大手3PLにない切り口になる"),
+    ("仮説3", "ふるさと納税の「12月の山」だけを請け負う", "確度 中", "規模 小", [
+        "2025/10にふるさと納税へ参入。冷凍ギョーザが返礼品",
+        "EC・ふるさと納税の発送体制は未公表",
+    ], "寄付は12月に集中しやすい。自社出荷では年末に出荷が追いつかず、遅配の苦情につながりやすい",
+       "11〜1月だけの冷凍小口出荷を、年間契約なしで請け負う。小さく実績を作り、仮説1の相見積もりにつなげる"),
 ]
-CONTACT = {
-    "冷凍食品": ("物流の接点：大　物量の伸び：大", B5, WHITE),
-    "チルド惣菜": ("当社取引中　物量は横ばい", B3, INK),
-    "調味料": ("物流の接点：小（常温）", LABEL, INK),
-    "業務用": ("物流の接点：中　新規に発生", B4, WHITE),
-}
-cw = 2.47
-for i, (head, items, pics) in enumerate(cols):
-    x = 0.28 + i * (cw + 0.07)
-    section_head(s, x, 1.48, cw, head, size=14)
-    bullets(s, x, 1.98, cw, 2.9, items, size=10)
-    product_row(s, pics, x + 0.04, 6.44, cw - 0.08, 2.05)
-    # 実物の「容器接点は大きい」に当たる評価を、列の最下段に帯で示す
-    verdict, fill, fg = CONTACT[head]
-    rect(s, x, 6.54, cw, 0.34, fill, line=BLACK, line_w=0.5)
-    text_box(s, x, 6.54, cw, 0.34, [(verdict, {"size": 10.5, "bold": True, "color": fg})],
-             align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-
-
-# ================================================================ (3) 直近の動向
-s = page(3, "直近の動向",
-         "中計で冷凍比率50%を掲げ、新工場・EC・業務用の3方面で冷凍の物量が増える局面にある",
-         "架空のプレスリリース・中期経営計画を想定して作成。" + SOURCE_FICTION,
-         note="*1. 冷凍食品の売上・生産能力から推計した出荷量の伸び。実際の物量は要確認")
-section_head(s, 0.3, 1.48, 10.23, "主な出来事（2024〜2026年）")
-events = [
-    ("2024/04", "中期経営計画\n「冷凍シフト2028」", "冷凍食品の売上比率を\n2028年度に50%へ"),
-    ("2025/03", "群馬第2工場\n着工", "冷凍ギョーザ・冷凍麺の\n専用ライン"),
-    ("2025/10", "公式EC開設\nふるさと納税参入", "冷凍ギョーザを中心に\n個人宅へ直送"),
-    ("2026/04", "群馬第2工場\n稼働", "冷凍の生産能力が\n約1.5倍に"),
-    ("2026/06", "業務用の\n関西・中部拡販", "外食チェーン3社と\n供給開始（予定）"),
-]
-y0 = 2.22
-rule(s, 0.5, y0 + 0.2, 9.85, 2.0, RGBColor(0x3F, 0x5A, 0x8A))
-for i, (d, head, body) in enumerate(events):
-    cx = 0.3 + i * 2.05
-    dot = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(cx + 0.88), Inches(y0 + 0.12), Inches(0.17), Inches(0.17))
-    dot.fill.solid(); dot.fill.fore_color.rgb = B5 if i in (0, 3) else B4
-    dot.line.fill.background(); dot.shadow.inherit = False
-    text_box(s, cx, y0 - 0.24, 1.93, 0.3, [(d, {"size": 11, "bold": True})], align=PP_ALIGN.CENTER)
-    box = rect(s, cx, y0 + 0.44, 1.93, 1.3, WHITE, line=BLACK)
-    text_box(s, cx + 0.02, y0 + 0.5, 1.89, 0.56, [(ln, {"size": 10.5, "bold": True}) for ln in head.split("\n")],
-             align=PP_ALIGN.CENTER, line=0.92)
-    rule(s, cx + 0.25, y0 + 1.08, 1.43, 0.5, RGBColor(0xA0, 0xA0, 0xA0))
-    text_box(s, cx + 0.02, y0 + 1.12, 1.89, 0.58, [(ln, {"size": 9.5}) for ln in body.split("\n")],
-             align=PP_ALIGN.CENTER, line=0.92)
-
-section_head(s, 0.3, 4.06, 10.23, "動向が当社（低温物流）の領域に与える影響")
-hdr_y = 4.66
-for x, w, t in ((0.3, 2.3, "動向"), (2.66, 4.58, "物流への影響"), (7.3, 1.66, "物量の伸び*1"), (9.02, 1.5, "当社の現状")):
-    label_box(s, x, hdr_y, w, 0.3, t, size=10.5, bold=True)
-rows = [
-    ("群馬第2工場の稼働", "【推察】関東発の冷凍品の保管・横持ち・量販センター配送が増える。既存の冷凍倉庫の容量が不足する可能性",
-     "大（約1.5倍）", "未取引"),
-    ("公式EC・ふるさと納税", "【推察】冷凍の個人宅向け小口配送が新たに発生。年末の需要集中に対応できる体制が要る",
-     "中（新規）", "未取引"),
-    ("業務用の関西・中部拡販", "【推察】外食店舗へのケース単位の定期配送が発生。関西は当社の既存配送網と重なる",
-     "中（新規）", "一部隣接"),
-]
-for r, (a, b, c, d) in enumerate(rows):
-    yy = 5.02 + r * 0.6
-    if r:
-        rule(s, 0.3, yy - 0.04, 10.22, 0.5, RGBColor(0x90, 0x90, 0x90), dash=True)
-    text_box(s, 0.32, yy, 2.3, 0.54, [(a, {"size": 10.5, "bold": True})], anchor=MSO_ANCHOR.MIDDLE)
-    text_box(s, 2.66, yy, 4.6, 0.54, [(b, {"size": 10})], anchor=MSO_ANCHOR.MIDDLE, line=0.95)
-    text_box(s, 7.3, yy, 1.66, 0.54, [(c, {"size": 10.5, "bold": True, "color": RED if "大" in c else INK})],
-             align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-    text_box(s, 9.02, yy, 1.5, 0.54, [(d, {"size": 10.5})], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-
-
-# ============================================================== (4) 取引状況の整理
-s = page(4, "取引状況の整理",
-         "当社の取引はチルドの関西配送に限られ、伸びている冷凍の物流はほぼ未取引",
-         "依頼元の取引実績（架空）と公開情報を突合して作成。" + SOURCE_FICTION,
-         note="他社委託は求人情報・取引先公表などからの推定を含む。現行の委託先・契約条件は要確認")
-section_head(s, 0.3, 1.48, 7.05, "商品カテゴリ × 物流工程の取引マップ")
-section_head(s, 7.62, 1.48, 2.9, "読み取れること")
-
-steps = ["工場〜倉庫\n保管・横持ち", "量販・CVS\nセンター配送", "EC・ギフト\n個人宅配送", "外食・中食\n店舗配送"]
-cats4 = ["冷凍食品", "チルド惣菜", "調味料", "業務用"]
-# 取引状況: T=当社取引中, O=他社委託（推定）, N=新規発生・未取引, X=対象外
-grid = [
-    ["O", "O", "N", "X"],
-    ["O", "T", "X", "X"],
-    ["O", "O", "N", "X"],
-    ["O", "X", "X", "N"],
-]
-notes = [
-    ["関東・他社", "大手3PL", "2025/10〜", "—"],
-    ["自社倉庫", "関西のみ当社", "—", "—"],
-    ["常温・他社", "大手3PL", "冷凍と同梱", "—"],
-    ["関東・他社", "—", "—", "2026/06〜"],
-]
-STATE = {
-    "T": (B5, WHITE, "当社取引中"),
-    "O": (B2, INK, "他社委託（推定）"),
-    "N": (WHITE, RED, "新規発生・未取引"),
-    "X": (RGBColor(0xF4, 0xF4, 0xF4), GRAY, "対象外"),
-}
-gx, gy, lw, cwid, rh = 0.3, 2.06, 1.24, 1.42, 0.86
-for j, st in enumerate(steps):
-    label_box(s, gx + lw + 0.06 + j * (cwid + 0.06), gy, cwid, 0.56, st, size=10)
-for i, cat in enumerate(cats4):
-    yy = gy + 0.62 + i * (rh + 0.06)
-    label_box(s, gx, yy, lw, rh, cat, size=11)
-    for j in range(4):
-        fill, fg, _ = STATE[grid[i][j]]
-        xx = gx + lw + 0.06 + j * (cwid + 0.06)
-        cell = rect(s, xx, yy, cwid, rh, fill, line=RED if grid[i][j] == "N" else BLACK,
-                    line_w=1.75 if grid[i][j] == "N" else 0.75)
-        if grid[i][j] == "N":
-            cell.line.dash_style = 4
-        text_box(s, xx, yy + 0.08, cwid, 0.36, [(STATE[grid[i][j]][2], {"size": 10, "bold": True, "color": fg})],
-                 align=PP_ALIGN.CENTER)
-        text_box(s, xx, yy + 0.42, cwid, 0.34, [(notes[i][j], {"size": 9.5, "color": fg})], align=PP_ALIGN.CENTER)
-for k, key in enumerate(("T", "O", "N", "X")):
-    fill, fg, txt = STATE[key]
-    lx = 0.3 + k * 1.78
-    sw = rect(s, lx, 6.42, 0.24, 0.18, fill, line=RED if key == "N" else BLACK, line_w=1.2 if key == "N" else 0.6)
-    if key == "N":
-        sw.line.dash_style = 4
-    text_box(s, lx + 0.3, 6.37, 1.5, 0.28, [(txt, {"size": 9.5})])
-
-bullets(s, 7.62, 2.02, 2.92, 4.7, [
-    (0, "【事実】当社の取引は「チルド惣菜×関西の量販センター配送」の1区画のみ"),
-    (0, "【推定】冷凍の保管・配送は関東の大手3PLに委託されている"),
-    (1, "冷凍の売上は3年で約1.7倍に伸びている"),
-    (0, "【事実】EC・業務用で新しい配送区画が発生している", RED),
-    (1, "まだ委託先が固まっていない可能性がある", RED),
-    (0, "既存の大手3PLとの正面からの置換より、新規発生区画からの参入が現実的", RED),
-], size=10.5)
-
-
-# ============================================================= (5) 提案・連携余地
-s = page(5, "提案・連携余地",
-         "新工場の稼働に伴う関東の冷凍保管を入口に、EC小口と業務用配送へ取引を広げる",
-         "(1)〜(4)の分析にもとづく仮説。" + SOURCE_FICTION,
-         note="提案の確度は公開情報から判断した目安。実際の提案前に、顧客の物流部門への確認が必要")
-props = [
-    ("群馬第2工場の\n冷凍保管・横持ち", "優先度 高", [
-        (0, "【事実】2026/04稼働で冷凍の生産能力が約1.5倍"),
-        (0, "【推察】既存の冷凍倉庫だけでは保管が不足し、外部倉庫の追加が必要になる可能性が高い"),
-        (0, "工場近隣の当社冷凍倉庫での一時保管と、量販センターへの横持ちを提案", RED),
-        (1, "想定規模（推計）：冷凍保管 300〜500パレット、横持ち 日2〜3便"),
-        (1, "初回の打ち手：年末の繁忙期前に、物流部へ保管枠の空き状況を提示"),
-        (1, "確認事項：工場内の保管能力、現行3PLとの契約更新時期"),
-    ]),
-    ("EC・ふるさと納税の\n冷凍小口配送", "優先度 中", [
-        (0, "【事実】2025/10に公式ECを開設、返礼品にも採用"),
-        (0, "【推察】年末に出荷が集中し、大手3PLの通常便では波動に対応しにくい"),
-        (0, "繁忙期の出荷代行と、調味料との同梱出荷をセットで提案", RED),
-        (1, "想定規模（推計）：年末のピーク時に日1,000件前後"),
-        (1, "初回の打ち手：11月までに、年末の波動に合わせた出荷代行プランを提示"),
-        (1, "確認事項：月間出荷件数、現在の発送方法（自社出荷か委託か）"),
-    ]),
-    ("業務用の\n関西・中部店舗配送", "優先度 中", [
-        (0, "【事実】2026/06から外食チェーン3社へ供給開始の予定"),
-        (0, "【推察】関西は当社のチルド配送網と経路が重なり、混載で単価を抑えられる"),
-        (0, "既存の関西チルド便に冷凍の店舗配送を加える提案", RED),
-        (1, "想定規模（推計）：関西・中部の約120店舗へ週2回"),
-        (1, "初回の打ち手：既存チルド便の経路図に店舗を重ねた混載案を作って持参"),
-        (1, "確認事項：店舗数・納品頻度、冷凍・チルドの混載可否"),
-    ]),
-]
-for r, (head, prio, items) in enumerate(props):
-    yy = 1.5 + r * 1.62
-    if r:
-        rule(s, 0.3, yy - 0.08, 10.22, 0.75, RGBColor(0x80, 0x80, 0x80), dash=True)
-    label_box(s, 0.3, yy, 2.7, 1.44, head, size=12.5)
-    tag = rect(s, 0.42, yy + 0.08, 0.92, 0.26, RED if "高" in prio else WHITE, line=RED)
-    text_box(s, 0.42, yy + 0.07, 0.92, 0.28, [(prio, {"size": 9.5, "bold": True, "color": WHITE if "高" in prio else RED})],
-             align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-    bullets(s, 3.2, yy - 0.06, 7.32, 1.56, items, size=10, line=0.94)
-
-rule(s, 0.3, 6.38, 10.22, 0.75, RGBColor(0x80, 0x80, 0x80), dash=True)
-label_box(s, 0.3, 6.46, 1.3, 0.44, "留意点", size=11)
-text_box(s, 1.7, 6.42, 8.8, 0.52, [
-    [("冷凍の主委託先（大手3PL）とは長期契約の可能性が高く、既存区画の置換は難しい。", {"size": 10}),
-     ("意思決定は物流部ではなく生産本部が持つ可能性があり、提案先の確認から始める", {"size": 10})]
-], anchor=MSO_ANCHOR.MIDDLE, line=0.95)
-
+colw = 3.26
+for i, (tag, title, c1, c2, facts, read, prop) in enumerate(hyps):
+    x = 0.36 + i * (colw + 0.16)
+    box(s, x, 1.58, colw, 0.92, G1)
+    text(s, x + 0.12, 1.62, colw - 0.24, 0.24, [(tag, {"size": 9, "bold": True, "color": G5})], margin=0)
+    text(s, x + 0.12, 1.84, colw - 0.24, 0.62, [(title, {"size": 11.5, "bold": True, "color": WHITE})],
+         line=1.0, margin=0, anchor=MSO_ANCHOR.MIDDLE)
+    for k, (t, hot) in enumerate(((c1, "高" in c1), (c2, "大" in c2))):
+        tx = x + k * 0.92
+        box(s, tx, 2.58, 0.86, 0.26, RED if hot else WHITE, RED if hot else G4, 0.75)
+        text(s, tx, 2.58, 0.86, 0.26, [(t, {"size": 8.5, "bold": True, "color": WHITE if hot else G2})],
+             align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, margin=0)
+    # 根拠（事実）
+    box(s, x, 2.95, colw, 1.18, PANEL)
+    text(s, x + 0.1, 3.0, colw - 0.2, 0.22, [("根拠（事実）", {"size": 8.5, "bold": True, "color": G3})], margin=0)
+    bullets(s, x + 0.06, 3.2, colw - 0.12, 0.92, [(0, f) for f in facts], size=9, line=0.98)
+    text(s, x, 4.12, colw, 0.24, [("▼", {"size": 9, "color": G4})], align=PP_ALIGN.CENTER, margin=0)
+    # 読み（推察）
+    box(s, x, 4.36, colw, 0.98, WHITE, G5, 0.75)
+    text(s, x + 0.1, 4.41, colw - 0.2, 0.22, [("読み（推察）", {"size": 8.5, "bold": True, "color": G3})], margin=0)
+    text(s, x + 0.1, 4.62, colw - 0.2, 0.7, [(read, {"size": 9})], line=1.0, margin=0)
+    text(s, x, 5.33, colw, 0.24, [("▼", {"size": 9, "color": RED})], align=PP_ALIGN.CENTER, margin=0)
+    # 提案・初回の打ち手
+    box(s, x, 5.57, colw, 1.1, WHITE, RED, 1.5)
+    text(s, x + 0.1, 5.62, colw - 0.2, 0.22, [("提案・初回の打ち手", {"size": 8.5, "bold": True, "color": RED})], margin=0)
+    text(s, x + 0.1, 5.83, colw - 0.2, 0.82, [(prop, {"size": 9.5, "bold": True})], line=1.0, margin=0)
+text(s, 0.36, 6.72, 10.1, 0.26, [[("留意点：", {"size": 8.5, "bold": True, "color": G2}),
+                                  ("冷凍の主委託先とは長期契約の可能性が高い。置き換えを正面から提案せず、新しく生まれる区画から入る",
+                                   {"size": 8.5, "color": G2})]], margin=0)
 
 prs.save(OUT)
 print("saved", OUT)

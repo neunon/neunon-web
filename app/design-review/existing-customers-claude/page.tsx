@@ -35,7 +35,13 @@ const jsonLd = [
       name: `${p.name}（${p.volume}）`,
       price: p.price.replace(',', ''),
       priceCurrency: 'JPY',
-      unitText: '1社',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: p.price.replace(',', ''),
+        priceCurrency: 'JPY',
+        unitText: '1社',
+        valueAddedTaxIncluded: false,
+      },
     })),
   },
   {

@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import {
   CONTACT_ESTIMATE, CONTACT_GENERAL, IMG, SAMPLE_PDF,
-  caseFile, comparison, faq, flow, plans, type Mark,
+  comparison, faq, flow, hypotheses, plans, records,
 } from './data';
 import { ReportViewer } from './ReportViewer';
 import { LensSwitcher } from './LensSwitcher';
@@ -12,42 +12,100 @@ import s from './lp.module.css';
 /**
  * 既存顧客企業クローズアップ LP。
  *
- * 主役は「実際に納品されるレポート」。架空企業ミオリ食品の5ページのサンプルを、
- * 実物と同じ型・同じ分量で作り（design/existing-customers-sample/）、その画像を見せる。
+ * 主役は「実際に納品されるレポート」。サンプル食品株式会社を分析した5ページのサンプルを、
+ * 公式スライドテンプレートで作り（design/existing-customers-sample/）、その画像を見せる。
  * 構成は購買検討の順に並べた:
- *   何が届くか（ヒーロー）→ どう読み解くか → 中身の全体 → 自社向けに変わるか
- *   → 他の手段との違い → 信頼できるか → いくらで・どう頼むか → 疑問 → 相談
+ *   何が届くか（ヒーロー）→ どう読み解くか → 提案仮説の質 → 中身の全体 → 自社向けに変わるか
+ *   → 他の手段との違い → 実績 → いくらで・どう頼むか → 疑問 → 相談
  * 赤は「示唆」だけに使う。実際のレポートで赤字が提案につながる発見を示すのと同じ規則。
  */
 
-/** スライド上の位置（in）を、切り抜き画像に対する % に直す。スライドは 10.83in × 7.5in */
-type Crop = { x: number; y: number; w: number; h: number };
-const PAGE: Crop = { x: 0, y: 0, w: 10.83, h: 7.5 };
-const MAP_CROP: Crop = { x: 0.25, y: 1.95, w: 7.32, h: 4.75 };
-/** 4ページ目の取引マップのセル（row: 商品カテゴリ, col: 物流工程） */
-function cell(row: number, col: number, crop: Crop): CSSProperties {
+/** 4ページ目の取引マップのセル位置（スライド 10.83in × 7.5in に対する %）。build_report.py の GX/CW/GY/RH と一致させる */
+function cell(row: number, col: number): CSSProperties {
   return {
-    left: `${((1.6 + 1.48 * col - crop.x) / crop.w) * 100}%`,
-    top: `${((2.68 + 0.92 * row - crop.y) / crop.h) * 100}%`,
-    width: `${(1.42 / crop.w) * 100}%`,
-    height: `${(0.86 / crop.h) * 100}%`,
+    left: `${((5.5 + 1.25 * col) / 10.83) * 100}%`,
+    top: `${((2.54 + 0.86 * row) / 7.5) * 100}%`,
+    width: `${(1.2 / 10.83) * 100}%`,
+    height: `${(0.8 / 7.5) * 100}%`,
   };
 }
 
-function MarkIcon({ mark }: { mark: Mark }) {
-  const label = mark === 'yes' ? '対応' : mark === 'part' ? '一部' : '対応しない';
-  return <span className={s.mark} data-mark={mark} aria-label={label} role="img" />;
-}
+type Step = {
+  no: string;
+  title: string;
+  body: ReactNode;
+  img: string;
+  w: number;
+  h: number;
+  page: number;
+  caption: string;
+  narrow?: boolean;
+};
 
-/** 分量の目安を紙の枚数で見せる（実際のページではなく、枚数の記号） */
-function Sheets({ count, more }: { count: number; more?: boolean }) {
-  return (
-    <span className={s.sheets} aria-hidden="true">
-      {Array.from({ length: count }, (_, i) => <i key={i} />)}
-      {more ? <em>…</em> : null}
-    </span>
-  );
-}
+const steps: Step[] = [
+  {
+    no: '01',
+    title: '業績と事業構成を、数字で分解する',
+    body: (
+      <>
+        <p>決算公告・会社案内から事業別の売上と利益を並べ直し、どの事業が伸び、どこに資金と人が向かっているかを特定します。</p>
+        <dl className={s.numbers}>
+          <div>
+            <dt>冷凍食品の売上</dt>
+            <dd><b>68</b>億円<span>→</span><b>113</b>億円</dd>
+            <dd className={s.numbersNote}>2023 → 2026予　年+18%</dd>
+          </div>
+          <div>
+            <dt>当社が取引するチルド惣菜</dt>
+            <dd><b>61</b>億円<span>→</span><b>64</b>億円</dd>
+            <dd className={s.numbersNote}>年+2%。今の取引の延長では伸びにくい</dd>
+          </div>
+        </dl>
+      </>
+    ),
+    img: 'step-1', w: 1268, h: 1208, page: 1,
+    caption: '1ページ目「業績・事業構成」より',
+  },
+  {
+    no: '02',
+    title: '強みと、顧客・販売チャネルを押さえる',
+    body: (
+      <>
+        <p>誰に、どの経路で売っているか。販路の構成が変わると、必要になる物流・資材・設備も変わります。</p>
+        <p>サンプルでは量販の比率が63%から55%へ下がり、外食・中食とEC・ふるさと納税が伸びています。あわせて、物流部の新設という「意思決定者の変化」も拾います。</p>
+      </>
+    ),
+    img: 'step-2', w: 1119, h: 1208, page: 2,
+    caption: '2ページ目「特徴・顧客・販売チャネル」より',
+  },
+  {
+    no: '03',
+    title: '商品・サービスごとに、入り込める余地を見る',
+    body: (
+      <>
+        <p>商品・サービスの単位まで降りて、価格帯・販路・伸びを並べ、御社の商材との接点の大小を評価します。</p>
+        <p>モノを売る企業でなくても同じです。サービスの種類や提供形態、対象顧客の単位で整理します。</p>
+      </>
+    ),
+    img: 'step-3', w: 1141, h: 1175, page: 3,
+    caption: '3ページ目「商品ラインナップ」より（4カテゴリのうち2つ）',
+  },
+  {
+    no: '04',
+    title: '筋のよい提案仮説にする',
+    body: (
+      <>
+        <p>集めた事実を「根拠 → 読み → 提案」の順に組み立て、初回にどこへ何を持ち込むかまで書きます。確度と規模も添えて、どれから動くかを決めやすくします。</p>
+        <p>サンプルで立てた3つの仮説を、次に示します。</p>
+      </>
+    ),
+    img: 'step-4', w: 745, h: 1163, page: 5,
+    caption: '5ページ目「提案仮説」より（3つのうち1つ）',
+    narrow: true,
+  },
+];
+
+const markLabel: Record<string, string> = { '◎': 'よく合う', '○': '対応できる', '△': '限られる', '×': '向かない' };
 
 export function ExistingCustomersLp() {
   return (
@@ -69,12 +127,12 @@ export function ExistingCustomersLp() {
               <span className={s.h1Sub}>取引先ごとの「次の提案」を、1社1レポートに。</span>
             </h1>
             <p className={s.lead}>
-              顧客の事業・業績・商品・販路・直近の動向を公開情報から調べ、御社の商材との接点を整理します。
+              顧客の業績・顧客と販売チャネル・商品・直近の変化を公開情報から調べ、御社の商材との接点を整理します。
               まだ取引できていない領域と、そこへの提案仮説まで。営業がそのまま使えるレポートにして納品します。
             </p>
             <dl className={s.facts}>
               <div>
-                <dt>参考価格（1社）</dt>
+                <dt>参考価格（1社・税抜）</dt>
                 <dd><b>3,000</b>円〜</dd>
               </div>
               <div>
@@ -104,13 +162,13 @@ export function ExistingCustomersLp() {
                   sizes="(min-width: 1200px) 760px, 100vw"
                   width={1440}
                   height={997}
-                  alt="サンプルレポート4ページ目。架空企業ミオリ食品の商品カテゴリと物流工程を掛け合わせ、取引中・他社委託・新規発生の区画を色分けした取引マップ"
+                  alt="サンプルレポート4ページ目。出来事の時系列と、商品カテゴリと物流工程を掛け合わせて取引中・他社委託・新規発生の区画を色分けした取引マップ"
                   fetchPriority="high"
                 />
-                <span className={s.hitHave} style={cell(1, 1, PAGE)} aria-hidden="true"><b>1</b></span>
-                <span className={s.hitNew} style={cell(0, 2, PAGE)} aria-hidden="true"><b>2</b></span>
-                <span className={s.hitNew} style={cell(2, 2, PAGE)} aria-hidden="true" />
-                <span className={s.hitNew} style={cell(3, 3, PAGE)} aria-hidden="true" />
+                <span className={s.hitHave} style={cell(1, 1)} aria-hidden="true"><b>1</b></span>
+                <span className={s.hitNew} style={cell(0, 2)} aria-hidden="true"><b>2</b></span>
+                <span className={s.hitNew} style={cell(2, 2)} aria-hidden="true" />
+                <span className={s.hitNew} style={cell(3, 3)} aria-hidden="true" />
               </div>
               <figcaption className={s.finding}>
                 <p className={s.findingHead}>この1枚から読み取れること</p>
@@ -118,14 +176,11 @@ export function ExistingCustomersLp() {
                   <li><b className={s.findingNoHave}>1</b>取引できているのは、この1区画だけ</li>
                   <li><b className={s.findingNoNew}>2</b>伸びている冷凍の側に、未取引の区画が3つ</li>
                 </ol>
-                <p className={s.findingFoot}>→ 5ページ目で、優先度つきの提案仮説3件に</p>
+                <p className={s.findingFoot}>→ 5ページ目で、筋のよい提案仮説3つに</p>
               </figcaption>
             </figure>
           </div>
         </div>
-        <p className={s.provenance}>
-          掲載しているのは説明用の架空企業「ミオリ食品」のサンプルです。実際の納品物と同じ型・同じ分量で作成しています。
-        </p>
       </section>
 
       {/* ------------------------------------------------------- 読み解きの4段 */}
@@ -135,106 +190,75 @@ export function ExistingCustomersLp() {
             <h2 id="reading-title" className={s.h2}>1社を、こう読み解きます</h2>
             <p className={s.secLead}>
               企業情報を集めて並べるだけでは、営業の次の一手にはなりません。
-              サンプルのミオリ食品を例に、事実から提案仮説に至るまでの4つの段階を、レポートの実物でたどります。
+              低温物流の会社が、取引先のサンプル食品を分析した例で、事実から提案仮説に至るまでをレポートの実物でたどります。
             </p>
           </header>
 
-          <dl className={s.caseStrip} aria-label="サンプルの前提">
-            <div className={s.caseStripName}>
-              <dt>分析対象</dt>
-              <dd>{caseFile.name}<small>{caseFile.note}</small></dd>
-            </div>
-            {caseFile.rows.map(([k, v]) => (
-              <div key={k}>
-                <dt>{k}</dt>
-                <dd>{v}</dd>
-              </div>
-            ))}
-          </dl>
-
           <ol className={s.steps}>
-            {/* 01: 図と、そこから読む数字を左右に */}
-            <li className={s.stepSplit}>
-              <div className={s.stepText}>
-                <p className={s.stepNo}>01</p>
-                <h3 className={s.h3}>伸びている事業を、数字で特定する</h3>
-                <p>決算公告・会社案内から事業別の売上を並べ直します。顧客の中で「どこに資金と人が向かっているか」から読み始めます。</p>
-                <dl className={s.numbers}>
+            {steps.map((step, i) => (
+              <li key={step.no} className={i % 2 === 0 ? s.stepSplit : s.stepSplitReverse}>
+                <div className={s.stepText}>
+                  <p className={s.stepNo}>{step.no}</p>
+                  <h3 className={s.h3}>{step.title}</h3>
+                  {step.body}
+                </div>
+                <figure className={step.narrow ? s.stepFigureNarrow : s.stepFigure}>
+                  <PageZoom page={step.page}>
+                    <img
+                      src={`${IMG}/${step.img}-1600.webp`}
+                      srcSet={`${IMG}/${step.img}-960.webp ${Math.min(960, step.w)}w, ${IMG}/${step.img}-1600.webp ${step.w}w`}
+                      sizes="(min-width: 1200px) 620px, 100vw"
+                      width={step.w}
+                      height={step.h}
+                      alt={step.caption}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </PageZoom>
+                  <figcaption>{step.caption}</figcaption>
+                </figure>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* ---------------------------------------------------------- 提案仮説の例 */}
+      <section className={s.hypo} id="hypotheses" aria-labelledby="hypo-title">
+        <div className={s.wrap}>
+          <header className={s.secHead}>
+            <h2 id="hypo-title" className={s.h2}>提案仮説の例</h2>
+            <p className={s.secLead}>
+              「冷凍が伸びているので保管を提案」のような、誰でも思いつく仮説では商談は動きません。
+              時期の兆し、競合が持たない切り口、小さく入る入口。事実を組み合わせて、その会社ならではの筋を探します。
+            </p>
+          </header>
+          <ol className={s.hypoList}>
+            {hypotheses.map((h) => (
+              <li key={h.no} className={s.hypoCard}>
+                <div className={s.hypoHead}>
+                  <p className={s.hypoNo}>仮説{h.no}</p>
+                  <h3 className={s.hypoTitle}>{h.title}</h3>
+                  <p className={s.hypoTags}>
+                    {h.tags.map((t) => <span key={t} data-hot={t.endsWith('高') || t.endsWith('大') ? 'true' : undefined}>{t}</span>)}
+                  </p>
+                </div>
+                <dl className={s.hypoChain}>
                   <div>
-                    <dt>冷凍食品の売上</dt>
-                    <dd><b>68</b>億円<span>→</span><b>113</b>億円</dd>
-                    <dd className={s.numbersNote}>2023 → 2026予　約1.7倍</dd>
+                    <dt>根拠（事実）</dt>
+                    <dd><ul>{h.facts.map((f) => <li key={f}>{f}</li>)}</ul></dd>
                   </div>
                   <div>
-                    <dt>冷凍食品の売上比率</dt>
-                    <dd><b>32</b>%<span>→</span><b>41</b>%</dd>
-                    <dd className={s.numbersNote}>中計では2028年度に50%</dd>
+                    <dt>読み（推察）</dt>
+                    <dd>{h.reading}</dd>
+                  </div>
+                  <div className={s.hypoProposal}>
+                    <dt>提案・初回の打ち手</dt>
+                    <dd>{h.proposal}</dd>
                   </div>
                 </dl>
-              </div>
-              <figure className={s.stepFigure}>
-                <PageZoom page={1}>
-                  <img src={`${IMG}/detail-sales-1600.webp`} srcSet={`${IMG}/detail-sales-960.webp 960w, ${IMG}/detail-sales-1600.webp 1097w`} sizes="(min-width: 1200px) 640px, 100vw" width={1097} height={671} alt="1ページ目より、事業別の売上の積み上げ棒グラフ（2023年から2026年予想）" loading="lazy" decoding="async" />
-                </PageZoom>
-                <figcaption>1ページ目「会社概要」より。事業別の売上推移（単位：億円）</figcaption>
-              </figure>
-            </li>
-
-            {/* 02: 横長の時系列と影響表は全幅で読ませる */}
-            <li className={s.stepFull}>
-              <div className={s.stepTextWide}>
-                <p className={s.stepNo}>02</p>
-                <h3 className={s.h3}>変化を、時系列の線にする</h3>
-                <p>中期経営計画、工場の新設、EC開設、業務用の拡販。ばらばらに出ている情報を一本の時系列に並べ、それぞれが御社の領域に何をもたらすかまで書きます。</p>
-              </div>
-              <figure className={s.stepFigure}>
-                <PageZoom page={3}>
-                  <img src={`${IMG}/detail-events-1600.webp`} srcSet={`${IMG}/detail-events-960.webp 960w, ${IMG}/detail-events-1600.webp 1600w`} sizes="(min-width: 1280px) 1200px, 100vw" width={1600} height={372} alt="3ページ目より、2024年から2026年の主な出来事を並べた時系列" loading="lazy" decoding="async" />
-                <img className={s.stepFigureNext} src={`${IMG}/detail-impact-1600.webp`} srcSet={`${IMG}/detail-impact-960.webp 960w, ${IMG}/detail-impact-1600.webp 1600w`} sizes="(min-width: 1280px) 1200px, 100vw" width={1600} height={442} alt="3ページ目より、出来事ごとの物流への影響・物量の伸び・当社の現状を整理した表" loading="lazy" decoding="async" />
-                </PageZoom>
-                <figcaption>3ページ目「直近の動向」より。出来事の時系列と、物流への影響</figcaption>
-              </figure>
-            </li>
-
-            {/* 03: 取引マップは印を重ね、読み取りを横に置く */}
-            <li className={s.stepSplitReverse}>
-              <figure className={s.stepFigure}>
-                <PageZoom page={4}>
-                  <span className={s.marked}>
-                  <img src={`${IMG}/detail-map-1600.webp`} srcSet={`${IMG}/detail-map-960.webp 960w, ${IMG}/detail-map-1600.webp 1600w`} sizes="(min-width: 1200px) 760px, 100vw" width={1600} height={1039} alt="4ページ目より、商品カテゴリと物流工程の取引マップ" loading="lazy" decoding="async" />
-                  <span className={s.hitHave} style={cell(1, 1, MAP_CROP)} aria-hidden="true"><b>1</b></span>
-                  <span className={s.hitNew} style={cell(0, 2, MAP_CROP)} aria-hidden="true"><b>2</b></span>
-                  <span className={s.hitNew} style={cell(2, 2, MAP_CROP)} aria-hidden="true" />
-                  <span className={s.hitNew} style={cell(3, 3, MAP_CROP)} aria-hidden="true" />
-                  </span>
-                </PageZoom>
-                <figcaption>4ページ目「取引状況の整理」より。商品カテゴリ × 物流工程の取引マップ</figcaption>
-              </figure>
-              <div className={s.stepText}>
-                <p className={s.stepNo}>03</p>
-                <h3 className={s.h3}>御社の取引と、突き合わせる</h3>
-                <p>ご共有いただける範囲の取引状況を、顧客の事業と重ねます。</p>
-                <ol className={s.readout}>
-                  <li><b className={s.findingNoHave}>1</b>取引できているのは「チルド惣菜 × 関西の量販配送」の1区画だけ</li>
-                  <li className={s.readoutSignal}><b className={s.findingNoNew}>2</b>伸びている冷凍の側に、委託先がまだ固まっていない区画が3つ</li>
-                </ol>
-              </div>
-            </li>
-
-            {/* 04: 提案は全幅で、文字が読める大きさに */}
-            <li className={s.stepFull}>
-              <div className={s.stepTextWide}>
-                <p className={s.stepNo}>04</p>
-                <h3 className={s.h3}>次に打つ手まで、書き切る</h3>
-                <p>提案仮説ごとに、根拠となる事実と推察を分けて記し、想定規模・初回の打ち手・確認事項まで添えます。「調べて終わり」にせず、営業会議でそのまま検討できる形にします。</p>
-              </div>
-              <figure className={s.stepFigure}>
-                <PageZoom page={5}>
-                  <img src={`${IMG}/detail-proposal-1600.webp`} srcSet={`${IMG}/detail-proposal-960.webp 960w, ${IMG}/detail-proposal-1600.webp 1600w`} sizes="(min-width: 1280px) 1200px, 100vw" width={1600} height={240} alt="5ページ目より、優先度・高の提案仮説。事実・推察・提案・想定規模・初回の打ち手・確認事項を記載" loading="lazy" decoding="async" />
-                </PageZoom>
-                <figcaption>5ページ目「提案・連携余地」より。優先度・高の提案仮説（ほか2件を同じ形式で記載）</figcaption>
-              </figure>
-            </li>
+              </li>
+            ))}
           </ol>
         </div>
       </section>
@@ -246,7 +270,7 @@ export function ExistingCustomersLp() {
             <div>
               <h2 id="report-title" className={s.h2}>納品されるレポート</h2>
               <p className={s.secLead}>
-                Standardプランのサンプル全5ページです。ページを選ぶと切り替わり、拡大すると原寸で読めます。
+                Standardプランの全5ページです。ページを選ぶと切り替わり、拡大すると原寸で読めます。
               </p>
             </div>
             <a href={SAMPLE_PDF} className={s.textLink}>PDFで開く（5ページ）</a>
@@ -275,96 +299,56 @@ export function ExistingCustomersLp() {
           <header className={s.secHead}>
             <h2 id="compare-title" className={s.h2}>企業分析を外注するなら、何が違うか</h2>
             <p className={s.secLead}>
-              企業データベースは基本情報を速く引くのに向いています。
-              その先の「自社の商材がどこに入るか」と「何を提案するか」を、担当者の時間を使わずに揃えられるのがこのサービスです。
+              基本情報を速く引くなら企業データベース、戦略の検討なら調査会社やコンサルが向いています。
+              このサービスが得意なのは、多くの取引先を同じ型で、御社の商材の視点から、提案仮説まで揃えることです。
             </p>
           </header>
-          <div className={s.tableWrap}>
-            <table className={s.table}>
-              <caption className={s.srOnly}>営業担当の自主調査・企業データベース・Neunonへの依頼の比較</caption>
-              <thead>
-                <tr>
-                  <th scope="col"><span className={s.srOnly}>比較の観点</span></th>
-                  {comparison.columns.map((c, i) => (
-                    <th key={c} scope="col" className={i === 2 ? s.colUs : undefined}>{c}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {comparison.rows.map((row) => (
-                  <tr key={row.label}>
-                    <th scope="row">{row.label}</th>
-                    {row.cells.map(([mark, text], i) => (
-                      <td key={i} className={i === 2 ? s.colUs : undefined} data-col={comparison.columns[i]}>
-                        <MarkIcon mark={mark} />
-                        <span>{text}</span>
-                      </td>
-                    ))}
-                  </tr>
+          <div className={s.cmp} role="table" aria-label="自社調査・企業データベース・調査会社・Neunonの比較">
+            <div className={s.cmpHead} role="row">
+              <span role="columnheader" className={s.cmpCorner}>
+                <span className={s.cmpLegend}>◎ よく合う　○ 対応できる　△ 限られる　× 向かない</span>
+              </span>
+              {comparison.columns.map((c, i) => (
+                <span role="columnheader" key={c.name} className={i === 3 ? s.cmpUsHead : s.cmpColHead}>
+                  <b>{c.name}</b>
+                  <small>{c.note}</small>
+                </span>
+              ))}
+            </div>
+            {comparison.rows.map((row, ri) => (
+              <div role="row" key={row.label} className={s.cmpRow} data-last={ri === comparison.rows.length - 1 ? 'true' : undefined}>
+                <span role="rowheader" className={s.cmpLabel}>{row.label}</span>
+                {row.cells.map(([mark, t], i) => (
+                  <span role="cell" key={i} className={i === 3 ? s.cmpUs : s.cmpCell} data-col={comparison.columns[i].name}>
+                    <i className={s.cmpMark} data-mark={mark} aria-label={markLabel[mark]}>{mark}</i>
+                    <span>{t}</span>
+                  </span>
                 ))}
-              </tbody>
-            </table>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ------------------------------------------------------------ 体制・実績 */}
-      <section className={s.quality} id="quality" aria-labelledby="quality-title">
+      {/* ---------------------------------------------------------------- 実績 */}
+      <section className={s.records} id="records" aria-labelledby="records-title">
         <div className={s.wrap}>
-          <header className={s.secHead}>
-            <h2 id="quality-title" className={s.h2}>品質は、レポートの中で確かめられます</h2>
-            <p className={s.secLead}>
-              読み手が「どこまでが事実か」を判断できるよう、書き方の決まりを全ページに通しています。サンプルの該当箇所を示します。
-            </p>
-          </header>
-
-          <figure className={s.proof}>
-            <PageZoom page={5}>
-            <span className={s.marked}>
-              <img src={`${IMG}/detail-proposal-1600.webp`} width={1600} height={240} alt="5ページ目の提案仮説。【事実】【推察】の書き分けと確認事項の記載箇所" loading="lazy" decoding="async" />
-              <span className={s.pin} style={{ left: '27.2%', top: '8.5%' }} aria-hidden="true">1</span>
-              <span className={s.pin} style={{ left: '27.2%', top: '21.5%' }} aria-hidden="true">2</span>
-              <span className={s.pin} style={{ left: '27.2%', top: '66.5%' }} aria-hidden="true">3</span>
-            </span>
-            </PageZoom>
-            <PageZoom page={3}>
-            <span className={s.marked}>
-              <img className={s.proofSource} src={`${IMG}/detail-source-1600.webp`} width={1600} height={78} alt="3ページ目の下部。出所・注記・作成時点の記載" loading="lazy" decoding="async" />
-              <span className={s.pin} style={{ left: '-1.4%', top: '30%' }} aria-hidden="true">4</span>
-            </span>
-            </PageZoom>
-          </figure>
-          <ol className={s.proofList}>
-            <li><b>1</b><div><h3 className={s.h4}>【事実】</h3><p>公開情報で確認できたこと。日付や数値を添えます。</p></div></li>
-            <li><b>2</b><div><h3 className={s.h4}>【推察】【推定】</h3><p>事実から推し量ったこと。事実と同じ書き方にはしません。</p></div></li>
-            <li><b>3</b><div><h3 className={s.h4}>確認事項</h3><p>提案の前に、顧客へ確かめるべきことを書き出します。</p></div></li>
-            <li><b>4</b><div><h3 className={s.h4}>出所と時点</h3><p>各ページの下に情報源と作成時点を明記します。</p></div></li>
-          </ol>
-
-          <div className={s.qualityGrid}>
-            <div className={s.team}>
-              <h3 className={s.h3}>調査と確認の分担</h3>
-              <ol className={s.teamFlow}>
-                <li><span>調査・作成</span><b>リード学生1名＋アソシエイト学生1〜5名</b><small>定型の型に沿って調査し、資料にまとめる</small></li>
-                <li><span>確認</span><b>経験のあるコンサルタント</b><small>納品前に内容を確認する</small></li>
-                <li><span>納品</span><b>スライド形式</b><small>社内フォーマットへの合わせ込みも可</small></li>
-              </ol>
-              <p className={s.teamNote}>
-                工数のかかる調査・資料作成を学生チームが担い、高い付加価値が必要な工程だけを経験者が担当する分業にしているため、この価格で提供できます。
-                調査項目と評価の観点を型にしているので、担当者が変わっても水準が揃い、複数社を同じ物差しで並べられます。
-              </p>
-            </div>
-            <div className={s.record}>
+          <div className={s.recordsGrid}>
+            <div>
+              <h2 id="records-title" className={s.h2}>支援実績</h2>
               <p className={s.recordNum}><b>数百</b>件</p>
               <p className={s.recordLabel}>企業・競合・市場分析レポートの累計作成件数（パッケージ型支援）</p>
-              <h3 className={s.h3}>主な支援実績</h3>
+            </div>
+            <div>
               <ul className={s.recordList}>
-                <li><b>国内主要容器メーカー</b>顧客企業クローズアップ、新規営業対象企業クローズアップ</li>
-                <li><b>大手建設会社</b>M&amp;A候補企業の個社クローズアップ</li>
-                <li><b>大手建設コンサルティング企業</b>新規事業候補市場の主要企業分析</li>
-                <li><b>大手消費財メーカー</b>新規事業候補市場の競合企業分析</li>
+                {records.map((r) => (
+                  <li key={r.client}>
+                    <b>{r.client}</b>
+                    <span>{r.work}</span>
+                  </li>
+                ))}
               </ul>
-              <p className={s.small}>守秘のため、取引先の名称は業種のみで記載しています。</p>
+              <p className={s.small}>守秘のため、取引先の名称は業種のみで記載しています。プロフェッショナルコンサルタントとの協働案件を含みます。</p>
             </div>
           </div>
         </div>
@@ -375,55 +359,45 @@ export function ExistingCustomersLp() {
         <div className={s.wrap}>
           <header className={s.secHead}>
             <h2 id="price-title" className={s.h2}>料金と依頼の流れ</h2>
-            <p className={s.secLead}>1社単位の参考価格です。対象企業数・調査範囲・納期によって変動するため、正式な金額はお見積りでお伝えします。</p>
+            <p className={s.secLead}>1社単位の参考価格（税抜）です。対象企業数・調査範囲・納期によって変動するため、正式な金額はお見積りでお伝えします。数社からのお試しも承ります。</p>
           </header>
 
           <div className={s.plans}>
-            {plans.map((p) => {
-              const featured = 'featured' in p && p.featured;
-              return (
-                <article key={p.name} className={featured ? s.planFeatured : s.plan}>
-                  {featured ? <p className={s.planBadge}>このページのサンプル</p> : null}
-                  <div className={s.planHead}>
-                    <h3 className={s.planName}>{p.name}</h3>
-                    <Sheets count={p.name === 'Light' ? 2 : p.name === 'Standard' ? 5 : 10} />
-                  </div>
-                  <p className={s.planPrice}><b>{p.price}</b>円／社</p>
-                  <dl className={s.planSpec}>
-                    <div><dt>分量</dt><dd>{p.volume}</dd></div>
-                    <div><dt>納期の目安</dt><dd>{p.pace}</dd></div>
-                    <div><dt>内容</dt><dd>{p.contents}</dd></div>
-                  </dl>
-                  <p className={s.planFit}>{p.fit}</p>
-                </article>
-              );
-            })}
+            {plans.map((p) => (
+              <article key={p.name} className={s.plan}>
+                <h3 className={s.planName}>{p.name}</h3>
+                <p className={s.planPrice}><b>{p.price}</b>円／社<small>（税抜）</small></p>
+                <dl className={s.planSpec}>
+                  <div><dt>分量</dt><dd>{p.volume}</dd></div>
+                  <div><dt>納期の目安</dt><dd>{p.pace}</dd></div>
+                  <div><dt>内容</dt><dd>{p.contents}</dd></div>
+                </dl>
+                <p className={s.planFit}>{p.fit}</p>
+              </article>
+            ))}
           </div>
-          <p className={s.example}>
-            例：重点顧客20社をStandardで依頼した場合、参考価格で<b>100,000円</b>。数社からのお試しも承ります。
-          </p>
 
-          <div className={s.flowGrid}>
-            <ol className={s.flow}>
-              {flow.map((f, i) => (
-                <li key={f.title}>
-                  <span className={s.flowNo}>{i + 1}</span>
-                  <div>
-                    <h3 className={s.h3}>{f.title}</h3>
-                    <p>{f.body}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-            <div className={s.prepare}>
+          <h3 className={s.flowTitle}>依頼の流れ</h3>
+          <ol className={s.flow}>
+            {flow.map((f, i) => (
+              <li key={f.title}>
+                <span className={s.flowNo}>{i + 1}</span>
+                <h4 className={s.flowStep}>{f.title}</h4>
+                <p>{f.body}</p>
+              </li>
+            ))}
+          </ol>
+
+          <div className={s.prepare}>
+            <div>
               <h3 className={s.h3}>ご相談時にお知らせいただくこと</h3>
               <ul>
                 <li>分析したい顧客の社名（数社からで構いません）</li>
                 <li>御社の商材と、特に見てほしい観点</li>
-                <li>わかる範囲での現在の取引状況</li>
+                <li>（任意）わかる範囲での現在の取引状況</li>
               </ul>
-              <Link href={CONTACT_ESTIMATE} className={s.btnPrimary}>見積もりを相談する</Link>
             </div>
+            <Link href={CONTACT_ESTIMATE} className={s.btnPrimary}>見積もりを相談する</Link>
           </div>
         </div>
       </section>
