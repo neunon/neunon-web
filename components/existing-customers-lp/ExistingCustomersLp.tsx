@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { ArrowRight, Check, Minus } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import {
   CONTACT_DOCS, CONTACT_ESTIMATE, CONTACT_GENERAL, IMG,
-  comparison, effects, faq, flow, hypotheses, labelSample, pains, perspectives, planFeatures, plans, records,
+  comparison, effects, faq, flow, hypotheses, labelSample, pains, perspectives, plans, records,
 } from './data';
 import { ReportGallery } from './ReportGallery';
 import { StickyCta } from './StickyCta';
@@ -12,7 +12,7 @@ import s from './lp.module.css';
  * 既存顧客企業クローズアップ LP。受注（見積もり相談）につなげることを第一に組んだ。
  *
  *   ファーストビュー（誰向け・何が・いくらで・相談ボタン・納品物の実物）→ 実績の帯 → こんなこと
- *   → レポートの中身（全ページ・プラン別）→ 提案仮説の例 → 効果 → 途中の相談 → 選ばれる理由と比較
+ *   → レポートの中身（サンプルの全ページ）→ 提案仮説の例 → 効果 → 途中の相談 → 選ばれる理由と比較
  *   → 実績 → 料金 → 依頼の流れ → FAQ → 最後の相談（スマホは画面下に相談ボタン）
  *
  * 画像はすべてサンプルレポート（サンプル食品株式会社を分析した例）の実物の書き出し。
@@ -142,19 +142,11 @@ export function ExistingCustomersLp() {
           <header className={s.secHead}>
             <h2 id="contents-title" className={s.h2}>レポートの中身</h2>
             <p className={s.secLead}>
-              食品メーカーを、低温物流の会社の目線で分析したサンプルです（Advancedプラン・表紙＋11ページ）。
-              プランを選ぶと、そのプランに収めるページがわかります。ページを押すと拡大できます。
+              食品メーカーを、低温物流の会社の目線で分析したサンプルです（表紙＋12ページ）。
+              ページの構成は、対象企業とご依頼の目的に合わせて決めます。ページを押すと拡大できます。
             </p>
           </header>
           <ReportGallery />
-          <div className={s.insightBar}>
-            <p className={s.pageNo}>＋</p>
-            <div>
-              <h3 className={s.h3}>どのプランにも「提案のヒント」を添えます</h3>
-              <p>調べてわかったことと、そこから言えることを、御社の商材の目線で書き出します。</p>
-            </div>
-            <a href="#hypotheses" className={s.textLink}>例を見る</a>
-          </div>
           <p className={s.note}>モノを売る企業でなくても、サービスの種類や提供形態の単位で同じように整理します。</p>
         </div>
       </section>
@@ -223,7 +215,7 @@ export function ExistingCustomersLp() {
             <h2 id="band-title" className={s.bandTitle}>まずは数社から、御社の顧客でお試しください</h2>
             <p>対象の社名と御社の商材を伺い、観点とプランをご提案します。</p>
           </div>
-          <Cta inverse />
+          <Cta />
         </div>
       </section>
 
@@ -346,36 +338,23 @@ export function ExistingCustomersLp() {
 
           <div className={s.plans}>
             {plans.map((p) => (
-              <article key={p.name} className={p.featured ? s.planFeatured : s.plan}>
-                <div className={s.planTop}>
-                  <h3 className={s.planName}>{p.name}</h3>
-                  {p.featured && <span className={s.planBadge}>おすすめ</span>}
-                </div>
-                <p className={s.planFit}>{p.fit}</p>
+              <article key={p.name} className={s.plan}>
+                <h3 className={s.planName}>{p.name}</h3>
                 <p className={s.planPrice}><b>{p.price}</b><span>円／社</span><small>（税抜）</small></p>
-                <p className={s.planMeta}>{p.volume}<span aria-hidden="true">・</span>納期の目安 {p.pace}</p>
-                <Link href={CONTACT_ESTIMATE} className={p.featured ? s.planCtaFeatured : s.planCta}>このプランで相談する</Link>
-                <ul className={s.planList} aria-label={`${p.name}に含まれる内容`}>
-                  {planFeatures.map((f) => {
-                    const has = (f.in as readonly string[]).includes(p.name);
-                    return (
-                      <li key={f.label} data-has={has ? 'true' : undefined}>
-                        {has ? <Check aria-hidden="true" size={16} strokeWidth={3} /> : <Minus aria-hidden="true" size={16} strokeWidth={2} />}
-                        <span>{f.label}{p.name === 'Light' && has ? '（要点）' : ''}</span>
-                        <span className={s.srOnly}>{has ? '：含む' : '：含まない'}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <dl className={s.planSpec}>
+                  <div><dt>分量の目安</dt><dd>{p.volume}</dd></div>
+                  <div><dt>納期の目安</dt><dd>{p.pace}</dd></div>
+                </dl>
+                <p className={s.planFit}>{p.fit}</p>
               </article>
             ))}
           </div>
           <div className={s.custom}>
             <div>
-              <h3 className={s.h3}>ご要望に合わせて調整します</h3>
-              <p>数社からのお試し、社内フォーマットでの納品、業種や条件からの対象企業の選定もご相談ください。</p>
+              <h3 className={s.h3}>社数とご要望に合わせてお見積りします</h3>
+              <p>プランは目安です。ページの構成と深さは、対象企業とご依頼の目的に合わせて決めます。数社からのお試しや、社内フォーマットでの納品もご相談ください。</p>
             </div>
-            <Link href={CONTACT_GENERAL} className={s.btnGhost}>相談する</Link>
+            <Link href={CONTACT_ESTIMATE} className={s.btnPrimary}>見積もりを相談する<ArrowRight aria-hidden="true" size={18} strokeWidth={2.4} /></Link>
           </div>
         </div>
       </section>
@@ -431,7 +410,7 @@ export function ExistingCustomersLp() {
           <div className={s.finalCopy}>
             <h2 id="final-title" className={s.finalTitle}>まず数社、御社の顧客で試してみませんか</h2>
             <p className={s.finalLead}>分析したい顧客の社名と、御社の商材をお知らせください。観点とプランをご提案し、お見積りをお送りします。</p>
-            <Cta inverse />
+            <Cta />
             <p className={s.finalSub}>サービスについてのご質問は<Link href={CONTACT_GENERAL}>こちら</Link></p>
           </div>
           <div className={s.finalArt} aria-hidden="true">

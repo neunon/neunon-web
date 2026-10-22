@@ -2,9 +2,9 @@
  * サンプルレポートの書き出し画像から、LP用の画像を作る。
  *
  * 前段（Windows + PowerPoint が必要）:
- *   1. py design/existing-customers-sample/build_report.py        … PPTX を生成（表紙＋11ページ）
+ *   1. py design/existing-customers-sample/build_report.py        … PPTX を生成（表紙＋12ページ）
  *   2. powershell -File design/existing-customers-sample/export.ps1 -in <pptxの絶対パス> -out <フォルダ>
- *      … PowerPoint で各スライドを幅2400pxのPNGに書き出す（page-01.png = 表紙 … page-12.png）
+ *      … PowerPoint で各スライドを幅2400pxのPNGに書き出す（page-01.png = 表紙 … page-13.png）
  *      （PowerPoint 本体の描画をそのまま使う。LibreOffice だと字詰めが変わる。
  *        export.ps1 は開いている他のプレゼンテーションを閉じない。Quit を足さないこと）
  * 本スクリプト:
@@ -28,7 +28,7 @@ mkdirSync(out, { recursive: true });
 
 const pages = {
   cover: 1, summary: 2, company: 3, trend: 4, segments: 5, org: 6,
-  channels: 7, products: 8, brands: 9, brand: 10, signals: 11, map: 12,
+  channels: 7, products: 8, brands: 9, brand: 10, signals: 11, map: 12, proposal: 13,
 };
 for (const [name, n] of Object.entries(pages)) {
   const file = join(src, `page-${String(n).padStart(2, '0')}.png`);

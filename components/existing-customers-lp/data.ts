@@ -36,25 +36,24 @@ export const pains = [
   '訪問前に調べる時間が取れず、担当者によって顧客の理解がまちまち',
 ] as const;
 
-export type PlanKey = 'Light' | 'Standard' | 'Advanced';
-
 /**
- * サンプルレポート（表紙＋11ページ）の各ページ。画像は design/existing-customers-sample/ の実物の書き出し。
- * plans はそのページを含むプラン。実際の納品物（ボリューム大・小）の構成と、提案書 p.13 の各プランの内容にそろえた
- *   Light 1〜2枚：業績と提案余地を要点に／Standard 3〜5枚／Advanced 約10枚：グループ組織・ブランド別まで
+ * サンプルレポート（表紙＋12ページ）の各ページ。画像は design/existing-customers-sample/ の実物の書き出し。
+ * 実際の納品物（ボリューム大）の構成にならった。ページの構成は対象企業とご依頼の目的に合わせて都度決めるため、
+ * プランとの対応は示さない（2026-10-22 ユーザー指示）。
  */
-export const reportPages: { img: string; title: string; body: string; plans: PlanKey[] }[] = [
-  { img: 'summary', title: 'サマリー', body: '業績・販路・商品・変化の要点と、御社との接点を1枚に', plans: ['Light', 'Advanced'] },
-  { img: 'company', title: '会社概要・グループ構成', body: '基本情報、グループ会社の役割、主な拠点', plans: ['Advanced'] },
-  { img: 'trend', title: '業績推移', body: '売上高と営業利益率の5期推移、主要な指標', plans: ['Advanced'] },
-  { img: 'segments', title: '事業別の売上構成', body: '伸びている事業と、取引中の事業の比較', plans: ['Standard', 'Advanced'] },
-  { img: 'org', title: '主要組織図', body: '提案の起点となる部署と、関係する検討先', plans: ['Advanced'] },
-  { img: 'channels', title: '顧客・販売チャネル', body: '販路の構成の変化、主な販売先、特徴・強み', plans: ['Standard', 'Advanced'] },
-  { img: 'products', title: '商品ラインナップ', body: 'カテゴリごとの商品・価格帯・御社の商材との接点', plans: ['Standard', 'Advanced'] },
-  { img: 'brands', title: 'ブランド別の売上推移', body: '主要ブランドの伸びの比較', plans: ['Advanced'] },
-  { img: 'brand', title: 'ブランド詳細', body: '主力ブランドの概要と、御社の商材との接点', plans: ['Advanced'] },
-  { img: 'signals', title: '変化のシグナル', body: '組織・投資・販路の出来事を時系列に', plans: ['Standard', 'Advanced'] },
-  { img: 'map', title: '取引マップ', body: '取引中・他社委託・未取引の区画（取引状況を伺える場合）', plans: ['Standard', 'Advanced'] },
+export const reportPages: { img: string; title: string; body: string }[] = [
+  { img: 'summary', title: 'サマリー', body: '業績・販路・商品・変化の要点と、御社との接点を1枚に' },
+  { img: 'company', title: '会社概要・グループ構成', body: '基本情報、グループ会社の役割、主な拠点' },
+  { img: 'trend', title: '業績推移', body: '売上高と営業利益率の推移、主要な指標' },
+  { img: 'segments', title: '事業別の売上構成', body: '伸びている事業と、取引中の事業の比較' },
+  { img: 'org', title: '主要組織図', body: '提案の起点となる部署と、関係する検討先' },
+  { img: 'channels', title: '顧客・販売チャネル', body: '販路の構成の変化、主な販売先、特徴・強み' },
+  { img: 'products', title: '商品ラインナップ', body: 'カテゴリごとの商品・価格帯・御社の商材との接点' },
+  { img: 'brands', title: 'ブランド別の売上推移', body: '主要ブランドの伸びの比較' },
+  { img: 'brand', title: 'ブランド詳細', body: '主力ブランドの概要と、御社の商材との接点' },
+  { img: 'signals', title: '変化のシグナル', body: '組織・投資・販路の出来事を時系列に' },
+  { img: 'map', title: '取引マップ', body: '取引中・他社委託・未取引の区画（取引状況を伺える場合）' },
+  { img: 'proposal', title: '提案のヒント', body: '調べてわかったことと、そこから言えること。初回の訪問で確かめたいこと' },
 ];
 
 /** 提案仮説の例。中身は content/pages/existing-customers.json（ユーザーが記入、件数は自由）。fact が空の組は「記入待ち」 */
@@ -128,17 +127,6 @@ export const comparison = {
   ] as { label: string; cells: [Mark, string][] }[],
 };
 
-/** 料金表で各プランに含まれる内容（○＝含む）。提案書 p.13 の各プランの内容にそろえた */
-export const planFeatures = [
-  { label: '業績・事業構成', in: ['Light', 'Standard', 'Advanced'] },
-  { label: '提案のヒント', in: ['Light', 'Standard', 'Advanced'] },
-  { label: '顧客・販売チャネル', in: ['Standard', 'Advanced'] },
-  { label: '商品ラインナップ', in: ['Standard', 'Advanced'] },
-  { label: '変化のシグナル・取引マップ', in: ['Standard', 'Advanced'] },
-  { label: 'グループ組織・主要組織図', in: ['Advanced'] },
-  { label: 'ブランド別の売上推移・詳細', in: ['Advanced'] },
-] as const;
-
 export const plans = [
   {
     name: 'Light',
@@ -147,7 +135,6 @@ export const plans = [
     pace: '15枚／週',
     contents: '業績と提案余地を要点に絞って',
     fit: '多くの顧客を、まず同じ型でざっと並べたいとき',
-    featured: false,
   },
   {
     name: 'Standard',
@@ -156,7 +143,6 @@ export const plans = [
     pace: '10社／週',
     contents: '業績・顧客と販路・商品・変化のシグナル・提案のヒント',
     fit: '重点顧客の深耕・クロスセルを検討するとき',
-    featured: true,
   },
   {
     name: 'Advanced',
@@ -165,7 +151,6 @@ export const plans = [
     pace: '5社／週',
     contents: 'グループ組織・ブランド別の売上推移・ブランドごとの提案まで',
     fit: '事業やブランドが多い大口顧客を攻略するとき',
-    featured: false,
   },
 ] as const;
 
