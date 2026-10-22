@@ -2,13 +2,13 @@
  * サンプル企業「サンプル化粧品株式会社」の商品画像（パックショット）を生成する。
  *
  * 実際の納品物では公開されている商品写真を引用するが、架空企業のサンプルでは使えないため、
- * 架空ブランドの容器を陰影つきで描いて商品画像の代わりにする。ブランド名・商品名はすべて架空。
+ * 架空ブランドの容器を陰影つきで描いて商品画像の代わりにする。表記はすべて「BRAND A」「商品A-1」等のサンプル。
  *
  * 実行: node design/existing-customers-sample/packshots.mjs
  * 出力: design/existing-customers-sample/packshots/<name>.png（透過・余白なし・2倍解像度）
  */
 import { createRequire } from 'node:module';
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, unlinkSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -101,7 +101,7 @@ products['minamo-lotion'] = { w: 220, h: 520, svg: `
   ${floor(110, 506, 70)}
   ${bottle({ cx: 110, top: 20, w: 124, h: 486, neck: 40, fill: 'b', cap: 'c', capW: 64, capH: 60, capFill: 'c' })}
   <path d="M70 250 q20 -10 40 0 t40 0" fill="none" stroke="${MINAMO}" stroke-width="2.4" opacity=".75"/>
-  ${label([['MINAMO', 22, SANS, MINAMO, 600, 4], ['ミナモ', 13, JP, MINAMO, 600, 2, 26], ['薬用ローション', 12, JP, '#4a5a5d', 400, 1, 58], ['敏感肌用・しっとり', 10, JP, '#6c7a7c', 400, 0, 78], ['200mL', 11, SANS, '#6c7a7c', 400, 1, 190]], 110, 300)}` };
+  ${label([['BRAND A', 20, SANS, MINAMO, 600, 3], ['ブランドA', 12, JP, MINAMO, 600, 2, 26], ['商品A-1', 12, JP, '#4a5a5d', 400, 1, 58], ['SAMPLE', 10, SANS, '#6c7a7c', 400, 2, 78], ['200mL', 11, SANS, '#6c7a7c', 400, 1, 190]], 110, 300)}` };
 
 products['minamo-milk'] = { w: 220, h: 470, svg: `
   <defs>${defsBase}${cyl('b', '#f1f5f5', { gloss: 0.6, dark: -0.12 })}${cyl('p', '#fafbfb', { gloss: 0.5, dark: -0.18 })}</defs>
@@ -110,7 +110,7 @@ products['minamo-milk'] = { w: 220, h: 470, svg: `
   <path d="M48 140 Q48 118 70 118 L150 118 Q172 118 172 140 L172 446 Q172 456 162 456 L58 456 Q48 456 48 446Z" fill="url(#b)"/>
   ${shine(70, 136, 12, 300, 0.7)}
   <path d="M74 232 q18 -9 36 0 t36 0" fill="none" stroke="${MINAMO}" stroke-width="2.2" opacity=".75"/>
-  ${label([['MINAMO', 20, SANS, MINAMO, 600, 4], ['ミナモ', 12, JP, MINAMO, 600, 2, 24], ['薬用ミルク', 12, JP, '#4a5a5d', 400, 1, 54], ['150mL', 10, SANS, '#6c7a7c', 400, 1, 160]], 110, 278)}` };
+  ${label([['BRAND A', 18, SANS, MINAMO, 600, 3], ['ブランドA', 11, JP, MINAMO, 600, 2, 24], ['商品A-2', 12, JP, '#4a5a5d', 400, 1, 54], ['150mL', 10, SANS, '#6c7a7c', 400, 1, 160]], 110, 278)}` };
 
 products['minamo-serum'] = { w: 160, h: 430, svg: `
   <defs>${defsBase}${cyl('b', '#e9eff0', { gloss: 0.6, dark: -0.15 })}${cyl('c', '#c9d2d4', { gloss: 0.6, dark: -0.25 })}</defs>
@@ -120,7 +120,7 @@ products['minamo-serum'] = { w: 160, h: 430, svg: `
   <rect x="40" y="138" width="80" height="278" rx="10" fill="url(#base)"/>
   ${shine(52, 150, 8, 250, 0.7)}
   <rect x="40" y="398" width="80" height="18" rx="4" fill="${shade('#c9d2d4', -0.1)}"/>
-  ${label([['MINAMO', 14, SANS, MINAMO, 600, 3], ['SERUM', 10, SANS, MINAMO, 400, 3, 20], ['薬用美容液', 10, JP, '#4a5a5d', 400, 0, 46], ['30mL', 9, SANS, '#6c7a7c', 400, 1, 120]], 80, 230)}` };
+  ${label([['BRAND A', 12, SANS, MINAMO, 600, 2], ['SAMPLE', 9, SANS, MINAMO, 400, 3, 20], ['商品A-3', 10, JP, '#4a5a5d', 400, 0, 46], ['30mL', 9, SANS, '#6c7a7c', 400, 1, 120]], 80, 230)}` };
 
 products['minamo-cream'] = { w: 300, h: 230, svg: `
   <defs>${defsBase}${cyl('b', '#f2f5f5', { gloss: 0.6, dark: -0.14 })}${cyl('c', MINAMO, { gloss: 0.35, dark: -0.3 })}</defs>
@@ -130,7 +130,7 @@ products['minamo-cream'] = { w: 300, h: 230, svg: `
   <rect x="46" y="98" width="208" height="116" rx="14" fill="url(#b)"/>
   <rect x="46" y="98" width="208" height="116" rx="14" fill="url(#base)"/>
   ${shine(64, 108, 14, 96, 0.6)}
-  ${label([['MINAMO', 18, SANS, MINAMO, 600, 4], ['薬用クリーム　40g', 11, JP, '#4a5a5d', 400, 1, 24]], 150, 158)}` };
+  ${label([['BRAND A', 18, SANS, MINAMO, 600, 4], ['商品A-4', 11, JP, '#4a5a5d', 400, 1, 24]], 150, 158)}` };
 
 // クラシカ（高価格スキンケア）：すりガラスと金
 const GOLD = '#b08d4a';
@@ -142,7 +142,7 @@ products['classica-lotion'] = { w: 220, h: 500, svg: `
   <path d="M34 160 Q34 126 70 126 L150 126 Q186 126 186 160 L186 476 Q186 486 176 486 L44 486 Q34 486 34 476Z" fill="url(#b)"/>
   ${shine(52, 140, 14, 330, 0.55)}
   <rect x="60" y="250" width="100" height="1.2" fill="${GOLD}"/>
-  ${label([['CLASSICA', 20, SERIF, '#3a3226', 400, 5], ['LOTION', 10, SERIF, '#3a3226', 400, 4, 24], ['化粧水　150mL', 10, JP, '#5b5246', 400, 1, 70]], 110, 300)}
+  ${label([['BRAND B', 19, SERIF, '#3a3226', 400, 4], ['SAMPLE', 10, SERIF, '#3a3226', 400, 4, 24], ['商品B-1', 10, JP, '#5b5246', 400, 1, 70]], 110, 300)}
   <rect x="60" y="340" width="100" height="1.2" fill="${GOLD}"/>` };
 
 products['classica-cream'] = { w: 300, h: 240, svg: `
@@ -152,7 +152,7 @@ products['classica-cream'] = { w: 300, h: 240, svg: `
   <rect x="38" y="92" width="224" height="132" rx="20" fill="url(#b)"/>
   <rect x="38" y="92" width="224" height="132" rx="20" fill="url(#base)"/>
   ${shine(56, 104, 14, 108, 0.55)}
-  ${label([['CLASSICA', 18, SERIF, '#3a3226', 400, 5], ['クリーム　30g', 10, JP, '#5b5246', 400, 1, 24]], 150, 160)}` };
+  ${label([['BRAND B', 18, SERIF, '#3a3226', 400, 5], ['商品B-2', 10, JP, '#5b5246', 400, 1, 24]], 150, 160)}` };
 
 // ハレノヒ（UV）：白に空色と黄
 const SKY = '#2f8fd0';
@@ -166,7 +166,7 @@ products['harenohi-tube'] = { w: 190, h: 470, svg: `
   ${shine(62, 60, 10, 290, 0.6)}
   <circle cx="95" cy="150" r="22" fill="${SUN}"/>
   <rect x="58" y="146" width="74" height="4" fill="#fff" opacity=".0"/>
-  ${label([['HARENOHI', 17, SANS, SKY, 700, 3], ['UV MILD GEL', 9, SANS, SKY, 600, 2, 18], ['SPF50+ PA++++', 10, SANS, '#3b4a57', 600, 1, 46], ['日焼け止めジェル　80g', 9, JP, '#55626d', 400, 0, 68]], 95, 222)}
+  ${label([['BRAND D', 17, SANS, SKY, 700, 3], ['SAMPLE', 9, SANS, SKY, 600, 3, 18], ['商品D-1', 10, JP, '#3b4a57', 600, 1, 46]], 95, 222)}
   <rect x="52" y="372" width="86" height="84" rx="10" fill="url(#c)"/>` };
 
 products['harenohi-spray'] = { w: 170, h: 480, svg: `
@@ -179,7 +179,7 @@ products['harenohi-spray'] = { w: 170, h: 480, svg: `
   <rect x="32" y="446" width="106" height="12" rx="4" fill="url(#m)"/>
   ${shine(48, 156, 12, 280, 0.6)}
   <rect x="32" y="196" width="106" height="64" fill="${SKY}"/>
-  ${label([['HARENOHI', 16, SANS, '#fff', 700, 3], ['UV SPRAY', 9, SANS, '#fff', 600, 3, 20], ['SPF50+ PA++++', 10, SANS, '#3b4a57', 600, 1, 72], ['顔・からだ・髪　90g', 9, JP, '#55626d', 400, 0, 94]], 85, 226)}
+  ${label([['BRAND D', 16, SANS, '#fff', 700, 3], ['SAMPLE', 9, SANS, '#fff', 600, 3, 20], ['商品D-2', 10, JP, '#3b4a57', 600, 1, 72]], 85, 226)}
   <circle cx="85" cy="340" r="16" fill="${SUN}"/>` };
 
 products['harenohi-stick'] = { w: 150, h: 330, svg: `
@@ -190,7 +190,7 @@ products['harenohi-stick'] = { w: 150, h: 330, svg: `
   <rect x="32" y="126" width="86" height="190" rx="12" fill="url(#base)"/>
   ${shine(44, 136, 9, 166, 0.6)}
   <circle cx="75" cy="172" r="12" fill="${SUN}"/>
-  ${label([['HARENOHI', 12, SANS, SKY, 700, 2], ['UV STICK', 8, SANS, SKY, 600, 2, 16], ['SPF50+', 9, SANS, '#3b4a57', 600, 1, 40], ['15g', 8, SANS, '#55626d', 400, 0, 60]], 75, 214)}` };
+  ${label([['BRAND D', 12, SANS, SKY, 700, 2], ['SAMPLE', 8, SANS, SKY, 600, 2, 16], ['商品D-3', 9, JP, '#3b4a57', 600, 1, 40]], 75, 214)}` };
 
 // ルフレ（ヘアケア）：深緑とベージュ、詰め替え
 const REFRE = '#2f5a46';
@@ -201,7 +201,7 @@ products['refre-shampoo'] = { w: 230, h: 560, svg: `
   ${pump({ cx: 108, base: 128, fill: 'p', w: 66, h: 74, nozzle: 56 })}
   <path d="M42 160 Q42 128 74 128 L156 128 Q188 128 188 160 L188 534 Q188 546 176 546 L54 546 Q42 546 42 534Z" fill="url(#b)"/>
   ${shine(62, 146, 14, 370, 0.35)}
-  ${label([['REFRE', 26, SERIF, '#f1ece0', 400, 6], ['BOTANICAL SHAMPOO', 9, SANS, '#e3dccb', 600, 2, 26], ['ルフレ　シャンプー', 11, JP, '#e3dccb', 400, 1, 60], ['480mL', 10, SANS, '#cfc7b4', 400, 1, 210]], 115, 300)}` };
+  ${label([['BRAND C', 21, SERIF, '#f1ece0', 400, 4], ['SAMPLE', 9, SANS, '#e3dccb', 600, 3, 26], ['商品C-1', 11, JP, '#e3dccb', 400, 1, 60], ['480mL', 10, SANS, '#cfc7b4', 400, 1, 210]], 115, 300)}` };
 
 products['refre-treatment'] = { w: 230, h: 560, svg: `
   <defs>${defsBase}${cyl('b', REFRE2, { gloss: 0.4, dark: -0.28 })}${cyl('p', '#20262b', { gloss: 0.35, dark: -0.3 })}</defs>
@@ -209,7 +209,7 @@ products['refre-treatment'] = { w: 230, h: 560, svg: `
   ${pump({ cx: 108, base: 128, fill: 'p', w: 66, h: 74, nozzle: 56 })}
   <path d="M42 160 Q42 128 74 128 L156 128 Q188 128 188 160 L188 534 Q188 546 176 546 L54 546 Q42 546 42 534Z" fill="url(#b)"/>
   ${shine(62, 146, 14, 370, 0.45)}
-  ${label([['REFRE', 26, SERIF, REFRE, 400, 6], ['BOTANICAL TREATMENT', 9, SANS, REFRE, 600, 2, 26], ['ルフレ　トリートメント', 11, JP, REFRE, 400, 1, 60], ['480g', 10, SANS, REFRE, 400, 1, 210]], 115, 300)}` };
+  ${label([['BRAND C', 21, SERIF, REFRE, 400, 4], ['SAMPLE', 9, SANS, REFRE, 600, 3, 26], ['商品C-2', 11, JP, REFRE, 400, 1, 60], ['480g', 10, SANS, REFRE, 400, 1, 210]], 115, 300)}` };
 
 products['refre-refill'] = { w: 260, h: 470, svg: `
   <defs>${defsBase}
@@ -221,7 +221,7 @@ products['refre-refill'] = { w: 260, h: 470, svg: `
   <rect x="166" y="30" width="40" height="40" rx="6" fill="url(#s)"/>
   <rect x="160" y="64" width="52" height="14" rx="3" fill="url(#s)"/>
   ${shine(64, 100, 18, 300, 0.25)}
-  ${label([['REFRE', 26, SERIF, '#f1ece0', 400, 6], ['REFILL', 10, SANS, '#e3dccb', 600, 4, 24], ['シャンプー　つめかえ用', 11, JP, '#e3dccb', 400, 1, 64], ['900mL（約2回分）', 10, JP, '#cfc7b4', 400, 0, 88]], 130, 230)}` };
+  ${label([['BRAND C', 22, SERIF, '#f1ece0', 400, 4], ['REFILL', 10, SANS, '#e3dccb', 600, 4, 24], ['商品C-3', 11, JP, '#e3dccb', 400, 1, 64]], 130, 230)}` };
 
 // ボディ・その他：泡ハンドソープ
 const FOAM = '#7fb59a';
@@ -233,12 +233,13 @@ products['body-foam'] = { w: 210, h: 440, svg: `
   <rect x="62" y="108" width="88" height="22" rx="4" fill="url(#p)"/>
   <path d="M46 156 Q46 130 72 130 L140 130 Q166 130 166 156 L166 416 Q166 426 156 426 L56 426 Q46 426 46 416Z" fill="url(#b)"/>
   ${shine(62, 146, 12, 250, 0.6)}
-  ${label([['SAMPLE', 13, SANS, shade(FOAM, -0.35), 700, 3], ['泡ハンドソープ', 12, JP, '#3f5a4c', 600, 1, 26], ['薬用・250mL', 10, JP, '#5c7266', 400, 0, 48]], 106, 260)}
+  ${label([['BRAND E', 13, SANS, shade(FOAM, -0.35), 700, 3], ['商品E-1', 12, JP, '#3f5a4c', 600, 1, 26], ['SAMPLE', 10, SANS, '#5c7266', 400, 2, 48]], 106, 260)}
   <circle cx="106" cy="352" r="14" fill="${FOAM}" opacity=".8"/>` };
 
 for (const [name, { w, h, svg }] of Object.entries(products)) {
   const doc = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${svg}</svg>`;
   await sharp(Buffer.from(doc)).resize(w * 2, h * 2).png().toFile(join(outDir, `${name}-raw.png`));
   const info = await sharp(join(outDir, `${name}-raw.png`)).trim({ threshold: 1 }).toFile(join(outDir, `${name}.png`));
+  unlinkSync(join(outDir, `${name}-raw.png`));
   console.log(name, `${info.width}x${info.height}`);
 }

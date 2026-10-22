@@ -2,12 +2,13 @@
 
 最終更新: 2026-10-22 / 更新者: Claude Code
 
-## 2026-10-23 Claude Code：既存顧客LP　分析レポートのサンプルを実際の資料の転用で作り直し（確認待ち）
+## 2026-10-23 Claude Code：既存顧客LP　分析レポートのサンプルを Neunon のテンプレートで作り直し（確認待ち）
 
 ブランチ `hp/existing-customers-claude-lp`。
 
 - ユーザーの「制作方針の根本変更」により、LP の実装を止めて、実際に納品できる水準の分析レポートのサンプルを先に作った。確認を受けるまで LP は作り直さない
-- 作ったもの（`design/existing-customers-sample/`）: 提案書用材料_クローズアップ系.pptx のスライドを転用し、中身を架空（サンプル化粧品・ブランドA〜E・人名は○○）に差し替えた PPTX（表紙＋9ページ、`build_from_material.py`）。気に入られた3つの図は元資料の配色で追加。元資料の痕跡（参照・think-cell・ノート・履歴・プロパティ）は消して確認済み。書き出しと PDF（`renders/`）、表示試作（`preview/index.html`）
+- 作ったもの（`design/existing-customers-sample/`）: Neunon Consulting のテンプレートで一から組んだ PPTX（表紙＋9ページ、`build_report.py`）。中身はすべてダミー（「この文章はサンプルです。」、ブランドA〜E、カテゴリA〜G、人名○○）。気に入られた3つの図（年表と出来事の表／取引の照合表／優先順位の図）は残した。書き出しと PDF（`renders/`）、表示試作（`preview/index.html`）。元資料を転用した `build_from_material.py` は削除
+- デザインの決まり（余白・段組・文字サイズ・色の役割）は `build_report.py` の冒頭と `docs/EXISTING_CUSTOMERS_CLAUDE_LP.md` に記載
 - 参照した実物: 提案書用材料_クローズアップ系、コンサルティング事業_紹介資料、顧客企業クローズアップ ver8、新興企業クローズアップ サンプル（ローカルで参照のみ）
 - 注意: PowerPoint の書き出しは `design/existing-customers-sample/export.ps1` を使う。Quit を足さない（ユーザーが開いているスライドが閉じる）。元ファイルは scratchpad にコピーしてから書き出す
 - 次: ユーザーがサンプルを確認 → 修正 → 承認後に LP を設計し直す（`prepare_assets.mjs` もページ構成に合わせて直す）
