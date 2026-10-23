@@ -117,7 +117,7 @@
 .factsInner dd { margin-top: 4px; font-size: 15px; font-weight: 700; line-height: 1.2; white-space: nowrap; }
 .factsInner dd b { margin: 0 2px; font-family: var(--num); font-size: 30px; font-weight: 700; letter-spacing: -0.02em; }
 .factsClients dd { font-size: 14px; line-height: 1.6; white-space: normal; color: var(--ink2); }
-.factsNote { max-width: 1240px; margin: 0 auto; padding: 0 40px 14px; font-size: 12px; color: var(--ink3); }
+.factsNote { max-width: 1240px; margin: 0 auto; padding: 0 40px 14px; font-size: 12px; color: var(--ink3); text-align: right; }
 
 /* ------------------------------------------------------------ 節の間隔と地 */
 .promise, .examples, .report, .compare, .price, .proof, .faqSec { padding: clamp(88px, 10vw, 136px) 0; }

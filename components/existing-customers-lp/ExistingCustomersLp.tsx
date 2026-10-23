@@ -290,7 +290,7 @@ export function ExistingCustomersLp({ preview = false }: { preview?: boolean }) 
                 <li key={r.client}>
                   <span className={s.caseIdx}>{String(i + 1).padStart(2, '0')}</span>
                   <div>
-                    <p className={s.caseClient}>{r.client}{'same' in r && <span className={s.sameTag}>既存顧客企業クローズアップ</span>}</p>
+                    <p className={s.caseClient}>{r.client}</p>
                     <p className={s.caseWork}>{r.work}</p>
                   </div>
                 </li>
