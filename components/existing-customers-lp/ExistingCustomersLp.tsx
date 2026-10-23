@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ArrowRight, ArrowDown, Building2, FileLock2, FileText, Layers, ShieldCheck } from 'lucide-react';
 import {
   CONTACT_DOCS, CONTACT_ESTIMATE, CONTACT_GENERAL, IMG,
-  allExamples, compare, faq, filledExamples, flow, labelSample, plans, promises, records, scopeItems, terms,
+  allExamples, compare, effects, faq, filledExamples, flow, plans, promises, records, terms,
 } from './data';
 import { PlanCta } from './PlanCta';
 import { ReportGallery } from './ReportGallery';
@@ -64,8 +64,7 @@ export function ExistingCustomersLp({ preview = false }: { preview?: boolean }) 
               <p className={s.heroPriceMain}>
                 <span className={s.heroPriceUnit}>1社</span>
                 <b>3,000</b>
-                <span className={s.heroPriceYen}>円から</span>
-                <small>税抜</small>
+                <span className={s.heroPriceYen}>円から<small>（税抜）</small></span>
               </p>
               <p className={s.heroPriceNote}>1社から依頼できます。数社のお試しも承ります。</p>
             </div>
@@ -119,8 +118,9 @@ export function ExistingCustomersLp({ preview = false }: { preview?: boolean }) 
             <div><dt>費用</dt><dd><b>3,000</b>円〜／社</dd></div>
             <div><dt>納期の目安（Standard）</dt><dd>週<b>10</b>社</dd></div>
             <div><dt>分析レポートの累計（パッケージ型支援）</dt><dd><b>数百</b>件</dd></div>
-            <div className={s.factsClients}><dt>主な支援先</dt><dd>{records.map((r) => r.client).join('／')}</dd></div>
+            <div className={s.factsClients}><dt>主な提供事例</dt><dd>{records.map((r) => r.client).join('／')}</dd></div>
           </dl>
+          <p className={s.factsNote}>※ 累計件数と提供事例は、既存顧客企業クローズアップを含むパッケージ型支援事業全体の実績です。</p>
         </div>
       </section>
 
@@ -128,7 +128,6 @@ export function ExistingCustomersLp({ preview = false }: { preview?: boolean }) 
       <section className={s.promise} id="value" aria-labelledby="value-title">
         <div className={s.wrap}>
           <header className={s.head}>
-            <p className={s.eyebrow}>できること</p>
             <h2 id="value-title" className={s.h2}>営業が追いきれない顧客の情報を、<br />1社ずつ、提案につながる形で。</h2>
           </header>
           <ol className={s.promiseList}>
@@ -140,7 +139,26 @@ export function ExistingCustomersLp({ preview = false }: { preview?: boolean }) 
               </li>
             ))}
           </ol>
-          <p className={s.scope}><span>調べる領域</span>{scopeItems.join('　／　')}</p>
+          <div className={s.effects}>
+            <h3 className={s.effectsHead}>もたらす効果</h3>
+            <ol>
+              {effects.map((e) => <li key={e.title}><b>{e.title}</b><span>{e.body}</span></li>)}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================ 成果物（全9ページ） */}
+      <section className={s.report} id="report" aria-labelledby="report-title" data-track-view="report">
+        <div className={s.wrap}>
+          <header className={s.headSplit}>
+            <div>
+              <h2 id="report-title" className={s.h2}>1社につき、<span className={s.accent}>このレポート</span>を<br />お届けします。</h2>
+            </div>
+            <p className={s.lead}>架空の化粧品メーカーを、容器メーカーの目線で分析したサンプル（9ページ）です。会社概要から営業アクションまで、分析の範囲を一覧できます。ページを押すと拡大して読めます。</p>
+          </header>
+          <ReportGallery />
+          <p className={s.note}>社名・数値・文章はダミーです。ページの構成と分量は、対象企業とご依頼の目的に合わせて決めます。</p>
         </div>
       </section>
 
@@ -150,7 +168,6 @@ export function ExistingCustomersLp({ preview = false }: { preview?: boolean }) 
           <div className={s.wrap}>
             <header className={s.headSplit}>
               <div>
-                <p className={s.eyebrow}>提案仮説の例</p>
                 <h2 id="examples-title" className={s.h2}>調べた情報から、<br /><span className={s.accent}>次の提案</span>を考えます。</h2>
               </div>
               <p className={s.lead}>企業情報を集めて終わりではありません。顧客の変化と御社の取引を照らし合わせ、営業担当者が普段気づきにくい提案の可能性を、仮説として書き出します。</p>
@@ -182,27 +199,11 @@ export function ExistingCustomersLp({ preview = false }: { preview?: boolean }) 
         </section>
       )}
 
-      {/* ============================================================ 成果物（全9ページ） */}
-      <section className={s.report} id="report" aria-labelledby="report-title" data-track-view="report">
-        <div className={s.wrap}>
-          <header className={s.headSplit}>
-            <div>
-              <p className={s.eyebrow}>成果物</p>
-              <h2 id="report-title" className={s.h2}>1社につき、<span className={s.accent}>このレポート</span>を<br />お届けします。</h2>
-            </div>
-            <p className={s.lead}>架空の化粧品メーカーを、容器メーカーの目線で分析したサンプル（9ページ）です。会社概要から営業アクションまで、分析の範囲を一覧できます。ページを押すと拡大して読めます。</p>
-          </header>
-          <ReportGallery />
-          <p className={s.note}>社名・数値・文章はダミーです。ページの構成と分量は、対象企業とご依頼の目的に合わせて決めます。</p>
-        </div>
-      </section>
-
       {/* ============================================================ 比較表 */}
       <section className={s.compare} id="compare" aria-labelledby="compare-title">
         <div className={s.wrap}>
           <header className={s.headSplit}>
             <div>
-              <p className={s.eyebrow}>他の方法との比較</p>
               <h2 id="compare-title" className={s.h2}>企業調査・企業分析を<br />外注するなら、目的に合った方法を。</h2>
             </div>
             <p className={s.lead}>どの方法にも向く場面があります。Neunonは「多くの既存顧客を、営業の観点で、1社ずつレポートにしたい」ときの選択肢です。</p>
@@ -251,7 +252,6 @@ export function ExistingCustomersLp({ preview = false }: { preview?: boolean }) 
       <section className={s.price} id="price" aria-labelledby="price-title" data-track-view="price">
         <div className={s.wrap}>
           <header className={s.headCenter}>
-            <p className={s.eyebrow}>料金</p>
             <h2 id="price-title" className={s.h2}>1社 <span className={s.accentNum}>3,000</span>円から。<br />ページ数の目安で選べます。</h2>
             <p className={s.lead}>1社単位の参考価格（税抜）です。実際の分量と深さは、対象企業について得られる情報量、御社にとっての重要度、見たい論点に合わせて調整します。</p>
           </header>
@@ -281,40 +281,23 @@ export function ExistingCustomersLp({ preview = false }: { preview?: boolean }) 
         <div className={s.wrap}>
           <div className={s.proofGrid}>
             <div>
-              <p className={s.eyebrow}>支援実績</p>
-              <h2 id="why-title" className={s.srOnly}>支援実績と選ばれる理由</h2>
+              <h2 id="why-title" className={s.h2}>パッケージ型支援事業の<br />支援実績</h2>
               <p className={s.bigNum}><span>累計</span><b>数百</b><span>件</span></p>
-              <p className={s.bigNumNote}>企業・競合・市場分析レポートの作成件数。パッケージ型支援全体の実績で、プロフェッショナルコンサルタントとの協働案件を含みます（2026年10月時点）。</p>
+              <p className={s.bigNumNote}>企業・競合・市場分析レポートの累計作成件数（2026年10月時点）。既存顧客企業クローズアップに限らない、パッケージ型支援事業全体の実績で、プロフェッショナルコンサルタントとの協働案件を含みます。</p>
             </div>
             <ol className={s.cases}>
               {records.map((r, i) => (
                 <li key={r.client}>
                   <span className={s.caseIdx}>{String(i + 1).padStart(2, '0')}</span>
                   <div>
-                    <p className={s.caseClient}>{r.client}{'same' in r && <span className={s.sameTag}>このサービスと同じ型</span>}</p>
+                    <p className={s.caseClient}>{r.client}{'same' in r && <span className={s.sameTag}>既存顧客企業クローズアップ</span>}</p>
                     <p className={s.caseWork}>{r.work}</p>
                   </div>
                 </li>
               ))}
-              <li className={s.casesNote}>守秘のため、取引先の名称は業種のみで記載しています。</li>
+              <li className={s.casesNote}>※ パッケージ型支援事業の主な提供事例です。守秘のため、取引先の名称は業種のみで記載しています。</li>
             </ol>
           </div>
-          <ul className={s.pillars}>
-            <li>
-              <h3 className={s.pillarTitle}>型と確認の二段で、品質を揃える</h3>
-              <p>学生チームが定型の型と評価項目に沿って調査・作成し、経験のあるコンサルタントが納品前に内容を確認します。</p>
-            </li>
-            <li>
-              <h3 className={s.pillarTitle}>事実・推察・不明を書き分ける</h3>
-              <ul className={s.tags}>
-                {labelSample.map((l) => <li key={l.tag}><span data-tag={l.tag}>{l.tag}</span>{l.text}</li>)}
-              </ul>
-            </li>
-            <li>
-              <h3 className={s.pillarTitle}>数十社でも、同じ型で並べられる</h3>
-              <p>工数のかかる調査と資料作成を学生チームが担うため、1社3,000円から。手が回っていなかった取引先まで対象にできます。</p>
-            </li>
-          </ul>
         </div>
       </section>
 

@@ -86,7 +86,7 @@
 .heroPriceUnit { font-size: 22px; font-weight: 700; }
 .heroPriceMain b { font-family: var(--num); font-size: clamp(68px, 6.2vw, 96px); font-weight: 700; letter-spacing: -0.035em; color: var(--blue); }
 .heroPriceYen { font-size: 24px; font-weight: 700; }
-.heroPriceMain small { align-self: center; padding: 2px 8px; border: 1px solid var(--line2); border-radius: 4px; font-size: 12px; font-weight: 700; line-height: 1.6; color: var(--ink3); }
+.heroPriceYen small { margin-left: 2px; font-size: 14px; font-weight: 500; color: var(--ink3); }
 .heroPriceNote { margin-top: 14px; font-size: 15px; font-weight: 700; color: var(--ink); }
 .heroAssure { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; font-size: 13px; color: var(--ink2); }
 .heroAssure li { display: inline-flex; align-items: center; gap: 6px; }
@@ -117,6 +117,7 @@
 .factsInner dd { margin-top: 4px; font-size: 15px; font-weight: 700; line-height: 1.2; white-space: nowrap; }
 .factsInner dd b { margin: 0 2px; font-family: var(--num); font-size: 30px; font-weight: 700; letter-spacing: -0.02em; }
 .factsClients dd { font-size: 14px; line-height: 1.6; white-space: normal; color: var(--ink2); }
+.factsNote { max-width: 1240px; margin: 0 auto; padding: 0 40px 14px; font-size: 12px; color: var(--ink3); }
 
 /* ------------------------------------------------------------ 節の間隔と地 */
 .promise, .examples, .report, .compare, .price, .proof, .faqSec { padding: clamp(88px, 10vw, 136px) 0; }
@@ -128,8 +129,12 @@
 .promiseNo { font-family: var(--num); font-size: 44px; font-weight: 300; line-height: 1; letter-spacing: -0.02em; color: var(--blue); }
 .promiseTitle { margin-top: 22px; padding-top: 18px; border-top: 1.5px solid var(--ink); font-size: clamp(19px, 1.6vw, 22px); line-height: 1.5; }
 .promiseBody { margin-top: 12px; font-size: 15px; line-height: 1.95; color: var(--ink2); }
-.scope { margin-top: 48px; font-size: 14px; line-height: 2; color: var(--ink2); }
-.scope span { margin-right: 18px; font-weight: 700; color: var(--ink); }
+.effects { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 16px 32px; }
+.effectsHead { font-size: 17px; font-weight: 700 !important; color: var(--ink); line-height: 1.6; }
+.effects ol { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px 24px; counter-reset: fx; }
+.effects li { counter-increment: fx; display: grid; align-content: start; gap: 6px; font-size: 13.5px; line-height: 1.75; color: var(--ink2); }
+.effects li::before { content: counter(fx, decimal-leading-zero); font-family: var(--num); font-size: 13px; font-weight: 700; color: var(--blue); }
+.effects b { font-size: 15px; line-height: 1.5; color: var(--ink); }
 
 /* ------------------------------------------------------------ 提案仮説の例（情報 → 仮説。提案そのものを大きく） */
 .examples { border-top: 1px solid var(--line); }
@@ -208,7 +213,6 @@
 .plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1.5px solid var(--ink); }
 .plan { display: flex; flex-direction: column; padding: 32px 36px 30px; }
 .plan + .plan { border-left: 1px solid var(--line); }
-.plan:nth-child(2) { box-shadow: inset 0 3px 0 var(--blue); }
 .planName { font-family: var(--num); font-size: 20px; letter-spacing: 0.02em; }
 .planPages { margin-top: 10px; font-size: 14px; color: var(--ink3); }
 .planPages b { margin-right: 2px; font-size: 22px; font-weight: 700; color: var(--ink); }
@@ -238,7 +242,7 @@
 /* ------------------------------------------------------------ 実績と体制 */
 .proof { border-top: 1px solid var(--line); }
 .proofGrid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px clamp(48px, 7vw, 112px); align-items: start; }
-.bigNum { display: flex; align-items: baseline; gap: 8px; margin-top: 20px; line-height: 1; }
+.bigNum { display: flex; align-items: baseline; gap: 8px; margin-top: 28px; line-height: 1; }
 .bigNum span { font-size: 22px; font-weight: 700; }
 .bigNum b { font-size: clamp(96px, 10vw, 148px); font-weight: 700; letter-spacing: -0.04em; color: var(--ink); }
 .bigNumNote { margin-top: 22px; max-width: 26em; font-size: 14px; line-height: 1.85; color: var(--ink3); }
@@ -309,7 +313,8 @@
   .plan + .plan { border-left: 0; border-top: 1px solid var(--line); }
   .terms { grid-template-columns: 1fr 1fr; }
   .proofGrid, .faqGrid { grid-template-columns: 1fr; }
-  .pillars { grid-template-columns: 1fr; gap: 36px; }
+  .effects { grid-template-columns: 1fr; }
+  .effects ol { grid-template-columns: 1fr 1fr; }
   .others { grid-template-columns: 1fr; }
   .exRow { grid-template-columns: 48px minmax(0, 1fr); row-gap: 14px; }
   .exArrow { display: none; }
@@ -342,8 +347,8 @@
   .factsInner > div:nth-child(3) { grid-column: 1 / -1; border-top: 1px solid var(--line); }
   .factsInner dd b { font-size: 26px; }
   .promiseNo { font-size: 36px; }
-  .scope { margin-top: 36px; }
-  .scope span { display: block; margin: 0 0 4px; }
+  .effects ol { grid-template-columns: 1fr; }
+  .factsNote { padding: 0 20px 14px; }
   .exRow { grid-template-columns: 1fr; padding: 26px 0; }
   .exNo { padding-top: 0; }
   .exProposal { grid-column: auto; }
@@ -357,7 +362,6 @@
   .cmp tbody th { white-space: normal; width: 96px; font-size: 13px; box-shadow: 8px 0 8px -8px rgba(0, 0, 0, .25); }
   .cmpCorner { width: 96px; }
   .plan { padding: 26px 4px 24px; }
-  .plan:nth-child(2) { box-shadow: inset 0 3px 0 var(--blue); padding-top: 30px; }
   .planPrice b { font-size: 50px; }
   .terms { grid-template-columns: 1fr; }
   .planCta { grid-template-columns: 1fr; padding: 22px 18px; margin-left: -4px; margin-right: -4px; }
