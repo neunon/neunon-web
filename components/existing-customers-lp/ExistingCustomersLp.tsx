@@ -1,10 +1,9 @@
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import {
   CONTACT_DOCS, CONTACT_ESTIMATE, CONTACT_GENERAL, IMG,
   comparison, faq, flow, hypotheses, labelSample, perspectives, plans, records, sampleSetting, scope, sources, steps, terms,
 } from './data';
-import { ReportGallery } from './ReportGallery';
 import { ReportViewer } from './ReportViewer';
 import { StickyCta } from './StickyCta';
 import { ZoomFigure } from './ZoomFigure';
@@ -50,41 +49,90 @@ const markLabel: Record<string, string> = { '◎': 'よく合う', '○': '対�
 export function ExistingCustomersLp() {
   return (
     <div className={s.lp}>
-      {/* ------------------------------------------------------------ ファーストビュー */}
+      {/* ------------------------------------------------------------ ファーストビュー（第7版の型） */}
       <section className={s.hero} aria-labelledby="lp-title">
-        <div className={s.heroWrap}>
-          <nav aria-label="パンくず" className={s.crumbs}>
-            <Link href="/">ホーム</Link>
-            <span aria-hidden="true">/</span>
-            <Link href="/services/package/">パッケージ型支援</Link>
-            <span aria-hidden="true">/</span>
-            <span aria-current="page">既存顧客企業クローズアップ</span>
-          </nav>
-          <div className={s.heroTop}>
-            <div>
-              <p className={s.eyebrow}>既存顧客企業クローズアップ</p>
-              <h1 id="lp-title" className={s.h1}>既存顧客の企業分析を代行</h1>
-              <p className={s.lead}>
-                取引先1社ごとに、業績・組織・販路・商品・直近の変化を調べ、御社の取引と照らし合わせて、まだ入れていない領域と提案テーマ、次の営業アクションまでを1社ごとのレポートにまとめます。
-              </p>
-              <ul className={s.facts}>
-                <li><b>3,000</b>円〜／社<small>（税抜）</small></li>
-                <li>1社1レポート<small>（スライド形式）</small></li>
-                <li>数社から<b>お試し</b>できます</li>
-                <li>週<b>10</b>社が目安<small>（Standard）</small></li>
-              </ul>
-            </div>
+        <div className={s.heroInner}>
+          <div className={s.heroCopy}>
+            <nav aria-label="パンくず" className={s.crumbs}>
+              <Link href="/">ホーム</Link>
+              <span aria-hidden="true">/</span>
+              <Link href="/services/package/">パッケージ型支援</Link>
+              <span aria-hidden="true">/</span>
+              <span aria-current="page">既存顧客企業クローズアップ</span>
+            </nav>
+            <p className={s.target}>法人営業・営業企画のご担当者へ</p>
+            <h1 id="lp-title" className={s.h1}>
+              既存顧客の企業分析を代行<span className={s.srOnly}>。</span>
+              <span className={s.h1Sub}>取引先ごとの「次の提案」が見つかるレポートを、<em>1社3,000円</em>から。</span>
+            </h1>
+            <p className={s.lead}>
+              顧客の業績・組織・販路・商品・直近の変化を公開情報から調べ、御社の取引と照らし合わせて、提案テーマと次の営業アクションまで1社1レポートにまとめます。
+            </p>
+            <ul className={s.checks}>
+              <li><Check aria-hidden="true" size={16} strokeWidth={3.2} />1社3,000円から<small>（税抜）</small></li>
+              <li><Check aria-hidden="true" size={16} strokeWidth={3.2} />数社からお試しできます</li>
+              <li><Check aria-hidden="true" size={16} strokeWidth={3.2} />週10社のペースで納品<small>（Standard）</small></li>
+            </ul>
             <Cta id="lp-hero-cta" />
           </div>
-          <ReportViewer />
+
+          <figure className={s.mock}>
+            <div className={s.laptop}>
+              <div className={s.screen}>
+                <img
+                  src={`${IMG}/matching-960.webp`}
+                  srcSet={`${IMG}/matching-640.webp 640w, ${IMG}/matching-960.webp 960w, ${IMG}/matching-1440.webp 1440w`}
+                  sizes="(min-width: 1200px) 620px, 90vw"
+                  width={960}
+                  height={665}
+                  alt="サンプルレポートの「既存取引との照合」のページ。ブランドと容器のカテゴリごとに、当社取引中・他社・新規発生・要確認を示した表"
+                  fetchPriority="high"
+                />
+              </div>
+              <div className={s.base} aria-hidden="true" />
+            </div>
+            <div className={s.printBack} aria-hidden="true">
+              <img src={`${IMG}/products-640.webp`} width={640} height={443} alt="" />
+            </div>
+            <div className={s.print}>
+              <img
+                src={`${IMG}/proposal-640.webp`}
+                srcSet={`${IMG}/proposal-640.webp 640w, ${IMG}/proposal-960.webp 960w`}
+                sizes="(min-width: 1200px) 300px, 45vw"
+                width={640}
+                height={443}
+                alt="サンプルレポートの「提案・連携余地」のページ"
+              />
+            </div>
+            <figcaption className={s.mockCap}>架空の化粧品メーカーを分析したレポートの例</figcaption>
+          </figure>
         </div>
+
         <div className={s.trust}>
           <div className={s.trustInner}>
-            <p className={s.trustNum}><span>企業・競合・市場分析レポート</span>累計<b>数百</b>件</p>
-            <ul className={s.trustList} aria-label="主な支援先">
-              {records.map((r) => <li key={r.client}>{r.client}</li>)}
-            </ul>
+            <div className={s.trustNum}>
+              <span className={s.trustKicker}>分析レポートの累計作成件数</span>
+              <p><b>数百</b>件</p>
+            </div>
+            <div>
+              <p className={s.trustKicker}>主な支援先</p>
+              <ul className={s.trustList}>
+                {records.map((r) => <li key={r.client}><b>{r.client}</b><span>{r.work}</span></li>)}
+              </ul>
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* ------------------------------------------------------------ サンプルレポート（タブで全ページ） */}
+      <section className={s.viewerSec} id="report" aria-labelledby="report-title">
+        <div className={s.wrap}>
+          <header className={s.secHead}>
+            <p className={s.eyebrow}>サンプルレポート</p>
+            <h2 id="report-title" className={s.h2}>実際の納品物と同じ形式のレポートをご覧ください</h2>
+            <p className={s.secLead}>架空の化粧品メーカーを、容器メーカーの目線で分析した9ページです。タブでページを切り替え、押すと拡大できます。</p>
+          </header>
+          <ReportViewer />
         </div>
       </section>
 
@@ -98,12 +146,12 @@ export function ExistingCustomersLp() {
               サンプルは、架空の化粧品メーカーを容器メーカーの目線で分析したものです。直近の出来事から次の営業アクションまで、4つのページが1本の筋でつながっています。
             </p>
           </header>
-          <ol className={s.steps}>
+          <ol className={s.zig}>
             {steps.map((st, i) => (
-              <li key={st.slug} className={s.step}>
-                <span className={s.stepNo} aria-hidden="true">{i + 1}</span>
-                <div className={s.stepText}>
-                  <p className={s.stepLabel}>STEP {i + 1}</p>
+              <li key={st.slug} className={s.zigRow} data-flip={i % 2 ? 'true' : undefined}>
+                <div className={s.zigText}>
+                  <p className={s.zigNo}>{String(i + 1).padStart(2, '0')}</p>
+                  <p className={s.zigValue}>{st.value}</p>
                   <h3 className={s.h3}>{st.title}</h3>
                   <p className={s.stepBody}>{st.body}</p>
                   <div className={s.trace}>
@@ -111,7 +159,7 @@ export function ExistingCustomersLp() {
                     <p>{st.trace}</p>
                   </div>
                 </div>
-                <ZoomFigure slug={st.slug} sizes="(min-width: 1200px) 660px, (min-width: 900px) 56vw, 100vw" />
+                <ZoomFigure slug={st.slug} sizes="(min-width: 1200px) 680px, (min-width: 900px) 56vw, 100vw" />
               </li>
             ))}
           </ol>
@@ -187,17 +235,6 @@ export function ExistingCustomersLp() {
               ))}
             </ul>
           </div>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------ 全ページ */}
-      <section className={s.pages} id="gallery" aria-labelledby="gallery-title">
-        <div className={s.wrap}>
-          <header className={s.secHead}>
-            <h2 id="gallery-title" className={s.h2}>サンプルレポートの全ページ</h2>
-            <p className={s.secLead}>実際の納品物と同じ形式で作成しています（表紙＋9ページ）。ページを押すと拡大できます。</p>
-          </header>
-          <ReportGallery />
         </div>
       </section>
 
@@ -403,7 +440,7 @@ export function ExistingCustomersLp() {
             <p className={s.finalSub}>サービスについてのご質問は<Link href={CONTACT_GENERAL}>こちら</Link></p>
           </div>
           <div className={s.finalArt}>
-            <img src={`${IMG}/cover-960.webp`} srcSet={`${IMG}/cover-640.webp 640w, ${IMG}/cover-960.webp 960w`} sizes="(min-width: 1024px) 460px, 0px" width={960} height={665} alt="" loading="lazy" decoding="async" />
+            <img src={`${IMG}/actions-960.webp`} srcSet={`${IMG}/actions-640.webp 640w, ${IMG}/actions-960.webp 960w`} sizes="(min-width: 1024px) 460px, 0px" width={960} height={665} alt="" loading="lazy" decoding="async" />
           </div>
         </div>
       </section>

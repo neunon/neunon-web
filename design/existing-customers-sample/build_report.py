@@ -1,5 +1,5 @@
-"""
-既存顧客企業クローズアップ　サンプルレポート（表紙＋9ページ）を生成する。
+﻿"""
+既存顧客企業クローズアップ　サンプルレポート（9ページ。表紙なし）を生成する。
 
 テンプレート: Neunon Consulting の公式スライドテンプレート（ver3。サンプルの頁を除いたもの）。
 ページの種類と並びは実際の納品物（顧客企業クローズアップ、提案書用材料_クローズアップ系）にならう。
@@ -77,6 +77,10 @@ CT, CB = 1.62, 6.82
 
 prs = Presentation(TEMPLATE)
 LAYOUT = next(l for l in prs.slide_layouts if l.name == "タイトル")
+# 左下の「Confidential |」（マスターの文字）は載せない。日付も出さない（ページ番号とロゴは残す）
+for sh in list(prs.slide_master.shapes):
+    if sh.has_text_frame and sh.text_frame.text.strip() in ("Confidential", "|") or (sh.is_placeholder and int(sh.placeholder_format.type) == 16):
+        sh._element.getparent().remove(sh._element)
 
 
 # ------------------------------------------------------------------ 文字
@@ -348,7 +352,7 @@ def page(title, message, source="この文章はサンプルです。"):
     # テンプレートの日付・頁番号のプレースホルダーをそのまま使う
     for ph in LAYOUT.placeholders:
         t = ph.placeholder_format.type
-        if t is not None and int(t) in (13, 16):
+        if t is not None and int(t) == 13:
             el = copy.deepcopy(ph._element)
             s.shapes._spTree.append(el)
             sh = s.shapes[-1]
@@ -363,18 +367,6 @@ def page(title, message, source="この文章はサンプルです。"):
     text(s, 9.42, 0.05, 1.05, 0.22, [("サンプル", {"size": 8.5, "color": G2})], align=C, anchor=MID, line=1.0)
     text(s, X0, 6.93, W, 0.24, [[("出所：", {"size": 8, "color": G3}), (source, {"size": 8, "color": G3})]], anchor=MID, line=1.0)
     return s
-
-
-# ================================================================== 表紙（テンプレートの書体のまま）
-cover = prs.slides.add_slide(next(l for l in prs.slide_layouts if l.name == "表紙"))
-for ph in cover.placeholders:
-    idx = ph.placeholder_format.idx
-    if idx == 12:
-        ph.text_frame.text = f"{CLIENT}　御中"
-    elif idx == 11:
-        ph.text_frame.text = f"{CO}　企業クローズアップ"
-    elif idx == 13:
-        ph.text_frame.text = f"{DATE}　（架空企業による分析サンプル）"
 
 
 # ================================================================== (1) 会社概要
@@ -748,5 +740,6 @@ head(s, RX9, 5.52, RW9, "初回訪問で持ち込むもの")
 bl(s, RX9, 5.96, RW9, CB - 5.96, [(0, dummy(2)), (0, dummy(2)), (0, dummy(1))], size=9.5, anchor=MID)
 
 
+prs._element.set("firstSlideNum", "1")   # 表紙なし。題の番号（n）と頁番号を揃える
 prs.save(OUT)
 print("saved", OUT, len(prs.slides), "slides")
