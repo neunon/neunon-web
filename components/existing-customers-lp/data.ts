@@ -82,40 +82,6 @@ export const promises = [
 export const scopeItems = ['会社概要・業績', 'グループ・関連会社', '主要組織図', '販売チャネル', '商品ラインナップ', 'ブランドの戦略', '直近の事業動向', '既存取引との照合', '提案テーマと営業アクション'] as const;
 
 /**
- * 提案仮説の具体例（化粧品容器メーカーの依頼で、架空の化粧品メーカーを分析した想定）。
- * 単純な「新商品 → 容器を提案」ではなく、複数の事実を組み合わせて、顧客がまだ言葉にしていないニーズを仮説にする。
- * kind: 事実＝公開情報や取引情報で確かめたこと／推察＝事実の組み合わせから読み取ったこと。仮説・確認事項は商談で確かめる前提
- */
-export const signals = [
-  { no: '1', kind: '事実', title: '新商品とリニューアルが多い', body: '直近1年のプレスリリースで、新商品・リニューアルの発表が続いている', src: 'プレスリリース' },
-  { no: '2', kind: '事実', title: 'ブランドが4つに広がった', body: '主力のスキンケアに加え、ヘアケア・UVなどのブランドを展開', src: '会社案内・自社サイト', img: 'brand-c' },
-  { no: '3', kind: '事実', title: '限定品を年に何度も出す', body: '季節限定・数量限定の企画を毎年くり返している', src: '自社サイト', img: 'brand-d' },
-  { no: '4', kind: '事実', title: 'ブランドごとに開発チームがある', body: '求人で、ブランド別の商品開発とパッケージ開発の担当を募集している', src: '求人情報' },
-  { no: '5', kind: '事実', title: '当社の取引は一部の容器だけ', body: '取引はブランドAのボトルなど一部のカテゴリに限られている', src: '御社の取引情報' },
-] as const;
-
-export const insights = [
-  { from: ['1', '3'], title: '開発のサイクルが短い', body: '新商品と限定品が多く、容器を選んで調達するまでの時間が取りにくい可能性がある' },
-  { from: ['2', '4'], title: '容器の仕様がブランドごとにばらばら', body: 'ブランド別に開発しているため、似た容器を別々に選び、少量ずつ調達している可能性がある' },
-  { from: ['5'], title: '当社は「決まった容器を納める」位置にいる', body: '取引が一部の容器に限られ、商品を企画する段階の検討には入れていない' },
-] as const;
-
-export const proposals = [
-  { title: '開発の初期から容器の候補を出す', body: '企画段階で使える容器の候補と納期を先に示し、検討の上流に入る' },
-  { title: '限定品向けの「短納期の標準容器」', body: '色や加飾だけを変えて使える標準容器をそろえ、短い開発期間に合わせる' },
-  { title: 'ブランドをまたいで仕様を共通化', body: '似た容器をまとめて調達量を集約し、コストと調達の手間を下げる' },
-] as const;
-
-export const mainHypothesis = '「容器を納める取引先」から「商品開発の相談相手」へ';
-
-export const salesChecks = [
-  '年間の商品開発計画と、容器を決める時期',
-  '容器を選ぶのは誰か。どの段階で決まるか（提案の起点は部門B-2）',
-  '限定品で困っている納期やロットの条件',
-  'ブランド間で容器の仕様をそろえる考えがあるか',
-] as const;
-
-/**
  * 企業分析の方法の比較。一般的な傾向をまとめたもので、個別のサービスで異なる（ページに注記）。
  * fit: 2＝向いている／1＝条件・依頼内容による／0＝主な用途ではない。他社の料金・能力は断定しない
  */
@@ -151,9 +117,14 @@ export const labelSample = [
   { tag: '不明', text: '現在の容器の調達先と、契約の期間' },
 ] as const;
 
-/** 提案仮説の例。中身は content/pages/existing-customers.json（ユーザーが記入、件数は自由）。fact が空の組は表示しない */
-export type Hypothesis = { fact: string; insight: string };
-export const hypotheses: Hypothesis[] = page.hypotheses.filter((h) => h.fact.trim() !== '');
+/**
+ * 提案仮説の例。中身は content/pages/existing-customers.json の examples（ユーザーが記入。件数は自由）。
+ * source＝調査から見つけた情報、proposal＝そこから考えられる提案仮説。
+ * 両方が入力された組だけを本番に出す。確認用URL（preview）では未入力の組を「入力待ち」で表示する。
+ */
+export type Example = { source: string; proposal: string };
+export const allExamples: Example[] = page.examples.map((e) => ({ source: e.source.trim(), proposal: e.proposal.trim() }));
+export const filledExamples = allExamples.filter((e) => e.source !== '' && e.proposal !== '');
 
 /**
  * 料金。プランの違いはレポートの分量（ページ数）の目安。調べる項目に制限は設けず、
