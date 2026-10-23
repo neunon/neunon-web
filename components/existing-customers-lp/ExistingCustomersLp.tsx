@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ArrowRight, Check } from 'lucide-react';
 import {
   CONTACT_DOCS, CONTACT_ESTIMATE, CONTACT_GENERAL, IMG,
-  comparison, faq, flow, hypotheses, labelSample, perspectives, plans, records, sampleSetting, scope, sources, steps, terms,
+  comparison, faq, flow, hypotheses, plans, records, steps, terms,
 } from './data';
 import { ReportViewer } from './ReportViewer';
 import { StickyCta } from './StickyCta';
@@ -32,15 +32,6 @@ function Cta({ id, note = true }: { id?: string; note?: boolean }) {
       </div>
       {note && <p className={s.ctaNote}>社名と商材をお知らせいただければ、プランと金額をご案内します。</p>}
     </div>
-  );
-}
-
-function Meter({ n, label }: { n: number; label: string }) {
-  return (
-    <span className={s.meter} aria-label={`容器の接点：${label}`}>
-      {[0, 1, 2].map((i) => <i key={i} data-on={i < n ? 'true' : undefined} aria-hidden="true" />)}
-      <b aria-hidden="true">{label}</b>
-    </span>
   );
 }
 
@@ -180,64 +171,6 @@ export function ExistingCustomersLp() {
         </div>
       </section>
 
-      {/* ------------------------------------------------------------ レポートに入る内容 */}
-      <section className={s.contents} id="contents" aria-labelledby="contents-title">
-        <div className={s.wrap}>
-          <header className={s.secHead}>
-            <h2 id="contents-title" className={s.h2}>レポートに入る内容</h2>
-            <p className={s.secLead}>
-              営業のための企業分析を、公開情報の調査から代行します。企業の全体像から営業アクションまでを1社1レポートにまとめます。ページの構成と深さは、対象企業とご依頼の目的に合わせて決めます。
-            </p>
-          </header>
-          <div className={s.scopeGrid}>
-            <table className={s.scope}>
-              <caption className={s.srOnly}>レポートの分析範囲</caption>
-              <thead>
-                <tr><th scope="col">区分</th><th scope="col">主な内容</th><th scope="col">サンプル</th></tr>
-              </thead>
-              <tbody>
-                {scope.map((r) => (
-                  <tr key={r.area}>
-                    <th scope="row">{r.area}</th>
-                    <td>{r.items}</td>
-                    <td className={s.scopePages}>{r.pages.map((n) => <span key={n}>（{n}）</span>)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className={s.scopeAside}>
-              <h3 className={s.asideTitle}>調べる情報</h3>
-              <ul className={s.sources}>
-                {sources.map((x) => <li key={x}>{x}</li>)}
-              </ul>
-              <h3 className={s.asideTitle}>納品の形</h3>
-              <p>1社につき1レポート。スライド形式で、社内のフォーマットにも合わせられます。</p>
-            </div>
-          </div>
-
-          <div className={s.sample}>
-            <div className={s.sampleText}>
-              <h3 className={s.h3}>このサンプルの設定</h3>
-              <dl className={s.sampleDl}>
-                {sampleSetting.rows.map((r) => (
-                  <div key={r.k}><dt>{r.k}</dt><dd>{r.v}<small>{r.note}</small></dd></div>
-                ))}
-              </dl>
-              <p className={s.small}>社名・ブランド・数値はすべて架空です。商品画像もこのサンプルのために制作したものです。</p>
-            </div>
-            <ul className={s.brands}>
-              {sampleSetting.brands.map((b) => (
-                <li key={b.key}>
-                  <img src={`${IMG}/brand-${b.key}.webp`} width={960} height={656} alt={`${b.name}の商品画像（サンプル）`} loading="lazy" decoding="async" />
-                  <p className={s.brandName}>{b.name}<small>（{b.biz}）</small></p>
-                  <p className={s.brandTouch}>容器の接点<Meter n={b.touch} label={b.label} /></p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
       {/* ------------------------------------------------------------ 途中の相談 */}
       <section className={s.band} aria-labelledby="band-title">
         <div className={s.bandInner}>
@@ -253,60 +186,8 @@ export function ExistingCustomersLp() {
       <section className={s.reasons} id="reasons" aria-labelledby="reasons-title">
         <div className={s.wrap}>
           <header className={s.secHead}>
-            <h2 id="reasons-title" className={s.h2}>選ばれる理由</h2>
+            <h2 id="reasons-title" className={s.h2}>企業調査・企業分析を外注する他の方法との比較</h2>
           </header>
-          <ol className={s.reasonList}>
-            <li>
-              <div className={s.reasonText}>
-                <p className={s.reasonNo}>01</p>
-                <h3 className={s.h3}>御社の商材から、見る観点を決めて調べる</h3>
-                <p>同じ顧客でも、売るものが違えば見るべき場所は変わります。ご依頼のたびに御社の商材を伺い、その商材が入り込める接点を中心に調べます。</p>
-              </div>
-              <div className={s.reasonEx}>
-                <p className={s.exLabel}>同じ化粧品メーカーを分析する場合</p>
-                <table className={s.exTable}>
-                  <thead><tr><th scope="col">依頼元の商材</th><th scope="col">厚く見るところ</th></tr></thead>
-                  <tbody>
-                    {perspectives.map((p) => (
-                      <tr key={p.seller}><th scope="row">{p.seller}</th><td>{p.looks}</td></tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </li>
-            <li>
-              <div className={s.reasonText}>
-                <p className={s.reasonNo}>02</p>
-                <h3 className={s.h3}>事実と推察を分け、時点と出所を書く</h3>
-                <p>公開情報で確かめた事実と、そこから読み取れることを分けて示します。確認できなかった項目は「不明」と書くので、社内の資料としてそのまま使えます。</p>
-              </div>
-              <div className={s.reasonEx}>
-                <p className={s.exLabel}>書き分けの例</p>
-                <ul className={s.exTags}>
-                  {labelSample.map((l) => (
-                    <li key={l.tag}><span data-tag={l.tag}>{l.tag}</span>{l.text}</li>
-                  ))}
-                </ul>
-              </div>
-            </li>
-            <li>
-              <div className={s.reasonText}>
-                <p className={s.reasonNo}>03</p>
-                <h3 className={s.h3}>1社3,000円から、数十社を同じ型で揃える</h3>
-                <p>調査と資料作成は、定型の型に沿って学生チームが担います。納品の前に、経験のあるコンサルタントが内容を確認します。だからこの価格で、多くの取引先を同じ水準で並べられます。</p>
-              </div>
-              <div className={s.reasonEx}>
-                <p className={s.exLabel}>作成の体制</p>
-                <ol className={s.exFlow}>
-                  <li><b>学生チーム</b>定型の型に沿って調査・作成</li>
-                  <li><b>コンサルタント</b>納品前に内容を確認</li>
-                  <li><b>納品</b>スライド形式。週10社が目安（Standard）</li>
-                </ol>
-              </div>
-            </li>
-          </ol>
-
-          <h3 className={s.cmpTitle}>企業調査・企業分析を外注する他の方法との比較</h3>
           <div className={s.cmp} role="table" aria-label="自社調査・企業データベース・調査会社・Neunonの比較">
             <div className={s.cmpHead} role="row">
               <span role="columnheader" className={s.cmpCorner}>
