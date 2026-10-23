@@ -2,6 +2,11 @@
 
 最終更新: 2026-10-23 / 更新者: Claude Code
 
+## 2026-10-23 Claude Code：既存顧客LP 第9版（確認待ち）
+
+- ユーザー指示: ヒーローは第7版の型（左に文字、右にノートPCと紙のページ）に戻す。レポートは表紙なしの9ページ、左下の Confidential と日付は消す（マスターの文字を削除、頁番号とロゴは残す）。実績の帯を改善。01・02…が左右に交互に並ぶ構成で価値を伝える
+- 全ページのギャラリーは、ヒーロー下のタブ表示と重なるので外した（ReportGallery.tsx 削除）
+
 ## 2026-10-23 Claude Code：既存顧客LP 第8版　承認されたサンプルレポートを主役に作り直し（確認待ち）
 
 ブランチ `hp/existing-customers-claude-lp`。確認用URL `/design-review/existing-customers-claude/`（noindex）。
