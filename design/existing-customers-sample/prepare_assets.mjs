@@ -38,6 +38,19 @@ for (const [name, n] of Object.entries(pages)) {
   }
 }
 
+/** 「できること」の節で使う切り抜き（ページ番号, 左・上・幅・高さを 0〜1 で）。2400px の書き出しから切り出す */
+const crops = {
+  'crop-overview': [1, 0.03, 0.2, 0.455, 0.53],
+  'crop-gap': [7, 0.03, 0.195, 0.75, 0.66],
+  'crop-next': [9, 0.03, 0.2, 0.37, 0.72],
+};
+for (const [name, [n, l, t, w, h]] of Object.entries(crops)) {
+  const file = join(src, `page-${String(n).padStart(2, '0')}.png`);
+  const m = await sharp(file).metadata();
+  await sharp(file).extract({ left: Math.round(m.width * l), top: Math.round(m.height * t), width: Math.round(m.width * w), height: Math.round(m.height * h) })
+    .resize({ width: 960, withoutEnlargement: true }).webp({ quality: 86 }).toFile(join(out, `${name}.webp`));
+}
+
 /** ブランドごとの商品画像。全ブランド同じ縮尺（いちばん背の高い商品が H px）で、底を揃えて並べる */
 const brands = {
   a: ['minamo-lotion', 'minamo-milk', 'minamo-serum', 'minamo-cream'],

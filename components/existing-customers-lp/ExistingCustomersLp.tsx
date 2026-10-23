@@ -1,46 +1,59 @@
 import Link from 'next/link';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, ArrowDown, BadgeCheck, Building2, FileLock2, Gauge, Layers, ShieldCheck, Users } from 'lucide-react';
 import {
   CONTACT_DOCS, CONTACT_ESTIMATE, CONTACT_GENERAL, IMG,
-  comparison, faq, flow, hypotheses, plans, records, steps, terms,
+  faq, flow, hypotheses, labelSample, plans, records, terms, uses, values,
 } from './data';
+import { CaseStepper } from './CaseStepper';
+import { PlanCta } from './PlanCta';
 import { ReportViewer } from './ReportViewer';
 import { StickyCta } from './StickyCta';
-import { ZoomFigure } from './ZoomFigure';
+import { Tracker } from './Tracker';
 import s from './lp.module.css';
 
 /**
- * 既存顧客企業クローズアップ LP。主役は実際の納品物と同じ形式のサンプルレポート（2026-10-23 ユーザー承認）。
+ * 既存顧客企業クローズアップ LP（第10版：受注獲得のための再設計）。
  *
- *   ファーストビュー（何のサービスか・価値・受け取るもの・相談ボタン・レポートを大きく表示）→ 実績の帯
- *   → 分析の例（変化 → 照合 → 提案テーマ → 優先順位の4ページを1本の筋でたどる）
- *   → レポートに入る内容（分析の範囲・調べる情報・サンプルの設定と商品画像）→ 全ページ
- *   → 途中の相談 → 選ばれる理由と比較 → 実績 → 料金・条件 → 流れ → FAQ → 最後の相談（スマホは画面下に相談ボタン）
- *
- * レポートの画像は影・傾き・重ねを付けずにそのまま見せる（中身の具体性で実物らしさを出す）。
- * 相談の入口は2つだけ。主は「見積もりを相談する」、検討初期の人向けに「資料を請求する」。
+ * 心理の流れと節の役割
+ *   認知・興味 … ファーストビュー（何を・いくらで・何が届くか）
+ *   理解       … できること（顧客の全体像／取引とのギャップ／次の提案仮説。レポートの実物の切り抜き）
+ *   納得       … 分析事例（01〜04 を横のステップで切り替え、1つの筋として見せる）
+ *   信頼       … 成果物（代表ページを大きく＋9ページの一覧）
+ *   購入検討   … 料金（ページ数の目安で選ぶ。プランと社数を選んでそのまま見積依頼）
+ *   信頼       … 選ばれる理由（実績・体制と品質・量への対応・使い分け）
+ *   行動       … ご依頼の流れ・FAQ・最後の相談
+ * レポートの画像はサンプル（架空企業・ダミー文章）。LP の文章で各ページの役割を説明する。
  */
 
-function Cta({ id, note = true }: { id?: string; note?: boolean }) {
+function Cta({ at, sample = false, light = false }: { at: string; sample?: boolean; light?: boolean }) {
   return (
-    <div className={s.cta} id={id}>
-      <div className={s.ctaRow}>
-        <Link href={CONTACT_ESTIMATE} className={s.btnPrimary}>
-          見積もりを相談する<ArrowRight aria-hidden="true" size={18} strokeWidth={2.4} />
-        </Link>
-        <Link href={CONTACT_DOCS} className={s.btnGhost}>資料を請求する</Link>
-      </div>
-      {note && <p className={s.ctaNote}>社名と商材をお知らせいただければ、プランと金額をご案内します。</p>}
+    <div className={s.ctaRow}>
+      <Link href={CONTACT_ESTIMATE} className={light ? s.btnLight : s.btnPrimary} data-track="cta_estimate" data-track-at={at}>
+        見積もりを依頼する<ArrowRight aria-hidden="true" size={18} strokeWidth={2.4} />
+      </Link>
+      {sample ? (
+        <a href="#report" className={s.btnGhost} data-track="cta_sample" data-track-at={at}>サンプルレポートを見る<ArrowDown aria-hidden="true" size={17} strokeWidth={2.2} /></a>
+      ) : (
+        <Link href={CONTACT_DOCS} className={light ? s.btnGhostLight : s.btnGhost} data-track="cta_docs" data-track-at={at}>資料を請求する</Link>
+      )}
     </div>
   );
 }
 
-const markLabel: Record<string, string> = { '◎': 'よく合う', '○': '対応できる', '△': '限られる', '×': '向かない' };
+function PageStack({ n }: { n: number }) {
+  return (
+    <span className={s.stack} aria-hidden="true">
+      {Array.from({ length: n }, (_, i) => <i key={i} />)}
+    </span>
+  );
+}
 
 export function ExistingCustomersLp() {
   return (
     <div className={s.lp}>
-      {/* ------------------------------------------------------------ ファーストビュー（第7版の型） */}
+      <Tracker />
+
+      {/* ============================================================ ファーストビュー */}
       <section className={s.hero} aria-labelledby="lp-title">
         <div className={s.heroInner}>
           <div className={s.heroCopy}>
@@ -51,20 +64,30 @@ export function ExistingCustomersLp() {
               <span aria-hidden="true">/</span>
               <span aria-current="page">既存顧客企業クローズアップ</span>
             </nav>
-            <p className={s.target}>法人営業・営業企画のご担当者へ</p>
+            <p className={s.heroTag}>既存顧客企業クローズアップ</p>
             <h1 id="lp-title" className={s.h1}>
               既存顧客の企業分析を代行<span className={s.srOnly}>。</span>
-              <span className={s.h1Sub}>取引先ごとの「次の提案」が見つかるレポートを、<em>1社3,000円</em>から。</span>
+              <span className={s.h1Sub}>取引先ごとに「次の提案」が見つかる、営業のための個社別レポート</span>
             </h1>
-            <p className={s.lead}>
-              顧客の業績・組織・販路・商品・直近の変化を公開情報から調べ、御社の取引と照らし合わせて、提案テーマと次の営業アクションまで1社1レポートにまとめます。
+            <div className={s.heroPrice}>
+              <p className={s.heroPriceMain}>
+                <span className={s.heroPriceUnit}>1社</span>
+                <b>3,000</b>
+                <span className={s.heroPriceYen}>円から</span>
+                <small>（税抜）</small>
+              </p>
+              <ul className={s.heroPoints}>
+                <li>1社単位で依頼できます</li>
+                <li>数社からのお試しも可</li>
+                <li>週10社が目安<small>（Standard）</small></li>
+              </ul>
+            </div>
+            <div id="lp-hero-cta"><Cta at="hero" sample /></div>
+            <p className={s.heroSub}>
+              <Link href={CONTACT_DOCS} data-track="cta_docs" data-track-at="hero">サービス資料を請求する</Link>
+              <span aria-hidden="true">｜</span>
+              社名と商材をお知らせいただければ、プランと金額をご案内します
             </p>
-            <ul className={s.checks}>
-              <li><Check aria-hidden="true" size={16} strokeWidth={3.2} />1社3,000円から<small>（税抜）</small></li>
-              <li><Check aria-hidden="true" size={16} strokeWidth={3.2} />数社からお試しできます</li>
-              <li><Check aria-hidden="true" size={16} strokeWidth={3.2} />週10社のペースで納品<small>（Standard）</small></li>
-            </ul>
-            <Cta id="lp-hero-cta" />
           </div>
 
           <figure className={s.mock}>
@@ -73,12 +96,13 @@ export function ExistingCustomersLp() {
                 <img
                   src={`${IMG}/matching-960.webp`}
                   srcSet={`${IMG}/matching-640.webp 640w, ${IMG}/matching-960.webp 960w, ${IMG}/matching-1440.webp 1440w`}
-                  sizes="(min-width: 1200px) 620px, 90vw"
+                  sizes="(min-width: 1200px) 640px, 92vw"
                   width={960}
                   height={665}
                   alt="サンプルレポートの「既存取引との照合」のページ。ブランドと容器のカテゴリごとに、当社取引中・他社・新規発生・要確認を示した表"
                   fetchPriority="high"
                 />
+                <span className={`${s.callout} ${s.calloutA}`}><b>01</b>まだ入れていない区画を特定</span>
               </div>
               <div className={s.base} aria-hidden="true" />
             </div>
@@ -94,66 +118,55 @@ export function ExistingCustomersLp() {
                 height={443}
                 alt="サンプルレポートの「提案・連携余地」のページ"
               />
+              <span className={`${s.callout} ${s.calloutB}`}><b>02</b>根拠つきの提案テーマ</span>
             </div>
-            <figcaption className={s.mockCap}>架空の化粧品メーカーを分析したレポートの例</figcaption>
+            <figcaption className={s.mockCap}>納品レポートの例（架空企業のサンプル）</figcaption>
           </figure>
         </div>
 
-        <div className={s.trust}>
-          <div className={s.trustInner}>
-            <div className={s.trustNum}>
-              <span className={s.trustKicker}>分析レポートの累計作成件数</span>
-              <p><b>数百</b>件</p>
-            </div>
-            <div>
-              <p className={s.trustKicker}>主な支援先</p>
-              <ul className={s.trustList}>
-                {records.map((r) => <li key={r.client}><b>{r.client}</b><span>{r.work}</span></li>)}
-              </ul>
-            </div>
+        <div className={s.proofBar}>
+          <div className={s.proofInner}>
+            <p className={s.proofNum}><span>分析レポート 累計</span><b>数百</b><span>件</span></p>
+            <p className={s.proofText}>
+              国内主要容器メーカーの<strong>顧客企業クローズアップ</strong>ほか、建設・建設コンサルティング・消費財の企業分析を支援
+              <small>パッケージ型支援全体の実績（2026年10月時点）</small>
+            </p>
           </div>
         </div>
       </section>
 
-      {/* ------------------------------------------------------------ サンプルレポート（タブで全ページ） */}
-      <section className={s.viewerSec} id="report" aria-labelledby="report-title">
+      {/* ============================================================ できること（理解） */}
+      <section className={s.value} id="value" aria-labelledby="value-title">
         <div className={s.wrap}>
           <header className={s.secHead}>
-            <p className={s.eyebrow}>サンプルレポート</p>
-            <h2 id="report-title" className={s.h2}>実際の納品物と同じ形式のレポートをご覧ください</h2>
-            <p className={s.secLead}>架空の化粧品メーカーを、容器メーカーの目線で分析した9ページです。タブでページを切り替え、押すと拡大できます。</p>
+            <p className={s.eyebrow}>できること</p>
+            <h2 id="value-title" className={s.h2}>既存顧客の深耕に、営業の目線の企業分析を</h2>
+            <p className={s.secLead}>公開情報から顧客1社を調べ、御社の取引と照らし合わせます。営業担当者が自分で調べると時間がかかる下調べと読み解きを、レポートとしてお渡しします。</p>
           </header>
-          <ReportViewer />
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------ 分析の例 */}
-      <section className={s.how} id="how" aria-labelledby="how-title">
-        <div className={s.wrap}>
-          <header className={s.secHead}>
-            <p className={s.eyebrow}>分析の例</p>
-            <h2 id="how-title" className={s.h2}>顧客の変化と御社の取引を照らし合わせて、提案の筋を立てます</h2>
-            <p className={s.secLead}>
-              サンプルは、架空の化粧品メーカーを容器メーカーの目線で分析したものです。直近の出来事から次の営業アクションまで、4つのページが1本の筋でつながっています。
-            </p>
-          </header>
-          <ol className={s.zig}>
-            {steps.map((st, i) => (
-              <li key={st.slug} className={s.zigRow} data-flip={i % 2 ? 'true' : undefined}>
-                <div className={s.zigText}>
-                  <p className={s.zigNo}>{String(i + 1).padStart(2, '0')}</p>
-                  <p className={s.zigValue}>{st.value}</p>
-                  <h3 className={s.h3}>{st.title}</h3>
-                  <p className={s.stepBody}>{st.body}</p>
-                  <div className={s.trace}>
-                    <p className={s.traceLabel}>サンプルでは</p>
-                    <p>{st.trace}</p>
-                  </div>
+          <ol className={s.values}>
+            {values.map((v, i) => (
+              <li key={v.title}>
+                <div className={s.valueFig}>
+                  <img src={`${IMG}/${v.img}.webp`} width={v.w} height={v.h} alt={`サンプルレポート（${v.page}）の一部`} loading="lazy" decoding="async" />
                 </div>
-                <ZoomFigure slug={st.slug} sizes="(min-width: 1200px) 680px, (min-width: 900px) 56vw, 100vw" />
+                <p className={s.valueNo}>{String(i + 1).padStart(2, '0')}</p>
+                <h3 className={s.valueTitle}>{v.title}</h3>
+                <p className={s.valueBody}>{v.body}</p>
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      {/* ============================================================ 分析事例（納得） */}
+      <section className={s.caseSec} id="case" aria-labelledby="case-title">
+        <div className={s.wrap}>
+          <header className={s.secHead}>
+            <p className={s.eyebrow}>分析事例</p>
+            <h2 id="case-title" className={s.h2}>1社の分析が、次の訪問になるまで</h2>
+            <p className={s.secLead}>架空の化粧品メーカーを、容器メーカーの目線で分析したサンプルです。顧客の変化から訪問先の部署まで、1本の筋でつながります。</p>
+          </header>
+          <CaseStepper />
           {hypotheses.length > 0 && (
             <div className={s.hypo}>
               <h3 className={s.h3}>実際のご依頼での提案仮説の例</h3>
@@ -171,156 +184,152 @@ export function ExistingCustomersLp() {
         </div>
       </section>
 
-      {/* ------------------------------------------------------------ 途中の相談 */}
-      <section className={s.band} aria-labelledby="band-title">
-        <div className={s.bandInner}>
-          <div>
-            <h2 id="band-title" className={s.bandTitle}>まずは数社、御社の顧客でお試しください</h2>
-            <p>対象の社名と御社の商材を伺い、見る観点とプランをご提案します。</p>
-          </div>
-          <Cta note={false} />
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------ 選ばれる理由 */}
-      <section className={s.reasons} id="reasons" aria-labelledby="reasons-title">
+      {/* ============================================================ 成果物（信頼） */}
+      <section className={s.reportSec} id="report" aria-labelledby="report-title" data-track-view="report">
         <div className={s.wrap}>
           <header className={s.secHead}>
-            <h2 id="reasons-title" className={s.h2}>企業調査・企業分析を外注する他の方法との比較</h2>
+            <p className={s.eyebrow}>成果物</p>
+            <h2 id="report-title" className={s.h2}>納品するレポートの例</h2>
+            <p className={s.secLead}>実際の納品物と同じ形式（スライド）です。代表的な4ページに印を付けています。一覧から選び、押すと拡大して読めます。</p>
           </header>
-          <div className={s.cmp} role="table" aria-label="自社調査・企業データベース・調査会社・Neunonの比較">
-            <div className={s.cmpHead} role="row">
-              <span role="columnheader" className={s.cmpCorner}>
-                <span className={s.cmpLegend}>◎ よく合う　○ 対応できる<br />△ 限られる　× 向かない</span>
-              </span>
-              {comparison.columns.map((c, i) => (
-                <span role="columnheader" key={c.name} className={i === 3 ? s.cmpUsHead : s.cmpColHead}>
-                  <b>{c.name}</b>
-                  <small>{c.note}</small>
-                </span>
-              ))}
-            </div>
-            {comparison.rows.map((row, ri) => (
-              <div role="row" key={row.label} className={s.cmpRow} data-last={ri === comparison.rows.length - 1 ? 'true' : undefined}>
-                <span role="rowheader" className={s.cmpLabel}>{row.label}</span>
-                {row.cells.map(([mark, t], i) => (
-                  <span role="cell" key={i} className={i === 3 ? s.cmpUs : s.cmpCell} data-col={comparison.columns[i].name}>
-                    <i className={s.cmpMark} data-mark={mark} aria-label={markLabel[mark]}>{mark}</i>
-                    <span>{t}</span>
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
+          <ReportViewer />
+          <p className={s.note}>サンプルは架空の企業を分析したもので、社名・数値・文章はダミーです。ページの構成と分量は、対象企業とご依頼の目的に合わせて決めます。</p>
         </div>
       </section>
 
-      {/* ------------------------------------------------------------ 実績 */}
-      <section className={s.records} id="records" aria-labelledby="records-title">
+      {/* ============================================================ 料金（購入検討） */}
+      <section className={s.price} id="price" aria-labelledby="price-title" data-track-view="price">
         <div className={s.wrap}>
-          <div className={s.recordsGrid}>
-            <div>
-              <h2 id="records-title" className={s.h2}>支援実績</h2>
-              <p className={s.recordNum}>累計<b>数百</b>件</p>
-              <p className={s.recordLabel}>企業・競合・市場分析レポートの累計作成件数（パッケージ型支援）。プロフェッショナルコンサルタントとの協働案件を含みます。</p>
-            </div>
-            <div>
-              <ul className={s.recordList}>
-                {records.map((r) => (
-                  <li key={r.client}><b>{r.client}</b><span>{r.work}</span></li>
-                ))}
-              </ul>
-              <p className={s.small}>守秘のため、取引先の名称は業種のみで記載しています。</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------ 料金・条件 */}
-      <section className={s.price} id="price" aria-labelledby="price-title">
-        <div className={s.wrap}>
-          <header className={s.secHead}>
-            <h2 id="price-title" className={s.h2}>料金とご依頼の条件</h2>
-            <p className={s.secLead}>1社単位の参考価格（税抜）です。対象企業数・調査範囲・納期によって変動するため、正式な金額はお見積りでお伝えします。</p>
+          <header className={s.secHeadCenter}>
+            <p className={s.eyebrow}>料金</p>
+            <h2 id="price-title" className={s.h2}>1社 <span className={s.mark}>3,000円</span> から。ページ数の目安で選べます</h2>
+            <p className={s.secLead}>1社単位の参考価格（税抜）です。実際の分量と深さは、対象企業について得られる情報量、御社にとっての重要度、見たい論点に合わせて調整します。</p>
           </header>
           <div className={s.plans}>
             {plans.map((p) => (
               <article key={p.name} className={s.plan}>
                 <h3 className={s.planName}>{p.name}</h3>
+                <div className={s.planVolume}>
+                  <PageStack n={p.pages} />
+                  <p><b>{p.volume.replace('／社', '')}</b><span>／社</span></p>
+                </div>
                 <p className={s.planPrice}><b>{p.price}</b><span>円／社</span><small>（税抜）</small></p>
-                <dl className={s.planSpec}>
-                  <div><dt>分量の目安</dt><dd>{p.volume}</dd></div>
-                  <div><dt>納期の目安</dt><dd>{p.pace}</dd></div>
-                </dl>
                 <p className={s.planFit}>{p.fit}</p>
+                <dl className={s.planSpec}><div><dt>納期の目安</dt><dd>{p.pace}</dd></div></dl>
               </article>
             ))}
           </div>
-          <div className={s.termsRow}>
-            <dl className={s.terms}>
-              {terms.map((t) => <div key={t.k}><dt>{t.k}</dt><dd>{t.v}</dd></div>)}
-            </dl>
-            <div className={s.custom}>
-              <p>プランは目安です。ページの構成と深さは、対象企業とご依頼の目的に合わせて決めます。</p>
-              <Link href={CONTACT_ESTIMATE} className={s.btnPrimary}>見積もりを相談する<ArrowRight aria-hidden="true" size={18} strokeWidth={2.4} /></Link>
-            </div>
-          </div>
+          <ul className={s.terms}>
+            {terms.map((t, i) => {
+              const Icon = [Building2, FileLock2, ShieldCheck, Layers][i];
+              return (
+                <li key={t.k}><Icon aria-hidden="true" size={20} strokeWidth={1.8} /><div><b>{t.k}</b><span>{t.v}</span></div></li>
+              );
+            })}
+          </ul>
+          <PlanCta />
         </div>
       </section>
 
-      {/* ------------------------------------------------------------ 依頼の流れ */}
-      <section className={s.flowSec} id="flow" aria-labelledby="flow-title">
+      {/* ============================================================ 選ばれる理由（信頼） */}
+      <section className={s.why} id="why" aria-labelledby="why-title">
         <div className={s.wrap}>
           <header className={s.secHead}>
-            <h2 id="flow-title" className={s.h2}>ご依頼の流れ</h2>
+            <p className={s.eyebrow}>選ばれる理由</p>
+            <h2 id="why-title" className={s.h2}>企業分析の外注先として、Neunonが選ばれる理由</h2>
           </header>
-          <ol className={s.flow}>
-            {flow.map((f, i) => (
-              <li key={f.title}>
-                <span className={s.flowNo}>{i + 1}</span>
-                <div>
-                  <h3 className={s.flowStep}>{f.title}</h3>
-                  <p>{f.body}</p>
-                </div>
+          <div className={s.whyGrid}>
+            <div className={s.records}>
+              <p className={s.recordsKicker}>支援実績</p>
+              <p className={s.recordsNum}>累計<b>数百</b>件</p>
+              <p className={s.recordsScope}>企業・競合・市場分析レポートの作成件数（パッケージ型支援全体、2026年10月時点）。プロフェッショナルコンサルタントとの協働案件を含みます。</p>
+              <ul className={s.recordList}>
+                {records.map((r) => (
+                  <li key={r.client} data-same={'same' in r ? 'true' : undefined}>
+                    {'same' in r && <span className={s.sameTag}>このサービスと同じ型</span>}
+                    <b>{r.client}</b>
+                    <span>{r.work}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className={s.recordsNote}>守秘のため、取引先の名称は業種のみで記載しています。</p>
+            </div>
+            <ul className={s.reasons}>
+              <li>
+                <Users aria-hidden="true" size={24} strokeWidth={1.8} />
+                <h3 className={s.reasonTitle}>型と確認の二段で、品質を揃える</h3>
+                <p>学生チームが定型の型と評価項目に沿って調査・作成し、経験のあるコンサルタントが納品前に内容を確認します。</p>
               </li>
-            ))}
-          </ol>
-          <div className={s.prepare}>
-            <h3 className={s.h3}>ご相談時にお知らせいただくこと</h3>
-            <ul>
-              <li>分析したい顧客の社名（数社からで構いません）</li>
-              <li>御社の商材と、特に見てほしい観点</li>
-              <li>（任意）わかる範囲での現在の取引状況</li>
+              <li>
+                <BadgeCheck aria-hidden="true" size={24} strokeWidth={1.8} />
+                <h3 className={s.reasonTitle}>事実・推察・不明を書き分ける</h3>
+                <ul className={s.tags}>
+                  {labelSample.map((l) => <li key={l.tag}><span data-tag={l.tag}>{l.tag}</span>{l.text}</li>)}
+                </ul>
+              </li>
+              <li>
+                <Gauge aria-hidden="true" size={24} strokeWidth={1.8} />
+                <h3 className={s.reasonTitle}>数十社でも、同じ型で並べられる</h3>
+                <p>週10社が目安（Standard）。1社3,000円からなので、重点顧客だけでなく、手が回っていなかった取引先まで対象にできます。</p>
+              </li>
+            </ul>
+          </div>
+
+          <div className={s.uses}>
+            <h3 className={s.usesTitle}>企業分析の方法の使い分け</h3>
+            <p className={s.usesLead}>どれが優れているかではなく、目的によって向く方法が違います。</p>
+            <ul className={s.usesList}>
+              {uses.map((u) => (
+                <li key={u.name} data-us={'us' in u ? 'true' : undefined}>
+                  <b>{u.name}</b>
+                  <span>{u.fit}</span>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
       </section>
 
-      {/* ------------------------------------------------------------ FAQ */}
-      <section className={s.faq} id="faq" aria-labelledby="faq-title">
-        <div className={`${s.wrap} ${s.faqGrid}`}>
-          <h2 id="faq-title" className={s.h2}>よくある質問</h2>
-          <div className={s.faqList}>
-            {faq.map((item) => (
-              <details key={item.q} className={s.faqItem}>
-                <summary><span className={s.faqMark} aria-hidden="true">Q</span><h3 className={s.faqQ}>{item.q}</h3></summary>
-                <p><span className={s.faqMarkA} aria-hidden="true">A</span>{item.a}</p>
-              </details>
-            ))}
+      {/* ============================================================ 流れ・FAQ（行動） */}
+      <section className={s.faqSec} id="faq" aria-labelledby="faq-title">
+        <div className={s.wrap}>
+          <div className={s.flowBox}>
+            <h2 className={s.flowTitle}>ご依頼の流れ</h2>
+            <ol className={s.flow}>
+              {flow.map((f, i) => (
+                <li key={f.title}>
+                  <span className={s.flowNo}>{i + 1}</span>
+                  <h3 className={s.flowStep}>{f.title}</h3>
+                  <p>{f.body}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div className={s.faqGrid}>
+            <h2 id="faq-title" className={s.h2}>よくある質問</h2>
+            <div className={s.faqList}>
+              {faq.map((item) => (
+                <details key={item.q} className={s.faqItem}>
+                  <summary><span className={s.faqMark} aria-hidden="true">Q</span><h3 className={s.faqQ}>{item.q}</h3></summary>
+                  <p><span className={s.faqMarkA} aria-hidden="true">A</span>{item.a}</p>
+                </details>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ------------------------------------------------------------ 最後の相談 */}
+      {/* ============================================================ 最後の相談 */}
       <section className={s.final} id="lp-final" aria-labelledby="final-title">
         <div className={s.finalInner}>
           <div>
-            <h2 id="final-title" className={s.finalTitle}>まず数社、御社の顧客で試してみませんか</h2>
-            <p className={s.finalLead}>分析したい顧客の社名と、御社の商材をお知らせください。見る観点とプランをご提案し、お見積りをお送りします。</p>
-            <Cta />
+            <p className={s.finalKicker}>まずは数社から</p>
+            <h2 id="final-title" className={s.finalTitle}>御社の既存顧客で、見積もりを取ってみませんか</h2>
+            <p className={s.finalLead}>分析したい顧客の社名と、御社の商材をお知らせください。見る観点とプランをご提案し、お見積りをお送りします。1社3,000円（税抜）から承ります。</p>
+            <Cta at="final" light />
             <p className={s.finalSub}>サービスについてのご質問は<Link href={CONTACT_GENERAL}>こちら</Link></p>
           </div>
-          <div className={s.finalArt}>
+          <div className={s.finalArt} aria-hidden="true">
             <img src={`${IMG}/actions-960.webp`} srcSet={`${IMG}/actions-640.webp 640w, ${IMG}/actions-960.webp 960w`} sizes="(min-width: 1024px) 460px, 0px" width={960} height={665} alt="" loading="lazy" decoding="async" />
           </div>
         </div>

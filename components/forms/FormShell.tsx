@@ -146,6 +146,10 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
       const next = { ...current };
       const topicField = fields.find((field) => field.name === 'topic');
       if (topic && topicField?.options?.includes(topic)) next.topic = topic;
+      // LP の見積依頼から、選んだプランなどを「ご相談内容」の下書きとして受け取る（空欄のときだけ）
+      const message = params.get('message');
+      const messageField = fields.find((field) => field.name === 'message');
+      if (message && messageField && !next.message) next.message = message.slice(0, messageField.maxLength ?? 2000);
       if (selectedTalents.length > 0 && fields.some((field) => field.name === 'talent')) {
         next.talent = selectedTalents.join('、');
       }

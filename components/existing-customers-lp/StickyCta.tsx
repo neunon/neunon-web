@@ -31,8 +31,8 @@ export function StickyCta() {
 
   return (
     <div className={s.sticky} data-show={show ? 'true' : undefined} aria-hidden={!show}>
-      <Link href={CONTACT_DOCS} className={s.stickyGhost} tabIndex={show ? 0 : -1}>資料を請求</Link>
-      <Link href={CONTACT_ESTIMATE} className={s.stickyPrimary} tabIndex={show ? 0 : -1}>見積もりを相談する</Link>
+      <Link href={CONTACT_DOCS} className={s.stickyGhost} data-track="cta_docs" data-track-at="sticky" tabIndex={show ? 0 : -1}>資料を請求</Link>
+      <Link href={CONTACT_ESTIMATE} className={s.stickyPrimary} data-track="cta_estimate" data-track-at="sticky" tabIndex={show ? 0 : -1}>見積もりを相談する</Link>
     </div>
   );
 }

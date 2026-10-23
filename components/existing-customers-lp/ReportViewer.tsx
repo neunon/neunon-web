@@ -1,66 +1,37 @@
 'use client';
 
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { useState } from 'react';
 import { Maximize2 } from 'lucide-react';
-import { HERO_PAGE, IMG, reportPages } from './data';
+import { FEATURED, IMG, reportPages } from './data';
 import { PageDialog, pageLabel } from './PageDialog';
+import { track } from './Tracker';
 import s from './lp.module.css';
 
-/** 表紙を除く9ページをタブで切り替える */
-const pages = reportPages.filter((p) => p.no);
+const featured = new Set<string>(FEATURED);
 
 /**
- * ファーストビューのレポート表示。代表ページを大きく出し、タブで全ページを見られる。
- * 右（スマホは下）に、そのページで何がわかるかを HTML の文字で出す。
+ * 成果物の表示。代表ページを大きく出し、下のページ一覧（9枚）から切り替える。
+ * 右（スマホは下）に、そのページで何がわかるかを HTML の文字で出す。押すと拡大。
  */
 export function ReportViewer() {
-  const first = pages.findIndex((p) => p.slug === HERO_PAGE);
-  const [current, setCurrent] = useState(first);
+  const [current, setCurrent] = useState(reportPages.findIndex((p) => p.slug === FEATURED[0]));
   const [zoom, setZoom] = useState<number | null>(null);
-  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
-  const list = useRef<HTMLDivElement>(null);
-  const p = pages[current];
+  const p = reportPages[current];
 
-  // 選んだタブが見えるよう、タブの列だけを横に送る（ページ全体はスクロールさせない）
-  useEffect(() => {
-    const box = list.current;
-    const tab = tabs.current[current];
-    if (!box || !tab || box.scrollWidth <= box.clientWidth) return;
-    box.scrollTo({ left: tab.offsetLeft - (box.clientWidth - tab.offsetWidth) / 2 });
-  }, [current]);
-
-  function onTabKey(e: KeyboardEvent<HTMLDivElement>) {
-    const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-    if (!step) return;
-    e.preventDefault();
-    const next = (current + step + pages.length) % pages.length;
-    setCurrent(next);
-    tabs.current[next]?.focus();
+  function select(i: number) {
+    setCurrent(i);
+    track('sample_view', { page: reportPages[i].slug });
+  }
+  function open(i: number) {
+    setZoom(i);
+    track('sample_zoom', { page: reportPages[i].slug });
   }
 
   return (
     <div className={s.viewer}>
-      <div ref={list} className={s.viewerTabs} role="tablist" aria-label="サンプルレポートのページ" onKeyDown={onTabKey}>
-        {pages.map((x, i) => (
-          <button
-            key={x.slug}
-            ref={(el) => { tabs.current[i] = el; }}
-            type="button"
-            role="tab"
-            id={`viewer-tab-${x.slug}`}
-            aria-selected={i === current}
-            aria-controls="viewer-panel"
-            tabIndex={i === current ? 0 : -1}
-            className={s.viewerTab}
-            onClick={() => setCurrent(i)}
-          >
-            <small>{x.no.padStart(2, '0')}</small>{x.tab}
-          </button>
-        ))}
-      </div>
-      <div className={s.viewerStage} role="tabpanel" id="viewer-panel" aria-labelledby={`viewer-tab-${p.slug}`}>
+      <div className={s.viewerStage}>
         <div className={s.viewerPage}>
-          <button type="button" className={s.viewerZoomBtn} onClick={() => setZoom(current)} aria-label={`「${p.title}」のページを拡大する`}>
+          <button type="button" className={s.viewerZoomBtn} onClick={() => open(current)} aria-label={`「${p.title}」のページを拡大する`}>
             <img
               key={p.slug}
               src={`${IMG}/${p.slug}-1440.webp`}
@@ -69,23 +40,43 @@ export function ReportViewer() {
               width={1440}
               height={997}
               alt={`サンプルレポート「${p.title}」のページ。${p.role}`}
-              fetchPriority={current === first ? 'high' : 'auto'}
+              loading="lazy"
+              decoding="async"
             />
             <span className={s.viewerZoomIcon} aria-hidden="true"><Maximize2 size={16} strokeWidth={2.2} /></span>
           </button>
         </div>
-        <div className={s.viewerAbout}>
+        <div className={s.viewerAbout} aria-live="polite">
+          {featured.has(p.slug) && <p className={s.viewerBadge}>代表ページ</p>}
           <p className={s.viewerTitle}>{pageLabel(p)}</p>
           <p className={s.viewerRole}>{p.role}</p>
           <p className={s.viewerLearnHead}>このページでわかること</p>
           <ul className={s.viewerLearn}>
             {p.learn.map((l) => <li key={l}>{l}</li>)}
           </ul>
-          <button type="button" className={s.viewerZoomLink} onClick={() => setZoom(current)}>ページを拡大する</button>
-          <p className={s.viewerNote}>架空企業による分析サンプルです。社名・数値・文章はダミーで、体裁と構成をご覧いただくためのものです。</p>
+          <button type="button" className={s.viewerZoomLink} onClick={() => open(current)}>ページを拡大して読む</button>
         </div>
       </div>
-      <PageDialog pages={pages} index={zoom} onChange={setZoom} />
+      <ol className={s.strip} aria-label="サンプルレポートのページ一覧">
+        {reportPages.map((x, i) => (
+          <li key={x.slug}>
+            <button
+              type="button"
+              className={s.stripBtn}
+              aria-current={i === current ? 'true' : undefined}
+              aria-label={`${pageLabel(x)}を表示する`}
+              onClick={() => select(i)}
+            >
+              <img src={`${IMG}/${x.slug}-640.webp`} width={640} height={443} alt="" loading="lazy" decoding="async" />
+              <span className={s.stripLabel}>
+                <b>{x.no.padStart(2, '0')}</b>{x.tab}
+                {featured.has(x.slug) && <i className={s.stripDot} aria-label="代表ページ" />}
+              </span>
+            </button>
+          </li>
+        ))}
+      </ol>
+      <PageDialog pages={reportPages} index={zoom} onChange={setZoom} />
     </div>
   );
 }

@@ -57,7 +57,7 @@ export function PageDialog({ pages, index, onChange }: { pages: ReportPage[]; in
               onClick={() => setLarge((v) => !v)}
               src={`${IMG}/${current.slug}-2000.webp`}
               srcSet={large ? undefined : `${IMG}/${current.slug}-1440.webp 1440w, ${IMG}/${current.slug}-2000.webp 2000w`}
-              sizes="(min-width: 1440px) 1360px, 96vw"
+              sizes="(max-width: 767px) 960px, (min-width: 1440px) 1360px, 96vw"
               width={2000}
               height={1385}
               alt={`サンプルレポート「${current.title}」のページ。${current.role}`}
