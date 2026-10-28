@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, ArrowDown, Building2, FileLock2, FileText, Layers, ShieldCheck } from 'lucide-react';
 import {
-  CONTACT_DOCS, CONTACT_ESTIMATE, CONTACT_GENERAL, IMG,
+  CONTACT_DOCS, CONTACT_ESTIMATE, IMG,
   compare, effects, examples, faq, flow, plans, promises, records, terms,
 } from './data';
 import { PlanCta } from './PlanCta';
@@ -322,18 +322,16 @@ export function ExistingCustomersLp() {
       {/* ============================================================ 最後の相談 */}
       <section className={s.final} id="lp-final" aria-labelledby="final-title">
         <div className={s.finalInner}>
-          <div className={s.finalCopy}>
-            <p className={s.finalEyebrow}>次の一歩</p>
+          <div>
             <h2 id="final-title" className={s.finalTitle}>御社の既存顧客で、<br />見積もりを取ってみませんか。</h2>
           </div>
-          <div className={s.finalAction}>
+          <div>
             <p className={s.finalLead}>分析したい顧客の社名と、御社の商材をお知らせください。見る観点とプランをご提案し、お見積りをお送りします。</p>
             <div className={s.finalCta}>
               <EstimateButton at="final" />
               <Link href={CONTACT_DOCS} className={s.btnSecondary} data-track="cta_docs" data-track-at="final">資料を請求する</Link>
             </div>
           </div>
-          <div className={s.finalSub}><span>1社3,000円（税抜）から</span><span>秘密保持契約を締結</span><span>サービスについてのご質問は<Link href={CONTACT_GENERAL}>こちら</Link></span></div>
         </div>
       </section>
 

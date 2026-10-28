@@ -17,7 +17,6 @@ import page from '@/content/pages/existing-customers.json';
 
 export const CONTACT_ESTIMATE = '/contact/?topic=' + encodeURIComponent('お見積りの依頼');
 export const CONTACT_DOCS = '/contact/?topic=' + encodeURIComponent('資料請求');
-export const CONTACT_GENERAL = '/contact/?topic=' + encodeURIComponent('パッケージ型支援について');
 
 export const seo = {
   title: '既存顧客の企業分析・調査代行｜取引先ごとの提案余地をレポート化',

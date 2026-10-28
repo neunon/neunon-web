@@ -279,18 +279,12 @@
 .faqQ { font-size: 16px; line-height: 1.6; }
 .faqItem p { display: grid; grid-template-columns: 24px 1fr; gap: 14px; padding: 0 34px 22px 0; font-size: 15px; line-height: 1.95; color: var(--ink2); }
 
-/* ------------------------------------------------------------ 最後の相談（青い端線と左右の情報差で締める） */
+/* ------------------------------------------------------------ 最後の相談（見出しと相談導線だけで締める） */
 .final { border-top: 1px solid var(--line); background: var(--blueTint); }
-.finalInner { max-width: 1240px; margin: 0 auto; padding: clamp(74px, 8vw, 112px) 40px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .88fr); gap: 48px clamp(40px, 5vw, 76px); align-items: center; }
-.finalCopy { padding-left: 24px; border-left: 4px solid var(--blue); }
-.finalEyebrow { margin-bottom: 18px; font-size: 14px; font-weight: 700; color: var(--blue); letter-spacing: .08em; }
+.finalInner { max-width: 1240px; margin: 0 auto; padding: clamp(74px, 8vw, 112px) 40px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .88fr); gap: clamp(40px, 5vw, 76px); align-items: center; }
 .finalTitle { font-size: clamp(32px, 3.4vw, 48px); line-height: 1.38; text-wrap: balance; }
-.finalAction { padding: 28px 0 28px clamp(28px, 3vw, 44px); border-left: 1px solid #d8dcef; }
 .finalLead { max-width: 33em; margin-bottom: 28px; font-size: 16.5px; line-height: 1.9; color: var(--ink2); }
 .finalCta { display: flex; flex-wrap: wrap; gap: 12px; }
-.finalSub { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; padding-top: 22px; border-top: 1px solid #d8dcef; font-size: 13.5px; color: var(--ink3); }
-.finalSub span + span { padding-left: 24px; border-left: 1px solid #d8dcef; }
-.finalSub a { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
 
 /* スマホで画面下に出る相談ボタン */
 .sticky { display: none; }
@@ -319,7 +313,6 @@
   .exList { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .exTitle { min-height: 0; }
   .finalInner { grid-template-columns: 1fr; gap: 28px; }
-  .finalAction { border-left: 0; padding: 0 0 0 28px; }
 }
 
 @media (max-width: 767px) {
@@ -372,11 +365,7 @@
   .faqItem summary { padding: 16px 0; gap: 12px; }
   .faqItem p { gap: 12px; padding: 0 0 18px; font-size: 14.5px; }
   .finalInner { gap: 24px; }
-  .finalCopy { padding-left: 16px; }
-  .finalAction { padding-left: 0; }
   .finalCta { display: grid; }
-  .finalSub { display: grid; gap: 8px; }
-  .finalSub span + span { padding-left: 0; border-left: 0; }
   .lightbox { width: 100vw; max-height: 100dvh; height: 100dvh; border-radius: 0; }
   .lightboxInner { display: flex; flex-direction: column; height: 100%; padding: 10px; }
   .lightboxBar span { display: none; }

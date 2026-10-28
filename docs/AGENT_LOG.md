@@ -2,10 +2,15 @@
 
 最終更新: 2026-10-28 / 更新者: Codex
 
+## 2026-10-28 Codex：既存顧客LPの末尾CTAを簡素化
+
+- ユーザー指示により「次の一歩」、見出し横と説明横の縦線、CTA下の3項目を削除。見出し・説明・2つのボタンだけの配置にした。確認用URL、作業ブランチは前節と同じ。
+- 検証: typecheck・build・audit:html 通過。生成HTMLで削除した文言が末尾セクションに無く、2つのCTAが残ることを確認。
+
 ## 2026-10-28 Codex：既存顧客LPの提案仮説6例と末尾CTA（確認用）
 
 - ユーザー提供の6つの提案仮説を `content/pages/existing-customers.json` に反映。旧 `source → proposal` 形式を廃止し、`title`・`description` の独立した例として3列×2行（タブレット2列、スマホ1列）で表示。「特定企業の調査結果や実際の提案ではない」ことを明示。
-- ページ末尾「御社の既存顧客で…」を、見出しと相談導線の左右配置＋下段の確認事項に再設計。既存の問い合わせ先・価格・NDAに関する文言は維持。
+- ページ末尾「御社の既存顧客で…」を、見出しと相談導線の左右配置に再設計。その後のユーザー指示による簡素化は上記参照。
 - 作業先は `hp/existing-customers-claude-lp`、確認用URLは `/design-review/existing-customers-claude/`。正式URLへの切り替えと本番公開は未実施。
 - 検証: typecheck・build・audit:html 指摘なし。出力HTMLに6例の見出し・本文と例示の注記があることを確認。ブラウザーでの画面確認は、Computer Use が Windows 上の現在URLを安全に判定できず停止したため未実施。
 
