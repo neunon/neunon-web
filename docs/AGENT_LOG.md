@@ -7,8 +7,9 @@
 - ユーザーが正式URLの公開と問い合わせ計測の開始を指示。確認用 `/design-review/existing-customers-claude/` を正式 `/services/package/existing-customers/` に移し、sitemapとパッケージ型支援ページからの導線を追加する。
 - LPから問い合わせへのリンクに個人情報を含まない `source=existing_customers` を付加。Workerがフォームを正常受理した場合だけ一時マーカーを保存し、完了ページで `contact_submit_success` を dataLayer に1回積む。広告アカウントはまだないため外部タグ・広告配信は未設定。
 - `app/privacy/page.tsx` は現時点で広告・行動分析ツール未使用と明記しており、法務文書はレビュー待ちでコード側から変更しない。外部計測タグを有効化する前に文書と同意設計の確認が必要。
-- Search Console は `https://neun-on.com/` が設定済み、`/sitemap.xml` は成功状態（2026-10-28 確認）。GA4 は未作成で、ユーザーの Google アカウントで設定画面まで到達したが、利用規約への同意が必要なため作成を停止。Google 広告も未作成。初回テストは月4万円、東京・関東中心を希望。詳細は `docs/EXISTING_CUSTOMERS_LP_LAUNCH.md`。
+- Search Console は `https://neun-on.com/` が設定済み、`/sitemap.xml` は成功状態（2026-10-28 確認）。GA4 はアカウント名・プロパティ名・地域・目標まで入力したが、利用規約への同意が必要な作成ボタンの前で停止。Google 広告の初期アカウント枠は作成済み、キャンペーン・請求情報・配信は未設定。初回テストは月4万円、東京・関東中心を希望。詳細は `docs/EXISTING_CUSTOMERS_LP_LAUNCH.md`。
 - 本番公開には当ブランチの PR を main にマージする必要がある。`AGENTS.md` の二人体制ルールに従い、マージは人間が判断する。公開後に Search Console で正式 URL を検査する。
+- PR #18 を作成。ローカルで正式LP表示、レポート拡大とページ送り、問い合わせフォームへの遷移と種別の下書きを確認。ブラウザーのフォーム送信はローカル環境設定がないため未実施。
 
 ## 2026-10-28 Codex：既存顧客LPの末尾CTAを簡素化
 
