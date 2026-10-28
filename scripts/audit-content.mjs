@@ -50,6 +50,8 @@ export function validateContent(root = process.cwd()) {
   keys(settings?.navigation, ['services', 'consulting', 'package', 'ai', 'works', 'talent', 'about', 'recruit', 'contact'], 'settings.navigation');
   keys(settings?.footer, ['servicesHeading', 'companyHeading', 'careersHeading', 'contactNote'], 'settings.footer');
   const home = read('content/pages/home.json');
+  const existingCustomers = read('content/pages/existing-customers.json');
+  objects(existingCustomers?.examples, ['title', 'description'], 'existing-customers.examples', 1);
   keys(home, [
     'eyebrow', 'titleLine1', 'titleLine2', 'lead', 'businessSummary', 'companyCtaLabel', 'studentCtaLabel',
   ], 'home');

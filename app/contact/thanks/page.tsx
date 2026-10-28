@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
+import { ContactConversionTracker } from '@/components/forms/ContactConversionTracker';
 import { site } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
 export default function ContactThanksPage() {
   return (
     <>
+      <ContactConversionTracker />
       <PageHero
         title="送信しました"
         lead="お問い合わせありがとうございます。内容を確認のうえ、当日〜翌営業日にメールでご連絡します。"

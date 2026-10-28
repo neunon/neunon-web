@@ -246,6 +246,7 @@
 .ep-package .ep-p-menu-expanded strong { color: #5b4b8a; }
 .ep-package .ep-p-menu-expanded p { color: #64646b; font-size: 14px; }
 .ep-package .ep-p-menu-help { color: #71717a; }
+.ep-package .ep-p-existing-link { margin-top: 28px; }
 .ep-package .ep-p-benefit-list article li { font-size: clamp(14px, 1.1vw, 16px); line-height: 1.8; }
 .ep-package .ep-p-benefit-list article ul { gap: 8px; }
 

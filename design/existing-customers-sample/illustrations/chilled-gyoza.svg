@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 520" width="420" height="520">
+    
+  <defs>
+    <radialGradient id="shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#1b2230" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#1b2230" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sheen" x1="0" x2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".46" stop-color="#fff" stop-opacity=".0"/>
+      <stop offset=".5" stop-color="#fff" stop-opacity=".22"/>
+      <stop offset=".56" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    
+  </defs>
+    
+  <ellipse cx="210" cy="432" rx="172" ry="14" fill="url(#shadow)"/>
+    <path d="M40 220 L380 220 L358 420 L62 420 Z" fill="#20262f"/>
+    <path d="M40 220 L380 220 L373 240 L47 240 Z" fill="#343c48"/>
+    <g>
+  
+  <g transform="translate(92 334) rotate(-6) scale(0.95)">
+    <path d="M-34 6 C-30 -22 30 -22 34 6 C20 16 -20 16 -34 6Z" fill="#f2dfb8" stroke="#d9bd86" stroke-width="1.6"/>
+    <path d="M-34 6 C-20 13 20 13 34 6 C24 18 -24 18 -34 6Z" fill="#c98b3c"/>
+    <path d="M-24 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-14 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-4 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M6 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M16 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/>
+  </g>
+  <g transform="translate(152 339) rotate(6) scale(0.95)">
+    <path d="M-34 6 C-30 -22 30 -22 34 6 C20 16 -20 16 -34 6Z" fill="#f2dfb8" stroke="#d9bd86" stroke-width="1.6"/>
+    <path d="M-34 6 C-20 13 20 13 34 6 C24 18 -24 18 -34 6Z" fill="#c98b3c"/>
+    <path d="M-24 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-14 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-4 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M6 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M16 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/>
+  </g>
+  <g transform="translate(212 334) rotate(-6) scale(0.95)">
+    <path d="M-34 6 C-30 -22 30 -22 34 6 C20 16 -20 16 -34 6Z" fill="#f2dfb8" stroke="#d9bd86" stroke-width="1.6"/>
+    <path d="M-34 6 C-20 13 20 13 34 6 C24 18 -24 18 -34 6Z" fill="#c98b3c"/>
+    <path d="M-24 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-14 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-4 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M6 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M16 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/>
+  </g>
+  <g transform="translate(272 339) rotate(6) scale(0.95)">
+    <path d="M-34 6 C-30 -22 30 -22 34 6 C20 16 -20 16 -34 6Z" fill="#f2dfb8" stroke="#d9bd86" stroke-width="1.6"/>
+    <path d="M-34 6 C-20 13 20 13 34 6 C24 18 -24 18 -34 6Z" fill="#c98b3c"/>
+    <path d="M-24 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-14 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-4 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M6 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M16 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/>
+  </g>
+  <g transform="translate(330 334) rotate(-6) scale(0.95)">
+    <path d="M-34 6 C-30 -22 30 -22 34 6 C20 16 -20 16 -34 6Z" fill="#f2dfb8" stroke="#d9bd86" stroke-width="1.6"/>
+    <path d="M-34 6 C-20 13 20 13 34 6 C24 18 -24 18 -34 6Z" fill="#c98b3c"/>
+    <path d="M-24 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-14 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-4 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M6 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M16 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/>
+  </g>
+  
+  <g transform="translate(122 384) rotate(5) scale(0.95)">
+    <path d="M-34 6 C-30 -22 30 -22 34 6 C20 16 -20 16 -34 6Z" fill="#f2dfb8" stroke="#d9bd86" stroke-width="1.6"/>
+    <path d="M-34 6 C-20 13 20 13 34 6 C24 18 -24 18 -34 6Z" fill="#c98b3c"/>
+    <path d="M-24 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-14 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-4 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M6 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M16 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/>
+  </g>
+  <g transform="translate(182 388) rotate(-5) scale(0.95)">
+    <path d="M-34 6 C-30 -22 30 -22 34 6 C20 16 -20 16 -34 6Z" fill="#f2dfb8" stroke="#d9bd86" stroke-width="1.6"/>
+    <path d="M-34 6 C-20 13 20 13 34 6 C24 18 -24 18 -34 6Z" fill="#c98b3c"/>
+    <path d="M-24 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-14 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-4 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M6 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M16 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/>
+  </g>
+  <g transform="translate(242 384) rotate(5) scale(0.95)">
+    <path d="M-34 6 C-30 -22 30 -22 34 6 C20 16 -20 16 -34 6Z" fill="#f2dfb8" stroke="#d9bd86" stroke-width="1.6"/>
+    <path d="M-34 6 C-20 13 20 13 34 6 C24 18 -24 18 -34 6Z" fill="#c98b3c"/>
+    <path d="M-24 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-14 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-4 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M6 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M16 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/>
+  </g>
+  <g transform="translate(302 388) rotate(-5) scale(0.95)">
+    <path d="M-34 6 C-30 -22 30 -22 34 6 C20 16 -20 16 -34 6Z" fill="#f2dfb8" stroke="#d9bd86" stroke-width="1.6"/>
+    <path d="M-34 6 C-20 13 20 13 34 6 C24 18 -24 18 -34 6Z" fill="#c98b3c"/>
+    <path d="M-24 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-14 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-4 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M6 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M16 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/>
+  </g></g>
+    <path d="M40 220 L380 220 L358 420 L62 420 Z" fill="#ffffff" opacity=".10"/>
+    <rect x="40" y="214" width="340" height="12" rx="3" fill="#ffffff" opacity=".55"/>
+    <g transform="rotate(-4 210 252)">
+      <rect x="92" y="196" width="236" height="104" rx="6" fill="#2b7a6f"/>
+      
+  <g transform="translate(126 230)">
+    <circle r="19" fill="#c8102e"/>
+    <text y="3.8000000000000003" text-anchor="middle" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-weight="700" font-size="9.88" fill="#fff">サンプル</text>
+  </g>
+      <text x="154" y="224" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="12" font-weight="700" fill="#fff">サンプル食品のチルド</text>
+      <text x="154" y="252" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="25" font-weight="800" fill="#fff">焼くだけ餃子</text>
+      <text x="108" y="284" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="12" fill="#ffffffd9">国産キャベツ使用</text>
+      <text x="316" y="284" text-anchor="end" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="11" fill="#ffffffcc">要冷蔵10℃以下</text>
+    </g>
+  </svg>

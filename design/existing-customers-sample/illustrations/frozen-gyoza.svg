@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 520" width="420" height="520">
+    
+  <defs>
+    <radialGradient id="shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#1b2230" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#1b2230" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sheen" x1="0" x2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".46" stop-color="#fff" stop-opacity=".0"/>
+      <stop offset=".5" stop-color="#fff" stop-opacity=".22"/>
+      <stop offset=".56" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    
+  </defs>
+    
+  <ellipse cx="210" cy="462" rx="150" ry="14" fill="url(#shadow)"/>
+    <path d="M70 66 L77 66 L84 60 L91 66 L98 60 L105 66 L112 60 L119 66 L126 60 L133 66 L140 60 L147 66 L154 60 L161 66 L168 60 L175 66 L182 60 L189 66 L196 60 L203 66 L210 60 L217 66 L224 60 L231 66 L238 60 L245 66 L252 60 L259 66 L266 60 L273 66 L280 60 L287 66 L294 60 L301 66 L308 60 L315 66 L322 60 L329 66 L336 60 L343 66 L350 60 L350 434 L77 440 L84 434 L91 440 L98 434 L105 440 L112 434 L119 440 L126 434 L133 440 L140 434 L147 440 L154 434 L161 440 L168 434 L175 440 L182 434 L189 440 L196 434 L203 440 L210 434 L217 440 L224 434 L231 440 L238 434 L245 440 L252 434 L259 440 L266 434 L273 440 L280 434 L287 440 L294 434 L301 440 L308 434 L315 440 L322 434 L329 440 L336 434 L343 440 L350 434 Z" fill="#123a6b"/>
+    <rect x="70" y="66" width="280" height="368" fill="#123a6b"/>
+    <rect x="70" y="78" width="280" height="18" fill="#000" opacity=".08"/>
+    <rect x="70" y="404" width="280" height="18" fill="#000" opacity=".08"/>
+    
+  <g transform="translate(114 134)">
+    <circle r="24" fill="#c8102e"/>
+    <text y="4.800000000000001" text-anchor="middle" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-weight="700" font-size="12.48" fill="#fff">サンプル</text>
+  </g>
+    <text x="150" y="126" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="14" font-weight="700" fill="#f2c14e">サンプル食品</text>
+    <text x="150" y="146" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="12" fill="#ffffffcc">冷凍食品</text>
+    <text x="94" y="198" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="38" font-weight="800" fill="#fff">羽根つき一番</text>
+    <text x="96" y="226" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="15" font-weight="700" fill="#f2c14e">冷凍ギョーザ　油・水いらず</text>
+    <rect x="92" y="246" width="236" height="128" rx="64" fill="#fff" opacity=".96"/>
+    <g>
+  
+  <g transform="translate(150 312) rotate(-8) scale(1.1)">
+    <path d="M-34 6 C-30 -22 30 -22 34 6 C20 16 -20 16 -34 6Z" fill="#f2dfb8" stroke="#d9bd86" stroke-width="1.6"/>
+    <path d="M-34 6 C-20 13 20 13 34 6 C24 18 -24 18 -34 6Z" fill="#c98b3c"/>
+    <path d="M-24 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-14 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-4 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M6 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M16 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/>
+  </g>
+  <g transform="translate(212 306) rotate(0) scale(1.15)">
+    <path d="M-34 6 C-30 -22 30 -22 34 6 C20 16 -20 16 -34 6Z" fill="#f2dfb8" stroke="#d9bd86" stroke-width="1.6"/>
+    <path d="M-34 6 C-20 13 20 13 34 6 C24 18 -24 18 -34 6Z" fill="#c98b3c"/>
+    <path d="M-24 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-14 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-4 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M6 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M16 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/>
+  </g>
+  <g transform="translate(274 312) rotate(8) scale(1.1)">
+    <path d="M-34 6 C-30 -22 30 -22 34 6 C20 16 -20 16 -34 6Z" fill="#f2dfb8" stroke="#d9bd86" stroke-width="1.6"/>
+    <path d="M-34 6 C-20 13 20 13 34 6 C24 18 -24 18 -34 6Z" fill="#c98b3c"/>
+    <path d="M-24 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-14 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-4 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M6 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M16 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/>
+  </g>
+  
+  <g transform="translate(180 342) rotate(-4) scale(1)">
+    <path d="M-34 6 C-30 -22 30 -22 34 6 C20 16 -20 16 -34 6Z" fill="#f2dfb8" stroke="#d9bd86" stroke-width="1.6"/>
+    <path d="M-34 6 C-20 13 20 13 34 6 C24 18 -24 18 -34 6Z" fill="#c98b3c"/>
+    <path d="M-24 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-14 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-4 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M6 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M16 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/>
+  </g>
+  <g transform="translate(244 342) rotate(4) scale(1)">
+    <path d="M-34 6 C-30 -22 30 -22 34 6 C20 16 -20 16 -34 6Z" fill="#f2dfb8" stroke="#d9bd86" stroke-width="1.6"/>
+    <path d="M-34 6 C-20 13 20 13 34 6 C24 18 -24 18 -34 6Z" fill="#c98b3c"/>
+    <path d="M-24 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-14 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M-4 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M6 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/><path d="M16 -11 q4 7 0 16" fill="none" stroke="#d9bd86" stroke-width="1.6"/>
+  </g></g>
+    <rect x="92" y="386" width="92" height="24" rx="4" fill="#f2c14e"/>
+    <text x="138" y="403" text-anchor="middle" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="13" font-weight="700" fill="#123a6b">12個入</text>
+    <text x="328" y="403" text-anchor="end" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="11" fill="#ffffffb3">−18℃以下で保存</text>
+    <rect x="70" y="60" width="280" height="380" fill="url(#sheen)"/>
+  </svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 520" width="420" height="520">
+    
+  <defs>
+    <radialGradient id="shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#1b2230" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#1b2230" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sheen" x1="0" x2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".46" stop-color="#fff" stop-opacity=".0"/>
+      <stop offset=".5" stop-color="#fff" stop-opacity=".22"/>
+      <stop offset=".56" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="kraft" x1="0" x2="1"><stop offset="0" stop-color="#d9c8a6"/><stop offset=".5" stop-color="#e8dbc0"/><stop offset="1" stop-color="#cdb98f"/></linearGradient>
+  </defs>
+    
+  <ellipse cx="210" cy="466" rx="170" ry="14" fill="url(#shadow)"/>
+    <path d="M58 70 L362 70 L374 452 L46 452 Z" fill="url(#kraft)"/>
+    <rect x="58" y="70" width="304" height="26" fill="#000" opacity=".07"/>
+    <rect x="80" y="128" width="260" height="56" fill="#8f1d1d"/>
+    <text x="96" y="165" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="24" font-weight="800" fill="#fff">業務用</text>
+    <text x="324" y="165" text-anchor="end" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="14" font-weight="700" fill="#fff">サンプル食品</text>
+    <text x="84" y="238" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="34" font-weight="800" fill="#2a2418">中華スープの素</text>
+    <text x="86" y="268" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="15" fill="#4a4030">濃縮タイプ　業務用</text>
+    <rect x="84" y="296" width="252" height="92" fill="#fff" opacity=".7"/>
+    <text x="100" y="328" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="13" fill="#2a2418">内容量</text>
+    <text x="320" y="330" text-anchor="end" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="26" font-weight="800" fill="#2a2418">1kg</text>
+    <text x="100" y="370" font-family="'Yu Gothic','YuGothic','Meiryo','BIZ UDPGothic',sans-serif" font-size="12" fill="#4a4030">保存方法　−18℃以下</text>
+  </svg>

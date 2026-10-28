@@ -1,6 +1,114 @@
 # 作業の引き継ぎ（Codex ⇄ Claude Code）
 
-最終更新: 2026-10-20 / 更新者: Codex
+最終更新: 2026-10-28 / 更新者: Codex
+
+## 2026-10-28 Codex：既存顧客LPの正式公開と計測準備（進行中）
+
+- ユーザーが正式URLの公開と問い合わせ計測の開始を指示。確認用 `/design-review/existing-customers-claude/` を正式 `/services/package/existing-customers/` に移し、sitemapとパッケージ型支援ページからの導線を追加する。
+- LPから問い合わせへのリンクに個人情報を含まない `source=existing_customers` を付加。Workerがフォームを正常受理した場合だけ一時マーカーを保存し、完了ページで `contact_submit_success` を dataLayer に1回積む。広告アカウントはまだないため外部タグ・広告配信は未設定。
+- `app/privacy/page.tsx` は現時点で広告・行動分析ツール未使用と明記しており、法務文書はレビュー待ちでコード側から変更しない。外部計測タグを有効化する前に文書と同意設計の確認が必要。
+- Search Console は `https://neun-on.com/` が設定済み、`/sitemap.xml` は成功状態（2026-10-28 確認）。GA4 はアカウント名・プロパティ名・地域・目標まで入力したが、利用規約への同意が必要な作成ボタンの前で停止。Google 広告の初期アカウント枠は作成済み、キャンペーン・請求情報・配信は未設定。初回テストは月4万円、東京・関東中心を希望。詳細は `docs/EXISTING_CUSTOMERS_LP_LAUNCH.md`。
+- 本番公開には当ブランチの PR を main にマージする必要がある。`AGENTS.md` の二人体制ルールに従い、マージは人間が判断する。公開後に Search Console で正式 URL を検査する。
+- PR #18 を作成。ローカルで正式LP表示、レポート拡大とページ送り、問い合わせフォームへの遷移と種別の下書きを確認。ブラウザーのフォーム送信はローカル環境設定がないため未実施。
+
+## 2026-10-28 Codex：既存顧客LPの末尾CTAを簡素化
+
+- ユーザー指示により「次の一歩」、見出し横と説明横の縦線、CTA下の3項目を削除。見出し・説明・2つのボタンだけの配置にした。確認用URL、作業ブランチは前節と同じ。
+- 検証: typecheck・build・audit:html 通過。生成HTMLで削除した文言が末尾セクションに無く、2つのCTAが残ることを確認。
+
+## 2026-10-28 Codex：既存顧客LPの提案仮説6例と末尾CTA（確認用）
+
+- ユーザー提供の6つの提案仮説を `content/pages/existing-customers.json` に反映。旧 `source → proposal` 形式を廃止し、`title`・`description` の独立した例として3列×2行（タブレット2列、スマホ1列）で表示。「特定企業の調査結果や実際の提案ではない」ことを明示。
+- ページ末尾「御社の既存顧客で…」を、見出しと相談導線の左右配置に再設計。その後のユーザー指示による簡素化は上記参照。
+- 作業先は `hp/existing-customers-claude-lp`、確認用URLは `/design-review/existing-customers-claude/`。正式URLへの切り替えと本番公開は未実施。
+- 検証: typecheck・build・audit:html 指摘なし。出力HTMLに6例の見出し・本文と例示の注記があることを確認。ブラウザーでの画面確認は、Computer Use が Windows 上の現在URLを安全に判定できず停止したため未実施。
+
+## 2026-10-23 Claude Code：既存顧客LP 第12版　白×黒×クリアブルー、提案仮説の入力欄、全9ページ一覧（確認待ち）
+
+- ユーザー決定の配色B案: ホワイト #FFFFFF／ブラック #202020／クリアブルー #5264CC。黄色・黒の大面・装飾の円をすべて撤去。青は価格の数字・主ボタン・選択中・比較表のNeunon列・強調語だけ
+- 提案仮説の例は「調査から見つけた情報 → そこから考えられる提案仮説」の行を並べる形に作り直し。中身はユーザーが `content/pages/existing-customers.json` の `examples`（`source`／`proposal`）に書く。確認用URL（`preview`）では空の組を「入力待ち」で表示、正式URLでは入力済みだけ出し、0件なら節ごと出さない
+- 成果物はタブ表示をやめ、全9ページを3列（タブレット2列・スマホ1列）で一覧。押すと拡大、前後送り可（`ReportGallery.tsx`。`ReportViewer.tsx` は削除）
+- 比較表・料金3区分・プラン/社数の選択から見積依頼・実績は維持
+- 検証: typecheck・build・audit:html 指摘なし。1440/390px撮影、ヘッドレスでフォーム下書き・拡大・表示計測・画面下ボタンを確認
+
+## 2026-10-23 Claude Code：既存顧客LP 第11版　比較表・提案仮説の復活とアートディレクションの刷新（確認待ち）
+
+- 第10版で失われた比較表（v7〜v8 の表形式）と提案仮説の具体例を復活・強化。比較表は縦に比較軸8項目×横に4つの方法、優劣ではなく「向いている／条件による／主な用途ではない」の3段階、他の方法が向く場面と注記つき。スマホは横スクロール＋見出し列を固定
+- 提案仮説は Web 独自の図（A 集めた事実5つ → B 組み合わせて読む推察3つ → C 提案の仮説3つ → 導いた方向 → 商談で確かめること）。事実と推察を色で対応させ、事実・推察・仮説を区別。レポート画像は使わない
+- レポート画像はファーストビューと成果物の2か所だけに整理（できること・分析事例・最後の相談から外した）
+- 配色を「白い紙と黄色のマーカー」に変更（白・オフホワイト・チャコール＋黄 #ffd02b）。ネイビー・淡い青を廃止。主ボタンは黄色の丸型、価格・実績の数字に黄色の太線
+- 参考サイトは info-box.jp・goodpatch.com を実画面で確認（FORCAS は証明書エラーで見られず）
+- 検証: typecheck・build・audit:html 指摘なし。390/1440px 撮影、ヘッドレスでフォーム下書き・拡大・表示計測・画面下ボタンを確認
+
+## 2026-10-23 Claude Code：既存顧客LP 第10版　受注獲得のための再設計（確認待ち）
+
+ブランチ `hp/existing-customers-claude-lp`。確認用URL `/design-review/existing-customers-claude/`（noindex）。
+- ユーザーの「受注獲得力を高めるための全面最適化」指示（＋前提修正：サンプルの仮文章は課題にしない、プランはページ数中心で現行の価格・枚数を維持）に対応
+- 構成: FV（価格を太い下線で強調・サンプル閲覧CTA・実績の帯）→ できること3つ（レポートの切り抜き）→ 分析事例（01〜04を横のステップで切り替え）→ 成果物（代表4ページ＋9ページの一覧）→ 料金（ページ数の図・条件・プランと社数を選んで見積依頼）→ 選ばれる理由（実績の濃い面・体制・書き分け・量への対応・方法の使い分け）→ 流れ・FAQ → 最後の相談（濃い地）
+- 比較表（◎○△×）は廃止し、優劣を付けない「使い分け」に置き換え。実績は対象範囲と時点（パッケージ型支援全体、2026年10月時点）を明記し、同じ型の実績に印
+- 見積依頼で選んだプラン・社数は `?message=` で問い合わせフォームの「ご相談内容」に下書きとして入る（`components/forms/FormShell.tsx` に空欄時のみ受け取る処理を追加。必須項目は増やしていない）
+- 計測: `Tracker.tsx` が dataLayer に積む（cta_estimate / cta_docs / cta_sample〔at=hero|price|final|sticky〕、sample_view・sample_zoom、case_step、plan_select、section_view〔report|price〕）。サイトに GTM・GA4 は未導入のため、送信は導入後。フォーム到達・送信完了は /contact/ と /contact/thanks/ のページビューで取る想定
+- 検証: typecheck・build・audit:html 指摘なし。390/768/1440/1920px で撮影、ヘッドレス Chrome でフォーム下書き・画面下ボタン・拡大・表示計測を確認
+
+## 2026-10-23 Claude Code：既存顧客LP 第9版（確認待ち）
+
+- ユーザー指示: ヒーローは第7版の型（左に文字、右にノートPCと紙のページ）に戻す。レポートは表紙なしの9ページ、左下の Confidential と日付は消す（マスターの文字を削除、頁番号とロゴは残す）。実績の帯を改善。01・02…が左右に交互に並ぶ構成で価値を伝える
+- 全ページのギャラリーは、ヒーロー下のタブ表示と重なるので外した（ReportGallery.tsx 削除）
+
+## 2026-10-23 Claude Code：既存顧客LP 第8版　承認されたサンプルレポートを主役に作り直し（確認待ち）
+
+ブランチ `hp/existing-customers-claude-lp`。確認用URL `/design-review/existing-customers-claude/`（noindex）。
+
+- ユーザーがサンプルレポートを承認し、LP を依頼。レポートを主役に設計し直した（詳細は `docs/EXISTING_CUSTOMERS_CLAUDE_LP.md` の「0. LP 第8版」）
+- 部品: `components/existing-customers-lp/`（ExistingCustomersLp・ReportViewer＝ファーストビューのタブ表示・ZoomFigure・ReportGallery・PageDialog＝拡大表示・StickyCta・data.ts）
+- 画像は `node design/existing-customers-sample/prepare_assets.mjs` で renders/ から作る（PowerPoint の書き出しが前段）
+- 検証: typecheck・build・audit:html 通過。390/768/1024/1440px で表示と操作を確認
+- 次: ユーザーの確認。承認後に正式URL `/services/package/existing-customers/` へ移す（noindex 解除・sitemap 追加・確認用ルート削除）。「資料を請求する」で送る資料は未決
+
+## 2026-10-23 Claude Code：既存顧客LP　分析レポートのサンプルを Neunon のテンプレートで作り直し（確認待ち）
+
+追記（夜）: ユーザーの指示で表紙を前の版（サンプル容器株式会社 御中／サンプル化粧品株式会社、テンプレートの書体）に戻し、全ページを改善した。内容は `docs/EXISTING_CUSTOMERS_CLAUDE_LP.md` の「0. サンプルレポートの改善」。ユーザーは就寝中のため確認待ち
+
+ブランチ `hp/existing-customers-claude-lp`。
+
+- ユーザーの「制作方針の根本変更」により、LP の実装を止めて、実際に納品できる水準の分析レポートのサンプルを先に作った。確認を受けるまで LP は作り直さない
+- 作ったもの（`design/existing-customers-sample/`）: Neunon Consulting のテンプレートで一から組んだ PPTX（表紙＋9ページ、`build_report.py`）。中身はすべてダミー（「この文章はサンプルです。」、ブランドA〜E、カテゴリA〜G、人名○○）。気に入られた3つの図（年表と出来事の表／取引の照合表／優先順位の図）は残した。書き出しと PDF（`renders/`）、表示試作（`preview/index.html`）。元資料を転用した `build_from_material.py` は削除
+- デザインの決まり（余白・段組・文字サイズ・色の役割）は `build_report.py` の冒頭と `docs/EXISTING_CUSTOMERS_CLAUDE_LP.md` に記載
+- 参照した実物: 提案書用材料_クローズアップ系、コンサルティング事業_紹介資料、顧客企業クローズアップ ver8、新興企業クローズアップ サンプル（ローカルで参照のみ）
+- 注意: PowerPoint の書き出しは `design/existing-customers-sample/export.ps1` を使う。Quit を足さない（ユーザーが開いているスライドが閉じる）。元ファイルは scratchpad にコピーしてから書き出す
+- 次: ユーザーがサンプルを確認 → 修正 → 承認後に LP を設計し直す（`prepare_assets.mjs` もページ構成に合わせて直す）
+
+## 2026-10-22 Claude Code：既存顧客LP 第7版（完了・確認待ち）
+
+ブランチ `hp/existing-customers-claude-lp`。確認用URL `/design-review/existing-customers-claude/`（noindex）。
+
+- 受注を主目的にLPとして作り直した。明るいブランド青の配色、課題 → 解決 → 仮説例 → 効果 → 理由・比較 → 実績 → 料金 → 流れ → FAQ → 相談、スマホは画面下に相談ボタン。第6版でサンプルレポートを表紙＋11ページのスライドに作り直し、全ページをプラン別に見せるギャラリーと、参考画像の型の料金表にした。第7版で色を抑え（白・黒・グレー＋青1色）、プランとページの対応表示をやめ、提案のページを追加。詳細は `docs/EXISTING_CUSTOMERS_CLAUDE_LP.md` の「0. 改訂（第7版）」
+- 注意: `design/existing-customers-sample/export.ps1`（PowerPoint の書き出し）に Quit を足さない。足すとユーザーが開いている別のスライドが閉じる
+- 決まったこと: プランは目安で、ページ構成は都度決める（LPでプランとページを対応させない）。料金に各プランの相談ボタンは置かない。NDAは締結前提、取引情報の提供は任意。「分析の視点」の節は削除。提案仮説は「事実 → 言えること」の組で件数自由
+- 次: ユーザーが `content/pages/existing-customers.json` に仮説を記入。「資料を請求する」で送る資料を決める。承認後に正式URL `/services/package/existing-customers/` へ移す（noindex 解除・sitemap 追加・確認用ルート削除）
+
+## 既存顧客企業クローズアップLP：Claude Code による新規制作案（2026-10-22・Claude Code）
+
+ブランチ `hp/existing-customers-claude-lp`（`origin/main` の `dfd28a8` から。**Codex の LP ブランチとは独立**）。
+ユーザーの「過去のAI制作LPを出発点にせず、新しい制作会社として作る」依頼に応えた案。詳細は `docs/EXISTING_CUSTOMERS_CLAUDE_LP.md`。
+
+- 実際の納品物（竹本容器様向けクローズアップ ver1/ver2）と提案書を PowerPoint で画像化して確認。型は「会社概要／商品ラインナップ／提案・連携余地」で、
+  顧客を**依頼元の商材との接点**から読むのが核心。これを訴求軸にした。顧客固有の情報は一切使っていない
+- 架空企業「ミオリ食品」を架空の低温物流会社が依頼した設定で、実物と同じ型の5ページのサンプルを新規制作（`design/existing-customers-sample/`、PPTXが編集元）
+- LP本体は `components/existing-customers-lp/`。確認用ルート `/design-review/existing-customers-claude/`（noindex, nofollow、sitemap対象外）
+- 検証：typecheck、build、audit:html（48ページ指摘なし）、test:cms、書き出した `out/` を 390/768/1440/1920px で撮影・操作確認。スクショは `artifacts/lp-claude-2026-10-22/`（ローカル）
+- ビルド時、別ブランチの古い生成物 `.next/types` `.next/dev/types` が型検査を止めたので、その2つだけ削除して再生成した
+
+**ユーザー回答（2026-10-22）**：参考価格の具体額の公開、支援実績4件と「数百件」の掲載、架空の食品メーカーを例にする方針は**承認済み**。
+未決は取引情報の受け渡しとNDA、税表記ほか。
+
+**次にやること**：ユーザーのレビュー。公開前の確認事項9件（参考価格の具体額の公開可否、税表記、実績の掲載可否、取引情報の受け渡しとNDA など）は
+`docs/EXISTING_CUSTOMERS_CLAUDE_LP.md` の7章。承認後に `/services/package/existing-customers/` へ移す（noindex 解除・sitemap 追加・確認用ルート削除）。
+
+**共有事項**：
+- この環境の `python` はストア版のスタブ。`py` を使う
+- 確認時点で Codex のブランチ `hp/existing-customers-lp-mobile` はリモートに無かった（ローカルのみ）。触っていない
+- 参考サイトの infobox は本番メンテナンス中（Web Archive で確認）、FORCAS は証明書エラーで未確認
 
 ## 問い合わせフォーム Turnstile 復旧（2026-10-20・Codex）
 
