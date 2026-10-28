@@ -28,6 +28,29 @@
 - 初期キーワード候補は「既存顧客 分析」「顧客企業 分析」「企業調査 レポート」「営業 提案 企業分析」。マッチタイプと除外語は検索語句を確認して調整する。初回からディスプレイ広告や自動拡張を広げない。
 - 運用開始後は少なくとも週 1 回、検索語句、費用、LP 到達、正常受付件数を確認。問い合わせの質を確認してから拡張する。
 
+### 検索広告の原稿案（未入稿）
+
+最終 URL: `https://neun-on.com/services/package/existing-customers/`。見出しは30文字、説明文は90文字以内（日本語の全角文字は2文字換算）で作成。広告の審査結果と実際の表示は入稿後に確認する。
+
+見出し候補:
+
+- 既存顧客の企業分析
+- 顧客企業を1社ずつ調査
+- 次の営業提案につなげる
+- 企業調査を1社から
+- 取引先の事業を深く知る
+- 分析レポートで納品
+- 1社3,000円から
+- Neunon Consulting
+
+説明文候補:
+
+- 既存顧客の業績・事業・商品・動向を調査し、提案の切り口まで整理します。
+- 1社から依頼できる企業分析。スライド形式のレポートで納品します。
+- 取引先ごとの提案余地を見極めるため、公開情報と任意の取引情報を照合します。
+
+初期の除外語候補: `求人`、`転職`、`採用`、`学生`、`無料テンプレート`。検索語句レポートで確認してから追加・修正する。
+
 ## 配信開始前の残項目
 
 1. LP の本番公開とスマートフォン表示の確認。
@@ -35,4 +58,4 @@
 3. プライバシー文書と計測同意の確認後、タグの実装・公開・テスト。
 4. Google 広告アカウントと請求設定、コンバージョン連携、広告文審査。キャンペーンの配信を開始する前に費用設定を再確認する。
 
-参照: [Google 広告の費用上限](https://support.google.com/google-ads/answer/10486637/about-spending-limits)、[日本の消費税](https://support.google.com/google-ads/answer/2375370?hl=ja)、[地域オプション](https://support.google.com/google-ads/answer/9376662?hl=ja)、[GA4 の設定](https://support.google.com/analytics/answer/14183469?hl=ja)
+参照: [Google 広告の費用上限](https://support.google.com/google-ads/answer/10486637/about-spending-limits)、[日本の消費税](https://support.google.com/google-ads/answer/2375370?hl=ja)、[地域オプション](https://support.google.com/google-ads/answer/9376662?hl=ja)、[レスポンシブ検索広告の仕様](https://support.google.com/google-ads/answer/7684791?hl=ja)、[GA4 の設定](https://support.google.com/analytics/answer/14183469?hl=ja)
