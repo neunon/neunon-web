@@ -66,6 +66,7 @@ export function PackageServiceDetail({ service }: { service: Service }) {
             </details>)}
           </div>
           <p className="ep-p-menu-help">どれに当てはまるか分からない場合も、調査したい対象だけお聞かせください。</p>
+          <InteractiveHoverLink href="/services/package/existing-customers/" text="既存顧客企業クローズアップの詳細を見る" className="is-outline ep-p-existing-link" />
         </div>
       </section>
 

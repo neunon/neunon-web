@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { plans } from './data';
+import { LP_SOURCE, plans } from './data';
 import { track } from './Tracker';
 import s from './lp.module.css';
 
@@ -23,7 +23,7 @@ export function PlanCta() {
     `対象企業数：${count}`,
     '分析したい顧客・目的：',
   ].join('\n');
-  const href = `/contact/?topic=${encodeURIComponent('お見積りの依頼')}&message=${encodeURIComponent(message)}`;
+  const href = `/contact/?topic=${encodeURIComponent('お見積りの依頼')}&message=${encodeURIComponent(message)}&source=${LP_SOURCE}`;
 
   return (
     <div className={s.planCta}>

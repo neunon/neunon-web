@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useId, useRef, useState } from 'react';
 import { validateAll, validateField, type FieldDef } from '@/lib/forms';
+import { CONTACT_SUCCESS_KEY, EXISTING_CUSTOMERS_SOURCE, type ContactSuccessMarker } from '@/lib/lead-attribution';
 import { site } from '@/lib/site';
 
 /**
@@ -262,6 +263,18 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
       });
 
       if (!response.ok) throw new Error(`status ${response.status}`);
+      if (thanksPath === '/contact/thanks') {
+        const sourceParam = new URLSearchParams(window.location.search).get('source');
+        const marker: ContactSuccessMarker = {
+          source: sourceParam === EXISTING_CUSTOMERS_SOURCE ? EXISTING_CUSTOMERS_SOURCE : 'other',
+          at: Date.now(),
+        };
+        try {
+          sessionStorage.setItem(CONTACT_SUCCESS_KEY, JSON.stringify(marker));
+        } catch {
+          // 保存できないブラウザーでも問い合わせの送信は成功として扱う。
+        }
+      }
       router.push(thanksPath);
     } catch {
       setSendError(

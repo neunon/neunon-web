@@ -4,21 +4,11 @@ import { faq, plans, seo } from '@/components/existing-customers-lp/data';
 import { createPageMetadata } from '@/lib/seo';
 import { site } from '@/lib/site';
 
-/**
- * 既存顧客企業クローズアップ LP の確認用ルート（Claude Code 制作案）。
- * 承認前のため検索エンジンに載せない（noindex, nofollow／sitemap にも入れない）。
- * 承認後は /services/package/existing-customers/ に同じ部品を置き、ここは削除する。
- */
-const PATH = '/design-review/existing-customers-claude/';
-/** 公開時の正式URL。構造化データはこちらを前提に書いておく */
-const FINAL_URL = new URL('/services/package/existing-customers/', site.url).href;
+/** 正式公開URL。metadata・構造化データ・sitemap で統一する。 */
+const PATH = '/services/package/existing-customers/';
+const PAGE_URL = new URL(PATH, site.url).href;
 
-const base = createPageMetadata({ title: `【確認用】${seo.title}`, description: `【確認用】${seo.description}` }, PATH);
-
-export const metadata: Metadata = {
-  ...base,
-  robots: { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false } },
-};
+export const metadata: Metadata = createPageMetadata(seo, PATH);
 
 const jsonLd = [
   {
@@ -27,7 +17,7 @@ const jsonLd = [
     name: '既存顧客企業クローズアップ',
     serviceType: '既存顧客の企業分析・調査代行',
     description: seo.description,
-    url: FINAL_URL,
+    url: PAGE_URL,
     image: new URL('/images/existing-customers/matching-1440.webp', site.url).href,
     areaServed: 'JP',
     provider: { '@type': 'Organization', name: site.name, url: site.url },
@@ -56,7 +46,7 @@ const jsonLd = [
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'ホーム', item: new URL('/', site.url).href },
       { '@type': 'ListItem', position: 2, name: 'パッケージ型支援', item: new URL('/services/package/', site.url).href },
-      { '@type': 'ListItem', position: 3, name: '既存顧客企業クローズアップ', item: FINAL_URL },
+      { '@type': 'ListItem', position: 3, name: '既存顧客企業クローズアップ', item: PAGE_URL },
     ],
   },
 ];

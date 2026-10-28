@@ -14,9 +14,11 @@
  * 社名・数値・文章はすべてダミー。LP の文章はレポートの中身ではなく、各ページの役割と読み方を説明する。
  */
 import page from '@/content/pages/existing-customers.json';
+import { EXISTING_CUSTOMERS_SOURCE } from '@/lib/lead-attribution';
 
-export const CONTACT_ESTIMATE = '/contact/?topic=' + encodeURIComponent('お見積りの依頼');
-export const CONTACT_DOCS = '/contact/?topic=' + encodeURIComponent('資料請求');
+export const LP_SOURCE = EXISTING_CUSTOMERS_SOURCE;
+export const CONTACT_ESTIMATE = '/contact/?topic=' + encodeURIComponent('お見積りの依頼') + '&source=' + LP_SOURCE;
+export const CONTACT_DOCS = '/contact/?topic=' + encodeURIComponent('資料請求') + '&source=' + LP_SOURCE;
 
 export const seo = {
   title: '既存顧客の企業分析・調査代行｜取引先ごとの提案余地をレポート化',
