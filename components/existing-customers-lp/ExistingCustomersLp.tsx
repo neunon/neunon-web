@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ArrowRight, ArrowDown, Building2, FileLock2, FileText, Layers, ShieldCheck } from 'lucide-react';
 import {
   CONTACT_DOCS, CONTACT_ESTIMATE, CONTACT_GENERAL, IMG,
-  allExamples, compare, effects, faq, filledExamples, flow, plans, promises, records, terms,
+  compare, effects, examples, faq, flow, plans, promises, records, terms,
 } from './data';
 import { PlanCta } from './PlanCta';
 import { ReportGallery } from './ReportGallery';
@@ -11,17 +11,15 @@ import { Tracker } from './Tracker';
 import s from './lp.module.css';
 
 /**
- * 既存顧客企業クローズアップ LP（第12版）。
+ * 既存顧客企業クローズアップ LP。
  *
  * 配色（2026-10-23 ユーザー決定「B案」）: ホワイト #ffffff ／ ブラック #202020 ／ クリアブルー #5264cc。
  * 白が主体、黒で読みやすさと信頼感、青は「価格・主ボタン・選択中・Neunonの列」にだけ使う。
  * 濃い色の大きな面・グラデーション・装飾の円は使わない。余白と文字の大きさの差で強弱をつける。
  *
- * 構成: ファーストビュー → できること → 提案仮説の例 → 成果物（全9ページ） → 比較表 → 料金 → 実績と体制 → 流れ・FAQ → 最後の相談
+ * 構成: ファーストビュー → できること → 成果物（全9ページ） → 提案仮説の例 → 比較表 → 料金 → 実績と体制 → 流れ・FAQ → 最後の相談
  * レポートの画像はファーストビューと成果物の2か所だけ。
  *
- * preview: 確認用URLのときだけ true。未入力の「提案仮説の例」を入力待ちとして見せる。
- *          正式URLでは入力済みの組だけを出し、1件もなければ節ごと出さない。
  */
 
 const FIT_LABEL = ['主な用途ではない', '条件・依頼内容による', '向いている'] as const;
@@ -38,8 +36,7 @@ function FitMark({ v }: { v: 0 | 1 | 2 }) {
   return <span className={s.fit} data-v={v} role="img" aria-label={FIT_LABEL[v]} />;
 }
 
-export function ExistingCustomersLp({ preview = false }: { preview?: boolean }) {
-  const examples = preview ? allExamples : filledExamples;
+export function ExistingCustomersLp() {
   return (
     <div className={s.lp}>
       <Tracker />
@@ -162,7 +159,7 @@ export function ExistingCustomersLp({ preview = false }: { preview?: boolean }) 
         </div>
       </section>
 
-      {/* ============================================================ 提案仮説の例（中身はユーザーが content/pages/existing-customers.json に記入） */}
+      {/* ============================================================ 提案仮説の例（一般的な可能性。実際の調査結果ではない） */}
       {examples.length > 0 && (
         <section className={s.examples} id="hypothesis" aria-labelledby="examples-title">
           <div className={s.wrap}>
@@ -172,27 +169,18 @@ export function ExistingCustomersLp({ preview = false }: { preview?: boolean }) 
               </div>
               <p className={s.lead}>企業情報を集めて終わりではありません。顧客の変化と御社の取引を照らし合わせ、営業担当者が普段気づきにくい提案の可能性を、仮説として書き出します。</p>
             </header>
+            <p className={s.exDisclaimer}>以下は提案仮説の例です。特定企業の調査結果や実際の提案を示すものではありません。</p>
             <ol className={s.exList}>
-              {examples.map((e, i) => {
-                const empty = e.source === '' || e.proposal === '';
-                return (
-                  <li key={i} className={s.exRow} data-empty={empty ? 'true' : undefined}>
-                    <span className={s.exNo}>{String(i + 1).padStart(2, '0')}</span>
-                    <div className={s.exSource}>
-                      <p className={s.exLabel}>調査から見つけた情報</p>
-                      <p>{e.source || '（入力待ち）調査から見つけた情報を content/pages/existing-customers.json の source に書く'}</p>
-                    </div>
-                    <span className={s.exArrow} aria-hidden="true"><ArrowRight size={22} strokeWidth={2} /></span>
-                    <div className={s.exProposal}>
-                      <p className={s.exLabel}>そこから考えられる提案仮説</p>
-                      <p>{e.proposal || '（入力待ち）提案仮説を proposal に書く'}</p>
-                    </div>
-                  </li>
-                );
-              })}
+              {examples.map((e, i) => (
+                <li key={e.title} className={s.exCard}>
+                  <span className={s.exNo}>{String(i + 1).padStart(2, '0')}</span>
+                  <h3 className={s.exTitle}>{e.title}</h3>
+                  <p className={s.exDescription}>{e.description}</p>
+                </li>
+              ))}
             </ol>
             <div className={s.exFoot}>
-              <p>仮説は調査から導いた見立てです。実際の提案の前に、商談で確かめる事項もレポートに書き出します。</p>
+              <p>実際の仮説は対象企業の調査から導き、商談で確かめる事項もレポートに書き出します。</p>
               <EstimateButton at="hypothesis">自社の顧客で相談する</EstimateButton>
             </div>
           </div>
@@ -334,13 +322,18 @@ export function ExistingCustomersLp({ preview = false }: { preview?: boolean }) 
       {/* ============================================================ 最後の相談 */}
       <section className={s.final} id="lp-final" aria-labelledby="final-title">
         <div className={s.finalInner}>
-          <h2 id="final-title" className={s.finalTitle}>御社の既存顧客で、<br />見積もりを取ってみませんか。</h2>
-          <p className={s.finalLead}>分析したい顧客の社名と、御社の商材をお知らせください。見る観点とプランをご提案し、お見積りをお送りします。</p>
-          <div className={s.finalCta}>
-            <EstimateButton at="final" />
-            <Link href={CONTACT_DOCS} className={s.btnSecondary} data-track="cta_docs" data-track-at="final">資料を請求する</Link>
+          <div className={s.finalCopy}>
+            <p className={s.finalEyebrow}>次の一歩</p>
+            <h2 id="final-title" className={s.finalTitle}>御社の既存顧客で、<br />見積もりを取ってみませんか。</h2>
           </div>
-          <p className={s.finalSub}>1社3,000円（税抜）から ・ 秘密保持契約を締結 ・ サービスについてのご質問は<Link href={CONTACT_GENERAL}>こちら</Link></p>
+          <div className={s.finalAction}>
+            <p className={s.finalLead}>分析したい顧客の社名と、御社の商材をお知らせください。見る観点とプランをご提案し、お見積りをお送りします。</p>
+            <div className={s.finalCta}>
+              <EstimateButton at="final" />
+              <Link href={CONTACT_DOCS} className={s.btnSecondary} data-track="cta_docs" data-track-at="final">資料を請求する</Link>
+            </div>
+          </div>
+          <div className={s.finalSub}><span>1社3,000円（税抜）から</span><span>秘密保持契約を締結</span><span>サービスについてのご質問は<Link href={CONTACT_GENERAL}>こちら</Link></span></div>
         </div>
       </section>
 

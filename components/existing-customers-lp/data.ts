@@ -5,7 +5,7 @@
  *   - 価格（税抜）・分量・納期の目安・お試し可 … p.13「価格」
  *   - 実績（国内主要容器メーカーほか、数百件）… p.3「支援実績」
  *   - 依頼の流れ・品質確認・納品形式 … content/services/02-package.json（公開中のパッケージ型支援ページ）
- *   - 提案仮説の例 … ユーザー本人が content/pages/existing-customers.json に書く（空なら表示しない）
+ *   - 提案仮説の例 … ユーザー提供の一般的な6例。content/pages/existing-customers.json で管理
  * 価格の具体額・実績の掲載は 2026-10-22 にユーザーが承認。
  * 取引情報の提供は任意、秘密保持契約は締結前提（2026-10-22 ユーザー確認）。
  *
@@ -131,13 +131,12 @@ export const labelSample = [
 ] as const;
 
 /**
- * 提案仮説の例。中身は content/pages/existing-customers.json の examples（ユーザーが記入。件数は自由）。
- * source＝調査から見つけた情報、proposal＝そこから考えられる提案仮説。
- * 両方が入力された組だけを本番に出す。確認用URL（preview）では未入力の組を「入力待ち」で表示する。
+ * 提案仮説の一般的な例。特定企業の調査結果や実際の提案とは区別して表示する。
  */
-export type Example = { source: string; proposal: string };
-export const allExamples: Example[] = page.examples.map((e) => ({ source: e.source.trim(), proposal: e.proposal.trim() }));
-export const filledExamples = allExamples.filter((e) => e.source !== '' && e.proposal !== '');
+export type Example = { title: string; description: string };
+export const examples: Example[] = page.examples
+  .map((e) => ({ title: e.title.trim(), description: e.description.trim() }))
+  .filter((e) => e.title !== '' && e.description !== '');
 
 /**
  * 料金。プランの違いはレポートの分量（ページ数）の目安。調べる項目に制限は設けず、

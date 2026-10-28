@@ -65,8 +65,7 @@ export default function Page() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      {/* 確認用URLでは、未入力の「提案仮説の例」を入力待ちとして表示する（正式URLでは preview を付けない） */}
-      <ExistingCustomersLp preview />
+      <ExistingCustomersLp />
     </>
   );
 }

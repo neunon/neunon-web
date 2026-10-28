@@ -1,6 +1,13 @@
 # 作業の引き継ぎ（Codex ⇄ Claude Code）
 
-最終更新: 2026-10-23 / 更新者: Claude Code
+最終更新: 2026-10-28 / 更新者: Codex
+
+## 2026-10-28 Codex：既存顧客LPの提案仮説6例と末尾CTA（確認用）
+
+- ユーザー提供の6つの提案仮説を `content/pages/existing-customers.json` に反映。旧 `source → proposal` 形式を廃止し、`title`・`description` の独立した例として3列×2行（タブレット2列、スマホ1列）で表示。「特定企業の調査結果や実際の提案ではない」ことを明示。
+- ページ末尾「御社の既存顧客で…」を、見出しと相談導線の左右配置＋下段の確認事項に再設計。既存の問い合わせ先・価格・NDAに関する文言は維持。
+- 作業先は `hp/existing-customers-claude-lp`、確認用URLは `/design-review/existing-customers-claude/`。正式URLへの切り替えと本番公開は未実施。
+- 検証: typecheck・build・audit:html 指摘なし。出力HTMLに6例の見出し・本文と例示の注記があることを確認。ブラウザーでの画面確認は、Computer Use が Windows 上の現在URLを安全に判定できず停止したため未実施。
 
 ## 2026-10-23 Claude Code：既存顧客LP 第12版　白×黒×クリアブルー、提案仮説の入力欄、全9ページ一覧（確認待ち）
 
