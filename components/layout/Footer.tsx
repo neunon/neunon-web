@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Logo } from './Logo';
 import { footerNav, site } from '@/lib/site';
 import settings from '@/content/site/settings.json';
+import { AnalyticsControl } from '@/components/analytics/AnalyticsControl';
 
 /**
  * グローバルフッター。
@@ -44,7 +45,7 @@ export function Footer() {
 
         <div className="nc-fbot">
           <span>© {new Date().getFullYear()} Neunon Consulting, Inc.</span>
-          <span>{site.domain}</span>
+          <span className="nc-fbot-links"><AnalyticsControl />{site.domain}</span>
         </div>
       </div>
     </footer>

@@ -75,12 +75,13 @@ export default function PrivacyPage() {
 
             <section aria-labelledby="purpose">
               <h2 id="purpose">利用目的</h2>
-              <p>取得した個人情報は、以下の目的にのみ利用します。</p>
+              <p>当サイトで取得する情報は、以下の目的に利用します。</p>
               <ul className="nc-checklist">
                 <li>お問い合わせへの回答、お見積りの提示、ご契約に関するご連絡</li>
                 <li>採用選考の実施、選考結果のご連絡、採用後の業務連絡</li>
                 <li>当社サービスに関するご案内（ご本人の同意がある場合に限ります）</li>
                 <li>迷惑送信、不正アクセスその他の不正利用の防止</li>
+                <li>当サイトの利用状況を把握して内容・使いやすさを改善し、お問い合わせにつながった経路や広告の効果を集計するため</li>
               </ul>
               <p>上記の目的の範囲を超えて利用する場合は、あらためてご本人の同意を得ます。</p>
             </section>
@@ -99,6 +100,9 @@ export default function PrivacyPage() {
               <h3 id="outsourcing">業務委託先への提供</h3>
               <p>
                 フォームの送信処理には Cloudflare Workers、不正利用の防止には Cloudflare Turnstile、メール送信には Resend を利用しています。送信いただいた情報は、これらのサービスを経由して当社に届きます。当社は利用目的の達成に必要な範囲で委託し、委託先を適切に監督します。
+              </p>
+              <p>
+                アクセス解析には Google LLC が提供する Google アナリティクス 4 を利用します。閲覧・操作に関する情報は Google に送信され、サイト改善とお問い合わせにつながった経路・広告効果の集計のために処理されます。Google による情報の取扱いは、<a href="https://policies.google.com/technologies/partner-sites?hl=ja_JP" className="nc-inline-link" target="_blank" rel="noopener noreferrer">Google の説明</a>をご確認ください。
               </p>
             </section>
 
@@ -122,7 +126,13 @@ export default function PrivacyPage() {
             <section aria-labelledby="cookie">
               <h2 id="cookie">Cookie とアクセス解析</h2>
               <p>
-                当サイトでは、フォームの迷惑送信防止のため Cloudflare Turnstile を利用しています。Turnstile は、利用者が人間か自動プログラムかを判定するために必要な範囲で、ブラウザや端末に関する情報を処理します。現時点で広告配信や行動分析を目的とするアクセス解析ツールは使用していません。
+                当サイトでは、フォームの迷惑送信防止のため Cloudflare Turnstile を利用しています。Turnstile は、利用者が人間か自動プログラムかを判定するために必要な範囲で、ブラウザや端末に関する情報を処理します。
+              </p>
+              <p>
+                サイトの利用状況の把握、内容と使いやすさの改善、お問い合わせにつながった経路の集計のため、Google LLC が提供する Google アナリティクス 4 を利用します。Google アナリティクスは Cookie 等を使用し、閲覧したページ、サイト内の操作、利用日時、ブラウザ・端末情報、おおよその地域などを収集します。氏名、メールアドレス、お問い合わせ本文、添付ファイルは計測イベントに含めません。Google によるデータの取扱いは、<a href="https://policies.google.com/technologies/partner-sites?hl=ja_JP" className="nc-inline-link" target="_blank" rel="noopener noreferrer">Google の説明</a>をご確認ください。
+              </p>
+              <p>
+                日本国内からのアクセスでは、画面下部の「アクセス解析の設定」からいつでも以後の計測を停止・再開できます。停止後はこのサイトから Google アナリティクスへの新たな計測データの送信を止めます。日本国外または地域を確認できない場合は、アクセス解析を行いません。設定にかかわらずサイトの閲覧とお問い合わせフォームは利用できます。
               </p>
             </section>
 

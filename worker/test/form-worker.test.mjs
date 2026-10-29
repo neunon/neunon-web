@@ -1,6 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { buildAutoReply, buildNotificationText, corsHeaders, textToHtml } from '../src/index.mjs';
+import worker from '../src/index.mjs';
+
+test('analytics region is limited to allowed origins and does not identify visitors', async () => {
+  const env = { ALLOWED_ORIGINS: 'https://neun-on.com' };
+  const request = new Request('https://worker.example/analytics-region', { headers: { Origin: 'https://neun-on.com' } });
+  Object.defineProperty(request, 'cf', { value: { country: 'JP' } });
+  const response = await worker.fetch(request, env);
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { country: 'JP' });
+  assert.equal(response.headers.get('Cache-Control'), 'no-store');
+
+  const unknown = await worker.fetch(new Request('https://worker.example/analytics-region', { headers: { Origin: 'https://neun-on.com' } }), env);
+  assert.deepEqual(await unknown.json(), { country: null });
+
+  const blocked = await worker.fetch(new Request('https://worker.example/analytics-region', { headers: { Origin: 'https://attacker.example' } }), env);
+  assert.equal(blocked.status, 403);
+});
 
 test('CORS allows only origins explicitly configured for the environment', () => {
   assert.equal(corsHeaders('https://neun-on.com', 'https://neun-on.com')['Access-Control-Allow-Origin'], 'https://neun-on.com');

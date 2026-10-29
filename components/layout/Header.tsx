@@ -146,7 +146,7 @@ export function Header() {
           </ul>
         </nav>
 
-        <InteractiveHoverLink href={contactNav.href} text={contactNav.label} className="nc-contact-btn" />
+        <InteractiveHoverLink href={contactNav.href} text={contactNav.label} className="nc-contact-btn" data-analytics-cta="contact" data-analytics-placement="header" />
 
         <button
           type="button"
@@ -181,7 +181,7 @@ export function Header() {
               </li>
             ))}
           </ul>
-          <InteractiveHoverLink href={contactNav.href} text={contactNav.label} className="nc-mobile-cta" />
+          <InteractiveHoverLink href={contactNav.href} text={contactNav.label} className="nc-mobile-cta" data-analytics-cta="contact" data-analytics-placement="mobile_header" />
         </nav>
       </div>
     </header>

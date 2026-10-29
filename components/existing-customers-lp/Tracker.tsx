@@ -8,12 +8,14 @@ declare global {
 }
 
 /**
- * 計測イベントを dataLayer に積む（GTM を入れれば GA4 へ送れる。サイトにはまだ GTM・GA4 が入っていない）。
- * 個人情報は送らない。値はボタンの種類・置き場所・ページ名・プラン名だけ。
+ * LP 内の操作を既存の dataLayer に記録し、国内で解析が有効な場合だけ
+ * AnalyticsControl に固定形式のイベントを通知する。
  */
 export function track(event: string, params: DataLayerEvent = {}) {
   window.dataLayer = window.dataLayer ?? [];
-  window.dataLayer.push({ event, lp: 'existing_customers', ...params });
+  const detail = { event, lp: 'existing_customers', ...params };
+  window.dataLayer.push(detail);
+  window.dispatchEvent(new CustomEvent('neunon:engagement', { detail }));
 }
 
 /**

@@ -1,6 +1,42 @@
 # 作業の引き継ぎ（Codex ⇄ Claude Code）
 
-最終更新: 2026-10-28 / 更新者: Codex
+最終更新: 2026-10-29 / 更新者: Codex
+
+## 2026-10-29 Codex：地域判定WorkerとGA4キーイベントを準備
+
+- `neunon-form-api` を Wrangler OAuth で本番デプロイ（Version ID `f1f35b3a-ea79-4d24-9c1a-a80ecca99c45`）。`GET /analytics-region` は許可Origin `https://neun-on.com` で HTTP 200、`{"country":"JP"}` と CORS ヘッダーを確認。フォーム本体の設定値とD1/R2バインディングは `worker/wrangler.toml` と一致。
+- GA4 プロパティ `neun-on.com` に、コード送信の `generate_lead` を金額なし・イベントごとに1回のキーイベントとして登録。GA4へのサイトデータはまだ到着していない。
+- Render には測定IDと地域判定URLを保存済みで、`NEXT_PUBLIC_GA4_ENABLED=false` を維持。PR #19 のマージ判断と本番計測の有効化は未実施。公開後に国内・停止時・国外/判定不能時の動作と問い合わせ受理後のイベントを確認する。
+
+## 2026-10-29 Codex：GA4公開文案を法務担当者が承認
+
+- 発注者本人が法務担当者として国内向けGA4文案を承認。`hp/ga4-privacy-consent-review` の `app/privacy/page.tsx` に利用目的、Google LLCへの送信、収集項目、国内の停止・再開、国外・判定不能の非計測を反映した。公式のGoogle開示要件も再確認した。
+- 本番Workerの `GET /analytics-region` は 405 で、地域判定はまだ未配備。Cloudflare CLIは未認証。公開前にWorker更新、Render環境変数、GA4キーイベント設定、同時リリースの検証が必要。mainのマージは `AGENTS.md` に従い発注者が判断する。
+- Render の `neunon-web` に測定 ID と地域判定 URL を保存し、`NEXT_PUBLIC_GA4_ENABLED=false` として保存した。自動承認審査が、Worker未配備の状態で `true` を保存する操作を拒否したため、安全な無効状態にした。保存のみで再デプロイはしていない。公開時にフラグ変更とPRマージを同じ作業で行う。
+
+## 2026-10-29 Codex：GA4 の限定イベントと安全な広告流入情報（PR #19 を更新）
+
+- ユーザーはサイト改善と広告効果のための最小イベント、および国内で開示＋停止設定を使う方向を了承。`hp/ga4-privacy-consent-review` に、ページ表示、固定値のCTAクリック、LP資料の拡大、企業向け問い合わせの入力開始、受理後の問い合わせ完了を追加。`generate_lead` の属性を獲得経路と誤解しない `form_context` に変更した。
+- URL の任意のクエリと外部リファラーのパスを GA4 へ送らず、形式を検証した UTM 4種のみを残す。広告クリックIDは送らない。詳細は `docs/GA4_PRIVACY_CONSENT_REVIEW.md`。本番のフラグは引き続きオフで、法務文書の編集・本番計測・広告配信は未実施。
+- 型検査、CMSテスト13件（UTM・リファラーの新規テストを含む）、Workerテスト8件、Webpack本番ビルド、HTML監査48ページ、差分チェックを通過。Nextの通常ビルドではこのWindows環境の権限エラーが出たため、既存の引き継ぎと同様にWebpackで検証した。
+
+## 2026-10-29 Codex：GA4の国内向け停止設定を実装（公開待ち）
+
+- ユーザーの指摘で設定画面を縮小。フッターのリンクを押した時だけ右下に開く非モーダルパネルとし、背景の暗転を廃止。`docs/GA4_PRIVACY_CONSENT_REVIEW.md` 冒頭に公開文案の確認点3項目を追加。Webpackでの本番ビルド、型検査、HTML監査（48ページ）とローカル表示を確認。Turbopackはこの環境で子プロセス起動エラーとなったためWebpackで検証。
+- ユーザーが「国内向けは通常計測し、自ら停止した人だけ止める」方針を了承。フッターの「アクセス解析の設定」から停止・再開できるUIを `components/analytics/AnalyticsControl.tsx` に実装。停止設定はブラウザーに保存し、Google の `ga-disable-<測定ID>` と `_ga` Cookie の削除で以後の収集を止める。
+- Cloudflare フォームWorkerに国コードだけを返す `GET /analytics-region` を追加。`JP` と確認できた場合だけタグを読み込み、国外・判定失敗時は読み込まない。初期導入では広告パーソナライズと Google シグナルを無効化し、問い合わせ受理後だけ `generate_lead` を送る。URLパラメータとフォーム入力値は送らない。
+- 本番計測は `NEXT_PUBLIC_GA4_ENABLED=true` を設定するまで無効。法務文書は `AGENTS.md` により編集保留のため、`app/privacy/page.tsx` はまだ変更していない。Worker配備、ポリシー文面のレビュー・更新、Render環境変数の有効化、GA4の実測確認を同じ公開作業で行う。手順は `docs/GA4_PRIVACY_CONSENT_REVIEW.md`。
+- 型チェック、Workerテスト8件、本番ビルド、HTML監査を通過。ダミー測定IDのローカル静的プレビューで設定画面と停止・再読み込み後の保持を確認。作業ブランチをpushし、下書きPR #19を作成した。mainへのマージと本番計測は未実施。
+
+## 2026-10-29 Codex：GA4 の開示文面・同意 UI 案（公開前レビュー）
+
+- PR #18 は main にマージ済み。GA4 Web ストリーム `G-TLV2CRJH1W` は作成済みだが、サイトに計測タグは未設置。Google 広告は初期設定中で配信・請求は未開始。
+- `docs/GA4_PRIVACY_CONSENT_REVIEW.md` にプライバシーポリシーの追加・差し替え文案、同意方式、実装・検証条件をまとめた。`docs/ga4-consent-preview.html` はローカルで確認する静的モックで、GA4 読み込みと選択保存はしない。
+- `AGENTS.md` の法務文書の制限に従い、`app/privacy/page.tsx` は変更していない。文面レビュー後に、実際の同意機能・ポリシー更新・GA4 設置を同一リリースで行う。
+- 作業ブランチ: `hp/ga4-privacy-consent-review`。本案を main にマージしても本番サイトの表示・計測は変わらない。
+- 検証: `typecheck`、`build`、`audit:html` 通過。ローカルコミット済み。GitHub への push は Git 認証が利用できず、連携アプリによるブランチ作成も 403 のため未実施。
+- ユーザーが全訪問者に大きな同意パネルを出す方式に違和感を示したため、その方式は採用保留。国内向けはポリシー開示とフッターの解析設定を第一候補とし、事前同意が必要な地域・用途には別の同意 UI を検討する。実装前に法務・実際のデータ送信設定を確認する。
+- 国内向けの第一候補は、法務確認が通れば開示後に GA4 を通常計測し、停止を選んだ人のみ以後の計測を止める方式。停止した人の行動は GA4 に含まれないため、フォーム受信総数と GA4 の問い合わせ数は別に照合する。
 
 ## 2026-10-28 Codex：既存顧客LPの正式公開と計測準備（進行中）
 

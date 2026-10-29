@@ -40,6 +40,11 @@ export default {
     if (!cors) return json({ error: '許可されていない送信元です。' }, 403);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
     const url = new URL(request.url);
+    if (url.pathname === '/analytics-region') {
+      if (request.method !== 'GET') return json({ error: 'Method not allowed' }, 405, cors);
+      const country = request.cf?.country;
+      return json({ country: /^[A-Z]{2}$/.test(country || '') ? country : null }, 200, cors);
+    }
     if (url.pathname === '/submissions' || url.pathname.startsWith('/submissions/')) {
       return handleInbox(request, env, cors, url);
     }

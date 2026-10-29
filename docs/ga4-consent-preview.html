@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>アクセス解析の選択画面案｜Neunon Consulting</title>
+  <style>
+    :root { font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif; color: #18181b; background: #fcfcfc; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; }
+    button, a { font: inherit; }
+    .preview-note { background: #eef2ff; color: #414c89; padding: 10px 24px; text-align: center; font-size: 12px; }
+    header { height: 78px; display: flex; align-items: center; justify-content: space-between; padding: 0 max(24px, calc((100vw - 1160px) / 2)); border-bottom: 1px solid #e4e4e7; background: white; }
+    .logo { font-family: Georgia, serif; font-size: 31px; line-height: .8; letter-spacing: -.05em; }
+    .logo small { display: block; text-align: right; letter-spacing: .04em; font-size: 10px; margin-top: 5px; }
+    nav { display: flex; gap: 34px; align-items: center; font-size: 13px; }
+    nav a { color: #27272a; text-decoration: none; }
+    nav a:last-child { color: white; background: #18181b; border-radius: 999px; padding: 13px 24px; }
+    main { max-width: 1120px; margin: auto; padding: 82px 24px 200px; }
+    .crumb { color: #71717a; font-size: 12px; margin-bottom: 42px; }
+    .hero { max-width: 760px; }
+    .eyebrow { font-size: 14px; color: #5f67b5; font-weight: 600; }
+    h1 { font-size: clamp(36px, 5vw, 64px); letter-spacing: -.06em; line-height: 1.35; margin: 18px 0 24px; }
+    .lead { font-size: 17px; line-height: 2; color: #52525b; }
+    .placeholder { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 80px; }
+    .placeholder div { height: 170px; border: 1px solid #e4e4e7; border-radius: 18px; background: white; }
+    footer { border-top: 1px solid #e4e4e7; padding: 26px max(24px, calc((100vw - 1160px) / 2)); color: #71717a; font-size: 13px; }
+    footer button { background: none; border: 0; color: #18181b; text-decoration: underline; cursor: pointer; padding: 0; }
+    .consent { position: fixed; z-index: 30; bottom: 22px; left: 24px; right: 24px; max-width: 1080px; margin: auto; padding: 24px 26px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 32px; background: white; border: 1px solid #e4e4e7; border-radius: 18px; box-shadow: 0 1px 2px rgba(24,24,27,.04), 0 18px 48px -16px rgba(24,24,27,.22); }
+    .consent[hidden] { display: none; }
+    .consent h2 { margin: 0 0 7px; font-size: 16px; letter-spacing: -.02em; }
+    .consent p { margin: 0; color: #52525b; font-size: 13px; line-height: 1.8; }
+    .consent a { color: #414c89; text-underline-offset: 3px; }
+    .actions { display: flex; gap: 10px; align-items: center; }
+    .actions button { min-width: 138px; min-height: 46px; border-radius: 999px; padding: 0 18px; cursor: pointer; font-weight: 600; font-size: 13px; transition: transform .2s, box-shadow .2s; }
+    .actions button:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(24,24,27,.13); }
+    .decline { border: 1px solid #a1a1aa; background: white; color: #18181b; }
+    .accept { border: 1px solid #18181b; background: #18181b; color: white; }
+    .result { position: fixed; right: 24px; bottom: 22px; background: white; border: 1px solid #e4e4e7; border-radius: 999px; padding: 10px 16px; font-size: 12px; box-shadow: 0 6px 20px rgba(24,24,27,.08); }
+    .result[hidden] { display: none; }
+    @media (max-width: 720px) { nav a:not(:last-child) { display: none; } main { padding-top: 58px; } .placeholder { grid-template-columns: 1fr; margin-top: 50px; } .placeholder div { height: 100px; } .consent { bottom: 0; left: 0; right: 0; border-radius: 18px 18px 0 0; padding: 22px 20px calc(20px + env(safe-area-inset-bottom)); display: block; } .actions { display: grid; grid-template-columns: 1fr 1fr; margin-top: 20px; } .actions button { min-width: 0; } }
+    @media (max-width: 380px) { .actions { grid-template-columns: 1fr; } }
+    @media (prefers-reduced-motion: reduce) { .actions button { transition: none; } .actions button:hover { transform: none; } }
+  </style>
+</head>
+<body>
+  <div class="preview-note">事前同意が必要な場合の比較案です。採用は保留中。このページはGA4を読み込まず、選択内容も保存しません。</div>
+  <header><div class="logo">Neunon<small>Consulting</small></div><nav><a href="#">事業内容</a><a href="#">実績</a><a href="#">人材</a><a href="#">お問い合わせ</a></nav></header>
+  <main>
+    <div class="crumb">ホーム ／ パッケージ型支援 ／ 既存顧客企業クローズアップ</div>
+    <section class="hero"><div class="eyebrow">既存顧客企業クローズアップ</div><h1>既存顧客の<br>企業分析を代行。</h1><p class="lead">取引先ごとに「次の提案」が見つかる、営業のための個社別レポート。</p></section>
+    <div class="placeholder" aria-hidden="true"><div></div><div></div><div></div></div>
+  </main>
+  <footer>© Neunon Consulting　<button id="settings" type="button">Cookie設定</button></footer>
+  <section class="consent" id="consent" role="dialog" aria-labelledby="consent-title" aria-describedby="consent-desc">
+    <div><h2 id="consent-title">アクセス解析について</h2><p id="consent-desc">サイトの改善と広告からのお問い合わせの効果測定のため、アクセス解析を利用します。許可した場合のみ Google アナリティクスを読み込みます。拒否してもサイトをご利用いただけます。 <a href="https://neun-on.com/privacy/#cookie">詳しく見る</a></p></div>
+    <div class="actions"><button class="decline" id="decline" type="button">拒否して続ける</button><button class="accept" id="accept" type="button">解析を許可する</button></div>
+  </section>
+  <div class="result" id="result" role="status" hidden></div>
+  <script>
+    const panel = document.getElementById('consent');
+    const result = document.getElementById('result');
+    document.getElementById('settings').addEventListener('click', () => { panel.hidden = false; result.hidden = true; });
+    for (const id of ['decline', 'accept']) document.getElementById(id).addEventListener('click', () => {
+      panel.hidden = true;
+      result.textContent = id === 'accept' ? '画面案：解析を許可しました' : '画面案：解析を拒否しました';
+      result.hidden = false;
+    });
+  </script>
+</body>
+</html>
