@@ -8,7 +8,7 @@
 - ユーザーが「国内向けは通常計測し、自ら停止した人だけ止める」方針を了承。フッターの「アクセス解析の設定」から停止・再開できるUIを `components/analytics/AnalyticsControl.tsx` に実装。停止設定はブラウザーに保存し、Google の `ga-disable-<測定ID>` と `_ga` Cookie の削除で以後の収集を止める。
 - Cloudflare フォームWorkerに国コードだけを返す `GET /analytics-region` を追加。`JP` と確認できた場合だけタグを読み込み、国外・判定失敗時は読み込まない。初期導入では広告パーソナライズと Google シグナルを無効化し、問い合わせ受理後だけ `generate_lead` を送る。URLパラメータとフォーム入力値は送らない。
 - 本番計測は `NEXT_PUBLIC_GA4_ENABLED=true` を設定するまで無効。法務文書は `AGENTS.md` により編集保留のため、`app/privacy/page.tsx` はまだ変更していない。Worker配備、ポリシー文面のレビュー・更新、Render環境変数の有効化、GA4の実測確認を同じ公開作業で行う。手順は `docs/GA4_PRIVACY_CONSENT_REVIEW.md`。
-- 型チェック、Workerテスト8件、本番ビルド、HTML監査を通過。ダミー測定IDのローカル静的プレビューで設定画面と停止・再読み込み後の保持を確認。GitHubの書き込みは前節の403/認証問題が残り、現時点ではローカルコミットのみ。
+- 型チェック、Workerテスト8件、本番ビルド、HTML監査を通過。ダミー測定IDのローカル静的プレビューで設定画面と停止・再読み込み後の保持を確認。作業ブランチをpushし、下書きPR #19を作成した。mainへのマージと本番計測は未実施。
 
 ## 2026-10-29 Codex：GA4 の開示文面・同意 UI 案（公開前レビュー）
 
