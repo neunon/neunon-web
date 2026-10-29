@@ -6,6 +6,7 @@
 
 - 発注者本人が法務担当者として国内向けGA4文案を承認。`hp/ga4-privacy-consent-review` の `app/privacy/page.tsx` に利用目的、Google LLCへの送信、収集項目、国内の停止・再開、国外・判定不能の非計測を反映した。公式のGoogle開示要件も再確認した。
 - 本番Workerの `GET /analytics-region` は 405 で、地域判定はまだ未配備。Cloudflare CLIは未認証。公開前にWorker更新、Render環境変数、GA4キーイベント設定、同時リリースの検証が必要。mainのマージは `AGENTS.md` に従い発注者が判断する。
+- Render の `neunon-web` に測定 ID と地域判定 URL を保存し、`NEXT_PUBLIC_GA4_ENABLED=false` として保存した。自動承認審査が、Worker未配備の状態で `true` を保存する操作を拒否したため、安全な無効状態にした。保存のみで再デプロイはしていない。公開時にフラグ変更とPRマージを同じ作業で行う。
 
 ## 2026-10-29 Codex：GA4 の限定イベントと安全な広告流入情報（PR #19 を更新）
 

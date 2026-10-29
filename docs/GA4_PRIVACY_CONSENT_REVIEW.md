@@ -3,7 +3,7 @@
 作成日: 2026-10-29
 状態: 法務担当者である発注者が国内向け文案を承認（2026-10-29）。プライバシーポリシーの更新を PR #19 に追加。本番計測と広告配信は未実施。
 
-公開準備の確認（2026-10-29）: 本番の `GET /analytics-region` は 405 を返し、地域判定を含む Worker はまだ未配備。Cloudflare CLI は現在未認証。Worker の配備と Render のビルド環境変数設定を終えてから、PR #19 を main にマージする。ポリシーの開示だけが先に本番へ出たり、開示前にタグだけが動いたりしないよう同じ公開作業として扱う。
+公開準備の確認（2026-10-29）: 本番の `GET /analytics-region` は 405 を返し、地域判定を含む Worker はまだ未配備。Cloudflare CLI は現在未認証。Render に測定 ID と地域判定 URL を保存し、`NEXT_PUBLIC_GA4_ENABLED=false` としてある。Worker 配備後、公開に合わせてフラグを `true` にし、PR #19 を main にマージする。ポリシーの開示だけが先に本番へ出たり、開示前にタグだけが動いたりしないよう同じ公開作業として扱う。
 
 ## 追加した計測設計（2026-10-29）
 
@@ -116,7 +116,7 @@ GA4 の Web ストリームでは測定機能の強化によるフォームイ�
 
 1. 法務担当者の承認済み文面を反映した `app/privacy/page.tsx` を PR #19 から公開する。「解析ツール未使用」という表示が残ったまま GA4 を有効化しない。
 2. Cloudflare の `neunon-form-api` Worker を更新し、`https://neun-on.com` から `GET /analytics-region` が国コード `JP` を返すことを確認する。位置情報が不明ならタグは読み込まれない。
-3. Render の環境変数に `NEXT_PUBLIC_GA4_MEASUREMENT_ID=G-TLV2CRJH1W`、`NEXT_PUBLIC_ANALYTICS_REGION_ENDPOINT=https://neunon-form-api.keisakamoto.workers.dev/analytics-region`、`NEXT_PUBLIC_GA4_ENABLED=true` を設定して再ビルドする。
+3. Render の測定 ID と地域判定 URL は保存済み。Worker 配備とマージ判断が揃ったとき、`NEXT_PUBLIC_GA4_ENABLED` を `false` から `true` に変更して PR #19 をマージし、同じデプロイで再ビルドする。フラグの変更だけでは既存の公開ビルドに影響しない。
 4. 本番ブラウザーでページビューと実際のフォーム受理後の `generate_lead` を GA4 の DebugView / リアルタイムで確認する。氏名・メール・本文・URL クエリがイベントに含まれないことを確認する。
 5. 「アクセス解析を停止する」後は以後の `collect` リクエストが発生せず、リロード後も停止状態を保つことを確認する。地域判定が失敗した場合も Google タグを読み込まない。
 
