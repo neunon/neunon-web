@@ -55,7 +55,9 @@ function startTag() {
   (window as unknown as Record<string, unknown>)[`ga-disable-${measurementId}`] = false;
   if (target.gtag) return;
   target.dataLayer = target.dataLayer ?? [];
-  target.gtag = (...args: unknown[]) => { target.dataLayer?.push(args); };
+  target.gtag = function (..._args: unknown[]) {
+    target.dataLayer?.push(arguments);
+  };
   target.gtag('consent', 'default', {
     analytics_storage: 'granted',
     ad_storage: 'denied',
