@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { safeCampaignLocation, safePageReferrer } from '@/lib/analytics-campaign.mjs';
 
 type Status = 'checking' | 'active' | 'stopped' | 'outside' | 'unavailable';
 type LeadEvent = { event: 'contact_submit_success'; source: 'existing_customers' | 'other' };
+type EngagementEvent = { event: string; lp?: string; at?: string; form_context?: string };
 
 const measurementId = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID ?? '';
 const configuredEndpoint = process.env.NEXT_PUBLIC_ANALYTICS_REGION_ENDPOINT ?? '';
@@ -50,6 +52,14 @@ function analyticsWindow() {
   return window as unknown as Window & { dataLayer?: unknown[]; gtag?: (...args: unknown[]) => void };
 }
 
+function sendEvent(name: string, params: Record<string, string>) {
+  analyticsWindow().gtag?.('event', name, {
+    ...params,
+    page_location: safeCampaignLocation(location.href),
+    page_referrer: safePageReferrer(document.referrer, location.origin),
+  });
+}
+
 function startTag() {
   const target = analyticsWindow();
   (window as unknown as Record<string, unknown>)[`ga-disable-${measurementId}`] = false;
@@ -69,6 +79,8 @@ function startTag() {
     send_page_view: false,
     allow_google_signals: false,
     allow_ad_personalization_signals: false,
+    page_location: safeCampaignLocation(location.href),
+    page_referrer: safePageReferrer(document.referrer, location.origin),
   });
   const script = document.createElement('script');
   script.async = true;
@@ -98,7 +110,8 @@ export function AnalyticsControl() {
   }
 
   function sendLead(lead: LeadEvent) {
-    analyticsWindow().gtag?.('event', 'generate_lead', { lead_source: lead.source });
+    // ここでの source は獲得経路ではなく、問い合わせに至ったサービスの文脈。
+    sendEvent('generate_lead', { form_context: lead.source });
   }
 
   async function checkRegion() {
@@ -131,6 +144,47 @@ export function AnalyticsControl() {
 
   useEffect(() => {
     if (!enabled) return;
+    function onEngagement(event: Event) {
+      if (statusRef.current !== 'active') return;
+      const detail = (event as CustomEvent<EngagementEvent>).detail;
+      if (!detail) return;
+      if (detail.event === 'form_start' && detail.form_context === 'contact') {
+        sendEvent('form_start', { form_context: 'contact' });
+      } else if (detail.lp === 'existing_customers' && detail.event === 'sample_zoom') {
+        sendEvent('report_preview', { service_context: 'existing_customers' });
+      } else if (detail.lp === 'existing_customers' && ['cta_estimate', 'cta_docs', 'cta_sample'].includes(detail.event)) {
+        const placements = ['hero', 'band', 'price', 'final', 'sticky'];
+        if (!detail.at || !placements.includes(detail.at)) return;
+        sendEvent('cta_click', {
+          cta_type: detail.event === 'cta_estimate' ? 'estimate' : detail.event === 'cta_docs' ? 'documents' : 'report_sample',
+          placement: detail.at,
+          service_context: 'existing_customers',
+        });
+      }
+    }
+    function onClick(event: MouseEvent) {
+      if (statusRef.current !== 'active') return;
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const link = target.closest<HTMLElement>('[data-analytics-cta]');
+      const placement = link?.dataset.analyticsPlacement;
+      if (!placement || !['header', 'mobile_header', 'footer'].includes(placement)) return;
+      sendEvent('cta_click', {
+        cta_type: 'contact',
+        placement,
+        service_context: 'sitewide',
+      });
+    }
+    window.addEventListener('neunon:engagement', onEngagement);
+    document.addEventListener('click', onClick);
+    return () => {
+      window.removeEventListener('neunon:engagement', onEngagement);
+      document.removeEventListener('click', onClick);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
     function onLead(event: Event) {
       const lead = (event as CustomEvent<LeadEvent>).detail;
       if (!lead || lead.event !== 'contact_submit_success' || handledLeads.current.has(lead)) return;
@@ -149,10 +203,9 @@ export function AnalyticsControl() {
 
   useEffect(() => {
     if (!enabled || status !== 'active' || !pathname) return;
-    // URL パラメータには個人情報が入り得るため、パスだけを送る。
-    analyticsWindow().gtag?.('event', 'page_view', {
+    // 任意のクエリを除外。管理したUTMだけを広告流入の集計に使う。
+    sendEvent('page_view', {
       page_path: pathname,
-      page_location: `${location.origin}${pathname}`,
     });
   }, [pathname, status]);
 

@@ -50,6 +50,7 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
   const router = useRouter();
   const formId = useId();
   const startedAt = useRef(Date.now());
+  const formStartSent = useRef(false);
   const submissionId = useRef(crypto.randomUUID());
   const turnstileContainer = useRef<HTMLDivElement>(null);
   const turnstileWidgetId = useRef<string | null>(null);
@@ -349,7 +350,11 @@ export function FormShell({ fields, endpoint, thanksPath, subject, submitLabel, 
   }
 
   return (
-    <form className="nc-form" onSubmit={goConfirm} noValidate>
+    <form className="nc-form" onSubmit={goConfirm} noValidate onFocusCapture={() => {
+      if (thanksPath !== '/contact/thanks' || formStartSent.current) return;
+      formStartSent.current = true;
+      window.dispatchEvent(new CustomEvent('neunon:engagement', { detail: { event: 'form_start', form_context: 'contact' } }));
+    }}>
       <p className="nc-form-step">入力</p>
       <p className="nc-form-steplead">
         <span aria-hidden="true" className="nc-req">

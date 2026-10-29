@@ -23,7 +23,7 @@ export function ContactCta({
         <h2>{title}</h2>
         <p>{body}</p>
         <div className="nc-acts nc-cta-acts">
-          <InteractiveHoverLink href={primary?.href ?? '/contact'} text={primary?.label ?? home.bottomCta.primaryLabel} className="is-light" />
+          <InteractiveHoverLink href={primary?.href ?? '/contact'} text={primary?.label ?? home.bottomCta.primaryLabel} className="is-light" {...((primary?.href ?? '/contact').startsWith('/contact') ? { 'data-analytics-cta': 'contact', 'data-analytics-placement': 'footer' } : {})} />
           {secondary ? (
             <InteractiveHoverLink href={secondary.href} text={secondary.label} className="is-outline-light" />
           ) : null}
