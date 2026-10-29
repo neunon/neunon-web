@@ -2,6 +2,11 @@
 
 最終更新: 2026-10-29 / 更新者: Codex
 
+## 2026-10-29 Codex：GA4公開文案を法務担当者が承認
+
+- 発注者本人が法務担当者として国内向けGA4文案を承認。`hp/ga4-privacy-consent-review` の `app/privacy/page.tsx` に利用目的、Google LLCへの送信、収集項目、国内の停止・再開、国外・判定不能の非計測を反映した。公式のGoogle開示要件も再確認した。
+- 本番Workerの `GET /analytics-region` は 405 で、地域判定はまだ未配備。Cloudflare CLIは未認証。公開前にWorker更新、Render環境変数、GA4キーイベント設定、同時リリースの検証が必要。mainのマージは `AGENTS.md` に従い発注者が判断する。
+
 ## 2026-10-29 Codex：GA4 の限定イベントと安全な広告流入情報（PR #19 を更新）
 
 - ユーザーはサイト改善と広告効果のための最小イベント、および国内で開示＋停止設定を使う方向を了承。`hp/ga4-privacy-consent-review` に、ページ表示、固定値のCTAクリック、LP資料の拡大、企業向け問い合わせの入力開始、受理後の問い合わせ完了を追加。`generate_lead` の属性を獲得経路と誤解しない `form_context` に変更した。
