@@ -276,3 +276,20 @@
   .ep-package .ep-p-menu-list summary > span:not(.ep-c-theme-plus) { grid-column: 1; grid-row: 2; }
   .ep-package .ep-p-menu-list .ep-c-theme-plus { grid-column: 2; grid-row: 1; }
 }
+/* Access analytics preferences from the footer without obscuring page content. */
+.nc-fbot-links { display: inline-flex; align-items: center; gap: 20px; }
+.nc-analytics-open { border: 0; padding: 0; background: transparent; color: inherit; font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.nc-analytics-open:hover, .nc-analytics-open:focus-visible { color: #fff; }
+.nc-analytics-dialog { width: min(520px, calc(100vw - 28px)); max-height: calc(100dvh - 28px); margin: auto; border: 1px solid #e4e4e7; border-radius: 18px; padding: 0; background: #fff; color: #18181b; box-shadow: 0 24px 80px rgba(0, 0, 0, .18); }
+.nc-analytics-dialog::backdrop { background: rgba(8, 24, 45, .45); }
+.nc-analytics-dialog-inner { position: relative; padding: clamp(24px, 5vw, 36px); }
+.nc-analytics-dialog h2 { margin: 0 32px 18px 0; font-size: 22px; line-height: 1.45; }
+.nc-analytics-dialog p { margin: 0 0 17px; color: #52525b; font-size: 14px; line-height: 1.85; }
+.nc-analytics-dialog .nc-analytics-state { padding: 13px 16px; border-radius: 10px; background: #f4f4f5; color: #27272a; font-weight: 600; }
+.nc-analytics-dialog .nc-analytics-message { font-size: 13px; }
+.nc-analytics-close { position: absolute; top: 20px; right: 22px; border: 0; background: transparent; color: #71717a; font-size: 27px; line-height: 1; cursor: pointer; }
+.nc-analytics-actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.nc-analytics-actions button { min-height: 44px; border: 1px solid #18181b; border-radius: 999px; padding: 0 22px; background: #18181b; color: #fff; font: inherit; font-size: 13px; cursor: pointer; }
+.nc-analytics-actions button:hover, .nc-analytics-actions button:focus-visible { background: #3f3f46; }
+.nc-analytics-actions a { color: #3f3f46; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 640px) { .nc-fbot-links { gap: 12px; flex-wrap: wrap; } }

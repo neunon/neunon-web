@@ -26,7 +26,9 @@ export function ContactConversionTracker() {
       const source = marker.source === EXISTING_CUSTOMERS_SOURCE ? EXISTING_CUSTOMERS_SOURCE : 'other';
       const analyticsWindow = window as AnalyticsWindow;
       analyticsWindow.dataLayer = analyticsWindow.dataLayer ?? [];
-      analyticsWindow.dataLayer.push({ event: 'contact_submit_success', source });
+      const lead = { event: 'contact_submit_success' as const, source };
+      analyticsWindow.dataLayer.push(lead);
+      window.dispatchEvent(new CustomEvent('neunon:lead', { detail: lead }));
     } catch {
       // 無効な一時データは計測せず破棄する。
     }
