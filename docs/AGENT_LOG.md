@@ -8,6 +8,7 @@
 - `docs/GA4_PRIVACY_CONSENT_REVIEW.md` にプライバシーポリシーの追加・差し替え文案、同意方式、実装・検証条件をまとめた。`docs/ga4-consent-preview.html` はローカルで確認する静的モックで、GA4 読み込みと選択保存はしない。
 - `AGENTS.md` の法務文書の制限に従い、`app/privacy/page.tsx` は変更していない。文面レビュー後に、実際の同意機能・ポリシー更新・GA4 設置を同一リリースで行う。
 - 作業ブランチ: `hp/ga4-privacy-consent-review`。本案を main にマージしても本番サイトの表示・計測は変わらない。
+- 検証: `typecheck`、`build`、`audit:html` 通過。ローカルコミット済み。GitHub への push は Git 認証が利用できず、連携アプリによるブランチ作成も 403 のため未実施。
 
 ## 2026-10-28 Codex：既存顧客LPの正式公開と計測準備（進行中）
 
