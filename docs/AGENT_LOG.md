@@ -4,6 +4,7 @@
 
 ## 2026-10-29 Codex：GA4の国内向け停止設定を実装（公開待ち）
 
+- ユーザーの指摘で設定画面を縮小。フッターのリンクを押した時だけ右下に開く非モーダルパネルとし、背景の暗転を廃止。`docs/GA4_PRIVACY_CONSENT_REVIEW.md` 冒頭に公開文案の確認点3項目を追加。Webpackでの本番ビルド、型検査、HTML監査（48ページ）とローカル表示を確認。Turbopackはこの環境で子プロセス起動エラーとなったためWebpackで検証。
 - ユーザーが「国内向けは通常計測し、自ら停止した人だけ止める」方針を了承。フッターの「アクセス解析の設定」から停止・再開できるUIを `components/analytics/AnalyticsControl.tsx` に実装。停止設定はブラウザーに保存し、Google の `ga-disable-<測定ID>` と `_ga` Cookie の削除で以後の収集を止める。
 - Cloudflare フォームWorkerに国コードだけを返す `GET /analytics-region` を追加。`JP` と確認できた場合だけタグを読み込み、国外・判定失敗時は読み込まない。初期導入では広告パーソナライズと Google シグナルを無効化し、問い合わせ受理後だけ `generate_lead` を送る。URLパラメータとフォーム入力値は送らない。
 - 本番計測は `NEXT_PUBLIC_GA4_ENABLED=true` を設定するまで無効。法務文書は `AGENTS.md` により編集保留のため、`app/privacy/page.tsx` はまだ変更していない。Worker配備、ポリシー文面のレビュー・更新、Render環境変数の有効化、GA4の実測確認を同じ公開作業で行う。手順は `docs/GA4_PRIVACY_CONSENT_REVIEW.md`。

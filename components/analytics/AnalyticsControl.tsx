@@ -157,8 +157,17 @@ export function AnalyticsControl() {
   }, [pathname, status]);
 
   useEffect(() => {
-    if (open) dialogRef.current?.showModal();
+    if (open) dialogRef.current?.show();
     else dialogRef.current?.close();
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    function closeOnOutsideClick(event: PointerEvent) {
+      if (event.target instanceof Node && !dialogRef.current?.contains(event.target)) setOpen(false);
+    }
+    document.addEventListener('pointerdown', closeOnOutsideClick);
+    return () => document.removeEventListener('pointerdown', closeOnOutsideClick);
   }, [open]);
 
   if (!enabled) return null;
@@ -185,13 +194,13 @@ export function AnalyticsControl() {
       <button className="nc-analytics-open" type="button" onClick={() => { setMessage(''); setOpen(true); }}>
         アクセス解析の設定
       </button>
-      <dialog className="nc-analytics-dialog" ref={dialogRef} onClose={() => setOpen(false)}>
+      <dialog className="nc-analytics-dialog" ref={dialogRef} onClose={() => setOpen(false)} aria-labelledby="nc-analytics-title">
         <div className="nc-analytics-dialog-inner">
           <button className="nc-analytics-close" type="button" onClick={() => setOpen(false)} aria-label="閉じる">×</button>
-          <h2>アクセス解析の設定</h2>
-          <p>サイトの改善とお問い合わせの効果測定のため、Google アナリティクスを利用します。氏名やお問い合わせ内容は送信しません。</p>
+          <h2 id="nc-analytics-title">アクセス解析</h2>
+          <p>サイト改善とお問い合わせの効果測定に Google アナリティクスを利用します。氏名・お問い合わせ内容は送信しません。</p>
           <p className="nc-analytics-state" role="status">
-            {active ? '現在、アクセス解析を利用しています。' : stopped ? 'アクセス解析は停止中です。' : status === 'checking' ? '利用地域を確認しています。' : 'この地域・環境ではアクセス解析を行っていません。'}
+            {active ? '現在、アクセス解析を利用しています。' : stopped ? 'アクセス解析は停止中です。' : status === 'checking' ? '利用地域を確認しています。' : status === 'outside' ? '現在の地域では計測していません。' : '現在、アクセス解析は行っていません。'}
           </p>
           {message && <p className="nc-analytics-message" role="status">{message}</p>}
           <div className="nc-analytics-actions">
