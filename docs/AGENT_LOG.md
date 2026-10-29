@@ -2,6 +2,12 @@
 
 最終更新: 2026-10-29 / 更新者: Codex
 
+## 2026-10-29 Codex：地域判定WorkerとGA4キーイベントを準備
+
+- `neunon-form-api` を Wrangler OAuth で本番デプロイ（Version ID `f1f35b3a-ea79-4d24-9c1a-a80ecca99c45`）。`GET /analytics-region` は許可Origin `https://neun-on.com` で HTTP 200、`{"country":"JP"}` と CORS ヘッダーを確認。フォーム本体の設定値とD1/R2バインディングは `worker/wrangler.toml` と一致。
+- GA4 プロパティ `neun-on.com` に、コード送信の `generate_lead` を金額なし・イベントごとに1回のキーイベントとして登録。GA4へのサイトデータはまだ到着していない。
+- Render には測定IDと地域判定URLを保存済みで、`NEXT_PUBLIC_GA4_ENABLED=false` を維持。PR #19 のマージ判断と本番計測の有効化は未実施。公開後に国内・停止時・国外/判定不能時の動作と問い合わせ受理後のイベントを確認する。
+
 ## 2026-10-29 Codex：GA4公開文案を法務担当者が承認
 
 - 発注者本人が法務担当者として国内向けGA4文案を承認。`hp/ga4-privacy-consent-review` の `app/privacy/page.tsx` に利用目的、Google LLCへの送信、収集項目、国内の停止・再開、国外・判定不能の非計測を反映した。公式のGoogle開示要件も再確認した。
