@@ -1,6 +1,13 @@
 # 作業の引き継ぎ（Codex ⇄ Claude Code）
 
-最終更新: 2026-10-28 / 更新者: Codex
+最終更新: 2026-10-29 / 更新者: Codex
+
+## 2026-10-29 Codex：GA4 の開示文面・同意 UI 案（公開前レビュー）
+
+- PR #18 は main にマージ済み。GA4 Web ストリーム `G-TLV2CRJH1W` は作成済みだが、サイトに計測タグは未設置。Google 広告は初期設定中で配信・請求は未開始。
+- `docs/GA4_PRIVACY_CONSENT_REVIEW.md` にプライバシーポリシーの追加・差し替え文案、同意方式、実装・検証条件をまとめた。`docs/ga4-consent-preview.html` はローカルで確認する静的モックで、GA4 読み込みと選択保存はしない。
+- `AGENTS.md` の法務文書の制限に従い、`app/privacy/page.tsx` は変更していない。文面レビュー後に、実際の同意機能・ポリシー更新・GA4 設置を同一リリースで行う。
+- 作業ブランチ: `hp/ga4-privacy-consent-review`。本案を main にマージしても本番サイトの表示・計測は変わらない。
 
 ## 2026-10-28 Codex：既存顧客LPの正式公開と計測準備（進行中）
 
